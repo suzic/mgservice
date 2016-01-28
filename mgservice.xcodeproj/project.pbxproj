@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		D0CC73111C59B8E000314355 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73101C59B8E000314355 /* main.m */; };
 		D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73131C59B8E000314355 /* AppDelegate.m */; };
-		D0CC73171C59B8E000314355 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73161C59B8E000314355 /* ViewController.m */; };
 		D0CC731A1C59B8E000314355 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CC73181C59B8E000314355 /* Main.storyboard */; };
 		D0CC731D1C59B8E000314355 /* mgservice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */; };
 		D0CC731F1C59B8E000314355 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0CC731E1C59B8E000314355 /* Assets.xcassets */; };
 		D0CC73221C59B8E000314355 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */; };
+		D0CC732C1C59C03800314355 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC732B1C59C03800314355 /* MainViewController.m */; };
+		D0CC732F1C59C0DD00314355 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC732E1C59C0DD00314355 /* LoginViewController.m */; };
+		D0CC733F1C59EB0F00314355 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC733E1C59EB0F00314355 /* TaskCell.m */; };
+		D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73441C5A02DA00314355 /* InTaskController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,13 +24,19 @@
 		D0CC73101C59B8E000314355 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D0CC73121C59B8E000314355 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D0CC73131C59B8E000314355 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D0CC73151C59B8E000314355 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D0CC73161C59B8E000314355 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D0CC73191C59B8E000314355 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0CC731C1C59B8E000314355 /* mgservice.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mgservice.xcdatamodel; sourceTree = "<group>"; };
 		D0CC731E1C59B8E000314355 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0CC73211C59B8E000314355 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D0CC73231C59B8E000314355 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0CC732A1C59C03800314355 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		D0CC732B1C59C03800314355 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		D0CC732D1C59C0DD00314355 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		D0CC732E1C59C0DD00314355 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		D0CC733D1C59EB0F00314355 /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
+		D0CC733E1C59EB0F00314355 /* TaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCell.m; sourceTree = "<group>"; };
+		D0CC73431C5A02DA00314355 /* InTaskController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InTaskController.h; sourceTree = "<group>"; };
+		D0CC73441C5A02DA00314355 /* InTaskController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InTaskController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,15 +69,19 @@
 		D0CC730E1C59B8E000314355 /* mgservice */ = {
 			isa = PBXGroup;
 			children = (
+				D0CC73181C59B8E000314355 /* Main.storyboard */,
+				D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */,
 				D0CC73121C59B8E000314355 /* AppDelegate.h */,
 				D0CC73131C59B8E000314355 /* AppDelegate.m */,
-				D0CC73151C59B8E000314355 /* ViewController.h */,
-				D0CC73161C59B8E000314355 /* ViewController.m */,
-				D0CC73181C59B8E000314355 /* Main.storyboard */,
+				D0CC73291C59B91E00314355 /* Database */,
+				D0CC733C1C59C1BE00314355 /* Login */,
+				D0CC732A1C59C03800314355 /* MainViewController.h */,
+				D0CC732B1C59C03800314355 /* MainViewController.m */,
+				D0CC733D1C59EB0F00314355 /* TaskCell.h */,
+				D0CC733E1C59EB0F00314355 /* TaskCell.m */,
+				D0CC73431C5A02DA00314355 /* InTaskController.h */,
+				D0CC73441C5A02DA00314355 /* InTaskController.m */,
 				D0CC731E1C59B8E000314355 /* Assets.xcassets */,
-				D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */,
-				D0CC73231C59B8E000314355 /* Info.plist */,
-				D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */,
 				D0CC730F1C59B8E000314355 /* Supporting Files */,
 			);
 			path = mgservice;
@@ -77,9 +90,27 @@
 		D0CC730F1C59B8E000314355 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D0CC73231C59B8E000314355 /* Info.plist */,
 				D0CC73101C59B8E000314355 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0CC73291C59B91E00314355 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		D0CC733C1C59C1BE00314355 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC732D1C59C0DD00314355 /* LoginViewController.h */,
+				D0CC732E1C59C0DD00314355 /* LoginViewController.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +144,7 @@
 				TargetAttributes = {
 					D0CC730B1C59B8DF00314355 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = XEW439Z58D;
 					};
 				};
 			};
@@ -152,10 +184,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0CC73171C59B8E000314355 /* ViewController.m in Sources */,
+				D0CC733F1C59EB0F00314355 /* TaskCell.m in Sources */,
+				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				D0CC73111C59B8E000314355 /* main.m in Sources */,
 				D0CC731D1C59B8E000314355 /* mgservice.xcdatamodeld in Sources */,
+				D0CC732C1C59C03800314355 /* MainViewController.m in Sources */,
+				D0CC732F1C59C0DD00314355 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +302,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = mgservice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.mgservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -278,7 +315,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = mgservice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.mgservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -304,6 +343,7 @@
 				D0CC73281C59B8E000314355 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

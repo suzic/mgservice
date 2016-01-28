@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MainViewController.h
 //  mgservice
 //
 //  Created by 苏智 on 16/1/28.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface MainViewController : UIViewController
 
 @end
-
