@@ -276,6 +276,9 @@
                                                 <rect key="frame" x="10" y="7" width="535" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="R0c-wX-lBE" id="C8D-0U-hKx"/>
+                                                </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrM-Pr-dX4">
                                                 <rect key="frame" x="545" y="7" width="50" height="30"/>
@@ -283,6 +286,9 @@
                                                     <constraint firstAttribute="width" constant="50" id="3Eh-rD-yIx"/>
                                                 </constraints>
                                                 <state key="normal" title="send"/>
+                                                <connections>
+                                                    <action selector="sendChat:" destination="R0c-wX-lBE" eventType="touchUpInside" id="02T-h5-NRf"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ug6-rP-mV1">
                                                 <rect key="frame" x="515" y="6" width="30" height="30"/>
@@ -316,15 +322,24 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LbJ-sI-KOI">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                                        <connections>
+                                            <action selector="tapHistory:" destination="R0c-wX-lBE" eventType="touchUpInside" id="8PN-gl-Paw"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="0.89655172413793105" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="BzR-3T-T0Z"/>
+                                    <constraint firstItem="LbJ-sI-KOI" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="KhF-YH-EfZ"/>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="Pcu-fb-mbn"/>
-                                    <constraint firstAttribute="height" constant="536" id="Yvt-0C-oQ4"/>
+                                    <constraint firstItem="LbJ-sI-KOI" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="WiF-YC-Vl1"/>
                                     <constraint firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" constant="10" id="col-aI-pVI"/>
+                                    <constraint firstItem="LbJ-sI-KOI" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" id="eL3-LF-DyG"/>
                                     <constraint firstAttribute="bottom" secondItem="Riu-QU-kIt" secondAttribute="bottom" id="fzz-v2-SV6"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="baseline" secondItem="S7V-au-laN" secondAttribute="baseline" id="g6n-gh-KMy"/>
+                                    <constraint firstItem="Riu-QU-kIt" firstAttribute="top" secondItem="LbJ-sI-KOI" secondAttribute="bottom" id="ndu-Ab-aDU"/>
                                     <constraint firstItem="S7V-au-laN" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" constant="10" id="ywP-w6-v3w"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="10" id="zmT-xO-Cfe"/>
                                 </constraints>
@@ -333,6 +348,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="h1d-KG-tYX" firstAttribute="centerY" secondItem="0g0-qV-a7s" secondAttribute="centerY" constant="-24" id="4Pg-qR-ufo"/>
+                            <constraint firstItem="jIT-WU-Emw" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="bottom" id="8jD-Rs-e3r"/>
                             <constraint firstItem="0g0-qV-a7s" firstAttribute="height" secondItem="WQR-q0-iTo" secondAttribute="height" id="CzT-l3-vvv"/>
                             <constraint firstItem="XSh-mX-O1r" firstAttribute="width" secondItem="WQR-q0-iTo" secondAttribute="width" id="WHJ-9c-7AB"/>
                             <constraint firstItem="0g0-qV-a7s" firstAttribute="centerX" secondItem="WQR-q0-iTo" secondAttribute="centerX" id="Z9R-F1-jBJ"/>
@@ -346,7 +362,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="任务执行中" id="NNJ-aZ-F3Q">
-                        <barButtonItem key="rightBarButtonItem" title="切换" id="KRT-ii-tj8">
+                        <barButtonItem key="rightBarButtonItem" title="地图" id="KRT-ii-tj8">
                             <connections>
                                 <action selector="swithTalk:" destination="R0c-wX-lBE" id="OlK-D4-dUS"/>
                             </connections>
@@ -354,11 +370,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="chatHistoryView" destination="XSh-mX-O1r" id="FWX-iI-dG6"/>
-                        <outlet property="chatHistoryViewHeight" destination="Yvt-0C-oQ4" id="oQJ-Th-z8k"/>
+                        <outlet property="chatHistoryViewBottom" destination="8jD-Rs-e3r" id="hqL-s0-x46"/>
                         <outlet property="chatHistoryViewTop" destination="jPx-TI-BTh" id="jQD-Ea-t5k"/>
                         <outlet property="heLocation" destination="h1d-KG-tYX" id="fWe-qf-Tdw"/>
                         <outlet property="inputChat" destination="ySF-J1-hSS" id="6iW-I3-EHh"/>
                         <outlet property="myLocation" destination="izi-6X-cvc" id="LtT-Nr-Csd"/>
+                        <outlet property="showMap" destination="KRT-ii-tj8" id="a9h-73-ys8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0g-pn-dqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
