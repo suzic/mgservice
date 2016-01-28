@@ -1,0 +1,324 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D0CC73111C59B8E000314355 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73101C59B8E000314355 /* main.m */; };
+		D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73131C59B8E000314355 /* AppDelegate.m */; };
+		D0CC73171C59B8E000314355 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73161C59B8E000314355 /* ViewController.m */; };
+		D0CC731A1C59B8E000314355 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CC73181C59B8E000314355 /* Main.storyboard */; };
+		D0CC731D1C59B8E000314355 /* mgservice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */; };
+		D0CC731F1C59B8E000314355 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0CC731E1C59B8E000314355 /* Assets.xcassets */; };
+		D0CC73221C59B8E000314355 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D0CC730C1C59B8E000314355 /* mgservice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mgservice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0CC73101C59B8E000314355 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D0CC73121C59B8E000314355 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D0CC73131C59B8E000314355 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D0CC73151C59B8E000314355 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D0CC73161C59B8E000314355 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D0CC73191C59B8E000314355 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D0CC731C1C59B8E000314355 /* mgservice.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mgservice.xcdatamodel; sourceTree = "<group>"; };
+		D0CC731E1C59B8E000314355 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D0CC73211C59B8E000314355 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D0CC73231C59B8E000314355 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0CC73091C59B8DF00314355 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D0CC73031C59B8DF00314355 = {
+			isa = PBXGroup;
+			children = (
+				D0CC730E1C59B8E000314355 /* mgservice */,
+				D0CC730D1C59B8E000314355 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0CC730D1C59B8E000314355 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC730C1C59B8E000314355 /* mgservice.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D0CC730E1C59B8E000314355 /* mgservice */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC73121C59B8E000314355 /* AppDelegate.h */,
+				D0CC73131C59B8E000314355 /* AppDelegate.m */,
+				D0CC73151C59B8E000314355 /* ViewController.h */,
+				D0CC73161C59B8E000314355 /* ViewController.m */,
+				D0CC73181C59B8E000314355 /* Main.storyboard */,
+				D0CC731E1C59B8E000314355 /* Assets.xcassets */,
+				D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */,
+				D0CC73231C59B8E000314355 /* Info.plist */,
+				D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */,
+				D0CC730F1C59B8E000314355 /* Supporting Files */,
+			);
+			path = mgservice;
+			sourceTree = "<group>";
+		};
+		D0CC730F1C59B8E000314355 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC73101C59B8E000314355 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D0CC730B1C59B8DF00314355 /* mgservice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0CC73261C59B8E000314355 /* Build configuration list for PBXNativeTarget "mgservice" */;
+			buildPhases = (
+				D0CC73081C59B8DF00314355 /* Sources */,
+				D0CC73091C59B8DF00314355 /* Frameworks */,
+				D0CC730A1C59B8DF00314355 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mgservice;
+			productName = mgservice;
+			productReference = D0CC730C1C59B8E000314355 /* mgservice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D0CC73041C59B8DF00314355 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = Suzic;
+				TargetAttributes = {
+					D0CC730B1C59B8DF00314355 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = D0CC73071C59B8DF00314355 /* Build configuration list for PBXProject "mgservice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D0CC73031C59B8DF00314355;
+			productRefGroup = D0CC730D1C59B8E000314355 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D0CC730B1C59B8DF00314355 /* mgservice */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D0CC730A1C59B8DF00314355 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0CC73221C59B8E000314355 /* LaunchScreen.storyboard in Resources */,
+				D0CC731F1C59B8E000314355 /* Assets.xcassets in Resources */,
+				D0CC731A1C59B8E000314355 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D0CC73081C59B8DF00314355 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0CC73171C59B8E000314355 /* ViewController.m in Sources */,
+				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
+				D0CC73111C59B8E000314355 /* main.m in Sources */,
+				D0CC731D1C59B8E000314355 /* mgservice.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D0CC73181C59B8E000314355 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0CC73191C59B8E000314355 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D0CC73211C59B8E000314355 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D0CC73241C59B8E000314355 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D0CC73251C59B8E000314355 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D0CC73271C59B8E000314355 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = mgservice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.mgservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D0CC73281C59B8E000314355 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = mgservice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.mgservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D0CC73071C59B8DF00314355 /* Build configuration list for PBXProject "mgservice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0CC73241C59B8E000314355 /* Debug */,
+				D0CC73251C59B8E000314355 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D0CC73261C59B8E000314355 /* Build configuration list for PBXNativeTarget "mgservice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0CC73271C59B8E000314355 /* Debug */,
+				D0CC73281C59B8E000314355 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D0CC731B1C59B8E000314355 /* mgservice.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D0CC731C1C59B8E000314355 /* mgservice.xcdatamodel */,
+			);
+			currentVersion = D0CC731C1C59B8E000314355 /* mgservice.xcdatamodel */;
+			path = mgservice.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D0CC73041C59B8DF00314355 /* Project object */;
+}
