@@ -125,11 +125,11 @@
 				D0CC73131C59B8E000314355 /* AppDelegate.m */,
 				D0CC73291C59B91E00314355 /* Database */,
 				D0CC733C1C59C1BE00314355 /* Login */,
-				D0CC732A1C59C03800314355 /* MainViewController.h */,
-				D0CC732B1C59C03800314355 /* MainViewController.m */,
 				D06C01321C5B197A00D242B1 /* CallTask */,
 				D06C01311C5B138700D242B1 /* MenuTask */,
 				D06C01331C5B198800D242B1 /* FinishTask */,
+				D0CC732A1C59C03800314355 /* MainViewController.h */,
+				D0CC732B1C59C03800314355 /* MainViewController.m */,
 				D0CC731E1C59B8E000314355 /* Assets.xcassets */,
 				D0CC730F1C59B8E000314355 /* Supporting Files */,
 			);
