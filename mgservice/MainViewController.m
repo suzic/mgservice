@@ -69,8 +69,8 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"抢单结果"
                                                     message:@"您已成功抢到该任务。"
                                                    delegate:self
-                                          cancelButtonTitle:@"进入任务"
-                                          otherButtonTitles:nil];
+                                          cancelButtonTitle:@"进入呼叫任务"
+                                          otherButtonTitles:@"进入送餐任务", nil];
     alert.tag = ALERT_INTOTASK;
     [alert show];
 }
@@ -166,6 +166,8 @@
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     else if (alertView.tag == ALERT_INTOTASK && buttonIndex == 0)
         [self performSegueWithIdentifier:@"goTask" sender:self];
+    else if (alertView.tag == ALERT_INTOTASK && buttonIndex == 1)
+        [self performSegueWithIdentifier:@"goMenu" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

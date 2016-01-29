@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01231C5B0A9300D242B1 /* FinishedController.m */; };
+		D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */; };
+		D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01291C5B136500D242B1 /* MenuItemCell.m */; };
+		D06C012D1C5B137200D242B1 /* MenuSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C012C1C5B137200D242B1 /* MenuSectionCell.m */; };
+		D06C01301C5B138300D242B1 /* MenuOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C012F1C5B138300D242B1 /* MenuOrderController.m */; };
 		D0CC73111C59B8E000314355 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73101C59B8E000314355 /* main.m */; };
 		D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CC73131C59B8E000314355 /* AppDelegate.m */; };
 		D0CC731A1C59B8E000314355 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0CC73181C59B8E000314355 /* Main.storyboard */; };
@@ -20,6 +25,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D06C01221C5B0A9300D242B1 /* FinishedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedController.h; sourceTree = "<group>"; };
+		D06C01231C5B0A9300D242B1 /* FinishedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishedController.m; sourceTree = "<group>"; };
+		D06C01251C5B0CB300D242B1 /* FinishTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishTaskCell.h; sourceTree = "<group>"; };
+		D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishTaskCell.m; sourceTree = "<group>"; };
+		D06C01281C5B136500D242B1 /* MenuItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemCell.h; sourceTree = "<group>"; };
+		D06C01291C5B136500D242B1 /* MenuItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemCell.m; sourceTree = "<group>"; };
+		D06C012B1C5B137200D242B1 /* MenuSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSectionCell.h; sourceTree = "<group>"; };
+		D06C012C1C5B137200D242B1 /* MenuSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSectionCell.m; sourceTree = "<group>"; };
+		D06C012E1C5B138300D242B1 /* MenuOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuOrderController.h; sourceTree = "<group>"; };
+		D06C012F1C5B138300D242B1 /* MenuOrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuOrderController.m; sourceTree = "<group>"; };
 		D0CC730C1C59B8E000314355 /* mgservice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mgservice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0CC73101C59B8E000314355 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D0CC73121C59B8E000314355 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -50,6 +65,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D06C01311C5B138700D242B1 /* MenuTask */ = {
+			isa = PBXGroup;
+			children = (
+				D06C012E1C5B138300D242B1 /* MenuOrderController.h */,
+				D06C012F1C5B138300D242B1 /* MenuOrderController.m */,
+				D06C01281C5B136500D242B1 /* MenuItemCell.h */,
+				D06C01291C5B136500D242B1 /* MenuItemCell.m */,
+				D06C012B1C5B137200D242B1 /* MenuSectionCell.h */,
+				D06C012C1C5B137200D242B1 /* MenuSectionCell.m */,
+			);
+			name = MenuTask;
+			sourceTree = "<group>";
+		};
+		D06C01321C5B197A00D242B1 /* CallTask */ = {
+			isa = PBXGroup;
+			children = (
+				D0CC733D1C59EB0F00314355 /* TaskCell.h */,
+				D0CC733E1C59EB0F00314355 /* TaskCell.m */,
+				D0CC73431C5A02DA00314355 /* InTaskController.h */,
+				D0CC73441C5A02DA00314355 /* InTaskController.m */,
+			);
+			name = CallTask;
+			sourceTree = "<group>";
+		};
+		D06C01331C5B198800D242B1 /* FinishTask */ = {
+			isa = PBXGroup;
+			children = (
+				D06C01221C5B0A9300D242B1 /* FinishedController.h */,
+				D06C01231C5B0A9300D242B1 /* FinishedController.m */,
+				D06C01251C5B0CB300D242B1 /* FinishTaskCell.h */,
+				D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */,
+			);
+			name = FinishTask;
+			sourceTree = "<group>";
+		};
 		D0CC73031C59B8DF00314355 = {
 			isa = PBXGroup;
 			children = (
@@ -77,10 +127,9 @@
 				D0CC733C1C59C1BE00314355 /* Login */,
 				D0CC732A1C59C03800314355 /* MainViewController.h */,
 				D0CC732B1C59C03800314355 /* MainViewController.m */,
-				D0CC733D1C59EB0F00314355 /* TaskCell.h */,
-				D0CC733E1C59EB0F00314355 /* TaskCell.m */,
-				D0CC73431C5A02DA00314355 /* InTaskController.h */,
-				D0CC73441C5A02DA00314355 /* InTaskController.m */,
+				D06C01321C5B197A00D242B1 /* CallTask */,
+				D06C01311C5B138700D242B1 /* MenuTask */,
+				D06C01331C5B198800D242B1 /* FinishTask */,
 				D0CC731E1C59B8E000314355 /* Assets.xcassets */,
 				D0CC730F1C59B8E000314355 /* Supporting Files */,
 			);
@@ -184,13 +233,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06C012D1C5B137200D242B1 /* MenuSectionCell.m in Sources */,
 				D0CC733F1C59EB0F00314355 /* TaskCell.m in Sources */,
 				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				D0CC73111C59B8E000314355 /* main.m in Sources */,
 				D0CC731D1C59B8E000314355 /* mgservice.xcdatamodeld in Sources */,
+				D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */,
 				D0CC732C1C59C03800314355 /* MainViewController.m in Sources */,
 				D0CC732F1C59C0DD00314355 /* LoginViewController.m in Sources */,
+				D06C01301C5B138300D242B1 /* MenuOrderController.m in Sources */,
+				D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */,
+				D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
