@@ -10,8 +10,9 @@
 
 @implementation MenuSectionCell
 
-- (void)awakeFromNib {
-    // Initialization code
+- (void)awakeFromNib
+{
+    self.readyInfo.layer.cornerRadius = 4.0f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

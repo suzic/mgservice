@@ -89,6 +89,7 @@
         [cell.contentView removeGestureRecognizer:gs];
     [cell.contentView addGestureRecognizer:tap];
     cell.contentView.tag = section;
+    cell.contentView.backgroundColor = [UIColor lightGrayColor];
 
     NSArray *menuInfo = self.menuArray[section];
     NSInteger totalCount = menuInfo.count;
@@ -106,7 +107,10 @@
         [cell.readyInfo setTitle:@"完成" forState:UIControlStateNormal];
     }
     if (section == self.expandSectionIndex)
+    {
         self.expandCompleteButton = cell.readyInfo;
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }
     
     return cell.contentView;
 }
@@ -134,6 +138,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 66.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.5f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
