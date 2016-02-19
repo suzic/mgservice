@@ -1,0 +1,39 @@
+//
+//  CommonPrefix.pch
+//  mgservice
+//
+//  Created by Sun Peng on 16/2/19.
+//  Copyright © 2016年 Suzic. All rights reserved.
+//
+
+#ifndef CommonPrefix_pch
+#define CommonPrefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#ifdef __OBJC__
+
+// 获取屏幕的尺寸
+#define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)
+#define kScreenWidth    ([UIScreen mainScreen].bounds.size.width)
+
+#define REQUEST_HEAD_NORMAL "http://"
+#define REQUEST_HEAD_SCREAT "https://"
+
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <CoreData/CoreData.h>
+#import "Reachability.h"
+#import "LCProgressHUD.h"
+#import "AppDelegate.h"
+#import "Util.h"
+#import "MySingleton.h"
+
+
+
+#endif
+
+#endif /* CommonPrefix_pch */

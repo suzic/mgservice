@@ -1,4 +1,4 @@
-//
+                                             //
 //  MenuOrderController.m
 //  mgservice
 //
@@ -43,7 +43,7 @@
                                     [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名C", @"count":@"1", @"price":@"52.00", @"ready":@"0"}]]];
     }
 }
-
+ 
 - (NSMutableArray *)menuArray
 {
     if (_menuArray == nil)
