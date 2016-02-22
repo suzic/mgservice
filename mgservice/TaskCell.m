@@ -24,8 +24,8 @@
         _cellSelected = cellSelected;
     self.taskName.font = [UIFont systemFontOfSize:cellSelected ? 24.0f : 16.0f];
     self.taskName.textColor = cellSelected ? [UIColor blackColor] : [UIColor grayColor];
-    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
+//    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+//    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
     self.backgroudView.backgroundColor = cellSelected ? [UIColor groupTableViewBackgroundColor] : [UIColor clearColor];
 }
 

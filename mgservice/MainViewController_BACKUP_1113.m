@@ -8,16 +8,26 @@
 
 #import "MainViewController.h"
 #import "TaskCell.h"
+#import "SPUserDefaultsManger.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
+<<<<<<< HEAD
+#define kPause @"pause"
+#define kStart @"start"
+
+@interface MainViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
+=======
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
+>>>>>>> master
 
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) IBOutlet UITableView *taskTable;
+
+@property (weak, nonatomic) IBOutlet UILabel *countdown; // 倒计时显示
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
@@ -28,6 +38,12 @@
 {
     CGFloat lastScrollOffsetY;
     BOOL direction;
+    
+    // 定时器
+    CADisplayLink *_timer;
+    // 计时
+    NSInteger _second;
+    
 }
 
 - (void)viewDidLoad
@@ -42,7 +58,52 @@
     [self performSegueWithIdentifier:@"showLogin" sender:self];
 
     [self setupDemoData];
+    
+    // 初始化定时器
+    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
+    _second = 0;
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    
+    NSDate *date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
+    if (date) {
+        _second = labs((NSInteger)([date timeIntervalSinceNow]) * 60);
+    }
+    
+    if ([SPUserDefaultsManger getValue:@"background"] && [SPUserDefaultsManger getBool:kPause]) {
+        _timer.paused = NO;
+    } else {
+        
+        _timer.paused = YES;
+    }
+
 }
+
+- (void)changeTime {
+    _second++;
+    //  格式化字符串
+    
+    self.countdown.text = [self calculate:_second];
+    
+}
+
+- (NSString *)calculate:(NSInteger)totalSecond {
+    
+    NSString *string    = @"";
+    
+    NSInteger seconds   = totalSecond / 60 % 60;
+    
+    NSInteger mins      = totalSecond / 3600 % 60;
+    
+    NSInteger hours     = totalSecond / 3600 / 60 % 60;
+    
+    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",seconds] :[NSString stringWithFormat:@"%ld",seconds];
+    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",mins] :[NSString stringWithFormat:@"%ld",mins];
+    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",hours] :[NSString stringWithFormat:@"%ld",hours];
+    string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
+    
+    return string;
+}
+
 
 - (void)setupDemoData
 {
@@ -51,6 +112,24 @@
         [self.taskArray addObject:[NSString stringWithFormat:@"任务编号 %02d", i]];
     }
     self.selectedIndex = 2;
+}
+
+// 开始上班/暂停休息
+- (IBAction)statusAction:(UIButton *)sender
+{
+    sender.selected = !sender.selected;
+    
+    if (sender.selected)
+    {
+        _timer.paused = NO;
+        NSDate *date = [NSDate date];
+        [SPUserDefaultsManger setValue:date forKey:kStart];
+    }
+    else
+    {
+        _timer.paused = YES;
+        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
+    }
 }
 
 - (IBAction)logout:(id)sender
@@ -162,13 +241,21 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == ALERT_OFFWORK && buttonIndex == 1)
+    if (alertView.tag == ALERT_OFFWORK && buttonIndex == 1){
+        _timer.paused = YES;
+        _second = 0;
+        self.countdown.text = [self calculate:_second];
         [self performSegueWithIdentifier:@"showLogin" sender:self];
+<<<<<<< HEAD
+    }
+    else if (alertView.tag == ALERT_INTOTASK && buttonIndex == 0)
+=======
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 0)
+>>>>>>> master
         [self performSegueWithIdentifier:@"goTask" sender:self];
     else if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 1)
         [self performSegueWithIdentifier:@"goMenu" sender:self];

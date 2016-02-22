@@ -12,7 +12,7 @@
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
-@interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MainViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
@@ -66,13 +66,13 @@
 
 - (IBAction)obtainTask:(id)sender
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"抢单结果模拟测试"
-                                                       delegate:self
-                                              cancelButtonTitle:@"没抢到"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"进入呼叫任务", @"进入送餐任务",nil];
-    sheet.tag = ALERT_INTOTASK;
-    [sheet showInView:self.view];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"抢单结果"
+                                                    message:@"您已成功抢到该任务。"
+                                                   delegate:self
+                                          cancelButtonTitle:@"进入呼叫任务"
+                                          otherButtonTitles:@"进入送餐任务", nil];
+    alert.tag = ALERT_INTOTASK;
+    [alert show];
 }
 
 - (NSMutableArray *)taskArray
@@ -158,19 +158,15 @@
     self.selectedIndex = firstRow + 2;
 }
 
-#pragma mark - UIAlertView / UIActionSheet delegate
+#pragma mark - UIAlertView delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == ALERT_OFFWORK && buttonIndex == 1)
         [self performSegueWithIdentifier:@"showLogin" sender:self];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 0)
+    else if (alertView.tag == ALERT_INTOTASK && buttonIndex == 0)
         [self performSegueWithIdentifier:@"goTask" sender:self];
-    else if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 1)
+    else if (alertView.tag == ALERT_INTOTASK && buttonIndex == 1)
         [self performSegueWithIdentifier:@"goMenu" sender:self];
 }
 
