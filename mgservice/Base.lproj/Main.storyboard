@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HDG-CT-Cef">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HDG-CT-Cef">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -109,9 +109,9 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23:59:59" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-y5-BHY">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="00:00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-y5-BHY">
                                         <rect key="frame" x="90" y="100" width="490" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="49"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="1" height="2"/>
@@ -138,9 +138,13 @@
                                             <constraint firstAttribute="height" constant="80" id="Ft3-l2-IOV"/>
                                             <constraint firstAttribute="width" constant="80" id="ocJ-fg-dCx"/>
                                         </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="进行／暂停">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="workingStatus:" destination="t7w-QW-jPT" eventType="touchUpInside" id="dKt-le-Iye"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="工作时间" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rX7-im-OqL">
                                         <rect key="frame" x="20" y="134" width="60" height="18"/>
@@ -220,9 +224,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="acceptButton" destination="JEa-GR-7d0" id="QfF-bD-x5Z"/>
+                        <outlet property="countdownLabel" destination="qjP-y5-BHY" id="Y0S-kq-EMk"/>
                         <outlet property="statusButton" destination="VFr-iZ-nFF" id="cA2-4y-ALu"/>
                         <outlet property="taskTable" destination="sqJ-co-rbF" id="D4M-X7-2rA"/>
                         <outlet property="topView" destination="PtH-nZ-aNZ" id="Thi-H6-w1j"/>
+                        <outlet property="waiterCurrentArea" destination="cFl-Un-23l" id="emi-Re-AIr"/>
+                        <outlet property="waiterName" destination="F9W-Bx-hId" id="QI4-ph-hRw"/>
                         <segue destination="wSK-nt-m67" kind="presentation" identifier="showLogin" id="gp6-I6-Kr3"/>
                         <segue destination="R0c-wX-lBE" kind="show" identifier="goTask" id="6mh-3D-G0b"/>
                         <segue destination="6hL-n4-mFA" kind="show" identifier="goMenu" id="Ufs-Xc-iK0"/>
@@ -698,6 +705,32 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="3mm-pz-sox">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loginButton" rowHeight="200" id="Fwi-6F-PSW" userLabel="QrcodeCell">
+                                        <rect key="frame" x="0.0" y="279" width="600" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fwi-6F-PSW" id="kHY-bT-Rjh">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-fi-njh">
+                                                    <rect key="frame" x="200" y="0.0" width="200" height="200"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="200" id="KgE-rr-dlh"/>
+                                                        <constraint firstAttribute="width" constant="200" id="hmI-hX-bNe"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MN7-fi-njh" firstAttribute="centerY" secondItem="kHY-bT-Rjh" secondAttribute="centerY" id="qsL-Kg-aw7"/>
+                                                <constraint firstItem="MN7-fi-njh" firstAttribute="centerX" secondItem="kHY-bT-Rjh" secondAttribute="centerX" id="wW8-VE-ohD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="swU-3H-5Eg" id="SAB-Vq-KJf"/>
@@ -706,7 +739,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="上班登录" id="9Bv-1r-F2E"/>
                     <connections>
+                        <outlet property="account" destination="2SU-ai-pIg" id="UWO-dz-VRk"/>
                         <outlet property="loginButton" destination="sqb-OT-SCp" id="mye-Qh-z8h"/>
+                        <outlet property="qrcodeView" destination="MN7-fi-njh" id="h1J-rP-53j"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fwc-Dj-pcH" userLabel="First Responder" sceneMemberID="firstResponder"/>

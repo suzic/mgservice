@@ -10,7 +10,7 @@
 #import "DataManager.h"
 #import <UIKit/UIKit.h>
 
-static NSString *const CoreDataModelFileName = @"database";
+static NSString *const CoreDataModelFileName = @"mgservice";
 
 @interface DataManager ()
 @end
@@ -67,7 +67,7 @@ static NSString *const CoreDataModelFileName = @"database";
     {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"database" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"mgservice" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
@@ -82,7 +82,7 @@ static NSString *const CoreDataModelFileName = @"database";
     
     // 创建存储和处理单元
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDatabaseDirectory] URLByAppendingPathComponent:@"database204.sqlite"];
+    NSURL *storeURL = [[self applicationDatabaseDirectory] URLByAppendingPathComponent:@"mgservice.sqlite"];
     NSError *error = nil;
     
     NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],

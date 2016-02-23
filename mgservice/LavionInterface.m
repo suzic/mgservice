@@ -52,7 +52,7 @@
         requestType = @"local";
         
 //        // 如果用户已经登录，先获取好登录信息
-//        NSString* tokenid = @"";
+//        NSString* tokenid = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
 //        BOOL isLogIn = [[DataManager defaultInstance] findUserLogIn];
 //        if (isLogIn == YES )
 //        {
@@ -73,21 +73,18 @@
         [header setObject:@"no-cache" forKey:@"Cache-Control"];
         [self setHeaders:header];
         [self setViewIdent:viewid];
-        BOOL isSever = [Util SelectTheServerUrl];
-        self.interfaceURL = [[rhead stringByAppendingString:(isSever == YES
-                              ? [MySingleton sharedSingleton].baseInterfaceUrl
-                              : [MySingleton sharedSingleton].baseIntertestUrl)]
+        self.interfaceURL = [[rhead stringByAppendingString:[MySingleton sharedSingleton].baseInterfaceUrl]
                                     stringByAppendingString:viewIdent];
         self.baseDelegate = self;
         [self connect_json:params];
         
 //        if(![self.viewIdent isEqualToString:@URI_LOGIN] && ![self.viewIdent isEqualToString:@URI_REGIST])
 //        {
-            bakParams = params;
-            bakRhead = rhead;
-            bakHead = header;
-            bakUrl = self.interfaceURL;
-            bakViewIdent = self.viewIdent;
+//            bakParams = params;
+//            bakRhead = rhead;
+//            bakHead = header;
+//            bakUrl = self.interfaceURL;
+//            bakViewIdent = self.viewIdent;
 //        }
     }
 }

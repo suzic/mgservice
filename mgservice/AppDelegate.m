@@ -22,6 +22,14 @@
     return YES;
 }
 
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+//{
+//    NSString *device = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+//                         stringByReplacingOccurrencesOfString: @">" withString: @""]
+//                        stringByReplacingOccurrencesOfString: @" " withString: @""];
+//    NSLog(@"%@",device);
+//}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // 退出后保存当前上班计时的时间
