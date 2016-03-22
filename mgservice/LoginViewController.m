@@ -10,7 +10,7 @@
 
 @interface LoginViewController ()<DataInterfaceDelegate,UIAlertViewDelegate>
 
-@property (nonatomic, retain)LavionInterface *netWorkRequest;
+@property (nonatomic, retain)LavionsInterface *netWorkRequest;
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
@@ -43,6 +43,7 @@
     self.loginButton.layer.cornerRadius = 4.0f;
     
     [self accessSserverTime];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -57,11 +58,11 @@
 
 #pragma mark - 网络请求
 // 初始化网络请求
-- (LavionInterface *)netWorkRequest
+- (LavionsInterface *)netWorkRequest
 {
     if (_netWorkRequest == nil)
     {
-        _netWorkRequest = [[LavionInterface alloc] init];
+        _netWorkRequest = [[LavionsInterface alloc] init];
         _netWorkRequest.delegate = self;
     }
     return _netWorkRequest;
@@ -72,7 +73,7 @@
 {
     [self.netWorkRequest getContent:nil
                           withUrlId:@URI_MESSAGE_BASETIME
-                       withUrlRhead:@REQUEST_HEAD_NORMAL
+                       withUrlRhead:@REQUEST_HEAD_SCREAT
                          withByUser:YES
                             withPUD:DefaultPUDType];
 }
@@ -84,7 +85,7 @@
     DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
     if (witerInfo == nil)
         return;
-    
+    NSLog(@"%@",witerInfo);
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"diviceId": witerInfo.deviceId,@"deviceToken":witerInfo.deviceToken}];
     
@@ -100,7 +101,7 @@
     // 获取服务器时间
     if ([ident isEqualToString:@URI_MESSAGE_BASETIME])
     {
-        NSString *serverTime = datas[0];
+        NSDictionary *serverTime = datas[0];
         DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
         witerInfo.deviceId = @"12:34:02:00:00:33";
         witerInfo.deviceToken = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";

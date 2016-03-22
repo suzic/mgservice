@@ -1,14 +1,13 @@
 //
-//  LavionInterface.h
-//  mgmanager
+//  LavionsInterface.h
+//  mgservice
 //
-//  Created by 苏智 on 15/5/5.
-//  Copyright (c) 2015年 Beijing Century Union. All rights reserved.
+//  Created by 罗禹 on 16/3/21.
+//  Copyright © 2016年 Suzic. All rights reserved.
 //
 
-#import "BaseInterface.h"
+#import "YWNetWork.h"
 #import "Parser.h"
-#import "JSON.h"
 #import "Util.h"
 
 /**
@@ -45,7 +44,7 @@ typedef enum NetWorkPUDType {
 /**
  *  @abstract 网络接口封装类。在这个类里，需要实现BaseInterface的代理来处理网络请求成功或者失败后的具体行为。
  */
-@interface LavionInterface : BaseInterface<BaseInterfaceDelegate>
+@interface LavionsInterface : YWNetWork
 {
     NSString* requestType;
     NSMutableDictionary* bakParams;
@@ -64,7 +63,7 @@ typedef enum NetWorkPUDType {
 /**
  *  @abstract 接口标示
  */
-@property (nonatomic,assign) NSString* viewIdent;
+@property (nonatomic,copy) NSString* viewIdent;
 
 /**
  *  @abstract 封装http请求头 发起网络请求 json格式

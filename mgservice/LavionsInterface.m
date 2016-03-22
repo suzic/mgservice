@@ -1,22 +1,18 @@
+//
+//  LavionsInterface.m
+//  mgservice
+//
+//  Created by 罗禹 on 16/3/21.
+//  Copyright © 2016年 Suzic. All rights reserved.
+//
 
-//
-//  LavionInterface.m
-//  mgmanager
-//
-//  Created by 苏智 on 15/5/5.
-//  Copyright (c) 2015年 Beijing Century Union. All rights reserved.
-//
-
-#import "LavionInterface.h"
+#import "LavionsInterface.h"
 #import "NetWorkHelp.h"
 
-@implementation LavionInterface
+@implementation LavionsInterface
 {
     LCProgressHUD *lcPUD;
 }
-
-@synthesize delegate;
-@synthesize viewIdent;
 
 // 封装http请求头 发起网络请求 json格式
 - (void)getContent:(NSMutableDictionary*)params
@@ -25,6 +21,9 @@
         withByUser:(BOOL)byUser
            withPUD:(NetWorkPUDType)PUDType
 {
+    self.params = params;
+    self.topHead = rhead;
+    self.requestURL = viewid;
     //网络加载符号的格式
     if (PUDType == DefaultPUDType)
     {
@@ -51,15 +50,15 @@
         NSTimeInterval timestamp = [Util timestamp];
         requestType = @"local";
         
-//        // 如果用户已经登录，先获取好登录信息
-//        NSString* tokenid = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
-//        BOOL isLogIn = [[DataManager defaultInstance] findUserLogIn];
-//        if (isLogIn == YES )
-//        {
-//            DBUserLogin *userLogin = [[DataManager defaultInstance] findUserLogInByCode:@"1"];
-//            tokenid = userLogin.ticker;
-//        }
-
+        //        // 如果用户已经登录，先获取好登录信息
+        //        NSString* tokenid = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
+        //        BOOL isLogIn = [[DataManager defaultInstance] findUserLogIn];
+        //        if (isLogIn == YES )
+        //        {
+        //            DBUserLogin *userLogin = [[DataManager defaultInstance] findUserLogInByCode:@"1"];
+        //            tokenid = userLogin.ticker;
+        //        }
+        
         NSMutableDictionary* header = [[NSMutableDictionary alloc]init];
         [header setObject:@"application/json; charset=utf-8" forKey:@"Content-Type"];
         [header setObject:@"" forKey:@"mymhotel-ticket"];
@@ -71,40 +70,48 @@
         [header setObject:[NSString stringWithFormat:@"%f",timestamp] forKey:@"mymhotel-dateTime"];
         [header setObject:@"no-cache" forKey:@"Pragma"];
         [header setObject:@"no-cache" forKey:@"Cache-Control"];
-        [self setHeaders:header];
+        [YWNetWork setHeaders:header];
         [self setViewIdent:viewid];
-        self.interfaceURL = [[rhead stringByAppendingString:[MySingleton sharedSingleton].baseInterfaceUrl]
-                                    stringByAppendingString:viewIdent];
-        self.baseDelegate = self;
-        [self connect_json:params];
+        self.serverAddress = [MySingleton sharedSingleton].baseInterfaceUrl;
+        [self POSTWithSuccess:^(id responseObject) {
+            [self parseResult:responseObject];
+            NSLog(@"response = %@",responseObject);
+        } failure:^(NSError *error) {
+            [self parseResult:error];
+            NSLog(@"error = %@",error);
+        }];
         
-//        if(![self.viewIdent isEqualToString:@URI_LOGIN] && ![self.viewIdent isEqualToString:@URI_REGIST])
-//        {
-//            bakParams = params;
-//            bakRhead = rhead;
-//            bakHead = header;
-//            bakUrl = self.interfaceURL;
-//            bakViewIdent = self.viewIdent;
-//        }
+        //        if(![self.viewIdent isEqualToString:@URI_LOGIN] && ![self.viewIdent isEqualToString:@URI_REGIST])
+        //        {
+        //            bakParams = params;
+        //            bakRhead = rhead;
+        //            bakHead = header;
+        //            bakUrl = self.interfaceURL;
+        //            bakViewIdent = self.viewIdent;
+        //        }
     }
 }
 
 // 刷新请求
 - (void)refurbish
 {
-    [self setHeaders:bakHead];
-    self.interfaceURL = bakUrl;
-    self.baseDelegate = self;
-    [self connect_json:bakParams];
+    [YWNetWork setHeaders:bakHead];
+    self.url = bakUrl;
+    self.params = bakParams;
+    [self POSTWithSuccess:^(id responseObject) {
+        [self parseResult:responseObject];
+    } failure:^(NSError *error) {
+        [self parseResult:error];
+    }];
     
 }
 
 // 设置接口标示
-- (void)setViewIdent:(NSString *)viewi
-{
-    if (![viewIdent isEqualToString:viewi])
-        viewIdent= [viewi copy];
-}
+//- (void)setViewIdent:(NSString *)viewi
+//{
+//    if (![_viewIdent isEqualToString:viewi])
+//        self.viewIdent = [viewi copy];
+//}
 
 // 封装http请求头 发起网络请求 xml格式
 - (void)getXml:(NSMutableDictionary*)params :(NSString*)viewid
@@ -112,32 +119,42 @@
     requestType = @"local";
     [self setViewIdent:viewid];
     BOOL isSever = [Util SelectTheServerUrl];
-    
-    self.interfaceURL = [[@REQUEST_HEAD_NORMAL stringByAppendingString:(isSever == YES
-                                                                        ? [MySingleton sharedSingleton].baseInterfaceUrl
-                                                                        : [MySingleton sharedSingleton].baseIntertestUrl)]
-                         stringByAppendingString:viewIdent];
-
-    self.baseDelegate = self;
-    [self connect_xml:params];
+    YiWuResponseType = ResponseTypeXML;
+    self.serverAddress = (isSever == YES? [MySingleton sharedSingleton].baseInterfaceUrl: [MySingleton sharedSingleton].baseIntertestUrl);
+    self.params = params;
+    [self POSTWithSuccess:^(id responseObject) {
+        [self parseResult:responseObject];
+    } failure:^(NSError *error) {
+        [self parseResult:error];
+    }];
 }
 
 - (void)getWXContent:(NSMutableDictionary*)params :(NSString*)viewid
 {
     requestType = @"weixin";
     [self setViewIdent:viewid];
-    self.interfaceURL = [[@REQUEST_HEAD_SCREAT stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:viewIdent];
-    self.baseDelegate = self;
-    [self connect_xml:params];
+    YiWuResponseType = ResponseTypeXML;
+    self.url = [[@REQUEST_HEAD_SCREAT stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:_viewIdent];
+    self.params = params;
+    [self POSTWithSuccess:^(id responseObject) {
+        [self parseResult:responseObject];
+    } failure:^(NSError *error) {
+        [self parseResult:error];
+    }];
 }
 
 - (void)postWXContent:(NSMutableDictionary*)params :(NSString*)viewid
 {
     requestType = @"weixin";
     [self setViewIdent:viewid];
-    self.interfaceURL = [[@REQUEST_HEAD_NORMAL stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:viewIdent];
-    self.baseDelegate = self;
-    [self connect_json:params];
+    YiWuResponseType = ResponseTypeXML;
+    self.url = [[@REQUEST_HEAD_NORMAL stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:_viewIdent];
+    self.params = params;
+    [self POSTWithSuccess:^(id responseObject) {
+        [self parseResult:responseObject];
+    } failure:^(NSError *error) {
+        [self parseResult:error];
+    }];
 }
 
 #pragma mark - BaseInterfaceDelegate
@@ -149,15 +166,15 @@
  Return:         //
  Others:         //
  *************************************************/
-- (void)parseResult:(LNHTTPRequest *)request
+- (void)parseResult:(id)responseObj
 {
     [lcPUD stopWMProgress];
     [lcPUD removeFromSuperview];
     
-    NSDictionary *header = [request responseHeaders];
+    NSDictionary *header = self.responseHeaders;
     NSString *responseCode = [header objectForKey:@"mymhotel-status"];
     NSString *responseMsg = [header objectForKey:@"mymhotel-message"];
-
+    
     // 除了查询类型为微信以外，检查网络请求异常状态
     if (![requestType isEqualToString:@"weixin"])
     {
@@ -185,7 +202,7 @@
             ||[msgs[0] isEqualToString:@"EBF001"]
             ||[msgs[0] isEqualToString:@"ES0003"])
         {
-//            [self logIn];
+            //            [self logIn];
             return;
         }
         // 返回无数据的状态
@@ -206,24 +223,20 @@
             [self.delegate pushResponseResultsFailed:self.viewIdent responseCode:responseCode withMessage:unicodeStr];
         }
     }
-
-    // 解析返回的数据
-    NSString *jsonStr = [[NSString alloc] initWithString:[request responseStringFormatUTF8]];//Data:
-    NSLog(@"jsonStr:%@", jsonStr);
-    if (jsonStr != nil)
+    if (responseObj != nil)
     {
         @try
         {
             // 不需要返回数据的请求
-            if (jsonStr.length < 1)
+            if (responseObj == nil)
             {
                 [self.delegate pushResponseResultsFinished:self.viewIdent responseCode:responseCode withMessage:@"请求成功" andData:nil];
                 return;
             }
             // 有返回数据的请求
             Parser *parser = [[Parser alloc]init];
-            NSData *dict = [jsonStr JSONValue];
-            NSMutableArray* array = [parser parser:viewIdent fromData:dict];
+            //id jsonObj = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+            NSMutableArray* array = [parser parser:_viewIdent fromData:responseObj];
             [self.delegate pushResponseResultsFinished:self.viewIdent responseCode:responseCode withMessage:@"" andData:array];
         }
         @catch (NSException *exception)
@@ -249,7 +262,7 @@
 //        return;
 //
 //    DBUserLogin *user =  [[DataManager defaultInstance] findUserLogInByCode:@"1"];
-//    
+//
 //    if (user == nil //没有用户，返回
 //        || ([Util isEmptyOrNull:user.account]&&[Util isEmptyOrNull:user.email]) // 用户账号（手机号）和邮箱同时为空
 //        || [Util isEmptyOrNull:user.password]) // 没有用户密码

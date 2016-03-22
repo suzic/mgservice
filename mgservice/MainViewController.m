@@ -29,7 +29,7 @@
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
-@property (nonatomic, retain)LavionInterface *netWorkRequest;
+@property (nonatomic, retain) LavionsInterface *netWorkRequest;
 
 @end
 
@@ -97,9 +97,9 @@
     
     NSInteger hours     = totalSecond / 3600 / 60 % 60;
     
-    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",seconds] :[NSString stringWithFormat:@"%ld",seconds];
-    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",mins] :[NSString stringWithFormat:@"%ld",mins];
-    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",hours] :[NSString stringWithFormat:@"%ld",hours];
+    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",seconds];
+    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",mins];
+    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",hours];
     string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
     
     return string;
@@ -107,11 +107,11 @@
 
 #pragma mark - 网络请求
 // 初始化网络请求
-- (LavionInterface *)netWorkRequest
+- (LavionsInterface *)netWorkRequest
 {
     if (_netWorkRequest == nil)
     {
-        _netWorkRequest = [[LavionInterface alloc] init];
+        _netWorkRequest = [[LavionsInterface alloc] init];
         _netWorkRequest.delegate = self;
     }
     return _netWorkRequest;
@@ -155,10 +155,7 @@
 
 - (void)pushResponseResultsFinished:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    if([ident isEqualToString:@URI_WAITER_ISWORK])
-    {
-        
-    }
+    NSLog(@"datas = %@",datas);
 }
 
 - (void)pushResponseResultsFailed:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -177,13 +174,16 @@
         NSDate *date = [NSDate date];
         [SPUserDefaultsManger setValue:date forKey:kStart];
         // 修改当前状态为上班
+
         [self reloadWorkStatUs:@"1"];
     }
-    else if([witerInfo.attendanceState isEqualToString:@"1"])
+    else
+        
     {
         _timer.paused = YES;
         [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
         // 修改当前状态为下班
+
         [self reloadWorkStatUs:@"0"];
     }
 }

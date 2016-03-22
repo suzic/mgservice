@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15B42" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15A284" minimumToolsVersion="Automatic">
     <entity name="DBMessage" representedClassName="DBMessage" syncable="YES">
         <attribute name="answer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="answerTime" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,6 +29,10 @@
         <relationship name="belongWaiter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBWaiterInfor" inverseName="hasCallList" inverseEntity="DBWaiterInfor" syncable="YES"/>
         <relationship name="hasMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBMessage" inverseName="belongCallList" inverseEntity="DBMessage" syncable="YES"/>
     </entity>
+    <entity name="DBTest" representedClassName="DBTest" isAbstract="YES" syncable="YES">
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="DBWaiterInfor" representedClassName="DBWaiterInfor" syncable="YES">
         <attribute name="attendanceState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="birth" optional="YES" attributeType="String" syncable="YES"/>
@@ -49,9 +53,16 @@
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasCallList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBTaskList" inverseName="belongWaiter" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
+    <entity name="Entity" isAbstract="YES" syncable="YES"/>
+    <entity name="Entity1" isAbstract="YES" syncable="YES">
+        <attribute name="attribute" optional="YES" syncable="YES"/>
+    </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>
         <element name="DBTaskList" positionX="-4502" positionY="-1192" width="128" height="328"/>
-        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="313"/>
+        <element name="DBTest" positionX="-4482" positionY="-1053" width="128" height="75"/>
+        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="315"/>
+        <element name="Entity" positionX="-4473" positionY="-1044" width="128" height="45"/>
+        <element name="Entity1" positionX="-4464" positionY="-1035" width="128" height="60"/>
     </elements>
 </model>

@@ -18,8 +18,8 @@
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)
 #define kScreenWidth    ([UIScreen mainScreen].bounds.size.width)
 
-#define REQUEST_HEAD_NORMAL "http://"
-#define REQUEST_HEAD_SCREAT "https://"
+#define REQUEST_HEAD_NORMAL "http:"
+#define REQUEST_HEAD_SCREAT "https:"
 
 // 服务员上下班状态设置
 #define URI_WAITER_ISWORK                     "/hotelservice/manage/waiter/setting_attendance.json"
@@ -55,9 +55,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreData/CoreData.h>
-#import "Reachability.h"
 #import "LCProgressHUD.h"
 #import "AppDelegate.h"
+#import "Reachability.h"
 #import "Util.h"
 #import "MySingleton.h"
 #import "SPUserDefaultsManger.h"
@@ -65,8 +65,7 @@
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
 #import "DataManager.h"
-#import "LavionInterface.h"
-#import "MacManager.h"
+#import "LavionsInterface.h"
 #import "DataManager+User.h"
 
 #endif
