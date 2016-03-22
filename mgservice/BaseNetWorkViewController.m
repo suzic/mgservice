@@ -36,6 +36,9 @@
         self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
                                             andStyle:titleStyle andTitle:@"正在加载...."];
     }
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate.window addSubview:self.hud];
+    [self.hud startWMProgress];
 }
 
 - (void)pushResponseResultsFinished:(YWNetWork *)manager responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas {
