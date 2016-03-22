@@ -119,7 +119,7 @@
     requestType = @"local";
     [self setViewIdent:viewid];
     BOOL isSever = [Util SelectTheServerUrl];
-    YiWuResponseType = ResponseTypeXML;
+    //YiWuResponseType = ResponseTypeXML;
     self.serverAddress = (isSever == YES? [MySingleton sharedSingleton].baseInterfaceUrl: [MySingleton sharedSingleton].baseIntertestUrl);
     self.params = params;
     [self POSTWithSuccess:^(id responseObject) {
@@ -133,7 +133,7 @@
 {
     requestType = @"weixin";
     [self setViewIdent:viewid];
-    YiWuResponseType = ResponseTypeXML;
+    //YiWuResponseType = ResponseTypeXML;
     self.url = [[@REQUEST_HEAD_SCREAT stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:_viewIdent];
     self.params = params;
     [self POSTWithSuccess:^(id responseObject) {
@@ -147,7 +147,7 @@
 {
     requestType = @"weixin";
     [self setViewIdent:viewid];
-    YiWuResponseType = ResponseTypeXML;
+    //YiWuResponseType = ResponseTypeXML;
     self.url = [[@REQUEST_HEAD_NORMAL stringByAppendingString:[[MySingleton sharedSingleton] weixinInterfaceUrl]] stringByAppendingString:_viewIdent];
     self.params = params;
     [self POSTWithSuccess:^(id responseObject) {

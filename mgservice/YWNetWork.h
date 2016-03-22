@@ -12,11 +12,11 @@
 typedef  void (^YiWuResponseSuccess)(id responseObject);  //请求成功block
 typedef  void (^YiWuResponseFailure)(NSError * error);    //请求失败block
 
-typedef NS_ENUM(NSUInteger, ResponseType) {
-    ResponseTypeJSON = 1, // 默认
-    ResponseTypeXML  = 2, // XML
-    ResponseTypeData = 3
-}YiWuResponseType;
+//typedef NS_ENUM(NSUInteger, ResponseType) {
+//    ResponseTypeJSON = 1, // 默认
+//    ResponseTypeXML  = 2, // XML
+//    ResponseTypeData = 3
+//}YiWuResponseType;
 
 @interface YWNetWork : NSObject
 

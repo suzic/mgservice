@@ -29,10 +29,6 @@
         <relationship name="belongWaiter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBWaiterInfor" inverseName="hasCallList" inverseEntity="DBWaiterInfor" syncable="YES"/>
         <relationship name="hasMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBMessage" inverseName="belongCallList" inverseEntity="DBMessage" syncable="YES"/>
     </entity>
-    <entity name="DBTest" representedClassName="DBTest" isAbstract="YES" syncable="YES">
-        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="DBWaiterInfor" representedClassName="DBWaiterInfor" syncable="YES">
         <attribute name="attendanceState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="birth" optional="YES" attributeType="String" syncable="YES"/>
@@ -52,10 +48,6 @@
         <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasCallList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBTaskList" inverseName="belongWaiter" inverseEntity="DBTaskList" syncable="YES"/>
-    </entity>
-    <entity name="Entity" isAbstract="YES" syncable="YES"/>
-    <entity name="Entity1" isAbstract="YES" syncable="YES">
-        <attribute name="attribute" optional="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>

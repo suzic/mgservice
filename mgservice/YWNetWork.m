@@ -70,20 +70,20 @@ static NSDictionary * _headers;
         [_manager.requestSerializer setValue:_headers[key] forHTTPHeaderField:key];
     }
     _manager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
-    switch (YiWuResponseType) {
-        case 3:
-            _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-            break;
-        case 2:
-            _manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
-            break;
-        case 1:
-            
-        default:
-            _manager.responseSerializer = [AFJSONResponseSerializer serializer];
-            break;
-    }
-    
+//    switch (YiWuResponseType) {
+//        case 3:
+//            _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//            break;
+//        case 2:
+//            _manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
+//            break;
+//        case 1:
+//            
+//        default:
+//            _manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//            break;
+//    }
+    _manager.responseSerializer = [AFJSONResponseSerializer serializer];
     _manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",
                                                                               @"text/html",
                                                                               @"text/json",
