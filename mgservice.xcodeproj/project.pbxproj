@@ -49,8 +49,9 @@
 		FC1922781CA0D44000A941AE /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1922711CA0D44000A941AE /* AFURLResponseSerialization.m */; };
 		FC1922791CA0D44000A941AE /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1922731CA0D44000A941AE /* AFURLSessionManager.m */; };
 		FC1922801CA0DBC100A941AE /* mgservice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */; };
+		FC1922841CA10BDE00A941AE /* RequestNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1922831CA10BDE00A941AE /* RequestNetWork.m */; };
+		FC1922871CA10FBF00A941AE /* BaseNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1922861CA10FBF00A941AE /* BaseNetWorkViewController.m */; };
 		FC1A1D0F1C9FA16400D851A7 /* YWNetWork.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A1D0E1C9FA16400D851A7 /* YWNetWork.m */; };
-		FC1A1D121C9FA43C00D851A7 /* LavionsInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A1D111C9FA43C00D851A7 /* LavionsInterface.m */; };
 		FC1A1D151C9FBE7A00D851A7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1A1D141C9FBE7A00D851A7 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
@@ -133,10 +134,12 @@
 		FC1922721CA0D44000A941AE /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		FC1922731CA0D44000A941AE /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		FC19227F1CA0DBC100A941AE /* mgservice.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mgservice.xcdatamodel; sourceTree = "<group>"; };
+		FC1922821CA10BDE00A941AE /* RequestNetWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestNetWork.h; sourceTree = "<group>"; };
+		FC1922831CA10BDE00A941AE /* RequestNetWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestNetWork.m; sourceTree = "<group>"; };
+		FC1922851CA10FBF00A941AE /* BaseNetWorkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetWorkViewController.h; sourceTree = "<group>"; };
+		FC1922861CA10FBF00A941AE /* BaseNetWorkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetWorkViewController.m; sourceTree = "<group>"; };
 		FC1A1D0D1C9FA16400D851A7 /* YWNetWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YWNetWork.h; sourceTree = "<group>"; };
 		FC1A1D0E1C9FA16400D851A7 /* YWNetWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YWNetWork.m; sourceTree = "<group>"; };
-		FC1A1D101C9FA43C00D851A7 /* LavionsInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LavionsInterface.h; sourceTree = "<group>"; };
-		FC1A1D111C9FA43C00D851A7 /* LavionsInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LavionsInterface.m; sourceTree = "<group>"; };
 		FC1A1D131C9FBE7A00D851A7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		FC1A1D141C9FBE7A00D851A7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,13 +215,13 @@
 		D0CC730E1C59B8E000314355 /* mgservice */ = {
 			isa = PBXGroup;
 			children = (
+				D0CC73291C59B91E00314355 /* Database */,
 				F89B76131C77050200757096 /* NetWork */,
 				F89B75D51C76E1FB00757096 /* 3rd */,
 				D0CC73181C59B8E000314355 /* Main.storyboard */,
 				D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */,
 				D0CC73121C59B8E000314355 /* AppDelegate.h */,
 				D0CC73131C59B8E000314355 /* AppDelegate.m */,
-				D0CC73291C59B91E00314355 /* Database */,
 				D0CC733C1C59C1BE00314355 /* Login */,
 				D06C01321C5B197A00D242B1 /* CallTask */,
 				D06C01311C5B138700D242B1 /* MenuTask */,
@@ -244,19 +247,11 @@
 		D0CC73291C59B91E00314355 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				F84362131C7C626B00320DE2 /* DBMessage.h */,
-				F84362141C7C626B00320DE2 /* DBMessage.m */,
-				F84362151C7C626B00320DE2 /* DBMessage+CoreDataProperties.h */,
-				F84362161C7C626B00320DE2 /* DBMessage+CoreDataProperties.m */,
-				F84362171C7C626B00320DE2 /* DBTaskList.h */,
-				F84362181C7C626B00320DE2 /* DBTaskList.m */,
-				F84362191C7C626B00320DE2 /* DBTaskList+CoreDataProperties.h */,
-				F843621A1C7C626B00320DE2 /* DBTaskList+CoreDataProperties.m */,
-				F843621B1C7C626B00320DE2 /* DBWaiterInfor.h */,
-				F843621C1C7C626B00320DE2 /* DBWaiterInfor.m */,
-				F843621D1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.h */,
-				F843621E1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.m */,
-				FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */,
+				FC1922811CA0F1B200A941AE /* Objects */,
+				F89B76171C77057900757096 /* DataManager.h */,
+				F89B76181C77057900757096 /* DataManager.m */,
+				F8234FC51C7AED88006A60FA /* DataManager+User.h */,
+				F8234FC61C7AED88006A60FA /* DataManager+User.m */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -297,16 +292,14 @@
 				FC1A1D141C9FBE7A00D851A7 /* Reachability.m */,
 				FC1A1D0D1C9FA16400D851A7 /* YWNetWork.h */,
 				FC1A1D0E1C9FA16400D851A7 /* YWNetWork.m */,
-				FC1A1D101C9FA43C00D851A7 /* LavionsInterface.h */,
-				FC1A1D111C9FA43C00D851A7 /* LavionsInterface.m */,
+				FC1922821CA10BDE00A941AE /* RequestNetWork.h */,
+				FC1922831CA10BDE00A941AE /* RequestNetWork.m */,
+				FC1922851CA10FBF00A941AE /* BaseNetWorkViewController.h */,
+				FC1922861CA10FBF00A941AE /* BaseNetWorkViewController.m */,
 				F89B761A1C7705C900757096 /* NetWorkHelp.h */,
 				F89B761B1C7705C900757096 /* NetWorkHelp.m */,
-				F89B76171C77057900757096 /* DataManager.h */,
-				F89B76181C77057900757096 /* DataManager.m */,
 				F89B76141C77051B00757096 /* Parser.h */,
 				F89B76151C77051B00757096 /* Parser.m */,
-				F8234FC51C7AED88006A60FA /* DataManager+User.h */,
-				F8234FC61C7AED88006A60FA /* DataManager+User.m */,
 			);
 			name = NetWork;
 			sourceTree = "<group>";
@@ -321,6 +314,26 @@
 				F89B76251C770AAA00757096 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC1922811CA0F1B200A941AE /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				F84362131C7C626B00320DE2 /* DBMessage.h */,
+				F84362141C7C626B00320DE2 /* DBMessage.m */,
+				F84362151C7C626B00320DE2 /* DBMessage+CoreDataProperties.h */,
+				F84362161C7C626B00320DE2 /* DBMessage+CoreDataProperties.m */,
+				F84362171C7C626B00320DE2 /* DBTaskList.h */,
+				F84362181C7C626B00320DE2 /* DBTaskList.m */,
+				F84362191C7C626B00320DE2 /* DBTaskList+CoreDataProperties.h */,
+				F843621A1C7C626B00320DE2 /* DBTaskList+CoreDataProperties.m */,
+				F843621B1C7C626B00320DE2 /* DBWaiterInfor.h */,
+				F843621C1C7C626B00320DE2 /* DBWaiterInfor.m */,
+				F843621D1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.h */,
+				F843621E1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.m */,
+				FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */,
+			);
+			name = Objects;
 			sourceTree = "<group>";
 		};
 		FC1A1CF91C9FA14C00D851A7 /* AFNetworking */ = {
@@ -422,6 +435,7 @@
 				D0CC733F1C59EB0F00314355 /* TaskCell.m in Sources */,
 				F89B761F1C7706A700757096 /* LCProgressHUD.m in Sources */,
 				F89B75D81C76E23700757096 /* SPUserDefaultsManger.m in Sources */,
+				FC1922841CA10BDE00A941AE /* RequestNetWork.m in Sources */,
 				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
 				FC1922791CA0D44000A941AE /* AFURLSessionManager.m in Sources */,
 				FC1922741CA0D44000A941AE /* AFHTTPSessionManager.m in Sources */,
@@ -433,7 +447,6 @@
 				F843621F1C7C626B00320DE2 /* DBMessage.m in Sources */,
 				F89B76791C771D9100757096 /* MySingleton.m in Sources */,
 				D0CC732C1C59C03800314355 /* MainViewController.m in Sources */,
-				FC1A1D121C9FA43C00D851A7 /* LavionsInterface.m in Sources */,
 				FC1922781CA0D44000A941AE /* AFURLResponseSerialization.m in Sources */,
 				FC1922801CA0DBC100A941AE /* mgservice.xcdatamodeld in Sources */,
 				F89B76121C77024800757096 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
@@ -447,6 +460,7 @@
 				F89B76161C77051B00757096 /* Parser.m in Sources */,
 				F84362211C7C626B00320DE2 /* DBTaskList.m in Sources */,
 				FC1922771CA0D44000A941AE /* AFURLRequestSerialization.m in Sources */,
+				FC1922871CA10FBF00A941AE /* BaseNetWorkViewController.m in Sources */,
 				F89B76191C77057900757096 /* DataManager.m in Sources */,
 				F84362201C7C626B00320DE2 /* DBMessage+CoreDataProperties.m in Sources */,
 				FC1922761CA0D44000A941AE /* AFSecurityPolicy.m in Sources */,

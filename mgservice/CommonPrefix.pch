@@ -18,8 +18,8 @@
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)
 #define kScreenWidth    ([UIScreen mainScreen].bounds.size.width)
 
-#define REQUEST_HEAD_NORMAL "http:"
-#define REQUEST_HEAD_SCREAT "https:"
+#define REQUEST_HEAD_NORMAL "http://"
+#define REQUEST_HEAD_SCREAT "https://"
 
 // 服务员上下班状态设置
 #define URI_WAITER_ISWORK                     "/hotelservice/manage/waiter/setting_attendance.json"
@@ -65,7 +65,7 @@
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
 #import "DataManager.h"
-#import "LavionsInterface.h"
+#import "RequestNetWork.h"
 #import "DataManager+User.h"
 
 #endif

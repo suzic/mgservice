@@ -17,7 +17,7 @@ static NSDictionary * _headers;
         self.topHead = tophead;
         self.serverAddress = serverAddress;
         self.requestURL = url;
-        self.url = [NSString stringWithFormat:@"%@//%@%@",_topHead,_serverAddress,_requestURL];
+        self.url = [NSString stringWithFormat:@"%@%@%@",_topHead,_serverAddress,_requestURL];
         self.params = params;
     }
     return self;
@@ -36,29 +36,32 @@ static NSDictionary * _headers;
 }
 
 - (NSURLSessionTask *)POSTWithSuccess:(YiWuResponseSuccess)success failure:(YiWuResponseFailure)failure {
+    
     AFHTTPSessionManager * manager = [self manager];
-    self.url = [NSString stringWithFormat:@"%@//%@%@",_topHead,_serverAddress,_requestURL];
-    self.task = [manager POST:self.url
-                                 parameters:self.params
+    __weak __typeof(self) weakSelf = self;
+    weakSelf.url = [NSString stringWithFormat:@"%@%@%@",_topHead,_serverAddress,_requestURL];
+    NSURLSessionTask * urltask = [manager POST:weakSelf.url
+                                 parameters:weakSelf.params
                                    progress:nil
                                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-            self.responseHeaders = response.allHeaderFields;
-            success(responseObject);
+            weakSelf.responseHeaders = response.allHeaderFields;
+            success(responseObject,task);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-        self.responseHeaders = response.allHeaderFields;
+        weakSelf.responseHeaders = response.allHeaderFields;
         if (failure) {
-            failure(error);
+            failure(error,task);
         }
     }];
-    NSLog(@"url = %@",self.url);
-    NSLog(@"params = %@",self.params);
+    NSLog(@"urltask = %@",urltask);
+    NSLog(@"url = %@",weakSelf.url);
+    NSLog(@"params = %@",weakSelf.params);
     NSLog(@"header = %@",_headers);
-    NSLog(@"responseHeader = %@",self.responseHeaders);
-    return self.task;
+    NSLog(@"responseHeader = %@",weakSelf.responseHeaders);
+    return urltask;
 }
 
 
@@ -70,19 +73,7 @@ static NSDictionary * _headers;
         [_manager.requestSerializer setValue:_headers[key] forHTTPHeaderField:key];
     }
     _manager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
-//    switch (YiWuResponseType) {
-//        case 3:
-//            _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-//            break;
-//        case 2:
-//            _manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
-//            break;
-//        case 1:
-//            
-//        default:
-//            _manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//            break;
-//    }
+
     _manager.responseSerializer = [AFJSONResponseSerializer serializer];
     _manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",
                                                                               @"text/html",
