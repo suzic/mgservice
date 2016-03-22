@@ -56,11 +56,11 @@ static NSDictionary * _headers;
             failure(error,task);
         }
     }];
-    NSLog(@"urltask = %@",urltask);
-    NSLog(@"url = %@",weakSelf.url);
-    NSLog(@"params = %@",weakSelf.params);
-    NSLog(@"header = %@",_headers);
-    NSLog(@"responseHeader = %@",weakSelf.responseHeaders);
+//    NSLog(@"urltask = %@",urltask);
+//    NSLog(@"url = %@",weakSelf.url);
+//    NSLog(@"params = %@",weakSelf.params);
+//    NSLog(@"header = %@",_headers);
+//    NSLog(@"responseHeader = %@",weakSelf.responseHeaders);
     return urltask;
 }
 

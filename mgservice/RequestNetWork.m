@@ -75,13 +75,13 @@
                 [delegate startRequest:nil];
             }
         }
-        __weak __typeof(self) weakSelf = self;
-        NSURLSessionTask * task =  [weakSelf POSTWithSuccess:^(id responseObject,NSURLSessionTask * task) {
-            [weakSelf parseResult:responseObject urltask:task];
-            NSLog(@"response = %@",responseObject);
+        //__weak __typeof(self) weakSelf = self;
+        NSURLSessionTask * task =  [self POSTWithSuccess:^(id responseObject,NSURLSessionTask * task) {
+            [self parseResult:responseObject urltask:task];
+            //NSLog(@"response = %@",responseObject);
         } failure:^(NSError *error,NSURLSessionTask * task) {
-            [weakSelf parseResult:error urltask:task];
-            NSLog(@"error = %@",error);
+            [self parseResult:error urltask:task];
+            //NSLog(@"error = %@",error);
         }];
         return task;
     }
@@ -115,7 +115,13 @@
         ||[msgs[0] isEqualToString:@"TOKEN_INVALID"]
         ||[msgs[0] isEqualToString:@"UNLOGIN"]
         ||[msgs[0] isEqualToString:@"EBF001"]
-        ||[msgs[0] isEqualToString:@"ES0003"]) {
+        ||[msgs[0] isEqualToString:@"ES0003"]
+        ||[msgs[0] isEqualToString:@"ES0001"]) {
+        for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
+                [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:@"系统异常，请稍后再试"];
+            }
+        }
         return;
     }
     // 返回无数据的状态

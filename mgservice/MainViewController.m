@@ -50,6 +50,7 @@
 {
     [super viewDidLoad];
 
+    [[RequestNetWork defaultManager]registerDelegate:self];
     direction = NO;
     lastScrollOffsetY = 0;
     self.selectedIndex = 0;
@@ -217,7 +218,6 @@
         _timer.paused = YES;
         [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
         // 修改当前状态为下班
-        [self NETWORK_checkIsLogin];
         [self NETWORK_reloadWorkStatUs:@"0"];
     }
 }
