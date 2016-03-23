@@ -12,6 +12,7 @@ static NSDictionary * _headers;
 
 @implementation YWNetWork
 
+// 初始化请求 设置参数
 - (instancetype)initWithTopHead:(NSString *)tophead serverAddress:(NSString *)serverAddress requestURL:(NSString *)url params:(NSDictionary *)params{
     if (self = [super init]) {
         self.topHead = tophead;
@@ -23,18 +24,21 @@ static NSDictionary * _headers;
     return self;
 }
 
+// 设置请求头
 + (void)setHeaders:(NSDictionary *)headers {
     _headers = headers;
 }
-
+// 取消单个请求（请用下面那个）
 - (void)cancleRequest {
     [self.task cancel];
 }
 
+// 取消所有请求
 - (void)cancleAllRequest {
     [_manager.operationQueue cancelAllOperations];
 }
 
+// post请求 返回NSURLSessionTask实例 用于区别请求 和控制请求
 - (NSURLSessionTask *)POSTWithSuccess:(YiWuResponseSuccess)success failure:(YiWuResponseFailure)failure {
     
     AFHTTPSessionManager * manager = [self manager];
@@ -64,7 +68,7 @@ static NSDictionary * _headers;
     return urltask;
 }
 
-
+// 设置请求对象参数
 - (AFHTTPSessionManager *)manager {
     self.manager = [AFHTTPSessionManager manager];
     _manager.requestSerializer.timeoutInterval = 15;

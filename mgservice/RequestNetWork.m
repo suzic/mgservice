@@ -16,6 +16,7 @@
 
 @implementation RequestNetWork
 
+// 单例
 + (instancetype)defaultManager {
     static RequestNetWork * manager = nil;
     static dispatch_once_t onceToken;
@@ -28,13 +29,14 @@
 }
 
 #pragma mark - 设置代理
-
+// 注册代理
 - (void)registerDelegate:(id<RequestNetWorkDelegate>)delegate {
     if (delegate) {
         [self.delegateArray addObject:delegate];
     }
 }
 
+// 注销代理
 - (void)removeDelegate:(id<RequestNetWorkDelegate>)delegate {
     if (delegate) {
         [self.delegateArray removeObject:delegate];
@@ -43,6 +45,7 @@
 
 #pragma mark - 网络请求方法
 
+// 开始请求
 - (NSURLSessionTask *)POSTWithTopHead:(NSString *)tophead webURL:(NSString *)url params:(NSDictionary *)params withByUser:(BOOL)byUser {
     self.topHead = tophead;
     self.requestURL = url;
@@ -88,6 +91,7 @@
 }
 
 #pragma mark - 请求结果
+// 返回结果
 - (void)parseResult:(id)responseObj urltask:(NSURLSessionTask *)task{
     NSDictionary *header = self.responseHeaders;
     NSString *responseCode = [header objectForKey:@"mymhotel-status"];

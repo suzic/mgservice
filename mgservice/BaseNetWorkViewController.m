@@ -24,7 +24,7 @@
     [[RequestNetWork defaultManager] removeDelegate:self];
 }
 
-#pragma mark -  RequestNetWork 协议方法
+#pragma mark -  RequestNetWorkDelegate 协议方法
 
 - (void)startRequest:(YWNetWork *)manager {
     if (!self.hud) {

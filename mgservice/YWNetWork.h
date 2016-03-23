@@ -48,6 +48,7 @@ typedef  void (^YiWuResponseFailure)(NSError * error,NSURLSessionTask * task);  
 
 /**
  *  @abstract  设置请求头
+ *  @params    请求头
  */
 + (void)setHeaders:(NSDictionary *)headers;
 
