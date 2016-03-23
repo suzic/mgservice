@@ -33,6 +33,7 @@
 - (void)registerDelegate:(id<RequestNetWorkDelegate>)delegate {
     if (delegate) {
         [self.delegateArray addObject:delegate];
+        self.delegete = delegate;
     }
 }
 
@@ -74,7 +75,7 @@
         [YWNetWork setHeaders:header];
         // 代理方法请求开始
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(startRequest:)]) {
+            if (delegate && [delegate respondsToSelector:@selector(startRequest:)] && delegate == self.delegete) {
                 [delegate startRequest:nil];
             }
         }
@@ -101,7 +102,7 @@
     if (responseCode == NULL)
     {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:@"联网失败,请重新尝试联网"];
             }
         }
@@ -122,7 +123,7 @@
         ||[msgs[0] isEqualToString:@"ES0003"]
         ||[msgs[0] isEqualToString:@"ES0001"]) {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:@"系统异常，请稍后再试"];
             }
         }
@@ -136,7 +137,7 @@
             || [msgs[1]isEqualToString:@"数据空"]
             || range.length > 0) {
             for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
+                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
                     [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:msgs[1]];
                 }
             }
@@ -144,7 +145,7 @@
         }
     }else {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:unicodeStr];
             }
         }
@@ -158,7 +159,7 @@
             // 不需要返回数据的请求
             if (array.count < 1){
                 for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                    if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)]) {
+                    if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)] && delegate == self.delegete) {
                         [delegate pushResponseResultsFinished:task responseCode:responseCode withMessage:@"" andData:nil];
                     }
                 }
@@ -166,7 +167,7 @@
             }
             // 有返回数据的请求
             for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)]) {
+                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)] && delegate == self.delegete) {
                     [delegate pushResponseResultsFinished:task responseCode:responseCode withMessage:@"" andData:array];
                 }
             }

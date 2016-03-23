@@ -40,6 +40,8 @@
 
 @interface RequestNetWork : YWNetWork
 
+
+@property (nonatomic,weak) id <RequestNetWorkDelegate> delegete;
 /**
  *  @abstract 创建单例对象
  */

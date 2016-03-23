@@ -367,4 +367,13 @@
     
 }
 
+- (void)dealloc {
+    if(self.hud){
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
+}
+
 @end

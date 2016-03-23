@@ -52,6 +52,15 @@
     
 }
 
+- (void)dealloc {
+    if(self.hud){
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
@@ -101,8 +110,8 @@
                                                andStyle:titleStyle andTitle:@"正在加载...."];
     }
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.hud];
-    [self.hud startWMProgress];
+    [appDelegate.window addSubview:_hud];
+    [_hud startWMProgress];
 }
 
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
