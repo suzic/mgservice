@@ -55,6 +55,24 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="任务内容：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bz-HY-pw5">
+                                                            <rect key="frame" x="10" y="39" width="580" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="位置：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tpc-ge-dOQ">
+                                                            <rect key="frame" x="10" y="68" width="580" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="时间：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kwo-R1-eXJ">
+                                                            <rect key="frame" x="10" y="97" width="580" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -73,7 +91,10 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="backgroudView" destination="qo8-kH-5oM" id="sId-da-MZu"/>
+                                            <outlet property="taskAddress" destination="tpc-ge-dOQ" id="chT-KV-966"/>
+                                            <outlet property="taskContent" destination="0bz-HY-pw5" id="yQl-11-C4q"/>
                                             <outlet property="taskName" destination="cxK-H5-RWB" id="XSJ-gF-0Y5"/>
+                                            <outlet property="taskTime" destination="Kwo-R1-eXJ" id="l1S-xl-Gyt"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="paddingCell" rowHeight="40" id="Ikc-LP-iHG">
@@ -741,6 +762,7 @@
                     <connections>
                         <outlet property="account" destination="2SU-ai-pIg" id="UWO-dz-VRk"/>
                         <outlet property="loginButton" destination="sqb-OT-SCp" id="mye-Qh-z8h"/>
+                        <outlet property="passWord" destination="koY-Ob-Nt2" id="gFF-mC-z6f"/>
                         <outlet property="qrcodeView" destination="MN7-fi-njh" id="h1J-rP-53j"/>
                     </connections>
                 </tableViewController>
