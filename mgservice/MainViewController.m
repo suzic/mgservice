@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "TaskCell.h"
+#import "LCProgressHUD.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
@@ -17,7 +18,7 @@
 #define kIswork @"iswork"
 #define KIsWorkState @"isWorkState"
 
-@interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,DataInterfaceDelegate>
+@interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
@@ -33,7 +34,9 @@
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
-@property (nonatomic, retain)LavionInterface *netWorkRequest;
+@property (nonatomic, retain) NSURLSessionTask * task1;
+@property (nonatomic, retain) NSURLSessionTask * task2;
+@property (nonatomic,strong) LCProgressHUD * hud;
 
 
 @end
@@ -52,6 +55,7 @@
 {
     [super viewDidLoad];
 
+    [[RequestNetWork defaultManager]registerDelegate:self];
     _direction = NO;
     lastScrollOffsetY = 0;
     self.selectedIndex = 0;
@@ -91,6 +95,7 @@
 }
 
 #pragma mark - 定时器方法
+
 // 定时器方法
 - (void)changeTime
 {
@@ -111,73 +116,100 @@
     
     NSInteger hours     = totalSecond / 3600 / 60 % 60;
     
-    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",seconds] :[NSString stringWithFormat:@"%ld",seconds];
-    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",mins] :[NSString stringWithFormat:@"%ld",mins];
-    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",hours] :[NSString stringWithFormat:@"%ld",hours];
+    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",seconds];
+    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",mins];
+    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",hours];
     string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
     
     return string;
 }
 
 #pragma mark - 网络请求
-// 初始化网络请求
-- (LavionInterface *)netWorkRequest
-{
-    if (_netWorkRequest == nil)
-    {
-        _netWorkRequest = [[LavionInterface alloc] init];
-        _netWorkRequest.delegate = self;
-    }
-    return _netWorkRequest;
-}
 
 // 刷新当前工作状态
-- (void)reloadWorkStatUs:(NSString *)attendanceState
+- (void)NETWORK_reloadWorkStatUs:(NSString *)attendanceState
 {
     DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
     if (witerInfo == nil)
         return;
-    
+
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": witerInfo.deviceId,
-                                     @"deviceToken":witerInfo.deviceToken,
+                                   @{@"diviceId":  @"12:34:02:00:00:33",
+                                     @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151",
                                      @"workingState":attendanceState}];
-    
-    [self.netWorkRequest getContent:params
-                          withUrlId:@URI_WAITER_ISWORK
-                       withUrlRhead:@REQUEST_HEAD_NORMAL
-                         withByUser:YES
-                            withPUD:DefaultPUDType];
+    self.task1 = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                  webURL:@URI_WAITER_ISWORK
+                                  params:params
+                              withByUser:YES];
 }
 
 // 服务员状态查询 是否登陆成功
-- (void)checkIsLogin
+- (void)NETWORK_checkIsLogin
 {
     DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
     if (witerInfo == nil)
         return;
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": witerInfo.deviceId,@"deviceToken":witerInfo.deviceToken}];
+                                   @{@"diviceId": @"12:34:02:00:00:33",@"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
     
-    [self.netWorkRequest getContent:params
-                          withUrlId:@URI_WAITER_CHECKSTATUS
-                       withUrlRhead:@REQUEST_HEAD_NORMAL
-                         withByUser:YES
-                            withPUD:DefaultPUDType];
+    self.task2 = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                  webURL:@URI_WAITER_CHECKSTATUS
+                                  params:params
+                              withByUser:YES];
 }
 
-- (void)pushResponseResultsFinished:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
+- (void)RESULT_checkIsLogin:(NSMutableArray *)datas withSucceed:(BOOL)succeed
 {
-    if([ident isEqualToString:@URI_WAITER_ISWORK])
-    {
-        
+    if (succeed) {
+        NSLog(@"%@",datas);
+    }
+    
+}
+
+- (void)RESULT_reloadWorkStatus:(NSMutableArray *)datas withSucceed:(BOOL)succeed {
+    if (succeed) {
+        NSLog(@"%@",datas);
     }
 }
 
-- (void)pushResponseResultsFailed:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg
+#pragma mark - RequestNetWorkDelegate 代理方法
+
+- (void)startRequest:(YWNetWork *)manager {
+    if (!self.hud) {
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }else{
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate.window addSubview:self.hud];
+    [self.hud startWMProgress];
+}
+
+- (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
+    if (task == self.task1){
+        [self RESULT_checkIsLogin:datas withSucceed:YES];
+    }else if (task == self.task2) {
+        [self RESULT_reloadWorkStatus:datas withSucceed:YES];
+    }
+}
+
+- (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
+{
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
+    if (task == self.task1){
+        [self RESULT_checkIsLogin:nil withSucceed:NO];
+    }else if (task == self.task2) {
+        [self RESULT_reloadWorkStatus:nil withSucceed:NO];
+    }
 }
 
 #pragma mark - 按钮点击方法
@@ -197,7 +229,12 @@
             [SPUserDefaultsManger setValue:date forKey:kStart];
         }
 //        [self reloadWorkStatUs:@"1"];
-    }else{
+        [SPUserDefaultsManger setValue:date forKey:kStart];
+        // 修改当前状态为上班
+        [self NETWORK_reloadWorkStatUs:@"1"];
+    }
+    else
+    {
         _timer.paused = YES;
         _direction = NO;
         [sender setTitle:@"开始" forState:UIControlStateNormal];
@@ -214,6 +251,9 @@
         [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",inte] forKey:@"abc"];
         
 //        [self reloadWorkStatUs:@"0"];
+        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
+        // 修改当前状态为下班
+        [self NETWORK_reloadWorkStatUs:@"0"];
     }
     
 //    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
@@ -387,6 +427,15 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
+}
+
+- (void)dealloc {
+    if(self.hud){
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
 @end

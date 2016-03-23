@@ -55,9 +55,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreData/CoreData.h>
-#import "Reachability.h"
 #import "LCProgressHUD.h"
 #import "AppDelegate.h"
+#import "Reachability.h"
 #import "Util.h"
 #import "MySingleton.h"
 #import "SPUserDefaultsManger.h"
@@ -65,8 +65,7 @@
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
 #import "DataManager.h"
-#import "LavionInterface.h"
-#import "MacManager.h"
+#import "RequestNetWork.h"
 #import "DataManager+User.h"
 
 #endif

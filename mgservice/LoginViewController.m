@@ -8,9 +8,7 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController ()<DataInterfaceDelegate,UIAlertViewDelegate>
-
-@property (nonatomic, retain)LavionInterface *netWorkRequest;
+@interface LoginViewController ()<RequestNetWorkDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 
@@ -19,6 +17,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *account; // 账号
 
 @property (weak, nonatomic) IBOutlet UITextField *passWord; // 密码
+
+@property (nonatomic,strong) NSURLSessionTask * task1;
+
+@property (nonatomic,strong) NSURLSessionTask * task2;
+
+@property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
 
@@ -32,6 +36,8 @@
 {
     [super viewDidLoad];
     
+    [[RequestNetWork defaultManager]registerDelegate:self];
+    
     _isLogin = NO;
     
     self.qrcodeView.layer.shadowOffset = CGSizeMake(0, 2);
@@ -43,6 +49,16 @@
     self.loginButton.layer.cornerRadius = 4.0f;
     
     [self accessSserverTime];
+    
+}
+
+- (void)dealloc {
+    if(self.hud){
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -56,25 +72,14 @@
 }
 
 #pragma mark - 网络请求
-// 初始化网络请求
-- (LavionInterface *)netWorkRequest
-{
-    if (_netWorkRequest == nil)
-    {
-        _netWorkRequest = [[LavionInterface alloc] init];
-        _netWorkRequest.delegate = self;
-    }
-    return _netWorkRequest;
-}
 
 // 获取服务器时间
 - (void)accessSserverTime
 {
-    [self.netWorkRequest getContent:nil
-                          withUrlId:@URI_MESSAGE_BASETIME
-                       withUrlRhead:@REQUEST_HEAD_NORMAL
-                         withByUser:YES
-                            withPUD:DefaultPUDType];
+    self.task1 = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_SCREAT
+                                                          webURL:@URI_MESSAGE_BASETIME
+                                                          params:nil
+                                                      withByUser:YES];
 }
 
 // 服务员状态查询 是否登陆成功
@@ -84,23 +89,39 @@
     DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
     if (witerInfo == nil)
         return;
-    
+    NSLog(@"%@",witerInfo);
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": witerInfo.deviceId,@"deviceToken":witerInfo.deviceToken}];
+                                   @{@"diviceId": @"12:34:02:00:00:33",@"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
     
-    [self.netWorkRequest getContent:params
-                          withUrlId:@URI_WAITER_CHECKSTATUS
-                       withUrlRhead:@REQUEST_HEAD_NORMAL
-                         withByUser:YES
-                            withPUD:DefaultPUDType];
+    self.task2 = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                          webURL:@URI_WAITER_CHECKSTATUS
+                                                          params:params
+                                                      withByUser:YES];
 }
 
-- (void)pushResponseResultsFinished:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
+- (void)startRequest:(YWNetWork *)manager {
+    if (!self.hud) {
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }else{
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate.window addSubview:_hud];
+    [_hud startWMProgress];
+}
+
+- (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
     // 获取服务器时间
-    if ([ident isEqualToString:@URI_MESSAGE_BASETIME])
+    if (task == self.task1)
     {
-        NSString *serverTime = datas[0];
+        NSDictionary *serverTime = datas[0];
         DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
         witerInfo.deviceId = @"12:34:02:00:00:33";
         witerInfo.deviceToken = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
@@ -111,7 +132,7 @@
         
         _isLogin = YES;
     }
-    else if ([ident isEqualToString:@URI_WAITER_CHECKSTATUS])
+    else if (task == self.task2)
     {
         DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
         witerInfo.isLogin = @"1";
@@ -119,9 +140,10 @@
     }
 }
 
-- (void)pushResponseResultsFailed:(NSString *)ident responseCode:(NSString *)code withMessage:(NSString *)msg
+- (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
 }
 
 #pragma mark - 生成二维码
