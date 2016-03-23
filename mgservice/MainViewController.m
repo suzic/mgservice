@@ -15,6 +15,7 @@
 #define kPause @"pause"
 #define kStart @"start"
 #define kIswork @"iswork"
+#define KIsWorkState @"isWorkState"
 
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,DataInterfaceDelegate>
 
@@ -26,52 +27,65 @@
 @property (weak, nonatomic) IBOutlet UILabel *countdownLabel; // 显示倒计时文本
 @property (weak, nonatomic) IBOutlet UILabel *waiterName; // 服务员姓名
 @property (weak, nonatomic) IBOutlet UILabel *waiterCurrentArea; // 当值区域
+@property (nonatomic,strong) NSString * strTime;
+@property (nonatomic,strong) NSString * strinter;
+
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (nonatomic, retain)LavionInterface *netWorkRequest;
+
 
 @end
 
 @implementation MainViewController
 {
     CGFloat lastScrollOffsetY;
-    BOOL direction;
+//    BOOL direction;
     
     //  定时器
     CADisplayLink *_timer;
-    NSInteger _second;
+//    NSInteger _second;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    direction = NO;
+    _direction = NO;
     lastScrollOffsetY = 0;
     self.selectedIndex = 0;
     self.statusButton.layer.cornerRadius = 40.0f;
     self.acceptButton.layer.cornerRadius = 4.0f;
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
-
+//    [self performSegueWithIdentifier:@"showLogin" sender:self];
     [self setupDemoData];
     
     _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
     _second = 0;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-    
-    NSDate *date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
-    if (date)
-    {
-        _second = labs((NSInteger)([date timeIntervalSinceNow]) * 60);
-    }
-    
-    if ([SPUserDefaultsManger getValue:@"background"] && [SPUserDefaultsManger getBool:kPause])
+    self.countdownLabel.font = [UIFont fontWithName:@"Verdana" size:34];
+    NSLog(@"----%@",[SPUserDefaultsManger getValue:@"background"]);
+    //从沙盒获取工作状态
+    if ([SPUserDefaultsManger getBool:KIsWorkState] ==0)
     {
         _timer.paused = NO;
+        _direction = YES;
+        [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
+        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
+        if (date) {
+            _second = labs((NSInteger)[date timeIntervalSinceNow] *60);
+        }
     }
     else
     {
+        _direction = NO;
+        [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
+        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kPause];
+        self.strTime = [NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:kPause]];
+        if (date) {
+            _second = self.strTime.integerValue;
+            self.countdownLabel.text = [self calculate:_second];
+        }
         _timer.paused = YES;
     }
 }
@@ -170,22 +184,55 @@
 // 工作状态切换按钮
 - (IBAction)workingStatus:(UIButton *)sender
 {
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if ([witerInfo.attendanceState isEqualToString:@"0"])
-    {
+    if (_direction == NO) {
         _timer.paused = NO;
+        _direction = YES;
+        [sender setTitle:@"暂停" forState:UIControlStateNormal];
+        //将工作状态保存起来
+        [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
         NSDate *date = [NSDate date];
-        [SPUserDefaultsManger setValue:date forKey:kStart];
-        // 修改当前状态为上班
-        [self reloadWorkStatUs:@"1"];
-    }
-    else if([witerInfo.attendanceState isEqualToString:@"1"])
-    {
+        
+        //如果第一次运行，将当前日期存入
+        if (![SPUserDefaultsManger getValue:kStart]) {
+            [SPUserDefaultsManger setValue:date forKey:kStart];
+        }
+//        [self reloadWorkStatUs:@"1"];
+    }else{
         _timer.paused = YES;
-        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
-        // 修改当前状态为下班
-        [self reloadWorkStatUs:@"0"];
+        _direction = NO;
+        [sender setTitle:@"开始" forState:UIControlStateNormal];
+        //将工作状态保存起来
+        [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
+
+        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",_second] forKey:kPause];
+        
+        NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
+        NSLog(@"ffffff....%f",([da timeIntervalSinceNow])*60);
+        NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
+        NSLog(@"dddddd...%ld",inte);
+        NSLog(@"哈哈%@",[self calculate:inte]);
+        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",inte] forKey:@"abc"];
+        
+//        [self reloadWorkStatUs:@"0"];
     }
+    
+//    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
+//    NSLog(@"%@",witerInfo.attendanceState);
+//    if ([witerInfo.attendanceState isEqualToString:@"0"])
+//    {
+//        _timer.paused = YES;
+//        NSDate *date = [NSDate date];
+//        [SPUserDefaultsManger setValue:date forKey:kStart];
+//        //修改当前状态为上班
+//        [self reloadWorkStatUs:@"1"];
+//    }
+//    else if([witerInfo.attendanceState isEqualToString:@"1"])
+//    {
+//        _timer.paused = NO;
+//        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
+//        // 修改当前状态为下班
+//        [self reloadWorkStatUs:@"0"];
+//    }
 }
 
 - (IBAction)logout:(id)sender
@@ -309,10 +356,19 @@
     if (alertView.tag == ALERT_OFFWORK && buttonIndex == 1)
     {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
+        [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
         _timer.paused = YES;
+        //下班 _direction = NO；是为了下次进入的时候还是下班状态
+        _direction = NO;
         _second = 0;
         self.countdownLabel.text = [self calculate:_second];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kStart];
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPause];
+//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"abc"];
+        [SPUserDefaultsManger deleteforKey:kPause];
+        [SPUserDefaultsManger deleteforKey:@"abc"];
         DataManager* dataManager = [DataManager defaultInstance];
+        [SPUserDefaultsManger setBool:1 forKey:@"isWorkState"];
         DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
         witerInfo.isLogin = @"2";
         //存储数据

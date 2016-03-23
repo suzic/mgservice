@@ -8,9 +8,10 @@
 
 #import "AppDelegate.h"
 #import "SPUserDefaultsManger.h"
+#import "MainViewController.h"
 
 @interface AppDelegate ()
-
+@property (assign ,nonatomic) bool startBool;
 @end
 
 @implementation AppDelegate
@@ -32,13 +33,31 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // 退出后保存当前上班计时的时间
-    [SPUserDefaultsManger setValue:[NSDate date] forKey:@"background"];
+    //home键时，执行此代理
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    //home键时，执行此代理，以下代码为了当按home键时，定时器可以继续执行。
+    UIApplication*   app = [UIApplication sharedApplication];
+    __block    UIBackgroundTaskIdentifier bgTask;
+    bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (bgTask != UIBackgroundTaskInvalid)
+            {
+                bgTask = UIBackgroundTaskInvalid;
+            }
+        });
+    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (bgTask != UIBackgroundTaskInvalid)
+            {
+                bgTask = UIBackgroundTaskInvalid;
+            }
+        });
+    });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -48,11 +67,19 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
-
+//应用程序被终止时，执行此代理方法
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
+    
     [self saveContext];
+    
+    //在杀死程序时，保存一下当前是开始还是暂停状态
+    [SPUserDefaultsManger setBool:[SPUserDefaultsManger getBool:@"isWorkState"] forKey:@"isWorkState"];
+
+    //杀死程序时，获取点击“开始”按钮时保存的那个date，并保存，为了重新进入APP后，用这个时间去做比对
+    NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:@"start"];
+    [SPUserDefaultsManger setValue:da forKey:@"abc"];
 }
 
 #pragma mark - Core Data stack

@@ -21,7 +21,11 @@
     
     return [defaults objectForKey:key];
 }
-
++ (void)deleteforKey:(NSString *)key
+{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:key];
+}
 
 + (void)setValue:(NSObject *)value forKey:(NSString *)key
 {

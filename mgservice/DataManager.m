@@ -143,7 +143,7 @@ static NSString *const CoreDataModelFileName = @"mgservice";
         }
         else
         {
-            NSLog(@"数据存储成功");
+            NSLog(@"数据存储成功了");
         }
 
     }

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
-
+@property (assign, nonatomic) BOOL direction;
+@property (assign,nonatomic) NSInteger second;
 @end

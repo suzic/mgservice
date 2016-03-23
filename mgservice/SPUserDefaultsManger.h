@@ -24,7 +24,7 @@
  */
 + (void)setValue:(NSObject *)value forKey:(NSString *)key;
 
-
++ (void)deleteforKey:(NSString *)key;
 /**
  *  将BOOL 存入UserDefault
  *
