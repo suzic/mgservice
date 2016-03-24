@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ChatCell.h"
 @interface InTaskController : UIViewController
 
 @end

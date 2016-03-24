@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HDG-CT-Cef">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HDG-CT-Cef">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -254,17 +254,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="worldlayer" translatesAutoresizingMaskIntoConstraints="NO" id="0g0-qV-a7s">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="izi-6X-cvc">
-                                <rect key="frame" x="231" y="304" width="30" height="30"/>
-                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="aKP-B5-AnM"/>
-                                    <constraint firstAttribute="width" constant="30" id="aSX-C4-Uos"/>
-                                </constraints>
-                                <state key="normal" title="I">
-                                    <color key="titleColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1d-KG-tYX">
                                 <rect key="frame" x="323" y="261" width="30" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -273,6 +262,17 @@
                                     <constraint firstAttribute="width" constant="30" id="iT2-4g-byP"/>
                                 </constraints>
                                 <state key="normal" title="U">
+                                    <color key="titleColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="izi-6X-cvc">
+                                <rect key="frame" x="231" y="304" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="aKP-B5-AnM"/>
+                                    <constraint firstAttribute="width" constant="30" id="aSX-C4-Uos"/>
+                                </constraints>
+                                <state key="normal" title="I">
                                     <color key="titleColor" red="1" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
@@ -295,26 +295,17 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="3Eh-rD-yIx"/>
                                                 </constraints>
-                                                <state key="normal" title="send"/>
+                                                <state key="normal" title="发送"/>
                                                 <connections>
                                                     <action selector="sendChat:" destination="R0c-wX-lBE" eventType="touchUpInside" id="02T-h5-NRf"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ug6-rP-mV1">
-                                                <rect key="frame" x="515" y="6" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="9bn-f4-Wmn"/>
-                                                </constraints>
-                                                <state key="normal" title="＋"/>
-                                            </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.97579711675643921" green="0.10031392425298691" blue="0.33385449647903442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="ySF-J1-hSS" firstAttribute="centerY" secondItem="Riu-QU-kIt" secondAttribute="centerY" id="7hG-3u-MCf"/>
-                                            <constraint firstItem="ug6-rP-mV1" firstAttribute="baseline" secondItem="ySF-J1-hSS" secondAttribute="baseline" id="C3K-cH-oQJ"/>
                                             <constraint firstItem="zrM-Pr-dX4" firstAttribute="centerY" secondItem="Riu-QU-kIt" secondAttribute="centerY" id="CXX-Fh-847"/>
                                             <constraint firstAttribute="trailing" secondItem="zrM-Pr-dX4" secondAttribute="trailing" constant="5" id="Cm4-cV-FG4"/>
-                                            <constraint firstItem="ug6-rP-mV1" firstAttribute="trailing" secondItem="ySF-J1-hSS" secondAttribute="trailing" id="DvB-FJ-yP6"/>
                                             <constraint firstItem="ySF-J1-hSS" firstAttribute="leading" secondItem="Riu-QU-kIt" secondAttribute="leading" constant="10" id="FzP-IL-gg7"/>
                                             <constraint firstItem="zrM-Pr-dX4" firstAttribute="leading" secondItem="ySF-J1-hSS" secondAttribute="trailing" id="IhI-wf-vbi"/>
                                             <constraint firstAttribute="height" constant="44" id="ymQ-mz-l14"/>
@@ -338,18 +329,45 @@
                                             <action selector="tapHistory:" destination="R0c-wX-lBE" eventType="touchUpInside" id="8PN-gl-Paw"/>
                                         </connections>
                                     </button>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFn-RO-fgh">
+                                        <rect key="frame" x="0.0" y="70" width="600" height="422"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="chatCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" id="rEc-ck-tsz" customClass="ChatCell">
+                                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rEc-ck-tsz" id="5gL-cF-Bha">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="测试数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdD-Ll-auu" userLabel="测试数据">
+                                                            <rect key="frame" x="49" y="11" width="76" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                                <color key="backgroundColor" red="0.10306143015623093" green="0.99188059568405151" blue="0.16532608866691589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.89655172413793105" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="BzR-3T-T0Z"/>
+                                    <constraint firstAttribute="bottom" secondItem="vFn-RO-fgh" secondAttribute="bottom" constant="44" id="E7m-wu-Ara"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="KhF-YH-EfZ"/>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="Pcu-fb-mbn"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="WiF-YC-Vl1"/>
+                                    <constraint firstAttribute="trailing" secondItem="vFn-RO-fgh" secondAttribute="trailing" id="a5h-od-NTQ"/>
                                     <constraint firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" constant="10" id="col-aI-pVI"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" id="eL3-LF-DyG"/>
                                     <constraint firstAttribute="bottom" secondItem="Riu-QU-kIt" secondAttribute="bottom" id="fzz-v2-SV6"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="baseline" secondItem="S7V-au-laN" secondAttribute="baseline" id="g6n-gh-KMy"/>
+                                    <constraint firstItem="vFn-RO-fgh" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" constant="70" id="hee-1M-Pmf"/>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="top" secondItem="LbJ-sI-KOI" secondAttribute="bottom" id="ndu-Ab-aDU"/>
+                                    <constraint firstItem="vFn-RO-fgh" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" id="wYT-RN-Ffx"/>
                                     <constraint firstItem="S7V-au-laN" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" constant="10" id="ywP-w6-v3w"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="10" id="zmT-xO-Cfe"/>
                                 </constraints>
@@ -382,6 +400,7 @@
                         <outlet property="chatHistoryView" destination="XSh-mX-O1r" id="FWX-iI-dG6"/>
                         <outlet property="chatHistoryViewBottom" destination="8jD-Rs-e3r" id="hqL-s0-x46"/>
                         <outlet property="chatHistoryViewTop" destination="jPx-TI-BTh" id="jQD-Ea-t5k"/>
+                        <outlet property="chatTableView" destination="vFn-RO-fgh" id="fED-R6-P2H"/>
                         <outlet property="heLocation" destination="h1d-KG-tYX" id="fWe-qf-Tdw"/>
                         <outlet property="inputChat" destination="ySF-J1-hSS" id="6iW-I3-EHh"/>
                         <outlet property="myLocation" destination="izi-6X-cvc" id="LtT-Nr-Csd"/>
