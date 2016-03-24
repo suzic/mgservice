@@ -29,7 +29,8 @@
 @dynamic nay;
 @dynamic workNum;
 @dynamic workStatus;
-@dynamic isLogin;
+@dynamic password;
 @dynamic hasCallList;
+@dynamic dutyLevel;
 
 @end

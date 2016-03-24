@@ -32,6 +32,12 @@
 // 注册代理
 - (void)registerDelegate:(id<RequestNetWorkDelegate>)delegate {
     if (delegate) {
+        for (id<RequestNetWorkDelegate> delegatenet in self.delegateArray) {
+            if (delegatenet == delegate) {
+                self.delegete = delegate;
+                return;
+            }
+        }
         [self.delegateArray addObject:delegate];
         self.delegete = delegate;
     }
@@ -80,21 +86,21 @@
             }
         }
         //__weak __typeof(self) weakSelf = self;
-        NSURLSessionTask * task =  [self POSTWithSuccess:^(id responseObject,NSURLSessionTask * task) {
-            [self parseResult:responseObject urltask:task];
+        NSURLSessionTask * urltask =  [self POSTWithSuccess:^(id responseObject,NSURLSessionTask * task,NSDictionary * headers) {
+            [self parseResult:responseObject urltask:task url:(NSString *)url headers:headers];
             //NSLog(@"response = %@",responseObject);
-        } failure:^(NSError *error,NSURLSessionTask * task) {
-            [self parseResult:error urltask:task];
+        } failure:^(NSError *error,NSURLSessionTask * task,NSDictionary * headers) {
+            [self parseResult:error urltask:task url:url headers:headers];
             //NSLog(@"error = %@",error);
         }];
-        return task;
+        return urltask;
     }
 }
 
 #pragma mark - 请求结果
 // 返回结果
-- (void)parseResult:(id)responseObj urltask:(NSURLSessionTask *)task{
-    NSDictionary *header = self.responseHeaders;
+- (void)parseResult:(id)responseObj urltask:(NSURLSessionTask *)task url:(NSString *)viewURL headers:(NSDictionary *)headers{
+    NSDictionary *header = headers;
     NSString *responseCode = [header objectForKey:@"mymhotel-status"];
     NSString *responseMsg = [header objectForKey:@"mymhotel-message"];
     
@@ -103,7 +109,7 @@
     {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
             if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
-                [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:@"联网失败,请重新尝试联网"];
+                [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:responseMsg];
             }
         }
         return;
@@ -124,7 +130,7 @@
         ||[msgs[0] isEqualToString:@"ES0001"]) {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
             if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
-                [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:@"系统异常，请稍后再试"];
+                [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:msgs[1]];
             }
         }
         return;
@@ -155,7 +161,7 @@
         @try
         {
             Parser *parser = [[Parser alloc]init];
-            NSMutableArray* array = [parser parser:self.requestURL fromData:responseObj];
+            NSMutableArray* array = [parser parser:viewURL fromData:responseObj];
             // 不需要返回数据的请求
             if (array.count < 1){
                 for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {

@@ -31,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *nay;
 @property (nullable, nonatomic, retain) NSString *workNum;
 @property (nullable, nonatomic, retain) NSString *workStatus;
-@property (nullable, nonatomic, retain) NSString *isLogin;
+@property (nullable, nonatomic, retain) NSString *password;
+@property (nullable, nonatomic, retain) NSString *dutyLevel;
 @property (nullable, nonatomic, retain) NSSet<DBTaskList *> *hasCallList;
 
 @end

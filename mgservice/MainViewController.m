@@ -13,11 +13,6 @@
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
-#define kPause @"pause"
-#define kStart @"start"
-#define kIswork @"iswork"
-#define KIsWorkState @"isWorkState"
-
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
@@ -30,13 +25,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *waiterCurrentArea; // 当值区域
 @property (nonatomic,strong) NSString * strTime;
 @property (nonatomic,strong) NSString * strinter;
-@property (nonatomic,assign) NSString * selectPageNumber;
+@property (nonatomic,assign) NSInteger selectPageNumber;
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;
 @property (nonatomic, strong) NSURLSessionTask * checkIsLoginTask;
 @property (nonatomic, strong) NSURLSessionTask * requestTaskTask;
+@property (nonatomic, strong) NSURLSessionTask * reloadAttendanceStateTask;
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
@@ -51,19 +47,21 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self NETWORK_requestTask];
+    [[RequestNetWork defaultManager]registerDelegate:self];
+    if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
+        [self NETWORK_requestTask];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     [[RequestNetWork defaultManager]registerDelegate:self];
-    [self NETWORK_checkIsLogin];
-    self.selectPageNumber = 0;
+    self.selectPageNumber = 1;
     _direction = NO;
     lastScrollOffsetY = 0;
-    self.selectedIndex = 0;
+    self.selectPageNumber = 0;
     self.statusButton.layer.cornerRadius = 40.0f;
     self.acceptButton.layer.cornerRadius = 4.0f;
 
@@ -98,6 +96,7 @@
         }
         _timer.paused = YES;
     }
+    [self NETWORK_checkIsLogin];
 }
 
 #pragma mark - 定时器方法
@@ -132,45 +131,72 @@
 
 #pragma mark - 网络请求
 
-// 刷新当前上班状态
-- (void)NETWORK_reloadAttendanceState:(NSString *)attendance
+// 刷新当前上班状态(登出)
+- (void)NETWORK_waiterLogout
 {
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
-        return;
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId":  @"12:34:02:00:00:33",
-                                     @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151",
-                                     @"attendanceState":attendance}];
-    self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                          webURL:@URI_WAITER_ISWORK
+                                   @{@"workNum":waiterInfo.workNum,
+                                     @"passward":waiterInfo.password}];
+    self.reloadAttendanceStateTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                          webURL:@URI_WAITER_LOGOUT
                                                                           params:params
                                                                       withByUser:YES];
 }
 
-- (void)RESULT_reloadAttendanceState:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+- (void)RESULT_waiterLogout:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed)
     {
-        
+        if ([datas[0] isEqualToString:@"0"])
+        {
+            [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
+            _timer.paused = YES;
+            _direction = NO;
+            _second = 0;
+            self.countdownLabel.text = [self calculate:_second];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kStart];
+            [SPUserDefaultsManger deleteforKey:kPause];
+            [SPUserDefaultsManger deleteforKey:@"abc"];
+            [SPUserDefaultsManger setBool:1 forKey:@"isWorkState"];
+            [SPUserDefaultsManger setValue:@"0" forKey:kIswork];
+            DataManager* dataManager = [DataManager defaultInstance];
+            DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
+            witerInfo.attendanceState = @"0";
+            //存储数据
+            [dataManager saveContext];
+            [self performSegueWithIdentifier:@"showLogin" sender:nil];
+        }
+        else
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"下班失败" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [[RequestNetWork defaultManager]registerDelegate:self];
+            }];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }
     else
     {
-        
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"下班失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
 // 刷新当前工作状态
 - (void)NETWORK_reloadWorkStatus:(NSString *)workstate
 {
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
-        return;
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
 
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId":  @"12:34:02:00:00:33",
-                                     @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151",
+                                   @{@"diviceId":waiterInfo.deviceId,
+                                     @"deviceToken":waiterInfo.deviceToken,
                                      @"workingState":workstate}];
     self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_WORKSTATUS
@@ -182,28 +208,44 @@
 {
     if (succeed)
     {
-        
+        DBWaiterInfor * waiter = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
+        waiter.workStatus = @"1";
+        [[DataManager defaultInstance]saveContext];
     }
     else
     {
-        
+        DBWaiterInfor * waiter = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
+        waiter.workStatus = @"0";
+        [[DataManager defaultInstance]saveContext];
     }
 }
 
 // 服务员状态查询 是否登陆成功
 - (void)NETWORK_checkIsLogin
 {
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"])
+    {
+        if(self.hud)
+        {
+            [self.hud stopWMProgress];
+            [self.hud removeFromSuperview];
+        }
+        [[RequestNetWork defaultManager]cancleAllRequest];
+        [self performSegueWithIdentifier:@"showLogin" sender:nil];
         return;
+    }
+    else if([waiterInfo.attendanceState isEqualToString:@"1"])
+    {
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                       @{@"diviceId":waiterInfo.deviceId,
+                                         @"deviceToken":waiterInfo.deviceToken}];
     
-    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": @"12:34:02:00:00:33",@"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
-    
-    self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                  webURL:@URI_WAITER_CHECKSTATUS
-                                  params:params
-                              withByUser:YES];
+        self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                         webURL:@URI_WAITER_CHECKSTATUS
+                                                                         params:params
+                                                                     withByUser:YES];
+    }
 }
 
 - (void)RESULT_checkIsLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
@@ -213,7 +255,8 @@
         DBWaiterInfor * waiter = (DBWaiterInfor *)datas[0];
         if ([waiter.attendanceState isEqualToString:@"0"])
         {
-            [self performSegueWithIdentifier:@"showLogin" sender:self];
+            [self performSegueWithIdentifier:@"showLogin" sender:nil];
+            [[RequestNetWork defaultManager]registerDelegate:self];
         }
         else
         {
@@ -222,25 +265,22 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"自动登录失败请重新登录" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self performSegueWithIdentifier:@"showLogin" sender:self];
-        }];
-        [alert addAction:action];
+        [self performSegueWithIdentifier:@"showLogin" sender:nil];
+        [[RequestNetWork defaultManager]registerDelegate:self];
     }
 }
 
 // 请求任务列表
 - (void)NETWORK_requestTask
 {
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"])
         return;
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": @"12:34:02:00:00:33",
-                                     @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151",
-                                     @"pageNO":self.selectPageNumber,
+                                   @{@"diviceId": waiterInfo.deviceId,
+                                     @"deviceToken":waiterInfo.deviceToken,
+                                     @"pageNO":[NSString stringWithFormat:@"%ld",self.selectPageNumber],
                                      @"pageCount":@"20",
                                      @"taskStatus":@"2"}];
     self.requestTaskTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -306,6 +346,10 @@
     {
         [self RESULT_requestTask:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
+    else if (task == self.reloadAttendanceStateTask)
+    {
+        [self RESULT_waiterLogout:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -323,6 +367,10 @@
     else if (task == self.requestTaskTask)
     {
         [self RESULT_requestTask:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.reloadAttendanceStateTask)
+    {
+        [self RESULT_waiterLogout:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -500,24 +548,7 @@
 {
     if (alertView.tag == ALERT_OFFWORK && buttonIndex == 1)
     {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
-        [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
-        _timer.paused = YES;
-        //下班 _direction = NO；是为了下次进入的时候还是下班状态
-        _direction = NO;
-        _second = 0;
-        self.countdownLabel.text = [self calculate:_second];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kStart];
-//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPause];
-//        [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"abc"];
-        [SPUserDefaultsManger deleteforKey:kPause];
-        [SPUserDefaultsManger deleteforKey:@"abc"];
-        DataManager* dataManager = [DataManager defaultInstance];
-        [SPUserDefaultsManger setBool:1 forKey:@"isWorkState"];
-        DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-        witerInfo.isLogin = @"2";
-        //存储数据
-        [dataManager saveContext];
+        [self NETWORK_waiterLogout];
     }
 }
 

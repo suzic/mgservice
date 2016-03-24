@@ -16,11 +16,15 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *passWord; // 密码
 
+@property (nonatomic,strong) NSDictionary * loginParams;  // 登录信息
+
 @property (nonatomic,strong) NSURLSessionTask * accessServerTimeTask;
 
 @property (nonatomic,strong) NSURLSessionTask * checkIsLoginTask;
 
 @property (nonatomic,strong) NSURLSessionTask * requestLoginTask;
+
+@property (nonatomic,strong) NSURLSessionTask * waiterInfoTask;
 
 @property (nonatomic,strong) LCProgressHUD * hud;
 
@@ -41,7 +45,7 @@
     _isLogin = NO;
     self.loginButton.layer.cornerRadius = 4.0f;
     
-    [self NETWORK_accessServerTime];
+    //[self NETWORK_accessServerTime];
     
 }
 
@@ -54,15 +58,15 @@
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    
-    if ([witerInfo.isLogin isEqualToString:@"1"])
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
+//    
+//    if ([witerInfo.isLogin isEqualToString:@"1"])
+//    {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
+//}
 
 #pragma mark - 网络请求
 
@@ -79,10 +83,7 @@
 {
     if (succeed)
     {
-        DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-        witerInfo.deviceId = @"12:34:02:00:00:33";
-        witerInfo.deviceToken = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
-        _isLogin = YES;
+    
     }
     else
     {
@@ -90,16 +91,14 @@
     }
 }
 
-// 服务员状态查询 是否登陆成功
+// 服务员状态查询 是否登陆成功（弃用）
 - (void)NETWORK_checkIsLogin
 {
     
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
-        return;
-    NSLog(@"%@",witerInfo);
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": @"12:34:02:00:00:33",@"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
+                                   @{@"diviceId": waiterInfo.deviceId,
+                                     @"deviceToken":waiterInfo.deviceToken}];
     
     self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                           webURL:@URI_WAITER_CHECKSTATUS
@@ -111,7 +110,7 @@
 {
     if (succeed) {
         DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-        witerInfo.isLogin = @"1";
+        witerInfo.attendanceState = @"1";
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else
@@ -122,27 +121,88 @@
     }
 }
 
-// 登录请求
-- (void)NETWORK_requestLogin
+// 获取服务员信息
+- (void)NETWORK_waiterInfo
 {
-    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
-                                    @{@"username":self.account.text,
-                                      @"password":self.passWord.text,
-                                      @"diviceId": @"12:34:02:00:00:33",
-                                      @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
-    self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL webURL:@URI_WAITER_CHECKINFO params:params withByUser:YES];
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+//    NSLog(@"%@",waiterInfo.deviceId);
+//    NSLog(@"%@",waiterInfo.deviceToken);
+//    NSLog(@"%@",waiterInfo.workNum);
+//    NSLog(@"%@",waiterInfo.password);
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
+                                                                                   @"deviceToken":waiterInfo.deviceToken}];
+    self.waiterInfoTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                   webURL:@URI_WAITER_CHECKINFO
+                                                                   params:params
+                                                               withByUser:YES];
 }
 
-- (void)RESULT_requestLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+- (void)RESULT_waiterInfo:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
 {
-    if (succeed) {
+    if (succeed)
+    {
+        [SPUserDefaultsManger setValue:@"1" forKey:kIswork];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {
+        // 失败需要重新登录
+        [self NETWORK_requestLogin];
+    }
+}
+
+// 登录请求
+- (void)NETWORK_requestLogin
+{
+    
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
+                                    @{@"workNum":self.account.text,
+                                      @"passward":self.passWord.text,
+                                      @"diviceId":@"12:34:02:00:00:30",
+                                      @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8150"}];
+    self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                     webURL:@URI_WAITER_LOGIN
+                                                                     params:params
+                                                                 withByUser:YES];
+    self.loginParams = params;
+    
+}
+
+- (void)RESULT_requestLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        if ([datas[0] isEqualToString:@"0"])
+        {
+            //登录成功存储服务员登录信息
+            DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+            waiterInfo.workNum = _loginParams[@"workNum"];
+            waiterInfo.password = _loginParams[@"passward"];
+            waiterInfo.deviceId = _loginParams[@"diviceId"];
+            waiterInfo.deviceToken = _loginParams[@"deviceToken"];
+            [[DataManager defaultInstance]saveContext];
+            //登录成功获取服务员信息
+            [self NETWORK_waiterInfo];
+        }
+        else
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:datas[1] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [[RequestNetWork defaultManager]registerDelegate:self];
+            }];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+    else
+    {
+        NSLog(@"%@    %@",code,message);
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
         [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -172,7 +232,7 @@
 {
     [self.hud stopWMProgress];
     [self.hud removeFromSuperview];
-    // 获取服务器时间
+
     if (task == self.accessServerTimeTask)
     {
         [self RESULT_accessServerTime:YES withResponseCode:code withMessage:msg withDatas:datas];
@@ -184,6 +244,10 @@
     else if (task == self.requestLoginTask)
     {
         [self RESULT_requestLogin:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    else if (task == self.waiterInfoTask)
+    {
+        [self RESULT_waiterInfo:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
 }
 
@@ -203,6 +267,10 @@
     {
         [self RESULT_requestLogin:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
+    else if (task == self.waiterInfoTask)
+    {
+        [self RESULT_waiterInfo:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
 }
 
 #pragma mark - 按钮点击方法
@@ -215,8 +283,11 @@
     if (username.length <= 0 || password.length <= 0)
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"用户名或密码不能为空" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
         [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     [self NETWORK_requestLogin];

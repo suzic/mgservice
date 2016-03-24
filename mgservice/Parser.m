@@ -36,14 +36,31 @@
     {
         datas = [self parseWaiterIsWork:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_LOGIN])  // 服务员登录
+    {
+        datas = [self parseWaiterLogin:dict];
+    }
+    else if ([ident isEqualToString:@URI_WAITER_LOGOUT])  // 服务员登出
+    {
+        datas = [self parseWaiterLogout:dict];
+    }
+    else if ([ident isEqualToString:@URI_WAITER_CHECKINFO])  // 获取服务员信息
+    {
+        datas = [self parseWaiterInfoSelect:dict];
+    }
+    else if ([ident isEqualToString:@URI_WAITER_GETSERVICELIST])
+    {
+        datas = [self parSeserviceRequestList:dict];
+    }
     //存储数据
     [dataManager saveContext];
+    NSLog(@"%@",[dataManager getWaiterInfor].attendanceState);
     return datas;
 }
 
 #pragma mark - 时间获取
 // 获取后台时间
-- (NSMutableArray *)parseAllMessageTimeData:(NSData *)dict
+- (NSMutableArray *)parseAllMessageTimeData:(id)dict
 {
     NSMutableArray *array = [NSMutableArray array];
     NSDictionary *dic = (NSDictionary *)dict;
@@ -55,15 +72,15 @@
 
 #pragma mark - 服务员状态获取
 // 获取服务员状态
-- (NSMutableArray *)parseWaiterinfo:(NSData *)dict
+- (NSMutableArray *)parseWaiterinfo:(id)dict
 {
     NSMutableArray *array = [NSMutableArray array];
     NSDictionary *dic = (NSDictionary *)dict;
     
-    DBWaiterInfor *waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] insertIntoCoreData:@"DBWaiterInfor"];
+    DBWaiterInfor *waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] getWaiterInfor];
 
     waiterInfo.workStatus = dic[@"workingState"];
-    waiterInfo.attendanceState = dic[@"workingState"];
+    waiterInfo.attendanceState = dic[@"attendanceState"];
     
     [array addObject:waiterInfo];
     
@@ -72,16 +89,82 @@
 
 #pragma mark - 服务员状态设置
 // 设置服务员上下班状态
-- (NSMutableArray *)parseWaiterIsWork:(NSData *)dict
+- (NSMutableArray *)parseWaiterIsWork:(id)dict
 {
     NSMutableArray *array = [NSMutableArray array];
     NSDictionary *dic = (NSDictionary *)dict;
     
-    DBWaiterInfor *waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] insertIntoCoreData:@"DBWaiterInfor"];
+    DBWaiterInfor *waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] getWaiterInfor];
     
     waiterInfo.attendanceState = dic[@"attendanceState"];
     
+    [array addObject:dic[@"retOk"]];
+    
     [array addObject:waiterInfo];
+    
+    return array;
+}
+
+#pragma mark - 服务员登录
+// 服务员登录
+- (NSMutableArray *)parseWaiterLogin:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+   
+    [array addObject:dic[@"retOk"]];
+    [array addObject:dic[@"message"]];
+    
+    return array;
+}
+
+#pragma mark - 服务员登出
+// 服务员登出
+- (NSMutableArray *)parseWaiterLogout:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    
+    [array addObject:dic[@"retOk"]];
+    [array addObject:dic[@"message"]];
+    
+    return array;
+}
+
+#pragma mark - 服务员信息查询
+// 服务员信息查询
+- (NSMutableArray *)parseWaiterInfoSelect:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    
+    DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
+    waiterInfo.workNum = dic[@"workNum"];
+    waiterInfo.hotelCode = dic[@"hotelCode"];
+    waiterInfo.deviceId = dic[@"deviceId"];
+    waiterInfo.deviceToken = dic[@"deviceToken"];
+    waiterInfo.name = dic[@"name"];
+    waiterInfo.gender = dic[@"gender"];
+    waiterInfo.birth = dic[@"birth"];
+    waiterInfo.nay = dic[@"nav"];
+    waiterInfo.idNo = dic[@"idNo"];
+    waiterInfo.dutyin = dic[@"dutyIn"];
+    waiterInfo.dutyout = dic[@"dutyOut"];
+    waiterInfo.dutyLevel = dic[@"dutyLevel"];
+    waiterInfo.workStatus = dic[@"workingState"];
+    waiterInfo.attendanceState = dic[@"attendanceState"];
+    waiterInfo.currentLocation = dic[@"currentLocation"];
+    waiterInfo.currentArea = dic[@"currentArea"];
+    waiterInfo.incharge = dic[@"incharge"];
+    
+    return array;
+}
+
+- (NSMutableArray *)parSeserviceRequestList:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    NSLog(@"%@",dic);
     
     return array;
 }

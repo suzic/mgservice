@@ -31,9 +31,17 @@
     DBWaiterInfor *waiterInfo = nil;
     NSArray *result = [self arrayFromCoreData:@"DBWaiterInfor" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count<= 0 || result == nil)
+    {
         waiterInfo = (DBWaiterInfor *)[self insertIntoCoreData:@"DBWaiterInfor"];
+        [[DataManager defaultInstance]saveContext];
+        return nil;
+    }
     else
+    {
         waiterInfo = result[0];
+    }
+    NSLog(@"上下班状态%@",waiterInfo.attendanceState);
+    
     return waiterInfo;
 }
 

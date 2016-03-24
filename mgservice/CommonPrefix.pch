@@ -18,8 +18,19 @@
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)
 #define kScreenWidth    ([UIScreen mainScreen].bounds.size.width)
 
+#define kPause @"pause"
+#define kStart @"start"
+#define kIswork @"iswork"
+#define KIsWorkState @"isWorkState"
+
 #define REQUEST_HEAD_NORMAL "http://"
 #define REQUEST_HEAD_SCREAT "https://"
+
+// 服务员登录
+#define URI_WAITER_LOGIN                      "/hotelservice/manage/waiter/login.json"
+
+// 服务员注销登录(下班)
+#define URI_WAITER_LOGOUT                     "/hotelservice/manage/waiter/logout.json"
 
 // 服务员上下班状态设置
 #define URI_WAITER_ISWORK                     "/hotelservice/manage/waiter/setting_attendance.json"

@@ -42,29 +42,28 @@ static NSDictionary * _headers;
 - (NSURLSessionTask *)POSTWithSuccess:(YiWuResponseSuccess)success failure:(YiWuResponseFailure)failure {
     
     AFHTTPSessionManager * manager = [self manager];
-    __weak __typeof(self) weakSelf = self;
-    weakSelf.url = [NSString stringWithFormat:@"%@%@%@",_topHead,_serverAddress,_requestURL];
-    NSURLSessionTask * urltask = [manager POST:weakSelf.url
-                                 parameters:weakSelf.params
+    //__weak __typeof(self) weakSelf = self;
+    self.url = [NSString stringWithFormat:@"%@%@%@",_topHead,_serverAddress,_requestURL];
+    NSURLSessionTask * urltask = [manager POST:self.url
+                                 parameters:self.params
                                    progress:nil
                                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-            weakSelf.responseHeaders = response.allHeaderFields;
-            success(responseObject,task);
+            //NSLog(@"responseHeader = %@",response.allHeaderFields);
+            success(responseObject,task,response.allHeaderFields);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-        weakSelf.responseHeaders = response.allHeaderFields;
         if (failure) {
-            failure(error,task);
+            //NSLog(@"responseHeader = %@",response.allHeaderFields);
+            failure(error,task,response.allHeaderFields);
         }
     }];
 //    NSLog(@"urltask = %@",urltask);
-//    NSLog(@"url = %@",weakSelf.url);
-//    NSLog(@"params = %@",weakSelf.params);
+//    NSLog(@"url = %@",self.url);
+//    NSLog(@"params = %@",self.params);
 //    NSLog(@"header = %@",_headers);
-//    NSLog(@"responseHeader = %@",weakSelf.responseHeaders);
     return urltask;
 }
 
