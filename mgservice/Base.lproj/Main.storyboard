@@ -282,14 +282,6 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Riu-QU-kIt" userLabel="ChatSend">
                                         <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入您的问题发送给客人" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ySF-J1-hSS">
-                                                <rect key="frame" x="10" y="7" width="535" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
-                                                <connections>
-                                                    <outlet property="delegate" destination="R0c-wX-lBE" id="C8D-0U-hKx"/>
-                                                </connections>
-                                            </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrM-Pr-dX4">
                                                 <rect key="frame" x="545" y="7" width="50" height="30"/>
                                                 <constraints>
@@ -300,14 +292,24 @@
                                                     <action selector="sendChat:" destination="R0c-wX-lBE" eventType="touchUpInside" id="02T-h5-NRf"/>
                                                 </connections>
                                             </button>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Wke-KW-2MU">
+                                                <rect key="frame" x="10" y="5" width="535" height="34"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="R0c-wX-lBE" id="enG-Rm-hzV"/>
+                                                </connections>
+                                            </textView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.97579711675643921" green="0.10031392425298691" blue="0.33385449647903442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="ySF-J1-hSS" firstAttribute="centerY" secondItem="Riu-QU-kIt" secondAttribute="centerY" id="7hG-3u-MCf"/>
+                                            <constraint firstItem="Wke-KW-2MU" firstAttribute="trailing" secondItem="zrM-Pr-dX4" secondAttribute="trailing" constant="-50" id="4QX-t5-CO9"/>
                                             <constraint firstItem="zrM-Pr-dX4" firstAttribute="centerY" secondItem="Riu-QU-kIt" secondAttribute="centerY" id="CXX-Fh-847"/>
                                             <constraint firstAttribute="trailing" secondItem="zrM-Pr-dX4" secondAttribute="trailing" constant="5" id="Cm4-cV-FG4"/>
-                                            <constraint firstItem="ySF-J1-hSS" firstAttribute="leading" secondItem="Riu-QU-kIt" secondAttribute="leading" constant="10" id="FzP-IL-gg7"/>
-                                            <constraint firstItem="zrM-Pr-dX4" firstAttribute="leading" secondItem="ySF-J1-hSS" secondAttribute="trailing" id="IhI-wf-vbi"/>
+                                            <constraint firstItem="Wke-KW-2MU" firstAttribute="top" secondItem="Riu-QU-kIt" secondAttribute="top" constant="5" id="PCu-6n-Jrg"/>
+                                            <constraint firstAttribute="bottom" secondItem="Wke-KW-2MU" secondAttribute="bottom" constant="5" id="q1Q-FI-sT1"/>
+                                            <constraint firstItem="Wke-KW-2MU" firstAttribute="leading" secondItem="Riu-QU-kIt" secondAttribute="leading" constant="10" id="spb-Pd-4Xy"/>
                                             <constraint firstAttribute="height" constant="44" id="ymQ-mz-l14"/>
                                         </constraints>
                                     </view>
@@ -330,7 +332,7 @@
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFn-RO-fgh">
-                                        <rect key="frame" x="0.0" y="70" width="600" height="422"/>
+                                        <rect key="frame" x="0.0" y="70" width="600" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="chatCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" id="rEc-ck-tsz" customClass="ChatCell">
@@ -343,7 +345,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="测试数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdD-Ll-auu" userLabel="测试数据">
                                                             <rect key="frame" x="49" y="11" width="76" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -356,7 +358,7 @@
                                 <color key="backgroundColor" white="1" alpha="0.89655172413793105" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="BzR-3T-T0Z"/>
-                                    <constraint firstAttribute="bottom" secondItem="vFn-RO-fgh" secondAttribute="bottom" constant="44" id="E7m-wu-Ara"/>
+                                    <constraint firstAttribute="bottom" secondItem="vFn-RO-fgh" secondAttribute="bottom" constant="266" id="E7m-wu-Ara"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="KhF-YH-EfZ"/>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="Pcu-fb-mbn"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="WiF-YC-Vl1"/>
@@ -397,12 +399,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomViewHeight" destination="ymQ-mz-l14" id="dc4-hp-Vfn"/>
                         <outlet property="chatHistoryView" destination="XSh-mX-O1r" id="FWX-iI-dG6"/>
                         <outlet property="chatHistoryViewBottom" destination="8jD-Rs-e3r" id="hqL-s0-x46"/>
                         <outlet property="chatHistoryViewTop" destination="jPx-TI-BTh" id="jQD-Ea-t5k"/>
                         <outlet property="chatTableView" destination="vFn-RO-fgh" id="fED-R6-P2H"/>
                         <outlet property="heLocation" destination="h1d-KG-tYX" id="fWe-qf-Tdw"/>
-                        <outlet property="inputChat" destination="ySF-J1-hSS" id="6iW-I3-EHh"/>
                         <outlet property="myLocation" destination="izi-6X-cvc" id="LtT-Nr-Csd"/>
                         <outlet property="showMap" destination="KRT-ii-tj8" id="a9h-73-ys8"/>
                     </connections>

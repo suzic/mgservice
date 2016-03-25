@@ -8,7 +8,7 @@
 
 #import "InTaskController.h"
 
-@interface InTaskController () <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface InTaskController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 
@@ -17,7 +17,6 @@
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
-@property (strong, nonatomic) IBOutlet UITextField *inputChat;//输入聊天
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
@@ -29,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.bottomViewHeight.constant = 40;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
     self.myLocation.layer.cornerRadius = 15.0f;
@@ -41,6 +40,8 @@
     self.chatHistoryViewBottom.constant = 60 - self.view.frame.size.height;
     self.chatHistoryView.backgroundColor = [UIColor grayColor];
     self.showTalk = NO;
+    //发送通知，计算键盘高度
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -81,7 +82,7 @@
         self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
         self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
         if (showTalk == NO){
-            [self.inputChat resignFirstResponder];
+//            [self.inputChat resignFirstResponder];
         }
     }];
 }
@@ -90,9 +91,9 @@
 - (IBAction)tapHistory:(id)sender
 {
     NSLog(@"按钮");
-    if ([self.inputChat isFirstResponder])
-        [self.inputChat resignFirstResponder];
-    else if (self.showTalk == NO)
+//    if ([self.inputChat isFirstResponder])
+//        [self.inputChat resignFirstResponder];
+//    else if (self.showTalk == NO)
         self.showTalk = YES;
 }
 
@@ -140,5 +141,25 @@
 {
 //    [self.inputChat resignFirstResponder];
     return YES;
+}
+
+//textView代理
+- (void)textViewDidChange:(UITextView *)textView
+{
+    CGSize textMaxSize = CGSizeMake(self.view.frame.size.width - 20,MAXFLOAT);
+    CGSize textSize = [textView.text sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
+    self.bottomViewHeight.constant = textSize.height +20;
+}
+//接收通知，计算键盘高度
+- (void)keyboardWillChange:(NSNotification *)note
+{
+    NSDictionary *userInfo = note.userInfo;
+    CGFloat duration = [userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] doubleValue];
+    
+    CGRect keyFrame = [userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    CGFloat moveY = keyFrame.origin.y - self.view.frame.size.height;
+    [UIView animateWithDuration:duration animations:^{
+        self.view.transform = CGAffineTransformMakeTranslation(0, moveY);
+    }];
 }
 @end

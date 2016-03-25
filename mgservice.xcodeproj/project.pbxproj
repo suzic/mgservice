@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
+		9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C64A9BA1CA3E85B001DE397 /* ChatCell.m */; };
+		9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */; };
 		D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01231C5B0A9300D242B1 /* FinishedController.m */; };
 		D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */; };
 		D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01291C5B136500D242B1 /* MenuItemCell.m */; };
@@ -59,6 +61,10 @@
 /* Begin PBXFileReference section */
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		9C64A9B91CA3E85B001DE397 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		9C64A9BA1CA3E85B001DE397 /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
+		9CBB00791CA537E900AA5C03 /* NSString+Addtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addtions.h"; sourceTree = "<group>"; };
+		9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addtions.m"; sourceTree = "<group>"; };
 		D06C01221C5B0A9300D242B1 /* FinishedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedController.h; sourceTree = "<group>"; };
 		D06C01231C5B0A9300D242B1 /* FinishedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishedController.m; sourceTree = "<group>"; };
 		D06C01251C5B0CB300D242B1 /* FinishTaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishTaskCell.h; sourceTree = "<group>"; };
@@ -182,6 +188,10 @@
 			children = (
 				D0CC733D1C59EB0F00314355 /* TaskCell.h */,
 				D0CC733E1C59EB0F00314355 /* TaskCell.m */,
+				9C64A9B91CA3E85B001DE397 /* ChatCell.h */,
+				9C64A9BA1CA3E85B001DE397 /* ChatCell.m */,
+				9CBB00791CA537E900AA5C03 /* NSString+Addtions.h */,
+				9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */,
 				D0CC73431C5A02DA00314355 /* InTaskController.h */,
 				D0CC73441C5A02DA00314355 /* InTaskController.m */,
 			);
@@ -445,6 +455,7 @@
 				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
 				FC1922791CA0D44000A941AE /* AFURLSessionManager.m in Sources */,
 				FC1922741CA0D44000A941AE /* AFHTTPSessionManager.m in Sources */,
+				9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				F8234FC71C7AED88006A60FA /* DataManager+User.m in Sources */,
 				D0CC73111C59B8E000314355 /* main.m in Sources */,
@@ -471,6 +482,7 @@
 				F84362201C7C626B00320DE2 /* DBMessage+CoreDataProperties.m in Sources */,
 				FC1922761CA0D44000A941AE /* AFSecurityPolicy.m in Sources */,
 				D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */,
+				9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
