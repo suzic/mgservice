@@ -32,9 +32,6 @@
 
 @implementation LoginViewController
 
-{
-    BOOL _isLogin;
-}
 
 - (void)viewDidLoad
 {
@@ -42,7 +39,6 @@
     
     [[RequestNetWork defaultManager]registerDelegate:self];
     
-    _isLogin = NO;
     self.loginButton.layer.cornerRadius = 4.0f;
     
     //[self NETWORK_accessServerTime];
@@ -141,7 +137,6 @@
 {
     if (succeed)
     {
-        [SPUserDefaultsManger setValue:@"1" forKey:kIswork];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else

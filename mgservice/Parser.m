@@ -52,9 +52,16 @@
     {
         datas = [self parSeserviceRequestList:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_RUSHTASK])
+    {
+        datas = [self parseWaiterGetIndent:dict];
+    }
+    else if ([ident isEqualToString:@URI_WAITER_FINISHTASK])
+    {
+        datas = [self parseWaiterFinishTask:dict];
+    }
     //存储数据
     [dataManager saveContext];
-    NSLog(@"%@",[dataManager getWaiterInfor].attendanceState);
     return datas;
 }
 
@@ -139,33 +146,109 @@
     NSDictionary * dic = (NSDictionary *)dict;
     
     DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
-    waiterInfo.workNum = dic[@"workNum"];
-    waiterInfo.hotelCode = dic[@"hotelCode"];
-    waiterInfo.deviceId = dic[@"deviceId"];
-    waiterInfo.deviceToken = dic[@"deviceToken"];
-    waiterInfo.name = dic[@"name"];
-    waiterInfo.gender = dic[@"gender"];
-    waiterInfo.birth = dic[@"birth"];
-    waiterInfo.nay = dic[@"nav"];
-    waiterInfo.idNo = dic[@"idNo"];
-    waiterInfo.dutyin = dic[@"dutyIn"];
-    waiterInfo.dutyout = dic[@"dutyOut"];
-    waiterInfo.dutyLevel = dic[@"dutyLevel"];
-    waiterInfo.workStatus = dic[@"workingState"];
-    waiterInfo.attendanceState = dic[@"attendanceState"];
-    waiterInfo.currentLocation = dic[@"currentLocation"];
-    waiterInfo.currentArea = dic[@"currentArea"];
-    waiterInfo.incharge = dic[@"incharge"];
+    waiterInfo.workNum =            dic[@"workNum"];
+    waiterInfo.hotelCode =          dic[@"hotelCode"];
+    waiterInfo.deviceId =           dic[@"deviceId"];
+    waiterInfo.deviceToken =        dic[@"deviceToken"];
+    waiterInfo.name =               dic[@"name"];
+    waiterInfo.gender =             dic[@"gender"];
+    waiterInfo.birth =              dic[@"birth"];
+    waiterInfo.nay =                dic[@"nav"];
+    waiterInfo.idNo =               dic[@"idNo"];
+    waiterInfo.dutyin =             dic[@"dutyIn"];
+    waiterInfo.dutyout =            dic[@"dutyOut"];
+    waiterInfo.dutyLevel =          dic[@"dutyLevel"];
+    waiterInfo.workStatus =         dic[@"workingState"];
+    waiterInfo.attendanceState =    dic[@"attendanceState"];
+    waiterInfo.currentLocation =    dic[@"currentLocation"];
+    waiterInfo.currentArea =        dic[@"currentArea"];
+    waiterInfo.incharge =           dic[@"incharge"];
     
+    [array addObject:waiterInfo];
     return array;
 }
 
+#pragma mark - 服务员获取订单列表
+// 服务员获取订单列表
 - (NSMutableArray *)parSeserviceRequestList:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    NSLog(@"%@",dic);
+   
+    for (NSDictionary * taskDic in dic[@"list"]) {
+        DBTaskList * taskList = (DBTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBTaskList"];
+        taskList.taskCode =             taskDic[@"taskCode"];
+        taskList.userDiviceld =         taskDic[@"diviceId"];
+        taskList.userDeviceToken =      taskDic[@"deviceToken"];
+        taskList.phone =                taskDic[@"Phone"];
+        taskList.userLocation =         taskDic[@"location"];
+        taskList.userLocationDesc =     taskDic[@"locationDesc"];
+        taskList.userLocationArea =     taskDic[@"locationArea"];
+        taskList.timeLimit =            taskDic[@"timeLimit"];
+        taskList.priority =             taskDic[@"priority"];
+        taskList.patternInfo =          taskDic[@"patternInfo"];
+        taskList.category =             taskDic[@"category"];
+        taskList.userMessageInfo =      taskDic[@"messageInfo"];
+        [array addObject:taskList];
+    }
     
+    return array;
+}
+
+#pragma mark - 服务员抢单
+// 服务员抢单
+- (NSMutableArray *)parseWaiterGetIndent:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterTaskList"];
+    for (NSDictionary * taskDic in dic[@"taskInfo"]) {
+        waiterTask.taskCode =             taskDic[@"taskCode"];
+        waiterTask.userDiviceld =         taskDic[@"diviceId"];
+        waiterTask.userDeviceToken =      taskDic[@"deviceToken"];
+        waiterTask.phone =                taskDic[@"Phone"];
+        waiterTask.userLocation =         taskDic[@"location"];
+        waiterTask.userLocationDesc =     taskDic[@"locationDesc"];
+        waiterTask.userLocationArea =     taskDic[@"locationArea"];
+        waiterTask.timeLimit =            taskDic[@"timeLimit"];
+        waiterTask.priority =             taskDic[@"priority"];
+        waiterTask.patternInfo =          taskDic[@"patternInfo"];
+        waiterTask.category =             taskDic[@"category"];
+        waiterTask.userMessageInfo =      taskDic[@"messageInfo"];
+    }
+    for (NSDictionary * taskDict in dic[@"progressInfo"]) {
+        waiterTask.accepTime = taskDict[@"acceptTime"];
+        waiterTask.finishTime = taskDict[@"finishTime"];
+        waiterTask.location = taskDict[@"location"];
+        waiterTask.workNum = taskDict[@"workNum"];
+        waiterTask.deviceId = taskDict[@"deviceId"];
+        waiterTask.deviceToken = taskDict[@"deviceToken"];
+    }
+    waiterTask.cancelTime = dic[@"cancelTime"];
+    waiterTask.status = dic[@"status"];
+    [array addObject:waiterTask];
+    return array;
+}
+
+- (NSMutableArray *)parseWaiterFinishTask:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
+    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    if (result.count <= 0 || result == nil)
+    {
+        return nil;
+    }
+    else
+    {
+        for (DBWaiterTaskList * waiterTask in result) {
+            waiterTask.status = dic[@"status"];
+            waiterTask.finishTime = dic[@"finishTime"];
+            [array addObject:waiterTask];
+        }
+    }
     return array;
 }
 

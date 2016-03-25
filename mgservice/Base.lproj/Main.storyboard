@@ -59,7 +59,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务内容" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbb-1z-etv">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务内容" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbb-1z-etv">
                                                             <rect key="frame" x="10" y="50" width="578" height="33"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="lbb-1z-etv" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="ZY9-CJ-fq9"/>
@@ -73,7 +73,7 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="位置" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbp-nC-H2W">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="位置" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbp-nC-H2W">
                                                             <rect key="frame" x="10" y="91" width="578" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="rbp-nC-H2W" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="reh-Mq-W3m"/>
@@ -87,7 +87,7 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZL-AC-OUC">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZL-AC-OUC">
                                                             <rect key="frame" x="10" y="131" width="578" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="CZL-AC-OUC" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="ILG-BA-KqS"/>
@@ -280,7 +280,7 @@
                         <barButtonItem key="rightBarButtonItem" title="成绩" id="fVm-pr-6gf">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="muq-ty-hKa" kind="show" id="cXZ-WP-WDA"/>
+                                <segue destination="6hL-n4-mFA" kind="show" id="L41-6n-WrM"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -465,7 +465,7 @@
                         <inset key="separatorInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="finishCell" id="gOR-bn-p68" customClass="FinishTaskCell">
-                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="50" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gOR-bn-p68" id="mmV-5K-akY">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -831,4 +831,7 @@
     <resources>
         <image name="worldlayer" width="1080" height="640"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Ufs-Xc-iK0"/>
+    </inferredMetricsTieBreakers>
 </document>

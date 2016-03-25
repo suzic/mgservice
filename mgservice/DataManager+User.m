@@ -40,8 +40,6 @@
     {
         waiterInfo = result[0];
     }
-    NSLog(@"上下班状态%@",waiterInfo.attendanceState);
-    
     return waiterInfo;
 }
 

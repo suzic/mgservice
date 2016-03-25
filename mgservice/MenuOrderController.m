@@ -1,8 +1,8 @@
-                                             //
+//
 //  MenuOrderController.m
 //  mgservice
 //
-//  Created by 苏智 on 16/1/29.
+//  Created by 罗禹 on 16/3/25.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 
@@ -16,6 +16,8 @@
 @property (assign, nonatomic) NSInteger expandSectionIndex;
 @property (retain, nonatomic) UIButton *expandCompleteButton;
 
+@property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask;
+
 @end
 
 @implementation MenuOrderController
@@ -25,7 +27,17 @@
     [super viewDidLoad];
     
     self.expandSectionIndex = NSNotFound;
+    self.menuArray = [NSMutableArray array];
     [self setupDemoData];
+    //[self loadDBTaskData];
+}
+
+- (void)loadDBTaskData
+{
+    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+    for (DBWaiterTaskList * waiterTask in array) {
+        [self.menuArray addObject:waiterTask.userMessageInfo];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,13 +54,66 @@
                                     [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名B", @"count":@"2", @"price":@"88.00", @"ready":@"0"}],
                                     [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名C", @"count":@"1", @"price":@"52.00", @"ready":@"0"}]]];
     }
+    NSLog(@"\n%@",self.menuArray);
 }
- 
+
 - (NSMutableArray *)menuArray
 {
     if (_menuArray == nil)
         _menuArray = [NSMutableArray arrayWithCapacity:5];
     return _menuArray;
+}
+
+#pragma mark - 网络请求
+// 服务员提交完成任务
+- (void)NETWORK_waiterFinishTask:(NSString *)taskCode
+{
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
+        return;
+    
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
+                                                                                   @"deviceToken":waiterInfo.deviceToken,
+                                                                                   @"taskCode":taskCode}];
+    self.waiterFinishTaskTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                        webURL:@URI_WAITER_FINISHTASK
+                                                                        params:params
+                                                                    withByUser:YES];
+}
+
+- (void)RESULT_waiterFinishTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        DBWaiterTaskList * waiterTask = datas[0];
+        if ([waiterTask.status isEqualToString:@"1"])
+        {
+            // 提交完成成功
+        }
+    }
+    else
+    {
+        
+    }
+}
+
+#pragma mark - RequestNetWorkDelegate 协议方法
+- (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
+{
+    [super pushResponseResultsFinished:task responseCode:code withMessage:msg andData:datas];
+    if (task == self.waiterFinishTaskTask)
+    {
+        [self RESULT_waiterFinishTask:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+}
+
+- (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
+{
+    [super pushResponseResultsFailed:task responseCode:code withMessage:msg];
+    if (task == self.waiterFinishTaskTask)
+    {
+        [self RESULT_waiterFinishTask:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
 }
 
 #pragma mark - Table view data source
@@ -90,7 +155,7 @@
     [cell.contentView addGestureRecognizer:tap];
     cell.contentView.tag = section;
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
-
+    
     NSArray *menuInfo = self.menuArray[section];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
@@ -122,7 +187,7 @@
     
     if (self.expandSectionIndex != NSNotFound)
         [indexSet addIndex:self.expandSectionIndex];
-
+    
     if (tapSection == self.expandSectionIndex)
         self.expandSectionIndex = NSNotFound;
     else
@@ -172,13 +237,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSURLSessionTask * checkIsLoginTask;
 @property (nonatomic, strong) NSURLSessionTask * requestTaskTask;
 @property (nonatomic, strong) NSURLSessionTask * reloadAttendanceStateTask;
+@property (nonatomic, strong) NSURLSessionTask * waiterGetIndentTask;
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
@@ -48,8 +49,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[RequestNetWork defaultManager]registerDelegate:self];
-    if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
-        [self NETWORK_requestTask];
+    if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
+        if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
+            [self NETWORK_requestTask];
+        }
     }
 }
 
@@ -61,13 +64,12 @@
     self.selectPageNumber = 1;
     _direction = NO;
     lastScrollOffsetY = 0;
-    self.selectPageNumber = 0;
     self.statusButton.layer.cornerRadius = 40.0f;
     self.acceptButton.layer.cornerRadius = 4.0f;
 
     self.selectedIndex = 2;
-    self.taskArray = [NSMutableArray array];
-    
+    self.taskArray = [[NSMutableArray alloc]init];
+    [SPUserDefaultsManger setValue:@"0" forKey:KIsAllowRefresh];
     _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
     _second = 0;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
@@ -96,7 +98,36 @@
         }
         _timer.paused = YES;
     }
+    [self tableRefreshCreate];
     [self NETWORK_checkIsLogin];
+}
+
+#pragma mark - 上拉加载下拉刷新
+// 在tableview上添加控件
+- (void)tableRefreshCreate
+{
+    MJRefreshAutoFooter * footer = [MJRefreshAutoFooter footerWithRefreshingBlock:^{
+        [self loadMoreData];
+    }];
+    self.taskTable.mj_footer = footer;
+    MJRefreshNormalHeader * header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self reloadCurrentData];
+    }];
+    self.taskTable.mj_header = header;
+}
+
+// 上拉加载
+- (void)loadMoreData
+{
+    self.selectPageNumber++;
+    [self NETWORK_requestTask];
+}
+
+// 下拉刷新
+- (void)reloadCurrentData
+{
+    self.selectPageNumber = 1;
+    [self NETWORK_requestTask];
 }
 
 #pragma mark - 定时器方法
@@ -121,9 +152,9 @@
     
     NSInteger hours     = totalSecond / 3600 / 60 % 60;
     
-    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",seconds];
-    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",mins];
-    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",hours];
+    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",(long)seconds];
+    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",(long)mins];
+    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",(long)hours];
     string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
     
     return string;
@@ -135,6 +166,8 @@
 - (void)NETWORK_waiterLogout
 {
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
+        return;
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"workNum":waiterInfo.workNum,
@@ -160,7 +193,6 @@
             [SPUserDefaultsManger deleteforKey:kPause];
             [SPUserDefaultsManger deleteforKey:@"abc"];
             [SPUserDefaultsManger setBool:1 forKey:@"isWorkState"];
-            [SPUserDefaultsManger setValue:@"0" forKey:kIswork];
             DataManager* dataManager = [DataManager defaultInstance];
             DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
             witerInfo.attendanceState = @"0";
@@ -185,6 +217,11 @@
             [[RequestNetWork defaultManager]registerDelegate:self];
         }];
         [alert addAction:action];
+        if(self.hud){
+            [self.hud stopWMProgress];
+            [self.hud removeFromSuperview];
+        }
+        [[RequestNetWork defaultManager]cancleAllRequest];
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
@@ -193,6 +230,8 @@
 - (void)NETWORK_reloadWorkStatus:(NSString *)workstate
 {
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
+        return;
 
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"diviceId":waiterInfo.deviceId,
@@ -224,7 +263,7 @@
 - (void)NETWORK_checkIsLogin
 {
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if ([waiterInfo.attendanceState isEqualToString:@"0"])
+    if ([waiterInfo.attendanceState isEqualToString:@"0"] || waiterInfo.attendanceState == nil)
     {
         if(self.hud)
         {
@@ -255,8 +294,12 @@
         DBWaiterInfor * waiter = (DBWaiterInfor *)datas[0];
         if ([waiter.attendanceState isEqualToString:@"0"])
         {
+            if(self.hud){
+                [self.hud stopWMProgress];
+                [self.hud removeFromSuperview];
+            }
+            [[RequestNetWork defaultManager]cancleAllRequest];
             [self performSegueWithIdentifier:@"showLogin" sender:nil];
-            [[RequestNetWork defaultManager]registerDelegate:self];
         }
         else
         {
@@ -265,8 +308,12 @@
     }
     else
     {
+        if(self.hud){
+            [self.hud stopWMProgress];
+            [self.hud removeFromSuperview];
+        }
+        [[RequestNetWork defaultManager]cancleAllRequest];
         [self performSegueWithIdentifier:@"showLogin" sender:nil];
-        [[RequestNetWork defaultManager]registerDelegate:self];
     }
 }
 
@@ -274,13 +321,13 @@
 - (void)NETWORK_requestTask
 {
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if ([waiterInfo.attendanceState isEqualToString:@"0"])
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"diviceId": waiterInfo.deviceId,
                                      @"deviceToken":waiterInfo.deviceToken,
-                                     @"pageNO":[NSString stringWithFormat:@"%ld",self.selectPageNumber],
+                                     @"pageNo":[NSString stringWithFormat:@"%ld",(long)self.selectPageNumber],
                                      @"pageCount":@"20",
                                      @"taskStatus":@"2"}];
     self.requestTaskTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -293,10 +340,18 @@
 {
     if (succeed)
     {
+        if (self.selectPageNumber == 1)
+        {
+            for (DBTaskList * taskList in self.taskArray) {
+                [[DataManager defaultInstance]deleteFromCoreData:taskList];
+            }
+            [self.taskArray removeAllObjects];
+        }
         for (DBTaskList * task in datas) {
             [self.taskArray addObject:task];
         }
         [self.taskTable reloadData];
+        
     }
     else
     {
@@ -305,8 +360,69 @@
             [self NETWORK_requestTask];
         }];
         [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            [[RequestNetWork defaultManager]removeDelegate:self];
+        }];
     }
     
+}
+
+// 服务员抢单
+-  (void)NETWORK_waiterGetIndent:(NSString *)taskCode
+{
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
+        return;
+    
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
+                                                                                   @"deviceToken":waiterInfo.deviceToken,
+                                                                                   @"taskCode":taskCode}];
+    self.waiterGetIndentTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                        webURL:@URI_WAITER_RUSHTASK
+                                                                        params:params
+                                                                    withByUser:YES];
+}
+
+- (void)RESULT_waiterGetIndent:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        DBWaiterTaskList * waiterTask = datas[0];
+        DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+        if ([waiterTask.deviceId isEqualToString:waiterInfo.deviceId] && [waiterTask.workNum isEqualToString:waiterInfo.workNum]) {
+            // 抢单到达服务成功  跳转
+            if ([waiterTask.category isEqualToString:@"0"])
+            {
+                [self whenSkipUse];
+                [self performSegueWithIdentifier:@"goTask" sender:nil];
+            }
+            // 抢单送餐服务成功  跳转
+            else if ([waiterTask.category isEqualToString:@"1"])
+            {
+                [self whenSkipUse];
+                [self performSegueWithIdentifier:@"goMenu" sender:nil];
+            }
+#warning 订单类型确定后更新 会再补充
+        }
+        else
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:^{
+                [self whenSkipUse];
+            }];
+        }
+    }
+    else
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"请求数据失败,请刷新列表" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            [self whenSkipUse];
+        }];
+    }
 }
 
 #pragma mark - RequestNetWorkDelegate 代理方法
@@ -350,6 +466,10 @@
     {
         [self RESULT_waiterLogout:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
+    else if (task == self.waiterGetIndentTask)
+    {
+        [self RESULT_waiterGetIndent:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -371,6 +491,10 @@
     else if (task == self.reloadAttendanceStateTask)
     {
         [self RESULT_waiterLogout:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.waiterGetIndentTask)
+    {
+        [self RESULT_waiterGetIndent:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -403,14 +527,14 @@
         //将工作状态保存起来
         [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
 
-        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",_second] forKey:kPause];
+        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)_second] forKey:kPause];
         
         NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
         NSLog(@"ffffff....%f",([da timeIntervalSinceNow])*60);
         NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
-        NSLog(@"dddddd...%ld",inte);
+        NSLog(@"dddddd...%ld",(long)inte);
         NSLog(@"哈哈%@",[self calculate:inte]);
-        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",inte] forKey:@"abc"];
+        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)inte] forKey:@"abc"];
         
 //        [self reloadWorkStatUs:@"0"];
         [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
@@ -450,13 +574,18 @@
 
 - (IBAction)obtainTask:(id)sender
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"抢单结果模拟测试"
-                                                       delegate:self
-                                              cancelButtonTitle:@"没抢到"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"进入呼叫任务", @"进入送餐任务",nil];
-    sheet.tag = ALERT_INTOTASK;
-    [sheet showInView:self.view];
+//    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"抢单结果模拟测试"
+//                                                       delegate:self
+//                                              cancelButtonTitle:@"没抢到"
+//                                         destructiveButtonTitle:nil
+//                                              otherButtonTitles:@"进入呼叫任务", @"进入送餐任务",nil];
+//    sheet.tag = ALERT_INTOTASK;
+//    [sheet showInView:self.view];
+    if (self.taskArray.count <= 0 ||self.taskArray == nil) {
+        return;
+    }
+    DBTaskList * taskList = (DBTaskList *)self.taskArray[self.selectedIndex - 2];
+    [self NETWORK_waiterGetIndent:taskList.taskCode];
 }
 
 - (NSMutableArray *)taskArray
@@ -494,7 +623,18 @@
     if (indexPath.row < 2 || indexPath.row >= self.taskArray.count + 2)
         return [tableView dequeueReusableCellWithIdentifier:@"paddingCell"];
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:@"taskCell"];
-    cell.taskName.text = self.taskArray[indexPath.row - 2];
+    DBTaskList * taskList = self.taskArray[indexPath.row - 2];
+    if ([taskList.category isEqualToString:@"0"])
+    {
+        cell.taskName.text = [NSString stringWithFormat:@"到场服务 %@",taskList.taskCode];
+    }
+    else
+    {
+        cell.taskName.text = [NSString stringWithFormat:@"送餐服务 %@",taskList.taskCode];
+    }
+    cell.taskContent.text = taskList.userMessageInfo;
+    cell.taskAddress.text = taskList.userLocationDesc;
+    cell.taskTime.text = taskList.timeLimit;
     cell.cellSelected = (indexPath.row == self.selectedIndex);
     return cell;
 }
@@ -510,6 +650,14 @@
 {
     if (indexPath.row < 2 || indexPath.row >= self.taskArray.count + 2)
         return;
+    TaskCell * cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
+    cell.taskContent.hidden = YES;
+    cell.taskAddress.hidden = YES;
+    cell.taskTime.hidden = YES;
+    TaskCell * newCell = [tableView cellForRowAtIndexPath:indexPath];
+    newCell.taskContent.hidden = NO;
+    newCell.taskAddress.hidden = NO;
+    newCell.taskTime.hidden = NO;
     self.selectedIndex = indexPath.row;
     NSInteger firstRow = self.selectedIndex - 2;
     [self.taskTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:firstRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -539,7 +687,16 @@
 {
     NSInteger firstRow = (scrollView.contentOffset.y / self.taskTable.frame.size.height * 8);
     if (firstRow < 0) firstRow = 0;
+    
+    TaskCell * cell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
+    cell.taskContent.hidden = YES;
+    cell.taskAddress.hidden = YES;
+    cell.taskTime.hidden = YES;
     self.selectedIndex = firstRow + 2;
+    TaskCell * newCell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
+    newCell.taskContent.hidden = NO;
+    newCell.taskAddress.hidden = NO;
+    newCell.taskTime.hidden = NO;
 }
 
 #pragma mark - UIAlertView / UIActionSheet delegate
@@ -552,21 +709,25 @@
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 0)
-        [self performSegueWithIdentifier:@"goTask" sender:self];
-    else if (actionSheet.tag == ALERT_INTOTASK && buttonIndex == 1)
-        [self performSegueWithIdentifier:@"goMenu" sender:self];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
 }
 
-- (void)dealloc {
-    if(self.hud){
+- (void)whenSkipUse
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+}
+
+- (void)dealloc
+{
+    if(self.hud)
+    {
         [self.hud stopWMProgress];
         [self.hud removeFromSuperview];
     }

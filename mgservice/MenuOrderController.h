@@ -2,13 +2,13 @@
 //  MenuOrderController.h
 //  mgservice
 //
-//  Created by 苏智 on 16/1/29.
+//  Created by 罗禹 on 16/3/25.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseNetWorkViewController.h"
 
-@interface MenuOrderController : UIViewController
+@interface MenuOrderController : BaseNetWorkViewController
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
