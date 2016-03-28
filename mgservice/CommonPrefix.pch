@@ -64,9 +64,11 @@
 #import "DBMessage.h"
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
+#import "databaseHeader.h"
 #import "DataManager.h"
 #import "RequestNetWork.h"
 #import "DataManager+User.h"
+#import "UIImageView+WebCache.h"
 
 #endif
 

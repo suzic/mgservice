@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ChatCell : UITableViewCell
-
+@property (nonatomic,retain)DBTaskChat * taskChat;
 @end
