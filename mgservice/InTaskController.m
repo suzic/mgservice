@@ -18,8 +18,9 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
-
+@property (retain, nonatomic) NSMutableArray *messageArray;
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
+@property (weak, nonatomic) IBOutlet UITextView *ChatTextView;
 
 @end
 
@@ -31,6 +32,7 @@
     self.bottomViewHeight.constant = 40;
     self.chatTableView.delegate = self;
     self.chatTableView.dataSource = self;
+    self.ChatTextView.layer.cornerRadius = 5.0f;
     self.myLocation.layer.cornerRadius = 15.0f;
     self.heLocation.layer.cornerRadius = 15.0f;
     self.navigationItem.rightBarButtonItem = nil;
@@ -44,13 +46,23 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
+- (NSMutableArray *)messageArray
+{
+    _messageArray = [[NSMutableArray alloc]initWithCapacity:40];
+    NSArray * array = [NSArray arrayWithObjects:@"去",@"我",@"额",@"人",@"他",@"也",@"u",@"i",@"哦",@"破",@"啊",@"是",@"的",@"发",@"个",@"好",@"就",@"看", nil];
+    for (int i = 0 ; i<array.count; i++) {
+        [_messageArray addObject:array[i]];
+    }
+    return _messageArray;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.messageArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ChatCell * cell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
+    cell.textLabel.text = self.messageArray[indexPath.row];
     return cell;
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -91,9 +103,9 @@
 - (IBAction)tapHistory:(id)sender
 {
     NSLog(@"按钮");
-//    if ([self.inputChat isFirstResponder])
-//        [self.inputChat resignFirstResponder];
-//    else if (self.showTalk == NO)
+    if ([self.ChatTextView isFirstResponder])
+        [self.ChatTextView resignFirstResponder];
+    else if (self.showTalk == NO)
         self.showTalk = YES;
 }
 

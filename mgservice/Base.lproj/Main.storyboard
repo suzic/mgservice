@@ -332,7 +332,7 @@
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFn-RO-fgh">
-                                        <rect key="frame" x="0.0" y="70" width="600" height="200"/>
+                                        <rect key="frame" x="0.0" y="70" width="600" height="423"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="chatCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatCell" id="rEc-ck-tsz" customClass="ChatCell">
@@ -358,7 +358,7 @@
                                 <color key="backgroundColor" white="1" alpha="0.89655172413793105" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="BzR-3T-T0Z"/>
-                                    <constraint firstAttribute="bottom" secondItem="vFn-RO-fgh" secondAttribute="bottom" constant="266" id="E7m-wu-Ara"/>
+                                    <constraint firstAttribute="bottom" secondItem="vFn-RO-fgh" secondAttribute="bottom" constant="43" id="E7m-wu-Ara"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="KhF-YH-EfZ"/>
                                     <constraint firstItem="Riu-QU-kIt" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="Pcu-fb-mbn"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="WiF-YC-Vl1"/>
@@ -399,6 +399,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="ChatTextView" destination="Wke-KW-2MU" id="NKs-ak-WKn"/>
                         <outlet property="bottomViewHeight" destination="ymQ-mz-l14" id="dc4-hp-Vfn"/>
                         <outlet property="chatHistoryView" destination="XSh-mX-O1r" id="FWX-iI-dG6"/>
                         <outlet property="chatHistoryViewBottom" destination="8jD-Rs-e3r" id="hqL-s0-x46"/>
