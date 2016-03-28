@@ -12,6 +12,7 @@
         <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,6 +57,7 @@
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
@@ -76,8 +78,8 @@
     </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>
-        <element name="DBTaskList" positionX="-4502" positionY="-1192" width="128" height="328"/>
+        <element name="DBTaskList" positionX="-4502" positionY="-1192" width="128" height="345"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
-        <element name="DBWaiterTaskList" positionX="-4482" positionY="-1053" width="128" height="375"/>
+        <element name="DBWaiterTaskList" positionX="-4482" positionY="-1053" width="128" height="390"/>
     </elements>
 </model>

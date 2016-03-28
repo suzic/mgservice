@@ -60,8 +60,13 @@
     {
         datas = [self parseWaiterFinishTask:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_REPASTORDERS])
+    {
+        datas = [self parseMenuDetailList:dict];
+    }
     //存储数据
     [dataManager saveContext];
+    NSLog(@"url = %@ \n data = %@",ident,datas);
     return datas;
 }
 
@@ -189,6 +194,8 @@
         taskList.patternInfo =          taskDic[@"patternInfo"];
         taskList.category =             taskDic[@"category"];
         taskList.userMessageInfo =      taskDic[@"messageInfo"];
+        taskList.drOrderNo =            taskDic[@"drOrderNo"];
+
         [array addObject:taskList];
     }
     
@@ -202,30 +209,27 @@
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterTaskList"];
-    for (NSDictionary * taskDic in dic[@"taskInfo"]) {
-        waiterTask.taskCode =             taskDic[@"taskCode"];
-        waiterTask.userDiviceld =         taskDic[@"diviceId"];
-        waiterTask.userDeviceToken =      taskDic[@"deviceToken"];
-        waiterTask.phone =                taskDic[@"Phone"];
-        waiterTask.userLocation =         taskDic[@"location"];
-        waiterTask.userLocationDesc =     taskDic[@"locationDesc"];
-        waiterTask.userLocationArea =     taskDic[@"locationArea"];
-        waiterTask.timeLimit =            taskDic[@"timeLimit"];
-        waiterTask.priority =             taskDic[@"priority"];
-        waiterTask.patternInfo =          taskDic[@"patternInfo"];
-        waiterTask.category =             taskDic[@"category"];
-        waiterTask.userMessageInfo =      taskDic[@"messageInfo"];
-    }
-    for (NSDictionary * taskDict in dic[@"progressInfo"]) {
-        waiterTask.accepTime = taskDict[@"acceptTime"];
-        waiterTask.finishTime = taskDict[@"finishTime"];
-        waiterTask.location = taskDict[@"location"];
-        waiterTask.workNum = taskDict[@"workNum"];
-        waiterTask.deviceId = taskDict[@"deviceId"];
-        waiterTask.deviceToken = taskDict[@"deviceToken"];
-    }
-    waiterTask.cancelTime = dic[@"cancelTime"];
-    waiterTask.status = dic[@"status"];
+    waiterTask.taskCode =             dic[@"taskInfo"][@"taskCode"];
+    waiterTask.userDiviceld =         dic[@"taskInfo"][@"diviceId"];
+    waiterTask.userDeviceToken =      dic[@"taskInfo"][@"deviceToken"];
+    waiterTask.phone =                dic[@"taskInfo"][@"Phone"];
+    waiterTask.userLocation =         dic[@"taskInfo"][@"location"];
+    waiterTask.userLocationDesc =     dic[@"taskInfo"][@"locationDesc"];
+    waiterTask.userLocationArea =     dic[@"taskInfo"][@"locationArea"];
+    waiterTask.timeLimit =            dic[@"taskInfo"][@"timeLimit"];
+    waiterTask.priority =             dic[@"taskInfo"][@"priority"];
+    waiterTask.patternInfo =          dic[@"taskInfo"][@"patternInfo"];
+    waiterTask.category =             dic[@"taskInfo"][@"category"];
+    waiterTask.userMessageInfo =      dic[@"taskInfo"][@"messageInfo"];
+    waiterTask.drOrderNo =            dic[@"taskInfo"][@"drOrderNo"];
+    waiterTask.accepTime =            dic[@"progreeInfo"][@"acceptTime"];
+    waiterTask.finishTime =           dic[@"progreeInfo"][@"finishTime"];
+    waiterTask.location =             dic[@"progreeInfo"][@"location"];
+    waiterTask.workNum =              dic[@"progreeInfo"][@"workNum"];
+    waiterTask.deviceId =             dic[@"progreeInfo"][@"deviceId"];
+    waiterTask.deviceToken =          nil;
+    waiterTask.cancelTime =           dic[@"cancelTime"];
+    waiterTask.status =               dic[@"status"];
     [array addObject:waiterTask];
     return array;
 }
@@ -246,9 +250,18 @@
         for (DBWaiterTaskList * waiterTask in result) {
             waiterTask.status = dic[@"status"];
             waiterTask.finishTime = dic[@"finishTime"];
+            waiterTask.deviceId = dic[@""][@"deviceId"];
+            
             [array addObject:waiterTask];
         }
     }
+    return array;
+}
+
+- (NSMutableArray *)parseMenuDetailList:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSLog(@"%@",dict);
     return array;
 }
 

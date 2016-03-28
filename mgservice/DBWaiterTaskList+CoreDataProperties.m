@@ -35,5 +35,6 @@
 @dynamic workNum;
 @dynamic location;
 @dynamic status;
+@dynamic drOrderNo;
 
 @end

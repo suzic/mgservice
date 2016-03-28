@@ -16,7 +16,8 @@
 @property (assign, nonatomic) NSInteger expandSectionIndex;
 @property (retain, nonatomic) UIButton *expandCompleteButton;
 
-@property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask;
+@property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask; // 服务员提交任务的请求标识·
+@property (nonatomic,strong) NSURLSessionTask * menuDetailListTask; // 菜单详情
 
 @end
 
@@ -28,17 +29,26 @@
     
     self.expandSectionIndex = NSNotFound;
     self.menuArray = [NSMutableArray array];
-    [self setupDemoData];
-    //[self loadDBTaskData];
+    [self loadDBTaskData];
 }
 
 - (void)loadDBTaskData
 {
+    if (_menuArray.count > 0) {
+        [_menuArray removeAllObjects];
+    }
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
     for (DBWaiterTaskList * waiterTask in array) {
-        [self.menuArray addObject:waiterTask.userMessageInfo];
+        NSMutableArray * taskContent = [NSMutableArray array];
+        [self NETWORK_menuDetailList:waiterTask.drOrderNo];
+
+        
+#warning 加载数据
     }
+    [self.tableView reloadData];
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -46,16 +56,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setupDemoData
-{
-    for (int i = 0; i < 5; i++)
-    {
-        [self.menuArray addObject:@[[NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名A", @"count":@"1", @"price":@"122.00", @"ready":@"0"}],
-                                    [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名B", @"count":@"2", @"price":@"88.00", @"ready":@"0"}],
-                                    [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名C", @"count":@"1", @"price":@"52.00", @"ready":@"0"}]]];
-    }
-    NSLog(@"\n%@",self.menuArray);
-}
+//- (void)setupDemoData
+//{
+//    for (int i = 0; i < 5; i++)
+//    {
+//        [self.menuArray addObject:@[[NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名A", @"count":@"1", @"price":@"122.00", @"ready":@"0"}],
+//                                    [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名B", @"count":@"2", @"price":@"88.00", @"ready":@"0"}],
+//                                    [NSMutableDictionary dictionaryWithDictionary:@{@"name":@"菜名C", @"count":@"1", @"price":@"52.00", @"ready":@"0"}]]];
+//    }
+//    NSLog(@"\n%@",self.menuArray);
+//}
 
 - (NSMutableArray *)menuArray
 {
@@ -66,8 +76,9 @@
 
 #pragma mark - 网络请求
 // 服务员提交完成任务
-- (void)NETWORK_waiterFinishTask:(NSString *)taskCode
+- (void)NETWORK_waiterFinishTask:(NSInteger)selectTask
 {
+    NSString * taskCode = self.menuArray[selectTask][0];
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
@@ -89,21 +100,69 @@
         if ([waiterTask.status isEqualToString:@"1"])
         {
             // 提交完成成功
+            [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            [self loadDBTaskData];
+            if (_menuArray.count <= 0)
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+        else
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提交失败" message:@"请重新提交完成订单" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:^{
+                [self whenSkipUse];
+            }];
         }
     }
     else
     {
-        
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提交失败" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            [self whenSkipUse];
+        }];
     }
 }
 
+// 请求菜单详情
+- (void)NETWORK_menuDetailList:(NSString *)drOrderNo
+{
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"drOrderNo":drOrderNo}];
+    self.menuDetailListTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                         webURL:@URI_WAITER_REPASTORDERS
+                                                                         params:params
+                                                                     withByUser:YES];
+}
+
+- (void)RESULT_menuDetailList:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        
+    }
+    else
+    {
+        NSLog(@"%@",msg);
+    }
+}
+
+
 #pragma mark - RequestNetWorkDelegate 协议方法
+
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
     [super pushResponseResultsFinished:task responseCode:code withMessage:msg andData:datas];
     if (task == self.waiterFinishTaskTask)
     {
         [self RESULT_waiterFinishTask:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    else if (task == self.menuDetailListTask)
+    {
+        [self RESULT_menuDetailList:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
 }
 
@@ -113,6 +172,10 @@
     if (task == self.waiterFinishTaskTask)
     {
         [self RESULT_waiterFinishTask:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.menuDetailListTask)
+    {
+        [self RESULT_menuDetailList:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -155,6 +218,8 @@
     [cell.contentView addGestureRecognizer:tap];
     cell.contentView.tag = section;
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
+    cell.readyInfo.tag = section + 100;
+    [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
     
     NSArray *menuInfo = self.menuArray[section];
     NSInteger totalCount = menuInfo.count;
@@ -178,6 +243,23 @@
     }
     
     return cell.contentView;
+}
+
+- (void)completeReady:(UIButton *)sender
+{
+    NSArray *menuInfo = self.menuArray[sender.tag - 100];
+    NSInteger totalCount = menuInfo.count;
+    NSInteger completeCount = 0;
+    for (NSMutableDictionary *dic in menuInfo)
+        if ([dic[@"ready"] isEqualToString:@"1"]) completeCount++;
+    if (completeCount < totalCount)
+    {
+        
+    }
+    else
+    {
+        [self NETWORK_waiterFinishTask:sender.tag - 100];
+    }
 }
 
 - (void)tapHeader:(UITapGestureRecognizer *)gesture
@@ -228,6 +310,7 @@
     {
         [self.expandCompleteButton setBackgroundColor:[UIColor grayColor]];
         [self.expandCompleteButton setTitle:[NSString stringWithFormat:@"%ld / %ld 完成", (long)completeCount, (long)totalCount] forState:UIControlStateNormal];
+        
     }
     else
     {
@@ -236,14 +319,15 @@
     }
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void)whenSkipUse
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+}
+
 
 @end

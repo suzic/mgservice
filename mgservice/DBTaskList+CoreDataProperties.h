@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *userLocationArea;
 @property (nullable, nonatomic, retain) NSString *userLocationDesc;
 @property (nullable, nonatomic, retain) NSString *userMessageInfo;
+@property (nullable, nonatomic, retain) NSString *drOrderNo;
 @property (nullable, nonatomic, retain) DBWaiterInfor *belongWaiter;
 @property (nullable, nonatomic, retain) DBMessage *hasMessage;
 

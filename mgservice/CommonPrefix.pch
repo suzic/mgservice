@@ -60,6 +60,9 @@
 // 服务员接收消息接口
 #define URI_WAITER_RECEIVEMESSAGE             "/hotelservice/checkin/service/receive_chat.json"
 
+// 查询菜单详情
+#define URI_WAITER_REPASTORDERS               "/catering/diningroom/order/order_detail_array.json"
+
 // 消息基准时间
 #define URI_MESSAGE_BASETIME                  "/hotelservice/service/comm/sysdate.json"
 

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSURLSessionTask * requestTaskTask;
 @property (nonatomic, strong) NSURLSessionTask * reloadAttendanceStateTask;
 @property (nonatomic, strong) NSURLSessionTask * waiterGetIndentTask;
+@property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
@@ -69,7 +70,7 @@
 
     self.selectedIndex = 2;
     self.taskArray = [[NSMutableArray alloc]init];
-    [SPUserDefaultsManger setValue:@"0" forKey:KIsAllowRefresh];
+    [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
     _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
     _second = 0;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
@@ -106,7 +107,7 @@
 // 在tableview上添加控件
 - (void)tableRefreshCreate
 {
-    MJRefreshAutoFooter * footer = [MJRefreshAutoFooter footerWithRefreshingBlock:^{
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMoreData];
     }];
     self.taskTable.mj_footer = footer;
@@ -120,6 +121,7 @@
 - (void)loadMoreData
 {
     self.selectPageNumber++;
+    [self.taskTable.mj_footer beginRefreshing];
     [self NETWORK_requestTask];
 }
 
@@ -127,6 +129,7 @@
 - (void)reloadCurrentData
 {
     self.selectPageNumber = 1;
+    [self.taskTable.mj_header beginRefreshing];
     [self NETWORK_requestTask];
 }
 
@@ -202,7 +205,7 @@
         }
         else
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"下班失败" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"下班失败" message:msg preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 [[RequestNetWork defaultManager]registerDelegate:self];
             }];
@@ -338,6 +341,15 @@
 
 - (void)RESULT_requestTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
+    [self.taskTable.mj_header endRefreshing];
+    if (datas.count <= 0 || datas == nil)
+    {
+        [self.taskTable.mj_footer endRefreshingWithNoMoreData];
+    }
+    else
+    {
+        [self.taskTable.mj_footer endRefreshing];
+    }
     if (succeed)
     {
         if (self.selectPageNumber == 1)
@@ -351,18 +363,15 @@
             [self.taskArray addObject:task];
         }
         [self.taskTable reloadData];
-        
     }
     else
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"请求数据失败" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"点击刷新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self NETWORK_requestTask];
+            //[self reloadCurrentData];
         }];
         [alert addAction:action];
-        [self presentViewController:alert animated:YES completion:^{
-            [[RequestNetWork defaultManager]removeDelegate:self];
-        }];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     
 }
@@ -397,10 +406,10 @@
                 [self performSegueWithIdentifier:@"goTask" sender:nil];
             }
             // 抢单送餐服务成功  跳转
-            else if ([waiterTask.category isEqualToString:@"1"])
+            else if ([waiterTask.category isEqualToString:@"4"])
             {
-                [self whenSkipUse];
-                [self performSegueWithIdentifier:@"goMenu" sender:nil];
+                // 送餐任务抢单成功后请求菜单列表
+                [self NETWORK_menuDetailList:waiterTask.drOrderNo];
             }
 #warning 订单类型确定后更新 会再补充
         }
@@ -422,6 +431,34 @@
         [self presentViewController:alert animated:YES completion:^{
             [self whenSkipUse];
         }];
+    }
+}
+
+// 请求菜单列表
+- (void)NETWORK_menuDetailList:(NSString *)drOrderNo
+{
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"drOrderNo":drOrderNo}];
+    self.menuDetailListTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                       webURL:@URI_WAITER_REPASTORDERS
+                                                                       params:params
+                                                                   withByUser:YES];
+}
+
+- (void)RESULT_menuDetailList:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        [self whenSkipUse];
+        [self performSegueWithIdentifier:@"goMenu" sender:nil];
+    }
+    else
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"请求数据失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"点击刷新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            //[self NETWORK_menuDetailList:];
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -650,7 +687,7 @@
 {
     if (indexPath.row < 2 || indexPath.row >= self.taskArray.count + 2)
         return;
-    TaskCell * cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
+    TaskCell * cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
     cell.taskContent.hidden = YES;
     cell.taskAddress.hidden = YES;
     cell.taskTime.hidden = YES;
@@ -687,16 +724,20 @@
 {
     NSInteger firstRow = (scrollView.contentOffset.y / self.taskTable.frame.size.height * 8);
     if (firstRow < 0) firstRow = 0;
-    
-    TaskCell * cell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
-    cell.taskContent.hidden = YES;
-    cell.taskAddress.hidden = YES;
-    cell.taskTime.hidden = YES;
-    self.selectedIndex = firstRow + 2;
-    TaskCell * newCell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:1]];
-    newCell.taskContent.hidden = NO;
-    newCell.taskAddress.hidden = NO;
-    newCell.taskTime.hidden = NO;
+    if (self.taskArray.count > 0) {
+        TaskCell * cell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
+        cell.taskContent.hidden = YES;
+        cell.taskAddress.hidden = YES;
+        cell.taskTime.hidden = YES;
+        if (firstRow + 2 > self.taskArray.count + 1) {
+            firstRow = self.taskArray.count - 1;
+        }
+        TaskCell * newCell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:firstRow + 2 inSection:0]];
+        newCell.taskContent.hidden = NO;
+        newCell.taskAddress.hidden = NO;
+        newCell.taskTime.hidden = NO;
+        self.selectedIndex = firstRow + 2;
+    }
 }
 
 #pragma mark - UIAlertView / UIActionSheet delegate

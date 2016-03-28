@@ -27,7 +27,7 @@
         <!--红树林・服务端-->
         <scene sceneID="2Nl-wr-xSc">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="t7w-QW-jPT" customClass="MainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainServerScene" automaticallyAdjustsScrollViewInsets="NO" id="t7w-QW-jPT" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ciY-aO-ZfF"/>
                         <viewControllerLayoutGuide type="bottom" id="vuC-d9-U7T"/>
@@ -36,7 +36,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="150" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="sqJ-co-rbF">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="150" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="sqJ-co-rbF">
                                 <rect key="frame" x="0.0" y="226" width="600" height="314"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -64,7 +64,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="lbb-1z-etv" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="ZY9-CJ-fq9"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
@@ -78,7 +78,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="rbp-nC-H2W" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="reh-Mq-W3m"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
@@ -92,7 +92,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="CZL-AC-OUC" secondAttribute="height" multiplier="375:21" constant="6.5714285714285552" id="ILG-BA-KqS"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
@@ -171,8 +171,8 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="00:00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-y5-BHY">
-                                        <rect key="frame" x="90" y="100" width="490" height="60"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjP-y5-BHY">
+                                        <rect key="frame" x="90" y="101" width="490" height="59"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="49"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -832,6 +832,6 @@
         <image name="worldlayer" width="1080" height="640"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ufs-Xc-iK0"/>
+        <segue reference="L41-6n-WrM"/>
     </inferredMetricsTieBreakers>
 </document>

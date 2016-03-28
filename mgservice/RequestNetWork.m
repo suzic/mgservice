@@ -88,7 +88,7 @@
         //__weak __typeof(self) weakSelf = self;
         NSURLSessionTask * urltask =  [self POSTWithSuccess:^(id responseObject,NSURLSessionTask * task,NSDictionary * headers) {
             [self parseResult:responseObject urltask:task url:(NSString *)url headers:headers];
-            //NSLog(@"response = %@",responseObject);
+            NSLog(@"response = %@",responseObject);
         } failure:^(NSError *error,NSURLSessionTask * task,NSDictionary * headers) {
             [self parseResult:error urltask:task url:url headers:headers];
             //NSLog(@"error = %@",error);

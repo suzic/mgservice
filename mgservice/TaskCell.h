@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) IBOutlet UIView *backgroudView;
 @property (strong, nonatomic) IBOutlet UILabel *taskName;
-@property (weak, nonatomic) IBOutlet UILabel *taskContent;
-@property (weak, nonatomic) IBOutlet UILabel *taskAddress;
-@property (weak, nonatomic) IBOutlet UILabel *taskTime;
+@property (strong, nonatomic) IBOutlet UILabel *taskContent;
+@property (strong, nonatomic) IBOutlet UILabel *taskAddress;
+@property (strong, nonatomic) IBOutlet UILabel *taskTime;
 
 @end

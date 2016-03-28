@@ -50,20 +50,20 @@ static NSDictionary * _headers;
                                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-            //NSLog(@"responseHeader = %@",response.allHeaderFields);
+            NSLog(@"responseHeader = %@",response.allHeaderFields);
             success(responseObject,task,response.allHeaderFields);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
         if (failure) {
-            //NSLog(@"responseHeader = %@",response.allHeaderFields);
+            NSLog(@"responseHeader = %@",response.allHeaderFields);
             failure(error,task,response.allHeaderFields);
         }
     }];
-//    NSLog(@"urltask = %@",urltask);
-//    NSLog(@"url = %@",self.url);
-//    NSLog(@"params = %@",self.params);
-//    NSLog(@"header = %@",_headers);
+    NSLog(@"urltask = %@",urltask);
+    NSLog(@"url = %@",self.url);
+    NSLog(@"params = %@",self.params);
+    NSLog(@"header = %@",_headers);
     return urltask;
 }
 
