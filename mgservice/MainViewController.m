@@ -19,13 +19,17 @@
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) IBOutlet UITableView *taskTable;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *allHeightSet;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *countdownLabel; // 显示倒计时文本
 @property (weak, nonatomic) IBOutlet UILabel *waiterName; // 服务员姓名
 @property (weak, nonatomic) IBOutlet UILabel *waiterCurrentArea; // 当值区域
 @property (nonatomic,strong) NSString * strTime;
 @property (nonatomic,strong) NSString * strinter;
-@property (nonatomic,assign) NSInteger selectPageNumber;
+@property (nonatomic,assign) NSInteger selectPageNumber;  // 请求订单页数
+@property (nonatomic,copy) NSString * foodPresentList; // 菜单列表业务号
+
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
@@ -50,10 +54,20 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[RequestNetWork defaultManager]registerDelegate:self];
+    
     if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
         if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
             [self NETWORK_requestTask];
         }
+    }
+    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+    if (array.count <= 0 || array == nil)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = self.presentButton;
     }
 }
 
@@ -331,7 +345,7 @@
                                    @{@"diviceId": waiterInfo.deviceId,
                                      @"deviceToken":waiterInfo.deviceToken,
                                      @"pageNo":[NSString stringWithFormat:@"%ld",(long)self.selectPageNumber],
-                                     @"pageCount":@"20",
+                                     @"pageCount":@"10",
                                      @"taskStatus":@"2"}];
     self.requestTaskTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                     webURL:@URI_WAITER_GETSERVICELIST
@@ -405,7 +419,7 @@
                 [self whenSkipUse];
                 [self performSegueWithIdentifier:@"goTask" sender:nil];
             }
-            // 抢单送餐服务成功  跳转
+            // 抢单送餐服务成功
             else if ([waiterTask.category isEqualToString:@"4"])
             {
                 // 送餐任务抢单成功后请求菜单列表
@@ -437,7 +451,8 @@
 // 请求菜单列表
 - (void)NETWORK_menuDetailList:(NSString *)drOrderNo
 {
-    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"drOrderNo":drOrderNo}];
+    self.foodPresentList = drOrderNo;
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"orderNoList":drOrderNo}];
     self.menuDetailListTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                        webURL:@URI_WAITER_REPASTORDERS
                                                                        params:params
@@ -453,9 +468,9 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"请求数据失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"菜单数据请求失败" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"点击刷新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            //[self NETWORK_menuDetailList:];
+            [self NETWORK_menuDetailList:self.foodPresentList];
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
@@ -507,6 +522,10 @@
     {
         [self RESULT_waiterGetIndent:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
+    else if (task == self.menuDetailListTask)
+    {
+        [self RESULT_menuDetailList:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -532,6 +551,10 @@
     else if (task == self.waiterGetIndentTask)
     {
         [self RESULT_waiterGetIndent:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.menuDetailListTask)
+    {
+        [self RESULT_menuDetailList:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -663,15 +686,15 @@
     DBTaskList * taskList = self.taskArray[indexPath.row - 2];
     if ([taskList.category isEqualToString:@"0"])
     {
-        cell.taskName.text = [NSString stringWithFormat:@"到场服务 %@",taskList.taskCode];
+        cell.taskName.text = taskList.taskCode;
     }
     else
     {
-        cell.taskName.text = [NSString stringWithFormat:@"送餐服务 %@",taskList.taskCode];
+        cell.taskName.text = taskList.taskCode;
     }
     cell.taskContent.text = taskList.userMessageInfo;
-    cell.taskAddress.text = taskList.userLocationDesc;
-    cell.taskTime.text = taskList.timeLimit;
+    cell.taskAddress.text = [NSString stringWithFormat:@"位置：%@",taskList.userLocationDesc];
+    cell.taskTime.text = [NSString stringWithFormat:@"时间：%@",taskList.timeLimit];
     cell.cellSelected = (indexPath.row == self.selectedIndex);
     return cell;
 }

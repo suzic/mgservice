@@ -51,6 +51,14 @@
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasCallList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBTaskList" inverseName="belongWaiter" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
+    <entity name="DBWaiterPresentList" representedClassName="DBWaiterPresentList" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="menuName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ready" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sellPrice" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="DBWaiterTaskList" representedClassName="DBWaiterTaskList" syncable="YES">
         <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
@@ -81,5 +89,6 @@
         <element name="DBTaskList" positionX="-4502" positionY="-1192" width="128" height="345"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
         <element name="DBWaiterTaskList" positionX="-4482" positionY="-1053" width="128" height="390"/>
+        <element name="DBWaiterPresentList" positionX="-4482" positionY="-1053" width="128" height="135"/>
     </elements>
 </model>

@@ -43,4 +43,12 @@
     return waiterInfo;
 }
 
+// 获取菜单详情
+- (NSArray *)getPresentList:(NSString *)orderNo
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"orderNo = %@", orderNo];
+    NSArray *result = [self arrayFromCoreData:@"DBWaiterPresentList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    return result;
+}
+
 @end

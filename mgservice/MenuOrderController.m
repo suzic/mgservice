@@ -15,6 +15,7 @@
 @property (retain, nonatomic) NSMutableArray *menuArray;
 @property (assign, nonatomic) NSInteger expandSectionIndex;
 @property (retain, nonatomic) UIButton *expandCompleteButton;
+@property (assign, nonatomic) NSInteger selectButtonTag;
 
 @property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask; // 服务员提交任务的请求标识·
 @property (nonatomic,strong) NSURLSessionTask * menuDetailListTask; // 菜单详情
@@ -28,6 +29,7 @@
     [super viewDidLoad];
     
     self.expandSectionIndex = NSNotFound;
+    self.selectButtonTag = NSNotFound;
     self.menuArray = [NSMutableArray array];
     [self loadDBTaskData];
 }
@@ -40,10 +42,14 @@
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
     for (DBWaiterTaskList * waiterTask in array) {
         NSMutableArray * taskContent = [NSMutableArray array];
-        [self NETWORK_menuDetailList:waiterTask.drOrderNo];
-
+        // [self NETWORK_menuDetailList:waiterTask.drOrderNo];
+        [taskContent addObject:waiterTask.userLocationDesc];
+        [taskContent addObject:waiterTask.timeLimit];
+        [taskContent addObject:waiterTask.taskCode];
+        NSArray * presentList = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+        [taskContent addObject:presentList];
         
-#warning 加载数据
+        [self.menuArray addObject:taskContent];
     }
     [self.tableView reloadData];
 }
@@ -78,7 +84,7 @@
 // 服务员提交完成任务
 - (void)NETWORK_waiterFinishTask:(NSInteger)selectTask
 {
-    NSString * taskCode = self.menuArray[selectTask][0];
+    NSString * taskCode = self.menuArray[selectTask][2];
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
@@ -99,8 +105,26 @@
         DBWaiterTaskList * waiterTask = datas[0];
         if ([waiterTask.status isEqualToString:@"1"])
         {
-            // 提交完成成功
+            // 提交完成成功   删除菜单表中已完成的数据
+            for (DBWaiterPresentList * presentList in [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo]) {
+                [[DataManager defaultInstance]deleteFromCoreData:presentList];
+            }
+            // 删除已接订单表中的的数据
             [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            [[DataManager defaultInstance]saveContext];
+            // 删除后重置选中
+            if (_expandSectionIndex == NSNotFound)
+            {
+                
+            }
+            else if (_selectButtonTag < _expandSectionIndex)
+            {
+                self.expandSectionIndex--;
+            }
+            else if (_selectButtonTag == _expandSectionIndex)
+            {
+                self.expandSectionIndex = NSNotFound;
+            }
             [self loadDBTaskData];
             if (_menuArray.count <= 0)
             {
@@ -131,7 +155,7 @@
 // 请求菜单详情
 - (void)NETWORK_menuDetailList:(NSString *)drOrderNo
 {
-    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"drOrderNo":drOrderNo}];
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"orderNoList":drOrderNo}];
     self.menuDetailListTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                          webURL:@URI_WAITER_REPASTORDERS
                                                                          params:params
@@ -146,7 +170,7 @@
     }
     else
     {
-        NSLog(@"%@",msg);
+
     }
 }
 
@@ -188,19 +212,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *menuItems = self.menuArray[section];
+    NSArray *menuItems = [self.menuArray[section] lastObject];
     return self.expandSectionIndex == section ? menuItems.count : 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuCell"];
-    NSArray *menuInfo = self.menuArray[indexPath.section];
-    NSMutableDictionary *dic = menuInfo[indexPath.row];
-    cell.menuData = dic;
-    cell.menuName.text = [NSString stringWithFormat:@"%@ X %@", dic[@"name"], dic[@"count"]];
-    cell.menuPrice.text = [NSString stringWithFormat:@"¥ %@", dic[@"price"]];
-    cell.menuReady.on = [dic[@"ready"] isEqualToString:@"1"] ? YES : NO;
+    DBWaiterPresentList * present = [self.menuArray[indexPath.section] lastObject][indexPath.row];
+    
+    cell.oneMenuName = present;
+    cell.menuName.text = [NSString stringWithFormat:@"%@ X %@", present.menuName, present.count];
+    cell.menuPrice.text = [NSString stringWithFormat:@"¥ %@", present.sellPrice];
+    cell.menuReady.on = [present.ready isEqualToString:@"1"] ? YES : NO;
     cell.delegate = self;
     return cell;
 }
@@ -218,14 +242,16 @@
     [cell.contentView addGestureRecognizer:tap];
     cell.contentView.tag = section;
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
+    cell.locationDec.text = self.menuArray[section][0];
+    cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
     cell.readyInfo.tag = section + 100;
     [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *menuInfo = self.menuArray[section];
+    NSArray *menuInfo = [self.menuArray[section]lastObject];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
-    for (NSMutableDictionary *dic in menuInfo)
-        if ([dic[@"ready"] isEqualToString:@"1"]) completeCount++;
+    for (DBWaiterPresentList * list in menuInfo)
+        if ([list.ready isEqualToString:@"1"]) completeCount++;
     if (completeCount < totalCount)
     {
         [cell.readyInfo setBackgroundColor:[UIColor grayColor]];
@@ -247,17 +273,18 @@
 
 - (void)completeReady:(UIButton *)sender
 {
-    NSArray *menuInfo = self.menuArray[sender.tag - 100];
+    NSArray *menuInfo = [self.menuArray[sender.tag - 100]lastObject];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
-    for (NSMutableDictionary *dic in menuInfo)
-        if ([dic[@"ready"] isEqualToString:@"1"]) completeCount++;
+    for (DBWaiterPresentList * present in menuInfo)
+        if ([present.ready isEqualToString:@"1"]) completeCount++;
     if (completeCount < totalCount)
     {
         
     }
     else
     {
+        self.selectButtonTag = sender.tag - 100;
         [self NETWORK_waiterFinishTask:sender.tag - 100];
     }
 }
@@ -299,13 +326,17 @@
 
 - (void)readyStatusChanged:(MenuItemCell *)cell
 {
-    cell.menuData[@"ready"] = cell.menuReady.on == YES ? @"1" : @"0";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"menuName = %@ and orderNo = %@", cell.oneMenuName.menuName,cell.oneMenuName.orderNo];
+    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterPresentList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    DBWaiterPresentList * presentList = result[0];
+    presentList.ready = cell.menuReady.on == YES ? @"1" : @"0";
+    [[DataManager defaultInstance]saveContext];
     
-    NSArray *menuInfo = self.menuArray[self.expandSectionIndex];
+    NSArray *menuInfo = [self.menuArray[self.expandSectionIndex]lastObject];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
-    for (NSMutableDictionary *dic in menuInfo)
-        if ([dic[@"ready"] isEqualToString:@"1"]) completeCount++;
+    for (DBWaiterPresentList * list in menuInfo)
+        if ([list.ready isEqualToString:@"1"]) completeCount++;
     if (completeCount < totalCount)
     {
         [self.expandCompleteButton setBackgroundColor:[UIColor grayColor]];

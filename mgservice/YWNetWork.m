@@ -60,7 +60,6 @@ static NSDictionary * _headers;
             failure(error,task,response.allHeaderFields);
         }
     }];
-    NSLog(@"urltask = %@",urltask);
     NSLog(@"url = %@",self.url);
     NSLog(@"params = %@",self.params);
     NSLog(@"header = %@",_headers);

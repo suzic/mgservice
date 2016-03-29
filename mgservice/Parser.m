@@ -234,11 +234,13 @@
     return array;
 }
 
+#pragma mark - 服务员提交完成
+// 服务员提交完成
 - (NSMutableArray *)parseWaiterFinishTask:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    
+    NSLog(@"%@",dic);
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 || result == nil)
@@ -250,18 +252,30 @@
         for (DBWaiterTaskList * waiterTask in result) {
             waiterTask.status = dic[@"status"];
             waiterTask.finishTime = dic[@"finishTime"];
-            waiterTask.deviceId = dic[@""][@"deviceId"];
-            
+            waiterTask.deviceId = dic[@"progreeInfo"][@"deviceId"];
+            waiterTask.accepTime = dic[@"progreeInfo"][@"acceptTime"];
             [array addObject:waiterTask];
         }
     }
     return array;
 }
 
+#pragma mark - 获取菜单列表
+// 获取菜单列表
 - (NSMutableArray *)parseMenuDetailList:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];
-    NSLog(@"%@",dict);
+    NSDictionary * dic = (NSDictionary *)dict;
+    for (NSDictionary * list in dic[@"list"][0][@"menuList"]) {
+        DBWaiterPresentList * presentList = (DBWaiterPresentList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterPresentList"];
+        presentList.count = list[@"count"];
+        presentList.drName = list[@"drName"];
+        presentList.menuName = list[@"menuName"];
+        presentList.sellPrice = list[@"sellPrice"];
+        presentList.orderNo = dic[@"list"][0][@"orderNo"];
+        presentList.ready = @"0";
+        [array addObject:presentList];
+    }
     return array;
 }
 

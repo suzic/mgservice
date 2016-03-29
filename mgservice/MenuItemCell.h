@@ -20,11 +20,11 @@
 
 @interface MenuItemCell : UITableViewCell
 
-@property (retain, nonatomic) NSMutableDictionary *menuData;
-
 @property (strong, nonatomic) IBOutlet UILabel *menuName;
 @property (strong, nonatomic) IBOutlet UILabel *menuPrice;
 @property (strong, nonatomic) IBOutlet UISwitch *menuReady;
+
+@property (nonatomic,strong) DBWaiterPresentList * oneMenuName;
 
 @property(nonatomic, assign) id<MenuItemCellDelegate> delegate;
 

@@ -82,6 +82,7 @@
 #import "DBWaiterTaskList.h"
 #import "DataManager.h"
 #import "RequestNetWork.h"
+#import "DBWaiterPresentList.h"
 #import "DataManager+User.h"
 #import "MJRefresh.h"
 

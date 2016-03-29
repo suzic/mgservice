@@ -27,8 +27,20 @@
     self.taskContent.hidden = !cellSelected;
     self.taskAddress.hidden = !cellSelected;
     self.taskTime.hidden = !cellSelected;
-    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
+
+//    if (cellSelected == YES)
+//    {
+//        CGRect rect = self.taskName.frame;
+//        rect.size.height = (self.contentView.frame.size.height -50) / 4;
+//        self.taskName.frame = rect;
+//    }else
+//    {
+//        CGRect rect = self.taskName.frame;
+//        rect.size.height = 24;
+//        self.taskName.frame = rect;
+//    }
+//    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+//    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
     self.backgroudView.backgroundColor = cellSelected ? [UIColor groupTableViewBackgroundColor] : [UIColor clearColor];
 }
 
