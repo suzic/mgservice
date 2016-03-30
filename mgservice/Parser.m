@@ -36,6 +36,10 @@
     {
         datas = [self parseWaiterIsWork:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_WORKSTATUS]) // 设置服务员工作状态
+    {
+        datas = [self parseWaiterWorkStatus:dict];
+    }
     else if ([ident isEqualToString:@URI_WAITER_LOGIN])  // 服务员登录
     {
         datas = [self parseWaiterLogin:dict];
@@ -48,25 +52,24 @@
     {
         datas = [self parseWaiterInfoSelect:dict];
     }
-    else if ([ident isEqualToString:@URI_WAITER_GETSERVICELIST])
+    else if ([ident isEqualToString:@URI_WAITER_GETSERVICELIST]) // 服务员获取订单列表
     {
         datas = [self parSeserviceRequestList:dict];
     }
-    else if ([ident isEqualToString:@URI_WAITER_RUSHTASK])
+    else if ([ident isEqualToString:@URI_WAITER_RUSHTASK]) // 服务员抢单
     {
         datas = [self parseWaiterGetIndent:dict];
     }
-    else if ([ident isEqualToString:@URI_WAITER_FINISHTASK])
+    else if ([ident isEqualToString:@URI_WAITER_FINISHTASK])  // 服务员提交完成订单
     {
         datas = [self parseWaiterFinishTask:dict];
     }
-    else if ([ident isEqualToString:@URI_WAITER_REPASTORDERS])
+    else if ([ident isEqualToString:@URI_WAITER_REPASTORDERS]) // 获取菜单详情
     {
         datas = [self parseMenuDetailList:dict];
     }
     //存储数据
     [dataManager saveContext];
-    NSLog(@"url = %@ \n data = %@",ident,datas);
     return datas;
 }
 
@@ -114,6 +117,19 @@
     
     [array addObject:waiterInfo];
     
+    return array;
+}
+
+#pragma mark - 服务员工作状态设置
+// 服务员工作状态设置
+- (NSMutableArray *)parseWaiterWorkStatus:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    
+    DBWaiterInfor *waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] getWaiterInfor];
+    waiterInfo.workStatus = dic[@"workingState"];
+    [array addObject:dic[@"retOk"]];
     return array;
 }
 
@@ -240,7 +256,6 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    NSLog(@"%@",dic);
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 || result == nil)

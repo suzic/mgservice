@@ -19,8 +19,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
 @property (strong, nonatomic) IBOutlet UITableView *taskTable;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *allHeightSet;
-
 
 @property (weak, nonatomic) IBOutlet UILabel *countdownLabel; // 显示倒计时文本
 @property (weak, nonatomic) IBOutlet UILabel *waiterName; // 服务员姓名
@@ -54,7 +52,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[RequestNetWork defaultManager]registerDelegate:self];
-    
     if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
         if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
             [self NETWORK_requestTask];
@@ -264,15 +261,58 @@
 {
     if (succeed)
     {
-        DBWaiterInfor * waiter = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
-        waiter.workStatus = @"1";
-        [[DataManager defaultInstance]saveContext];
+        if ([datas[0] isEqualToString:@"0"])
+        {
+            // 状态设置成功
+            if (_direction == NO) {
+                _timer.paused = NO;
+                _direction = YES;
+                [_statusButton setTitle:@"暂停" forState:UIControlStateNormal];
+                //将工作状态保存起来
+                [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
+                NSDate *date = [NSDate date];
+                
+                //如果第一次运行，将当前日期存入
+                if (![SPUserDefaultsManger getValue:kStart]) {
+                    [SPUserDefaultsManger setValue:date forKey:kStart];
+                }
+                //        [self reloadWorkStatUs:@"1"];
+                [SPUserDefaultsManger setValue:date forKey:kStart];
+            }
+            else
+            {
+                _timer.paused = YES;
+                _direction = NO;
+                [_statusButton setTitle:@"开始" forState:UIControlStateNormal];
+                //将工作状态保存起来
+                [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
+                [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)_second] forKey:kPause];
+                
+                NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
+                NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
+                [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)inte] forKey:@"abc"];
+                [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
+            }
+        }
+        else
+        {
+            // 状态设置失败
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"状态更改失败" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:^{
+                [[RequestNetWork defaultManager]registerDelegate:self];
+            }];
+        }
     }
     else
     {
-        DBWaiterInfor * waiter = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
-        waiter.workStatus = @"0";
-        [[DataManager defaultInstance]saveContext];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
     }
 }
 
@@ -563,62 +603,14 @@
 - (IBAction)workingStatus:(UIButton *)sender
 {
     if (_direction == NO) {
-        _timer.paused = NO;
-        _direction = YES;
-        [sender setTitle:@"暂停" forState:UIControlStateNormal];
-        //将工作状态保存起来
-        [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
-        NSDate *date = [NSDate date];
-        
-        //如果第一次运行，将当前日期存入
-        if (![SPUserDefaultsManger getValue:kStart]) {
-            [SPUserDefaultsManger setValue:date forKey:kStart];
-        }
-//        [self reloadWorkStatUs:@"1"];
-        [SPUserDefaultsManger setValue:date forKey:kStart];
         // 修改当前状态为上班
         [self NETWORK_reloadWorkStatus:@"1"];
     }
     else
     {
-        _timer.paused = YES;
-        _direction = NO;
-        [sender setTitle:@"开始" forState:UIControlStateNormal];
-        //将工作状态保存起来
-        [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
-
-        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)_second] forKey:kPause];
-        
-        NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
-        NSLog(@"ffffff....%f",([da timeIntervalSinceNow])*60);
-        NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
-        NSLog(@"dddddd...%ld",(long)inte);
-        NSLog(@"哈哈%@",[self calculate:inte]);
-        [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)inte] forKey:@"abc"];
-        
-//        [self reloadWorkStatUs:@"0"];
-        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
         // 修改当前状态为下班
         [self NETWORK_reloadWorkStatus:@"0"];
     }
-    
-//    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-//    NSLog(@"%@",witerInfo.attendanceState);
-//    if ([witerInfo.attendanceState isEqualToString:@"0"])
-//    {
-//        _timer.paused = YES;
-//        NSDate *date = [NSDate date];
-//        [SPUserDefaultsManger setValue:date forKey:kStart];
-//        //修改当前状态为上班
-//        [self reloadWorkStatUs:@"1"];
-//    }
-//    else if([witerInfo.attendanceState isEqualToString:@"1"])
-//    {
-//        _timer.paused = NO;
-//        [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
-//        // 修改当前状态为下班
-//        [self reloadWorkStatUs:@"0"];
-//    }
 }
 
 - (IBAction)logout:(id)sender
@@ -634,13 +626,6 @@
 
 - (IBAction)obtainTask:(id)sender
 {
-//    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"抢单结果模拟测试"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"没抢到"
-//                                         destructiveButtonTitle:nil
-//                                              otherButtonTitles:@"进入呼叫任务", @"进入送餐任务",nil];
-//    sheet.tag = ALERT_INTOTASK;
-//    [sheet showInView:self.view];
     if (self.taskArray.count <= 0 ||self.taskArray == nil) {
         return;
     }
@@ -745,7 +730,7 @@
 // 滚动的过程中不断的计算当前自动选择的索引数值
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSInteger firstRow = (scrollView.contentOffset.y / self.taskTable.frame.size.height * 8);
+    NSInteger firstRow = ((scrollView.contentOffset.y + 1) * 8 / self.taskTable.frame.size.height);
     if (firstRow < 0) firstRow = 0;
     if (self.taskArray.count > 0) {
         TaskCell * cell = [self.taskTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
