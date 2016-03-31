@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *menuName;
 @property (nullable, nonatomic, retain) NSString *drName;
 @property (nullable, nonatomic, retain) NSString *ready;
+@property (nullable, nonatomic, retain) NSString *targetTelephone;
+
 @end
 
 NS_ASSUME_NONNULL_END

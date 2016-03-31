@@ -630,7 +630,18 @@
         return;
     }
     DBTaskList * taskList = (DBTaskList *)self.taskArray[self.selectedIndex - 2];
-    [self NETWORK_waiterGetIndent:taskList.taskCode];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单" message:@"确认要抢该订单？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self NETWORK_waiterGetIndent:taskList.taskCode];
+    }];
+    [alert addAction:confirmAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:^{
+        [[RequestNetWork defaultManager]registerDelegate:self];
+    }];
 }
 
 - (NSMutableArray *)taskArray

@@ -281,6 +281,7 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
+    NSLog(@"%@",dic);
     for (NSDictionary * list in dic[@"list"][0][@"menuList"]) {
         DBWaiterPresentList * presentList = (DBWaiterPresentList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterPresentList"];
         presentList.count = list[@"count"];
@@ -288,6 +289,7 @@
         presentList.menuName = list[@"menuName"];
         presentList.sellPrice = list[@"sellPrice"];
         presentList.orderNo = dic[@"list"][0][@"orderNo"];
+        presentList.targetTelephone = dic[@"list"][0][@"targetInfo"][@"targetTelephone"];
         presentList.ready = @"0";
         [array addObject:presentList];
     }

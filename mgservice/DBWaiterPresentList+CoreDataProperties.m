@@ -19,5 +19,6 @@
 @dynamic menuName;
 @dynamic drName;
 @dynamic ready;
+@dynamic targetTelephone;
 
 @end
