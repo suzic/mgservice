@@ -65,7 +65,17 @@
     }
     else
     {
-        self.navigationItem.rightBarButtonItem = self.presentButton;
+        for (DBWaiterTaskList * task in array) {
+            if ([task.category isEqualToString:@"4"])
+            {
+                self.navigationItem.rightBarButtonItem = self.presentButton;
+            }
+            else
+            {
+                self.navigationItem.rightBarButtonItem = nil;
+            }
+            break;
+        }
     }
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     self.waiterName.text = waiterInfo.name;
