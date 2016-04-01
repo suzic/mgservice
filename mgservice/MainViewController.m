@@ -54,6 +54,7 @@
     [[RequestNetWork defaultManager]registerDelegate:self];
     if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
         if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
+            self.selectPageNumber = 1;
             [self NETWORK_requestTask];
         }
     }
@@ -66,6 +67,9 @@
     {
         self.navigationItem.rightBarButtonItem = self.presentButton;
     }
+    DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+    self.waiterName.text = waiterInfo.name;
+    self.waiterCurrentArea.text = waiterInfo.currentArea;
 }
 
 - (void)viewDidLoad
