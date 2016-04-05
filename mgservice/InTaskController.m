@@ -7,7 +7,7 @@
 //
 
 #import "InTaskController.h"
-#import "ChatCell.h"
+
 @interface InTaskController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
@@ -61,22 +61,9 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = nil;
-    DBTaskChat * taskChat = self.messageArray[indexPath.row];
-    ChatCell * chatCell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
-    chatCell.taskChat = taskChat;
-    cell = chatCell;
+    ChatCell * cell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
+    cell.textLabel.text = self.messageArray[indexPath.row];
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    DBTaskChat *taskChat = self.messageArray[indexPath.row];
-    CGSize textMaxSize = CGSizeMake(self.view.frame.size.width -100,MAXFLOAT);
-//    CGSize textSize = [[taskChat.byUserOrWaiter isEqualToString:@"1"]?taskChat.question:taskChat.answer sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
-    CGSize textSize = [@"你好,我是客人，请问你有什么服务?" sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
-    return textSize.height +30;
-    
 }
 - (void)viewWillAppear:(BOOL)animated
 {

@@ -79,20 +79,12 @@
 #import "DBMessage.h"
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
-<<<<<<< HEAD
-#import "databaseHeader.h"
-=======
 #import "DBWaiterTaskList.h"
->>>>>>> luoyu
 #import "DataManager.h"
 #import "RequestNetWork.h"
 #import "DBWaiterPresentList.h"
 #import "DataManager+User.h"
-<<<<<<< HEAD
-#import "UIImageView+WebCache.h"
-=======
 #import "MJRefresh.h"
->>>>>>> luoyu
 
 #endif
 
