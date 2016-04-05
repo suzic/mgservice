@@ -12,6 +12,7 @@
         <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,24 +38,58 @@
         <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dutyin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dutyLevel" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dutyout" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hotelCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="incharge" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isLogin" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nay" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasCallList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBTaskList" inverseName="belongWaiter" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
+    <entity name="DBWaiterPresentList" representedClassName="DBWaiterPresentList" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="menuName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ready" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sellPrice" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetTelephone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DBWaiterTaskList" representedClassName="DBWaiterTaskList" syncable="YES">
+        <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deviceToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priority" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rush" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userDeviceToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userDiviceld" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userLocation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userLocationArea" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userLocationDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userMessageInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>
-        <element name="DBTaskList" positionX="-4502" positionY="-1192" width="128" height="328"/>
-        <element name="DBTest" positionX="-4482" positionY="-1053" width="128" height="75"/>
-        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="315"/>
-        <element name="Entity" positionX="-4473" positionY="-1044" width="128" height="45"/>
-        <element name="Entity1" positionX="-4464" positionY="-1035" width="128" height="60"/>
+        <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="345"/>
+        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
+        <element name="DBWaiterPresentList" positionX="-4241" positionY="-1269" width="128" height="148"/>
+        <element name="DBWaiterTaskList" positionX="-3899" positionY="-1404" width="128" height="388"/>
     </elements>
 </model>

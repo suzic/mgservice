@@ -20,4 +20,10 @@
  */
 - (DBWaiterInfor *)getWaiterInfor;
 
+/**
+ * @abstract 获取菜单详情
+ * @params  orderNo  送餐服务业务号
+ */
+- (NSArray *)getPresentList:(NSString *)orderNo;
+
 @end

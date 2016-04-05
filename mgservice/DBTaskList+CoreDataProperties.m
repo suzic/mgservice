@@ -32,5 +32,6 @@
 @dynamic userMessageInfo;
 @dynamic belongWaiter;
 @dynamic hasMessage;
+@dynamic drOrderNo;
 
 @end

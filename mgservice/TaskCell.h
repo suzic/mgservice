@@ -14,5 +14,10 @@
 
 @property (strong, nonatomic) IBOutlet UIView *backgroudView;
 @property (strong, nonatomic) IBOutlet UILabel *taskName;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *allHeightSet;
+
+@property (strong, nonatomic) IBOutlet UILabel *taskContent;
+@property (strong, nonatomic) IBOutlet UILabel *taskAddress;
+@property (strong, nonatomic) IBOutlet UILabel *taskTime;
 
 @end

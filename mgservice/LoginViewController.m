@@ -8,19 +8,23 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController ()<RequestNetWorkDelegate,UIAlertViewDelegate>
+@interface LoginViewController ()<RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
-
-@property (weak, nonatomic) IBOutlet UIImageView *qrcodeView;
 
 @property (weak, nonatomic) IBOutlet UITextField *account; // 账号
 
 @property (weak, nonatomic) IBOutlet UITextField *passWord; // 密码
 
-@property (nonatomic,strong) NSURLSessionTask * task1;
+@property (nonatomic,strong) NSDictionary * loginParams;  // 登录信息
 
-@property (nonatomic,strong) NSURLSessionTask * task2;
+@property (nonatomic,strong) NSURLSessionTask * accessServerTimeTask;
+
+@property (nonatomic,strong) NSURLSessionTask * checkIsLoginTask;
+
+@property (nonatomic,strong) NSURLSessionTask * requestLoginTask;
+
+@property (nonatomic,strong) NSURLSessionTask * waiterInfoTask;
 
 @property (nonatomic,strong) LCProgressHUD * hud;
 
@@ -28,9 +32,6 @@
 
 @implementation LoginViewController
 
-{
-    BOOL _isLogin;
-}
 
 - (void)viewDidLoad
 {
@@ -38,17 +39,9 @@
     
     [[RequestNetWork defaultManager]registerDelegate:self];
     
-    _isLogin = NO;
-    
-    self.qrcodeView.layer.shadowOffset = CGSizeMake(0, 2);
-    self.qrcodeView.layer.shadowRadius = 2;
-    self.qrcodeView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.qrcodeView.layer.shadowOpacity = 0.5;
-    self.qrcodeView.userInteractionEnabled = YES;
-    
     self.loginButton.layer.cornerRadius = 4.0f;
     
-    [self accessSserverTime];
+    //[self NETWORK_accessServerTime];
     
 }
 
@@ -61,49 +54,165 @@
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    
-    if ([witerInfo.isLogin isEqualToString:@"1"])
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
+//    
+//    if ([witerInfo.isLogin isEqualToString:@"1"])
+//    {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
+//}
 
 #pragma mark - 网络请求
 
 // 获取服务器时间
-- (void)accessSserverTime
+- (void)NETWORK_accessServerTime
 {
-    self.task1 = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_SCREAT
+    self.accessServerTimeTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_SCREAT
                                                           webURL:@URI_MESSAGE_BASETIME
                                                           params:nil
                                                       withByUser:YES];
 }
 
-// 服务员状态查询 是否登陆成功
-- (void)checkIsLogin
+- (void)RESULT_accessServerTime:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+    
+    }
+    else
+    {
+        
+    }
+}
+
+// 服务员状态查询 是否登陆成功（弃用）
+- (void)NETWORK_checkIsLogin
 {
     
-    DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-    if (witerInfo == nil)
-        return;
-    NSLog(@"%@",witerInfo);
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": @"12:34:02:00:00:33",@"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151"}];
+                                   @{@"diviceId": waiterInfo.deviceId,
+                                     @"deviceToken":waiterInfo.deviceToken}];
     
-    self.task2 = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+    self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                           webURL:@URI_WAITER_CHECKSTATUS
                                                           params:params
                                                       withByUser:YES];
 }
 
-- (void)startRequest:(YWNetWork *)manager {
-    if (!self.hud) {
+- (void)RESULT_checkIsLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+{
+    if (succeed) {
+        DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
+        witerInfo.attendanceState = @"1";
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"自动登录失败" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+    }
+}
+
+// 获取服务员信息
+- (void)NETWORK_waiterInfo
+{
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+//    NSLog(@"%@",waiterInfo.deviceId);
+//    NSLog(@"%@",waiterInfo.deviceToken);
+//    NSLog(@"%@",waiterInfo.workNum);
+//    NSLog(@"%@",waiterInfo.password);
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
+                                                                                   @"deviceToken":waiterInfo.deviceToken}];
+    self.waiterInfoTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                   webURL:@URI_WAITER_CHECKINFO
+                                                                   params:params
+                                                               withByUser:YES];
+}
+
+- (void)RESULT_waiterInfo:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        // 失败需要重新登录
+        [self NETWORK_requestLogin];
+    }
+}
+
+// 登录请求
+- (void)NETWORK_requestLogin
+{
+    
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
+                                    @{@"workNum":self.account.text,
+                                      @"passward":self.passWord.text,
+                                      @"diviceId":@"12:34:02:00:00:30",
+                                      @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8150"}];
+    self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                     webURL:@URI_WAITER_LOGIN
+                                                                     params:params
+                                                                 withByUser:YES];
+    self.loginParams = params;
+    
+}
+
+- (void)RESULT_requestLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        if ([datas[0] isEqualToString:@"0"])
+        {
+            //登录成功存储服务员登录信息
+            DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+            waiterInfo.workNum = _loginParams[@"workNum"];
+            waiterInfo.password = _loginParams[@"passward"];
+            waiterInfo.deviceId = _loginParams[@"diviceId"];
+            waiterInfo.deviceToken = _loginParams[@"deviceToken"];
+            [[DataManager defaultInstance]saveContext];
+            //登录成功获取服务员信息
+            [self NETWORK_waiterInfo];
+        }
+        else
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:datas[1] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [[RequestNetWork defaultManager]registerDelegate:self];
+            }];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+    else
+    {
+        NSLog(@"%@    %@",code,message);
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+
+#pragma mark - RequestNetWorkDelegate 协议方法
+
+- (void)startRequest:(NSURLSessionTask *)task
+{
+    if (!self.hud)
+    {
         self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
                                                andStyle:titleStyle andTitle:@"正在加载...."];
-    }else{
+    }
+    else
+    {
         [self.hud stopWMProgress];
         [self.hud removeFromSuperview];
         self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
@@ -118,25 +227,22 @@
 {
     [self.hud stopWMProgress];
     [self.hud removeFromSuperview];
-    // 获取服务器时间
-    if (task == self.task1)
+
+    if (task == self.accessServerTimeTask)
     {
-        NSDictionary *serverTime = datas[0];
-        DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-        witerInfo.deviceId = @"12:34:02:00:00:33";
-        witerInfo.deviceToken = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151";
-        NSString *erString = [NSString stringWithFormat:@"STR|%@|%@|%@|END",witerInfo.deviceId,witerInfo.deviceToken,serverTime];
-        UIImage *qrcode = [self createNonInterpolatedUIImageFormCIImage:[self createQRForString:erString] withSize:250.0f];
-        UIImage *customQrcode = [self imageBlackToTransparent:qrcode withRed:60.0f andGreen:74.0f andBlue:89.0f];
-        self.qrcodeView.image = customQrcode;
-        
-        _isLogin = YES;
+        [self RESULT_accessServerTime:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-    else if (task == self.task2)
+    else if (task == self.checkIsLoginTask)
     {
-        DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-        witerInfo.isLogin = @"1";
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self RESULT_checkIsLogin:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    else if (task == self.requestLoginTask)
+    {
+        [self RESULT_requestLogin:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    else if (task == self.waiterInfoTask)
+    {
+        [self RESULT_waiterInfo:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
 }
 
@@ -144,114 +250,42 @@
 {
     [self.hud stopWMProgress];
     [self.hud removeFromSuperview];
-}
-
-#pragma mark - 生成二维码
-// 二维码方法
-- (CIImage *)createQRForString:(NSString *)qrString
-{
-    NSData *stringData = [qrString dataUsingEncoding:NSUTF8StringEncoding];
-    // 创建filter
-    CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
-    // 设置内容和纠错级别
-    [qrFilter setValue:stringData forKey:@"inputMessage"];
-    [qrFilter setValue:@"M" forKey:@"inputCorrectionLevel"];
-    // 返回CIImage
-    return qrFilter.outputImage;
-}
-
-- (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size
-{
-    CGRect extent = CGRectIntegral(image.extent);
-    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
-    // 创建bitmap;
-    size_t width = CGRectGetWidth(extent) * scale;
-    size_t height = CGRectGetHeight(extent) * scale;
-    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
-    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
-    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
-    CGContextScaleCTM(bitmapRef, scale, scale);
-    CGContextDrawImage(bitmapRef, extent, bitmapImage);
-    // 保存bitmap到图片
-    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
-    CGContextRelease(bitmapRef);
-    CGImageRelease(bitmapImage);
-    return [UIImage imageWithCGImage:scaledImage];
-}
-
-#pragma mark - imageToTransparent
-void ProviderReleaseData (void *info, const void *data, size_t size)
-{
-    free((void*)data);
-}
-
-- (UIImage*)imageBlackToTransparent:(UIImage*)image withRed:(CGFloat)red andGreen:(CGFloat)green andBlue:(CGFloat)blue
-{
-    const int imageWidth = image.size.width;
-    const int imageHeight = image.size.height;
-    size_t      bytesPerRow = imageWidth * 4;
-    uint32_t* rgbImageBuf = (uint32_t*)malloc(bytesPerRow * imageHeight);
-    // create context
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(rgbImageBuf, imageWidth, imageHeight, 8, bytesPerRow, colorSpace,
-                                                 kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
-    CGContextDrawImage(context, CGRectMake(0, 0, imageWidth, imageHeight), image.CGImage);
-    // traverse pixe
-    int pixelNum = imageWidth * imageHeight;
-    uint32_t* pCurPtr = rgbImageBuf;
-    for (int i = 0; i < pixelNum; i++, pCurPtr++){
-        if ((*pCurPtr & 0xFFFFFF00) < 0x99999900){
-            // change color
-            uint8_t* ptr = (uint8_t*)pCurPtr;
-            ptr[3] = red; //0~255
-            ptr[2] = green;
-            ptr[1] = blue;
-        }else{
-            uint8_t* ptr = (uint8_t*)pCurPtr;
-            ptr[0] = 0;
-        }
+    if (task == self.accessServerTimeTask)
+    {
+        [self RESULT_accessServerTime:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
-    // context to image
-    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
-    CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpace,
-                                        kCGImageAlphaLast | kCGBitmapByteOrder32Little, dataProvider,
-                                        NULL, true, kCGRenderingIntentDefault);
-    CGDataProviderRelease(dataProvider);
-    UIImage* resultUIImage = [UIImage imageWithCGImage:imageRef];
-    // release
-    CGImageRelease(imageRef);
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    return resultUIImage;
+    else if (task == self.checkIsLoginTask)
+    {
+        [self RESULT_checkIsLogin:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.requestLoginTask)
+    {
+        [self RESULT_requestLogin:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.waiterInfoTask)
+    {
+        [self RESULT_waiterInfo:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
 }
 
 #pragma mark - 按钮点击方法
+
 // 点击登录方法
 - (IBAction)loginPressed:(id)sender
 {
-        [self dismissViewControllerAnimated:YES completion:nil];
-//    if (_isLogin == YES)
-//        [self checkIsLogin];
-//    else
-//    {
-//        UIAlertView *alent = [[UIAlertView alloc] initWithTitle:@"登录失败"
-//                                                        message:@"请输入正确的账号密码或重新扫描二维码进行登录"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil, nil];
-//        [alent show];
-//    }
-    
+    NSString * username = self.account.text;
+    NSString * password = self.passWord.text;
+    if (username.length <= 0 || password.length <= 0)
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"用户名或密码不能为空" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [[RequestNetWork defaultManager]registerDelegate:self];
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    [self NETWORK_requestLogin];
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self accessSserverTime];
-}
-
-// c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8151
 @end

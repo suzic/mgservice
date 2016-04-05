@@ -24,6 +24,11 @@
         _cellSelected = cellSelected;
     self.taskName.font = [UIFont systemFontOfSize:cellSelected ? 24.0f : 16.0f];
     self.taskName.textColor = cellSelected ? [UIColor blackColor] : [UIColor grayColor];
+    self.taskContent.hidden = !cellSelected;
+    self.taskAddress.hidden = !cellSelected;
+    self.taskTime.hidden = !cellSelected;
+
+    self.allHeightSet.constant = (((kScreenHeight - 64- 60 - 160) / 2) - 50) / 4;
 //    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
 //    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
     self.backgroudView.backgroundColor = cellSelected ? [UIColor groupTableViewBackgroundColor] : [UIColor clearColor];

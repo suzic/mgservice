@@ -31,10 +31,24 @@
     DBWaiterInfor *waiterInfo = nil;
     NSArray *result = [self arrayFromCoreData:@"DBWaiterInfor" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count<= 0 || result == nil)
+    {
         waiterInfo = (DBWaiterInfor *)[self insertIntoCoreData:@"DBWaiterInfor"];
+        [[DataManager defaultInstance]saveContext];
+        return nil;
+    }
     else
+    {
         waiterInfo = result[0];
+    }
     return waiterInfo;
+}
+
+// 获取菜单详情
+- (NSArray *)getPresentList:(NSString *)orderNo
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"orderNo = %@", orderNo];
+    NSArray *result = [self arrayFromCoreData:@"DBWaiterPresentList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    return result;
 }
 
 @end

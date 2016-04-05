@@ -313,7 +313,7 @@ static NSString* macadd;
 + (NSDate *)startDate:(NSDate *)date offsetDay:(int)numDays
 {
     NSCalendar *gregorian = [[NSCalendar alloc]
-                             initWithCalendarIdentifier:NSGregorianCalendar];
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     [gregorian setFirstWeekday:2]; //monday is first day
     
     NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
