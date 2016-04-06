@@ -24,7 +24,7 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     //set AppKey and AppSecret
-    [UMessage startWithAppkey:@"your appkey" launchOptions:launchOptions];
+    [UMessage startWithAppkey:@"56f23615e0f55a8fc400053b" launchOptions:launchOptions];
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
@@ -73,10 +73,23 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [UMessage registerDeviceToken:deviceToken];
-//    NSString *device = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-//                         stringByReplacingOccurrencesOfString: @">" withString: @""]
-//                        stringByReplacingOccurrencesOfString: @" " withString: @""];
-//    NSLog(@"%@",device);
+    NSString *device = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                         stringByReplacingOccurrencesOfString: @">" withString: @""]
+                        stringByReplacingOccurrencesOfString: @" " withString: @""];
+    NSLog(@"推送消息，deviceToKen：%@",device);
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    waiterInfo.deviceToken = device;
+    [[DataManager defaultInstance] saveContext];
+}
+
+//接收推送
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+//    NSLog(@"消息通知:%@",userInfo[@"messType"]);
+//    if ([userInfo[@"messType"] isEqualToString:@"4"])
+//    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
+//    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -114,6 +127,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"已激活APP");
 }
 //应用程序被终止时，执行此代理方法
 - (void)applicationWillTerminate:(UIApplication *)application {
