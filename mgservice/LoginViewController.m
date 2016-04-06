@@ -149,12 +149,13 @@
 // 登录请求
 - (void)NETWORK_requestLogin
 {
-    
+ 
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
                                     @{@"workNum":self.account.text,
                                       @"passward":self.passWord.text,
-                                      @"diviceId":@"12:34:02:00:00:30",
-                                      @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8150"}];
+                                      @"diviceId":@"12:34:02:00:00:37",
+                                      @"deviceToken":waiterInfo.deviceToken}];
     self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                      webURL:@URI_WAITER_LOGIN
                                                                      params:params

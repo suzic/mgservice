@@ -126,6 +126,8 @@
     }
     [self tableRefreshCreate];
     [self NETWORK_checkIsLogin];
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushMessType:) name:@"pushMessType" object:nil];
 }
 
 #pragma mark - 上拉加载下拉刷新
@@ -808,5 +810,16 @@
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
-
+#pragma 接收通知
+//通知中的方法
+- (void)pushMessType:(NSNotification*)notification
+{
+    //每次接收通知的时候都刷新tableview
+    if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
+        if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
+            self.selectPageNumber = 1;
+            [self NETWORK_requestTask];
+        }
+    }
+}
 @end
