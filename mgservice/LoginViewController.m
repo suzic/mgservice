@@ -179,6 +179,7 @@
             [[DataManager defaultInstance]saveContext];
             //登录成功获取服务员信息
             [self NETWORK_waiterInfo];
+            //应用登陆成功后，调用SDK
         }
         else
         {

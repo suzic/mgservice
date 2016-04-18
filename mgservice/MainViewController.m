@@ -214,6 +214,7 @@
     {
         if ([datas[0] isEqualToString:@"0"])
         {
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];//下班时，登出IMSDK
             [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
             _timer.paused = YES;
             _direction = NO;
@@ -358,6 +359,7 @@
                                                                          params:params
                                                                      withByUser:YES];
     }
+    
 }
 
 - (void)RESULT_checkIsLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
@@ -642,6 +644,8 @@
 
 - (IBAction)obtainTask:(id)sender
 {
+#pragma 临时调试跳转
+    [self performSegueWithIdentifier:@"goTask" sender:nil];
     if (self.taskArray.count <= 0 ||self.taskArray == nil) {
         return;
     }
