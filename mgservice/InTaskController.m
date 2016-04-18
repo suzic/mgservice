@@ -8,10 +8,7 @@
 
 #import "InTaskController.h"
 
-@interface InTaskController () //<UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
-
-//@property (weak, nonatomic) IBOutlet UITableView *chatTableView;
-
+@interface InTaskController ()
 @property (strong, nonatomic) YWConversationViewController * chatVC;
 @property (strong, nonatomic) IBOutlet UIButton *myLocation;//我的位置
 @property (strong, nonatomic) IBOutlet UIButton *heLocation;//他的位置
@@ -21,8 +18,6 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
-//@property (weak, nonatomic) IBOutlet UITextView *ChatTextView;
-
 @end
 
 @implementation InTaskController
@@ -48,12 +43,21 @@
     //创建聊天对象
     [self createChat];
 }
+
 //创建聊天对象
 - (void)createChat
 {
-    YWPerson * person = [[YWPerson alloc]initWithPersonId:@"testuser10" appKey:@"23344766"];//23344766 //23337443
-    YWP2PConversation * conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext:[SPKitExample sharedInstance].ywIMKit.IMCore];
-    self.chatVC = [[SPKitExample sharedInstance] exampleMakeConversationViewControllerWithConversation:conversation];
+    [[SPKitExample sharedInstance] callThisAfterISVAccountLoginSuccessWithYWLoginId:@"testuser10" passWord:@"123456" preloginedBlock:nil successBlock:^{
+        //到这里已经完成SDK接入并登录成功
+        //创建聊天对象
+        YWPerson * person = [[YWPerson alloc]initWithPersonId:@"test0" appKey:@"23337443"];//23344766 //23337443
+        YWP2PConversation * conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext:[SPKitExample sharedInstance].ywIMKit.IMCore];
+        self.chatVC = [[SPKitExample sharedInstance] exampleMakeConversationViewControllerWithConversation:conversation];
+    } failedBlock:^(NSError *aError) {
+        if (aError.code == YWLoginErrorCodePasswordError || aError.code == YWLoginErrorCodePasswordInvalid || aError.code == YWLoginErrorCodeUserNotExsit) {
+            /// 可以显示错误提示
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -109,46 +113,6 @@
     self.showTalk = NO;
 }
 
-//这个是发送按钮
-//- (IBAction)sendChat:(id)sender
-//{
-//    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
-//}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-//键盘弹出时
-//- (void)textFieldDidBeginEditing:(UITextField *)textField
-//{
-//    if (self.showTalk)
-//    {
-//        [UIView animateWithDuration:0.5f animations:^{
-//            self.chatHistoryViewBottom.constant = 280.0f;
-//        }];
-//    }
-//}
-
-//键盘缩回时
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    self.chatHistoryViewBottom.constant = self.showTalk ? 0.0f : 60 - self.view.frame.size.height;
-//}
-
-//点return按钮，回收键盘
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-////    [self.inputChat resignFirstResponder];
-//    return YES;
-//}
-
 //textView代理
 //- (void)textViewDidChange:(UITextView *)textView
 //{
@@ -156,16 +120,5 @@
 //    CGSize textSize = [textView.text sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
 //    self.bottomViewHeight.constant = textSize.height +20;
 //}
-//接收通知，计算键盘高度
-//- (void)keyboardWillChange:(NSNotification *)note
-//{
-//    NSDictionary *userInfo = note.userInfo;
-//    CGFloat duration = [userInfo[@"UIKeyboardAnimationDurationUserInfoKey"] doubleValue];
-//    
-//    CGRect keyFrame = [userInfo[@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
-//    CGFloat moveY = keyFrame.origin.y - self.view.frame.size.height;
-//    [UIView animateWithDuration:duration animations:^{
-//        self.view.transform = CGAffineTransformMakeTranslation(0, moveY);
-//    }];
-//}
+
 @end

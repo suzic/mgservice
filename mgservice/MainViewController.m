@@ -645,7 +645,7 @@
 - (IBAction)obtainTask:(id)sender
 {
 #pragma 临时调试跳转
-    [self performSegueWithIdentifier:@"goTask" sender:nil];
+//    [self performSegueWithIdentifier:@"goTask" sender:nil];
     if (self.taskArray.count <= 0 ||self.taskArray == nil) {
         return;
     }

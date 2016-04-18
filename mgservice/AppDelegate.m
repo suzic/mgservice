@@ -67,18 +67,7 @@
     //for log
     [UMessage setLogEnabled:YES];
     
-    [[SPKitExample sharedInstance] callThisAfterISVAccountLoginSuccessWithYWLoginId:@"testuser11"
-                                                                           passWord:@"123456"
-                                                                    preloginedBlock:^{
-                                                                        /// 可以显示会话列表页面
-                                                                    } successBlock:^{
-                                                                        //  到这里已经完成SDK接入并登录成功，你可以通过exampleMakeConversationListControllerWithSelectItemBlock获得会话列表
-                                                                        /// 可以显示会话列表页面
-                                                                    } failedBlock:^(NSError *aError) {
-                                                                        if (aError.code == YWLoginErrorCodePasswordError || aError.code == YWLoginErrorCodePasswordInvalid || aError.code == YWLoginErrorCodeUserNotExsit) {
-                                                                            /// 可以显示错误提示
-                                                                        }
-                                                                    }];
+    
     return YES;
 }
 

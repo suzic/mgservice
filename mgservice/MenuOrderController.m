@@ -244,7 +244,7 @@
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
     cell.locationDec.text = self.menuArray[section][0];
     cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
-    cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
+    //cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
     cell.readyInfo.tag = section + 100;
     [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
     
