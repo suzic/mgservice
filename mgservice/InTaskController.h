@@ -11,5 +11,4 @@
 #import "NSString+Addtions.h"
 @interface InTaskController : UIViewController
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
-
 @end

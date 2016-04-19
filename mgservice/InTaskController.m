@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
+@property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;
 @end
 
 @implementation InTaskController
@@ -38,12 +39,49 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
     //返回按钮 临时用
-    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
+//    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
+    
+    //测试任务完成的方法
+    [self endTask];
     
     //创建聊天对象
     [self createChat];
 }
 
+- (void)endTask
+{
+    UIButton * endButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    endButton.frame = CGRectMake(200, 250, 100, 30);
+    [endButton setTitle:@"小于10米" forState:UIControlStateNormal];
+    [endButton addTarget:self action:@selector(endButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:endButton];
+}
+
+- (void)endButton:(UIButton *)button
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString * taskCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+        DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                       @{@"diviceId":waiterInfo.deviceId,
+                                         @"deviceToken":waiterInfo.deviceToken,
+                                         @"taskCode":taskCode}];//任务编号
+        
+        self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                              webURL:@URI_WAITER_FINISHTASK
+                                                                              params:params
+                                                                          withByUser:YES];
+        //登出IM
+        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+        [SPUserDefaultsManger setValue:nil forKey:@"taskCode"];
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 //创建聊天对象
 - (void)createChat
 {

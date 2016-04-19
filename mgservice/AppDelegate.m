@@ -67,7 +67,6 @@
     //for log
     [UMessage setLogEnabled:YES];
     
-    
     return YES;
 }
 

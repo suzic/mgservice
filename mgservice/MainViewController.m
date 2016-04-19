@@ -39,6 +39,7 @@
 @property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
 @property (nonatomic,strong) LCProgressHUD * hud;
 
+@property (nonatomic,strong) NSString * taskCode;
 @end
 
 @implementation MainViewController
@@ -214,7 +215,6 @@
     {
         if ([datas[0] isEqualToString:@"0"])
         {
-            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];//下班时，登出IMSDK
             [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
             _timer.paused = YES;
             _direction = NO;
@@ -358,6 +358,18 @@
                                                                          webURL:@URI_WAITER_CHECKSTATUS
                                                                          params:params
                                                                      withByUser:YES];
+        
+        //已经登录
+        //如果没有抢单(到场任务),就算了
+        //否则跳转到地图页面
+        if(![SPUserDefaultsManger getValue:@"taskCode"])
+        {
+            return;
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"goTask" sender:nil];
+        }
     }
     
 }
@@ -455,6 +467,8 @@
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
     
+    //将任务编号赋值给全局变量的string，为了传值的时候用。
+    self.taskCode = taskCode;
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
                                                                                    @"deviceToken":waiterInfo.deviceToken,
                                                                                    @"taskCode":taskCode}];
@@ -464,6 +478,11 @@
                                                                     withByUser:YES];
 }
 
+//传值
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
 - (void)RESULT_waiterGetIndent:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed)
@@ -474,6 +493,8 @@
             // 抢单到达服务成功  跳转
             if ([waiterTask.category isEqualToString:@"0"])
             {
+                //抢单后，将单号存入本地
+                [SPUserDefaultsManger setValue:self.taskCode forKey:@"taskCode"];
                 [self whenSkipUse];
                 [self performSegueWithIdentifier:@"goTask" sender:nil];
             }
@@ -787,11 +808,6 @@
     {
         [self NETWORK_waiterLogout];
     }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
 }
 
 - (void)whenSkipUse
