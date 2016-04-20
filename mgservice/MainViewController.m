@@ -294,7 +294,7 @@
                     [SPUserDefaultsManger setValue:date forKey:kStart];
                 }
                 //        [self reloadWorkStatUs:@"1"];
-                [SPUserDefaultsManger setValue:date forKey:kStart];
+//                [SPUserDefaultsManger setValue:date forKey:kStart];
             }
             else
             {
@@ -308,7 +308,7 @@
                 NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
                 NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
                 [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)inte] forKey:@"abc"];
-                [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
+//                [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
             }
         }
         else
@@ -478,11 +478,7 @@
                                                                     withByUser:YES];
 }
 
-//传值
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
-}
+
 - (void)RESULT_waiterGetIndent:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed)
@@ -818,6 +814,12 @@
         [self.hud removeFromSuperview];
     }
     [[RequestNetWork defaultManager]cancleAllRequest];
+}
+
+//传值
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
 }
 
 - (void)dealloc

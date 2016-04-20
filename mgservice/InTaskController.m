@@ -7,6 +7,7 @@
 //
 
 #import "InTaskController.h"
+#import "MainViewController.h"
 
 @interface InTaskController ()
 @property (strong, nonatomic) YWConversationViewController * chatVC;
@@ -15,10 +16,13 @@
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
+@property (weak, nonatomic) IBOutlet UILabel *timeLable;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
 @property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;
+@property (nonatomic, strong) CADisplayLink * timer;
+@property (assign,nonatomic) NSInteger second;//时间
 @end
 
 @implementation InTaskController
@@ -46,6 +50,12 @@
     
     //创建聊天对象
     [self createChat];
+    
+    //计时器
+    [self theTimer];
+    
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"pushMessType" object:nil];
 }
 
 - (void)endTask
@@ -53,6 +63,7 @@
     UIButton * endButton = [UIButton buttonWithType:UIButtonTypeSystem];
     endButton.frame = CGRectMake(200, 250, 100, 30);
     [endButton setTitle:@"小于10米" forState:UIControlStateNormal];
+    [endButton setBackgroundColor:[UIColor greenColor]];
     [endButton addTarget:self action:@selector(endButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:endButton];
 }
@@ -96,6 +107,44 @@
             /// 可以显示错误提示
         }
     }];
+}
+
+//计时器
+- (void)theTimer
+{
+    self.timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTimer)];
+    self.second = 17800;
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];
+}
+
+//时间
+- (void)changeTimer
+{
+    self.second ++;
+    NSLog(@"%ld",self.second);
+    if (self.second > 18000) {
+        self.timeLable.textColor = [UIColor yellowColor];
+    }
+    self.timeLable.text = [self calculate:self.second];
+}
+// 格式化时间
+- (NSString *)calculate:(NSInteger)totalSecond
+{
+    NSString *string    = @"";
+    
+    NSInteger seconds   = totalSecond / 60 % 60;
+    
+    NSInteger mins      = totalSecond / 3600 % 60;
+    
+    NSInteger hours     = totalSecond / 3600 / 60 % 60;
+    
+    NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",(long)seconds];
+    NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",(long)mins];
+    NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",(long)hours];
+    string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
+    
+    return string;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -151,6 +200,12 @@
     self.showTalk = NO;
 }
 
+//通知中的方法
+- (void)backHomePage:(NSNotification*)notification
+{
+    [SPUserDefaultsManger setValue:nil forKey:@"taskCode"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 //textView代理
 //- (void)textViewDidChange:(UITextView *)textView
 //{

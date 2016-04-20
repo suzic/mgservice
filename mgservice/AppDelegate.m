@@ -85,7 +85,11 @@
 //接收推送
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-//    NSLog(@"消息通知:%@",userInfo[@"messType"]);
+    NSLog(@"xiaoxitongzhi:%@",userInfo[@"messType"]);
+    if ([userInfo[@"messType"] isEqualToString:@"5"])
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
+    }
 //    if ([userInfo[@"messType"] isEqualToString:@"4"])
 //    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
