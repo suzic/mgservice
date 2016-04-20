@@ -108,6 +108,7 @@
         _timer.paused = NO;
         _direction = YES;
         [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
+        NSLog(@"%@",[SPUserDefaultsManger getValue:kStart]);
         NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
         if (date) {
             _second = labs((NSInteger)[date timeIntervalSinceNow] *60);
@@ -491,7 +492,9 @@
             {
                 //抢单后，将单号存入本地
                 [SPUserDefaultsManger setValue:self.taskCode forKey:@"taskCode"];
+                [SPUserDefaultsManger setValue:waiterTask.timeLimit forKey:@"timeTask"];
                 [self whenSkipUse];
+                
                 [self performSegueWithIdentifier:@"goTask" sender:nil];
             }
             // 抢单送餐服务成功
@@ -819,7 +822,11 @@
 //传值
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
+    if([segue.identifier isEqualToString:@"goTask"]) //"goTask"是SEGUE连线的标识
+    { 
+//        id theSegue = segue.destinationViewController;
+//        [theSegue setValue:sender forKey:@"getStrDate"];
+    }
 }
 
 - (void)dealloc

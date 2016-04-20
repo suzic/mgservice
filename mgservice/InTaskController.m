@@ -55,7 +55,7 @@
     [self theTimer];
     
     //接收通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"pushMessType" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
 }
 
 - (void)endTask
@@ -113,8 +113,14 @@
 - (void)theTimer
 {
     self.timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTimer)];
-    self.second = 17800;
-    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [self.timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.getStrDate = (NSString *)[SPUserDefaultsManger getValue:@"timeTask"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    NSDate* date = [formatter dateFromString:self.getStrDate];
+    self.second = labs((NSInteger)[date timeIntervalSinceNow] *60);
     self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];
 }
 
@@ -122,9 +128,8 @@
 - (void)changeTimer
 {
     self.second ++;
-    NSLog(@"%ld",self.second);
     if (self.second > 18000) {
-        self.timeLable.textColor = [UIColor yellowColor];
+        self.timeLable.textColor = [UIColor orangeColor];
     }
     self.timeLable.text = [self calculate:self.second];
 }
