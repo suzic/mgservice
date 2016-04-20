@@ -479,13 +479,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
  *  @param newLocation 新定位点
  */
 - (void)didLocationChanged:(NGRLocation *)oldLocation newLocation:(NGRLocation *)newLocation status:(NGRLocationStatus)status{
-  //如果是定位到室外区域就是写室外区域室内区域就写室内区域
-  
+    //如果是定位到室外区域就是写室外区域室内区域就写室内区域
+    
     if (status == MOVE) {
         if (newLocation.point.x == 0) {
             return;
         }
-    
+        
         _locationFloorId = newLocation.floorId;
         ShowOMGToast(@"move");
         if (newLocation.floorId==outDoorId) {
@@ -493,20 +493,18 @@ typedef NS_ENUM(NSInteger, parkingState) {
         }else{
             self.locationFloorName = @"室内区域";
         }
-       
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             //切割导航线
-            if (_isNavigating&&_isNavigatingActualTime&&_currentFloorId==newLocation.floorId)
-            {
-//                [self.navigationManager clipFeatureCollectionByCoordinate:newLocation.point];
-//                self.isClipNavigationLine =YES;
+            if (_isNavigating&&_isNavigatingActualTime&&_currentFloorId==newLocation.floorId) {
+                [self.navigationManager clipFeatureCollectionByCoordinate:newLocation.point];
+                self.isClipNavigationLine =YES;
             }
             
             self.currentLocation = newLocation;
             self.currentLocationPoint = newLocation.point;
             //当前楼层等于定位点的楼层号不进行自动楼层切换只进行定位点的位移。
-            if (_currentFloorId == newLocation.floorId)
-            {
+            if (_currentFloorId == newLocation.floorId){
                 CGFloat pointdistance = [self.navigationManager getMinDistanceByPoint:newLocation.point];
                 CGPoint adsorbPoint;
                 if (pointdistance<5&& pointdistance!=0) {
@@ -516,14 +514,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
                 }
                 
                 self.shouldAutoChangFloor = YES;
-
-                if (_currentFloorId == newLocation.floorId)
-                {
+                
+                if (_currentFloorId == newLocation.floorId){
                     [self.mapView addOverlayer:_locationOverlayer];
                     
                     [UIView animateWithDuration:0.5 animations:^{
                         _locationOverlayer.view.center = [self.mapView getScreenPositionFromWorldPosition:adsorbPoint];
-                         _locationOverlayer.worldPosition = adsorbPoint;
+                        _locationOverlayer.worldPosition = adsorbPoint;
                         
                     }];
                 }
@@ -537,8 +534,42 @@ typedef NS_ENUM(NSInteger, parkingState) {
                 [runloop addTimer:self.autoChangeMaptimer forMode:NSDefaultRunLoopMode];
                 
                 
-        }
-        
+            }
+            CGFloat distance;
+            distance =[_navigationManager getMinDistanceByPoint:newLocation.point];
+            
+            NSLog(@"distance= %lf",distance);
+            int referenceL = 0;
+            if (newLocation.floorId == outDoorId) {
+                referenceL = 40;
+            }else{
+                referenceL = 20;
+            }
+            
+            if ((distance>referenceL&&distance<10000)) {
+                if (_isNavigatingActualTime == YES) {
+                    self.distanceCount++;
+                }
+                
+            }else{
+                self.distanceCount = 0;
+                
+            }
+            
+            if (self.distanceCount>5) {
+                self.distanceCount = 0;
+                [self.mapView removeAllOverlayer];
+            }
+            
+            
+            int distancex = fabs(newLocation.point.x -self.navigationEndPoint.x);
+            int distancey = fabs(newLocation.point.y - self.navigationEndPoint.y);
+            
+            if (distancex<10&&distancey<10&&_isNavigatingActualTime) {
+                ShowOMGToast(@"导航结束")
+               
+            }
+            
         });
     }else{
         ShowOMGToast(self.locationErrorState[status]);
@@ -574,12 +605,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
 #pragma mark-初始化地图的代码
 -(void)addMapData
 {
-    _selectPinOverlayer = [[NGROverlayer alloc] init];
-    UIImageView *selectPinView = [[UIImageView alloc] init];
-    selectPinView.frame = CGRectMake(0, 0, 30, 30);
-    selectPinView.image=[UIImage imageNamed:@"定位"];
-    selectPinView.layer.anchorPoint = CGPointMake(0.5, 1);
-    _selectPinOverlayer.view = selectPinView;
+    _locationImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    _locationImageView.image = [UIImage imageNamed:@"locationPoint"];
+    _locationOverlayer =[[NGROverlayer alloc]initWithView:_locationImageView];
 
     [self.mapView registerGestures];
     
