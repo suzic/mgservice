@@ -483,9 +483,9 @@
 {
     if (succeed)
     {
-        DBWaiterTaskList * waiterTask = datas[0];
-        DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
-        if ([waiterTask.deviceId isEqualToString:waiterInfo.deviceId] && [waiterTask.workNum isEqualToString:waiterInfo.workNum]) {
+        DBTaskList * waiterTask = datas[0];
+//        DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+//        if ([waiterTask.deviceId isEqualToString:waiterInfo.deviceId] && [waiterTask.workNum isEqualToString:waiterInfo.workNum]) {
             // 抢单到达服务成功  跳转
             if ([waiterTask.category isEqualToString:@"0"])
             {
@@ -501,7 +501,6 @@
                 [self NETWORK_menuDetailList:waiterTask.drOrderNo];
             }
 #warning 订单类型确定后更新 会再补充
-        }
         else
         {
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];

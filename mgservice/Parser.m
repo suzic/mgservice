@@ -224,29 +224,24 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterTaskList"];
-    waiterTask.taskCode =             dic[@"taskInfo"][@"taskCode"];
-    waiterTask.userDiviceld =         dic[@"taskInfo"][@"diviceId"];
-    waiterTask.userDeviceToken =      dic[@"taskInfo"][@"deviceToken"];
-    waiterTask.phone =                dic[@"taskInfo"][@"Phone"];
-    waiterTask.userLocation =         dic[@"taskInfo"][@"location"];
-    waiterTask.userLocationDesc =     dic[@"taskInfo"][@"locationDesc"];
-    waiterTask.userLocationArea =     dic[@"taskInfo"][@"locationArea"];
-    waiterTask.timeLimit =            dic[@"taskInfo"][@"timeLimit"];
-    waiterTask.priority =             dic[@"taskInfo"][@"priority"];
-    waiterTask.patternInfo =          dic[@"taskInfo"][@"patternInfo"];
-    waiterTask.category =             dic[@"taskInfo"][@"category"];
-    waiterTask.userMessageInfo =      dic[@"taskInfo"][@"messageInfo"];
-    waiterTask.drOrderNo =            dic[@"taskInfo"][@"drOrderNo"];
-    waiterTask.accepTime =            dic[@"progreeInfo"][@"acceptTime"];
-    waiterTask.finishTime =           dic[@"progreeInfo"][@"finishTime"];
-    waiterTask.location =             dic[@"progreeInfo"][@"location"];
-    waiterTask.workNum =              dic[@"progreeInfo"][@"workNum"];
-    waiterTask.deviceId =             dic[@"progreeInfo"][@"deviceId"];
-    waiterTask.deviceToken =          nil;
-    waiterTask.cancelTime =           dic[@"cancelTime"];
-    waiterTask.status =               dic[@"status"];
-    [array addObject:waiterTask];
+//    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterTaskList"];
+    DBTaskList *currentList = [[DataManager defaultInstance] findWaiterRushByTaskCode:dic[@"taskInfo"][@"taskCode"]];
+    currentList.taskCode =             dic[@"taskInfo"][@"taskCode"];
+    currentList.userDiviceld =         dic[@"taskInfo"][@"diviceId"];
+    currentList.userDeviceToken =      dic[@"taskInfo"][@"deviceToken"];
+    currentList.phone =                dic[@"taskInfo"][@"Phone"];
+    currentList.userLocation =         dic[@"taskInfo"][@"location"];
+    currentList.userLocationDesc =     dic[@"taskInfo"][@"locationDesc"];
+    currentList.userLocationArea =     dic[@"taskInfo"][@"locationArea"];
+    currentList.timeLimit =            dic[@"taskInfo"][@"timeLimit"];
+    currentList.priority =             dic[@"taskInfo"][@"priority"];
+    currentList.patternInfo =          dic[@"taskInfo"][@"patternInfo"];
+    currentList.category =             dic[@"taskInfo"][@"category"];
+    currentList.userMessageInfo =      dic[@"taskInfo"][@"messageInfo"];
+    currentList.drOrderNo =            dic[@"taskInfo"][@"drOrderNo"];
+    currentList.accepTime =            dic[@"progreeInfo"][@"acceptTime"];
+    currentList.finishTime =           dic[@"progreeInfo"][@"finishTime"];
+    [array addObject:currentList];
     return array;
 }
 

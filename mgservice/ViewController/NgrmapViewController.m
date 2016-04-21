@@ -87,6 +87,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
  */
 @property (strong,nonatomic)UIButton* cancelNavigateProcess;
 @property (strong,nonatomic)UIButton* Locationbtn;
+@property (retain, nonatomic) NGROverlayer *userlocationOverlayer;
 @end
 
 @implementation NgrmapViewController
@@ -168,6 +169,33 @@ typedef NS_ENUM(NSInteger, parkingState) {
 - (void)startMap
 {
     [self.mapView start];
+}
+- (void)findWaiterLocation
+{
+    //    @"http://10.11.88.108:8080/protocol/position"
+    NSString *taskCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+    if (taskCode == nil || [taskCode isEqualToString:@""])
+        return;
+   DBTaskList *taskList = [[DataManager defaultInstance] findWaiterRushByTaskCode:taskCode];
+    NSString *urlStr = [NSString stringWithFormat:@"%@?mac=%@", @"http://10.11.88.108:8080/protocol/position", taskList.userDiviceld];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+        
+        if (connectionError || data == nil)
+            return ;
+        
+        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSLog(@"获取的位置信息:%@",jsonObject);
+        
+        NSDictionary *locationDict = jsonObject[@"query_location_response"][@"location"];
+        CGPoint location = CGPointMake([locationDict[@"x"] doubleValue], [locationDict[@"y"] doubleValue]);
+        CGPoint point = [self.mapView getScreenPositionFromWorldPosition:location];
+        NSLog(@"当前屏幕坐标:%f   %f",point.x,point.y);
+        
+        [self addOverlayer:_userlocationOverlayer andScreenPoint:[self.mapView getScreenPositionFromWorldPosition:location] andFloorId:_currentFloorId];
+        
+    }];
 }
 
 -(void)shareManager{
@@ -481,6 +509,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 - (void)didLocationChanged:(NGRLocation *)oldLocation newLocation:(NGRLocation *)newLocation status:(NGRLocationStatus)status{
     //如果是定位到室外区域就是写室外区域室内区域就写室内区域
     
+    [self findWaiterLocation];
     if (status == MOVE) {
         if (newLocation.point.x == 0) {
             return;
@@ -608,6 +637,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _locationImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
     _locationImageView.image = [UIImage imageNamed:@"locationPoint"];
     _locationOverlayer =[[NGROverlayer alloc]initWithView:_locationImageView];
+    
+    UIImageView *waiterImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 30)];
+    waiterImage.image = [UIImage imageNamed:@"locationPoint"];
+    _userlocationOverlayer = [[NGROverlayer alloc]initWithView:waiterImage];
 
     [self.mapView registerGestures];
     

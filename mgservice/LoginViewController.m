@@ -154,7 +154,7 @@
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
                                     @{@"workNum":self.account.text,
                                       @"passward":self.passWord.text,
-                                      @"diviceId":@"12:34:02:00:00:37",
+                                      @"diviceId":@"12:34:22:34:67:37",
                                       @"deviceToken":waiterInfo.deviceToken}];
     self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                      webURL:@URI_WAITER_LOGIN
