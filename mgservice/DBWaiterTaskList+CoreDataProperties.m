@@ -36,5 +36,7 @@
 @dynamic location;
 @dynamic status;
 @dynamic drOrderNo;
-
+@dynamic cAppkey;
+@dynamic cUserId;
+@dynamic wUserId;
 @end

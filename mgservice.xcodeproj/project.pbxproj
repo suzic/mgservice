@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C4912DB1CC86E800050837F /* WXOpenIMSDKFMWK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4912DA1CC86E800050837F /* WXOpenIMSDKFMWK.framework */; };
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
 		9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C64A9BA1CA3E85B001DE397 /* ChatCell.m */; };
 		9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */; };
@@ -159,6 +160,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C4912DA1CC86E800050837F /* WXOpenIMSDKFMWK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOpenIMSDKFMWK.framework; sourceTree = "<group>"; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		9C64A9B91CA3E85B001DE397 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				9C78A6401CBF98EC00932D0C /* CoreTelephony.framework in Frameworks */,
 				9C78A63E1CBF98E600932D0C /* CoreLocation.framework in Frameworks */,
 				9C78A63C1CBF98E000932D0C /* SystemConfiguration.framework in Frameworks */,
+				9C4912DB1CC86E800050837F /* WXOpenIMSDKFMWK.framework in Frameworks */,
 				9C78A63A1CBF98D900932D0C /* AddressBook.framework in Frameworks */,
 				F89B76281C770ADA00757096 /* UIKit.framework in Frameworks */,
 				9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
@@ -451,6 +454,7 @@
 				9C78A59D1CBF98AA00932D0C /* UTDID.framework */,
 				9C78A59E1CBF98AA00932D0C /* UTMini.framework */,
 				9C78A59F1CBF98AA00932D0C /* WXOpenIMSDKFMWK.framework */,
+				9C4912DA1CC86E800050837F /* WXOpenIMSDKFMWK.framework */,
 				9C78A5A01CBF98AA00932D0C /* WXOpenIMSDKResource.bundle */,
 				9C78A5A11CBF98AA00932D0C /* WXOUIModule.framework */,
 				9C78A5A21CBF98AA00932D0C /* WXOUIModuleResources.bundle */,

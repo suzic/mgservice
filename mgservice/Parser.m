@@ -68,6 +68,10 @@
     {
         datas = [self parseMenuDetailList:dict];
     }
+    else if ([ident isEqualToString:@URL_ACHIEVE_USERID]) //登录IM
+    {
+        datas = [self parseReloadIM:dict];
+    }
     //存储数据
     [dataManager saveContext];
     return datas;
@@ -296,4 +300,17 @@
     return array;
 }
 
+#pragma mark - 登录IM
+- (NSMutableArray *)parseReloadIM:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    NSLog(@"%@",dic);
+    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+    waiterTask.cAppkey = dic[@"cAppkey"];
+    waiterTask.cUserId = dic[@"cUserId"];
+    waiterTask.wUserId = dic[@"wUserId"];
+    [array addObject:waiterTask];
+    return array;
+}
 @end
