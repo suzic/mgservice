@@ -30,7 +30,7 @@
 @property (assign,nonatomic) NSInteger second;//时间
 @property (nonatomic,strong) YWP2PConversation * conversation;
 @property (nonatomic,strong) LCProgressHUD * hud;
-@property (nonnull,strong) DBWaiterTaskList * waiterTask;
+@property (nonnull,strong) DBTaskList * waiterTask;
 @end
 
 @implementation InTaskController
@@ -63,7 +63,8 @@
     [self endTask];
     
     //拿到coredata里的数据
-    self.waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    self.waiterTask = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     
     //即时通讯登录
     [self instantMessaging];
@@ -164,12 +165,12 @@
 - (void)instantMessaging
 {
     //以下三行代码是固定值，如果不需要只需注释或删掉即可
-    self.waiterTask.wUserId = @"testuser10";
-    self.waiterTask.cUserId = @"test0";
-    self.waiterTask.cAppkey = @"23337443";
+    self.waiterTask.hasMessage.wUserId = @"testuser10";
+    self.waiterTask.hasMessage.cUserId = @"test0";
+    self.waiterTask.hasMessage.cAppkey = @"23337443";
     //登录IM
-    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTask.wUserId passWord:@"123456" preloginedBlock:nil successBlock:^{
-        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTask.cUserId appKey:self.waiterTask.cAppkey];
+    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTask.hasMessage.wUserId passWord:@"123456" preloginedBlock:nil successBlock:^{
+        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTask.hasMessage.cUserId appKey:self.waiterTask.hasMessage.cAppkey];
         self.conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext: [SPKitExample sharedInstance].ywIMKit.IMCore];
         self.showMessageLabel = YES;
     } failedBlock:^(NSError * error) {

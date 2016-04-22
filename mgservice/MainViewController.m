@@ -60,14 +60,15 @@
             [self NETWORK_requestTask];
         }
     }
-    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (array.count <= 0 || array == nil)
     {
         self.navigationItem.rightBarButtonItem = nil;
     }
     else
     {
-        for (DBWaiterTaskList * task in array) {
+        for (DBTaskList * task in array) {
             if ([task.category isEqualToString:@"4"])
             {
                 self.navigationItem.rightBarButtonItem = self.presentButton;
@@ -89,12 +90,13 @@
     [super viewDidLoad];
     
     [[RequestNetWork defaultManager]registerDelegate:self];
+    
+    self.statusButton.layer.cornerRadius = 40.0f;
+    self.acceptButton.layer.cornerRadius = 4.0f;
+    
     self.selectPageNumber = 1;
     _direction = NO;
     lastScrollOffsetY = 0;
-    self.statusButton.layer.cornerRadius = 40.0f;
-    self.acceptButton.layer.cornerRadius = 4.0f;
-
     self.selectedIndex = 2;
     self.taskArray = [[NSMutableArray alloc]init];
     [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
@@ -131,6 +133,8 @@
     [self NETWORK_checkIsLogin];
     //接收通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushMessType:) name:@"pushMessType" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenYES) name:@"listButtonHiddenYES" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenNO) name:@"listButtonHiddenNO" object:nil];
 }
 
 #pragma mark - 上拉加载下拉刷新
@@ -360,21 +364,7 @@
                                                                          webURL:@URI_WAITER_CHECKSTATUS
                                                                          params:params
                                                                      withByUser:YES];
-        
-        //已经登录
-        //如果没有抢单(到场任务),就算了
-        //否则跳转到地图页面
-        DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-        if(waiterTask.taskCode == nil)
-        {
-            return;
-        }
-        else
-        {
-            [self performSegueWithIdentifier:@"goTask" sender:nil];
-        }
     }
-    
 }
 
 - (void)RESULT_checkIsLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
@@ -393,7 +383,16 @@
         }
         else
         {
-            
+            //有任务跳转到地图页面
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+            NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+            if(array.count > 0)
+            {
+                DBTaskList * waiterTask = array[0];
+                if ([waiterTask.category isEqualToString:@"0"]) {
+                    [self performSegueWithIdentifier:@"goTask" sender:nil];
+                }
+            }
         }
     }
     else
@@ -483,9 +482,12 @@
 {
     if (succeed)
     {
-        DBWaiterTaskList * waiterTask = datas[0];
+        DBTaskList * waiterTask = datas[0];
         DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
-        if ([waiterTask.deviceId isEqualToString:waiterInfo.deviceId] && [waiterTask.workNum isEqualToString:waiterInfo.workNum]) {
+        if ([datas[1][@"progreeInfo"][@"workNum"] isEqualToString:waiterInfo.workNum]) {
+            [self.taskArray removeObject:waiterTask];
+            waiterTask.waiterStatus = @"1";
+            [[DataManager defaultInstance]saveContext];
             // 抢单到达服务成功  跳转
             if ([waiterTask.category isEqualToString:@"0"])
             {
@@ -553,7 +555,8 @@
 //拿到userID
 - (void)NETWORK_reloadIM
 {
-    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"taskCode":waiterTask.taskCode}];
     self.reloadIMTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                   webURL:@URL_ACHIEVE_USERID
@@ -565,7 +568,6 @@
     if (succeed) {
         if (datas.count > 0) {
             [self performSegueWithIdentifier:@"goTask" sender:nil];
-            // 构建聊天界面
         }
     }
     else
@@ -687,6 +689,16 @@
                                           otherButtonTitles:@"我要下班", nil];
     alert.tag = ALERT_OFFWORK;
     [alert show];
+}
+
+- (void)presentButtonHiddenYES
+{
+    self.navigationItem.rightBarButtonItem = self.presentButton;
+}
+
+- (void)presentButtonHiddenNO
+{
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (IBAction)obtainTask:(id)sender

@@ -199,7 +199,9 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-   
+    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 0"];
+//    NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     for (NSDictionary * taskDic in dic[@"list"]) {
         DBTaskList * taskList = (DBTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBTaskList"];
         taskList.taskCode =             taskDic[@"taskCode"];
@@ -228,7 +230,7 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBWaiterTaskList"];
+    DBTaskList * waiterTask = (DBTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBTaskList"];
     waiterTask.taskCode =             dic[@"taskInfo"][@"taskCode"];
     waiterTask.userDiviceld =         dic[@"taskInfo"][@"diviceId"];
     waiterTask.userDeviceToken =      dic[@"taskInfo"][@"deviceToken"];
@@ -244,13 +246,10 @@
     waiterTask.drOrderNo =            dic[@"taskInfo"][@"drOrderNo"];
     waiterTask.accepTime =            dic[@"progreeInfo"][@"acceptTime"];
     waiterTask.finishTime =           dic[@"progreeInfo"][@"finishTime"];
-    waiterTask.location =             dic[@"progreeInfo"][@"location"];
-    waiterTask.workNum =              dic[@"progreeInfo"][@"workNum"];
-    waiterTask.deviceId =             dic[@"progreeInfo"][@"deviceId"];
-    waiterTask.deviceToken =          nil;
     waiterTask.cancelTime =           dic[@"cancelTime"];
     waiterTask.status =               dic[@"status"];
     [array addObject:waiterTask];
+    [array addObject:dic];
     return array;
 }
 
@@ -261,17 +260,16 @@
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
-    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 || result == nil)
     {
         return nil;
     }
     else
     {
-        for (DBWaiterTaskList * waiterTask in result) {
+        for (DBTaskList * waiterTask in result) {
             waiterTask.status = dic[@"status"];
             waiterTask.finishTime = dic[@"finishTime"];
-            waiterTask.deviceId = dic[@"progreeInfo"][@"deviceId"];
             waiterTask.accepTime = dic[@"progreeInfo"][@"acceptTime"];
             [array addObject:waiterTask];
         }
@@ -300,16 +298,17 @@
     return array;
 }
 
-#pragma mark - 登录IM
+#pragma mark - 获取IM userid
 - (NSMutableArray *)parseReloadIM:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    NSLog(@"%@",dic);
-    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
-    waiterTask.cAppkey = dic[@"cAppkey"];
-    waiterTask.cUserId = dic[@"cUserId"];
-    waiterTask.wUserId = dic[@"wUserId"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
+    DBTaskList * waiterTask = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+    waiterTask.hasMessage.cAppkey = dic[@"cAppkey"];
+    waiterTask.hasMessage.cUserId = dic[@"cUserId"];
+    waiterTask.hasMessage.wUserId = dic[@"wUserId"];
     [array addObject:waiterTask];
     return array;
 }
