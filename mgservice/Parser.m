@@ -304,7 +304,7 @@
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskStatus = 1"];
     DBTaskList * waiterTask = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
     waiterTask.hasMessage.cAppkey = dic[@"cAppkey"];
     waiterTask.hasMessage.cUserId = dic[@"cUserId"];
