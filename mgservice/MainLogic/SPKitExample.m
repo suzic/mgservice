@@ -698,20 +698,20 @@ UIAlertViewDelegate>
 #warning TODO: CHANGE TO YOUR ACTUAL Input View Plugin
     /// 添加插件
     if ([aConversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
-        YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
-
-        /// 创建自定义插件
-        SPInputViewPluginGreeting *plugin = [[SPInputViewPluginGreeting alloc] init];
-        [messageInputView addPlugin:plugin];
-
-        SPInputViewPluginCallingCard *pluginCallingCard = [[SPInputViewPluginCallingCard alloc] init];
-        [messageInputView addPlugin:pluginCallingCard];
-        
-        if ([aConversationController.conversation isKindOfClass:[YWP2PConversation class]]) {
-            /// 透传消息目前仅支持单聊会话
-            SPInputViewPluginTransparent *pluginTransparent = [[SPInputViewPluginTransparent alloc] init];
-            [messageInputView addPlugin:pluginTransparent];
-        }
+//        YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
+//
+//        /// 创建自定义插件
+//        SPInputViewPluginGreeting *plugin = [[SPInputViewPluginGreeting alloc] init];
+//        [messageInputView addPlugin:plugin];
+//
+//        SPInputViewPluginCallingCard *pluginCallingCard = [[SPInputViewPluginCallingCard alloc] init];
+//        [messageInputView addPlugin:pluginCallingCard];
+//        
+//        if ([aConversationController.conversation isKindOfClass:[YWP2PConversation class]]) {
+//            /// 透传消息目前仅支持单聊会话
+//            SPInputViewPluginTransparent *pluginTransparent = [[SPInputViewPluginTransparent alloc] init];
+//            [messageInputView addPlugin:pluginTransparent];
+//        }
     }
 }
 
@@ -1026,7 +1026,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 {
     [[self.ywIMKit.IMCore getConversationService] addOnNewMessageBlockV2:^(NSArray *aMessages, BOOL aIsOffline) {
         /// 你可以在此处根据需要播放提示音
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotiNewMessage" object:nil];
         /// 展示透传消息
         [aMessages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             id<IYWMessage> msg = obj;

@@ -66,6 +66,9 @@
 // 消息基准时间
 #define URI_MESSAGE_BASETIME                  "/hotelservice/service/comm/sysdate.json"
 
+// 即时通讯获取用户和服务员userid
+#define URL_ACHIEVE_USERID  "/hotelservice/manage/service/get_im_user.json"
+
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>

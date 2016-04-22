@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15A284" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15B42" minimumToolsVersion="Automatic">
     <entity name="DBMessage" representedClassName="DBMessage" syncable="YES">
         <attribute name="answer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="answerTime" optional="YES" attributeType="String" syncable="YES"/>
@@ -63,7 +63,9 @@
     <entity name="DBWaiterTaskList" representedClassName="DBWaiterTaskList" syncable="YES">
         <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cAppkey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cUserId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deviceToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
@@ -84,12 +86,13 @@
         <attribute name="userLocationDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userMessageInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wUserId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="345"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
         <element name="DBWaiterPresentList" positionX="-4241" positionY="-1269" width="128" height="148"/>
-        <element name="DBWaiterTaskList" positionX="-3899" positionY="-1404" width="128" height="388"/>
+        <element name="DBWaiterTaskList" positionX="-3899" positionY="-1404" width="128" height="435"/>
     </elements>
 </model>

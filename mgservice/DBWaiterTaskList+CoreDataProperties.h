@@ -38,7 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *location;
 @property (nullable, nonatomic, retain) NSString *status;
 @property (nullable, nonatomic, retain) NSString *drOrderNo;
-
+@property (nullable, nonatomic, retain) NSString *cAppkey;
+@property (nullable, nonatomic, retain) NSString *cUserId;
+@property (nullable, nonatomic, retain) NSString *wUserId;
 @end
 
 NS_ASSUME_NONNULL_END

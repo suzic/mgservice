@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSURLSessionTask * reloadAttendanceStateTask;
 @property (nonatomic, strong) NSURLSessionTask * waiterGetIndentTask;
 @property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
+@property (nonatomic, strong) NSURLSessionTask * reloadIMTask;//登录IM请求
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
@@ -108,6 +109,7 @@
         _timer.paused = NO;
         _direction = YES;
         [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
+        NSLog(@"%@",[SPUserDefaultsManger getValue:kStart]);
         NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
         if (date) {
             _second = labs((NSInteger)[date timeIntervalSinceNow] *60);
@@ -362,7 +364,8 @@
         //已经登录
         //如果没有抢单(到场任务),就算了
         //否则跳转到地图页面
-        if(![SPUserDefaultsManger getValue:@"taskCode"])
+        DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+        if(waiterTask.taskCode == nil)
         {
             return;
         }
@@ -467,8 +470,6 @@
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
     
-    //将任务编号赋值给全局变量的string，为了传值的时候用。
-    self.taskCode = taskCode;
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
                                                                                    @"deviceToken":waiterInfo.deviceToken,
                                                                                    @"taskCode":taskCode}];
@@ -477,7 +478,6 @@
                                                                         params:params
                                                                     withByUser:YES];
 }
-
 
 - (void)RESULT_waiterGetIndent:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
@@ -489,10 +489,8 @@
             // 抢单到达服务成功  跳转
             if ([waiterTask.category isEqualToString:@"0"])
             {
-                //抢单后，将单号存入本地
-                [SPUserDefaultsManger setValue:self.taskCode forKey:@"taskCode"];
                 [self whenSkipUse];
-                [self performSegueWithIdentifier:@"goTask" sender:nil];
+                [self NETWORK_reloadIM];
             }
             // 抢单送餐服务成功
             else if ([waiterTask.category isEqualToString:@"4"])
@@ -552,6 +550,29 @@
     }
 }
 
+//拿到userID
+- (void)NETWORK_reloadIM
+{
+    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"taskCode":waiterTask.taskCode}];
+    self.reloadIMTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                  webURL:@URL_ACHIEVE_USERID
+                                                                  params:dic
+                                                              withByUser:YES];
+}
+- (void)RESULT_reloadIM:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed) {
+        if (datas.count > 0) {
+            [self performSegueWithIdentifier:@"goTask" sender:nil];
+            // 构建聊天界面
+        }
+    }
+    else
+    {
+        NSLog(@"请求失败");
+    }
+}
 #pragma mark - RequestNetWorkDelegate 代理方法
 
 - (void)startRequest:(NSURLSessionTask *)task
@@ -601,6 +622,11 @@
     {
         [self RESULT_menuDetailList:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
+    else if (task == self.reloadIMTask)
+    {
+        [self RESULT_reloadIM:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -630,6 +656,10 @@
     else if (task == self.menuDetailListTask)
     {
         [self RESULT_menuDetailList:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.reloadIMTask)
+    {
+        [self RESULT_reloadIM:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -819,7 +849,11 @@
 //传值
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
+    if([segue.identifier isEqualToString:@"goTask"]) //"goTask"是SEGUE连线的标识
+    { 
+//        id theSegue = segue.destinationViewController;
+//        [theSegue setValue:sender forKey:@"getStrDate"];
+    }
 }
 
 - (void)dealloc
