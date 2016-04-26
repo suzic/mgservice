@@ -75,38 +75,7 @@
                                                       withByUser:YES];
 }
 
-//现场获取mac地址
-- (void)NETWORK_getMAX
-{
-//    SHLoadingView *loadingView = [SHLoadingView loadingView];
-//    [loadingView showSynchronous];
-//    NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
-//    NSURL *url = [NSURL URLWithString:urlStr];
-//    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-//        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//        
-//        if (macStr.length>0)
-//        {
-//            macStr = [macStr substringToIndex:macStr.length - 1];
-//            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
-//            DBParameter *paramenter = [[DataManager defaultInstance] getParameter];
-//            paramenter.diviceId = macStr;
-//            [[DataManager defaultInstance] saveContext];
-//            // 获取Mac地址成功之后开启定位
-//            [loadingView disapper];
-//            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
-//            [self startUserCurrentArea];
-//            // 检查最后一条呼叫任务
-//            [self requestTaskList];
-//        }else
-//        {
-//            [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
-//            [loadingView disapper];
-//            
-//        }
-//    }];
-}
+
 - (void)RESULT_accessServerTime:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
 {
     if (succeed)
@@ -341,4 +310,37 @@
     [self NETWORK_requestLogin];
 }
 
+#pragma mark----------
+//现场获取mac地址
+- (void)NETWORK_getMAX
+{
+    //    SHLoadingView *loadingView = [SHLoadingView loadingView];
+    //    [loadingView showSynchronous];
+    //    NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
+    //    NSURL *url = [NSURL URLWithString:urlStr];
+    //    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+    //        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //
+    //        if (macStr.length>0)
+    //        {
+    //            macStr = [macStr substringToIndex:macStr.length - 1];
+    //            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
+    //            DBParameter *paramenter = [[DataManager defaultInstance] getParameter];
+    //            paramenter.diviceId = macStr;
+    //            [[DataManager defaultInstance] saveContext];
+    //            // 获取Mac地址成功之后开启定位
+    //            [loadingView disapper];
+    //            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
+    //            [self startUserCurrentArea];
+    //            // 检查最后一条呼叫任务
+    //            [self requestTaskList];
+    //        }else
+    //        {
+    //            [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
+    //            [loadingView disapper];
+    //            
+    //        }
+    //    }];
+}
 @end
