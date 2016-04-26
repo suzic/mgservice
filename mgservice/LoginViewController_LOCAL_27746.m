@@ -75,38 +75,6 @@
                                                       withByUser:YES];
 }
 
-//现场获取mac地址
-- (void)NETWORK_getMAX
-{
-//    SHLoadingView *loadingView = [SHLoadingView loadingView];
-//    [loadingView showSynchronous];
-//    NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
-//    NSURL *url = [NSURL URLWithString:urlStr];
-//    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-//        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//        
-//        if (macStr.length>0)
-//        {
-//            macStr = [macStr substringToIndex:macStr.length - 1];
-//            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
-//            DBParameter *paramenter = [[DataManager defaultInstance] getParameter];
-//            paramenter.diviceId = macStr;
-//            [[DataManager defaultInstance] saveContext];
-//            // 获取Mac地址成功之后开启定位
-//            [loadingView disapper];
-//            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
-//            [self startUserCurrentArea];
-//            // 检查最后一条呼叫任务
-//            [self requestTaskList];
-//        }else
-//        {
-//            [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
-//            [loadingView disapper];
-//            
-//        }
-//    }];
-}
 - (void)RESULT_accessServerTime:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
 {
     if (succeed)
@@ -181,38 +149,19 @@
 // 登录请求
 - (void)NETWORK_requestLogin
 {
+ 
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
-//    waiterInfo.deviceToken = @"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8157";
-    
-//    SHLoadingView *loadingView = [SHLoadingView loadingView];
-//    [loadingView showSynchronous];
-    
-    //三亚红树林现场获取mac地址
-//    [self NETWORK_getMAX];
-    
-    //由于不在现场，获取不到mac地址，因此写个假的,代替diviceId地址
-    self.macStr = [self uuid];
-    
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:
                                     @{@"workNum":self.account.text,
                                       @"passward":self.passWord.text,
-                                      @"diviceId":self.macStr,
-                                      @"deviceToken":waiterInfo.deviceToken}];//deviceId:12:34:02:00:00:37
+                                      @"diviceId":@"12:34:02:00:00:30",
+                                      @"deviceToken":@"c4cee031f6e9d9d1e3ffe9da5d7cdc90bc4dbefae0eb4a16cdd262cedf1f8150"}];
     self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                      webURL:@URI_WAITER_LOGIN
                                                                      params:params
                                                                  withByUser:YES];
     self.loginParams = params;
     
-}
-
--(NSString*) uuid {
-    CFUUIDRef puuid = CFUUIDCreate( nil );
-    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
-    NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
-    CFRelease(puuid);
-    CFRelease(uuidString);
-    return result;
 }
 
 - (void)RESULT_requestLogin:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas

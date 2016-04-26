@@ -388,6 +388,7 @@
         }
         else
         {
+<<<<<<< HEAD
             //有任务跳转到地图页面
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
             NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
@@ -397,6 +398,20 @@
                 if ([waiterTask.category isEqualToString:@"0"]) {
                     [self performSegueWithIdentifier:@"goTask" sender:nil];
                 }
+=======
+            //如果没有抢单(到场任务),就算了 否则跳转到地图页面
+            DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+            //        [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            //        [[DataManager defaultInstance]saveContext];
+            //如有已接任务有数据，就跳转到任务页面
+            if(waiterTask.taskCode == nil)
+            {
+                return;
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"goTask" sender:nil];
+>>>>>>> yadong
             }
         }
     }
@@ -454,6 +469,8 @@
             [self.taskArray addObject:task];
         }
         [self.taskTable reloadData];
+        
+        
     }
     else
     {

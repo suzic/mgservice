@@ -107,6 +107,7 @@
 //        }
 //    }];
 }
+
 - (void)RESULT_accessServerTime:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)message withDatas:(NSMutableArray *)datas
 {
     if (succeed)
@@ -198,6 +199,7 @@
                                       @"passward":self.passWord.text,
                                       @"diviceId":self.macStr,
                                       @"deviceToken":waiterInfo.deviceToken}];//deviceId:12:34:02:00:00:37
+
     self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                      webURL:@URI_WAITER_LOGIN
                                                                      params:params
