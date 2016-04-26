@@ -160,16 +160,17 @@
 - (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed) {
-        if ([self.waiterTaskList.status isEqualToString:@"9"] ) {
+        if ([self.waiterTaskList.taskStatus isEqualToString:@"9"] ) {
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
             //登出IM
             [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
             [alert addAction:action];
-            [alert presentViewController:alert animated:YES completion:nil];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
     else
@@ -397,11 +398,13 @@
     //登出IM
     [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
     [self whenSkipUse];
+    
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
     [alert addAction:action];
-    [alert presentViewController:alert animated:YES completion:nil];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //显示未读消息角标
