@@ -319,11 +319,15 @@
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskStatus = 1"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList * waiterTask = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
-    waiterTask.hasMessage.cAppkey = dic[@"cAppkey"];
-    waiterTask.hasMessage.cUserId = dic[@"cUserId"];
-    waiterTask.hasMessage.wUserId = dic[@"wUserId"];
+    if (waiterTask.hasMessage == nil) {
+        DBMessage * message = (DBMessage *)[[DataManager defaultInstance]insertIntoCoreData:@"DBMessage"];
+        message.cAppkey = dic[@"cAppkey"];
+        message.cUserId = dic[@"cUserId"];
+        message.wUserId = dic[@"wUserId"];
+        waiterTask.hasMessage = message;
+    }
     [array addObject:waiterTask];
     return array;
 }

@@ -144,6 +144,8 @@
         if (datas.count > 0) {
             NSLog(@"%@",datas[0]);
 //            self.waiterTaskList = datas[0];
+            DBMessage * message = self.waiterTaskList.hasMessage;
+            [[DataManager defaultInstance]deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
             //登出IM
