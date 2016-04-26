@@ -86,6 +86,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"xiaoxitongzhi:%@",userInfo[@"messType"]);
+    //如果messType类型等于5，证明管家端取消了任务
     if ([userInfo[@"messType"] isEqualToString:@"5"])
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
@@ -133,6 +134,11 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     NSLog(@"已激活APP");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
+    //拿到coredata里的已接任务数据
+    DBWaiterTaskList * waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    if (waiterTaskList != nil) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushTaskStatus" object:nil userInfo:nil];
+    }
 }
 //应用程序被终止时，执行此代理方法
 - (void)applicationWillTerminate:(UIApplication *)application {

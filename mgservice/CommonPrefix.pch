@@ -54,6 +54,9 @@
 // 服务员提交完成
 #define URI_WAITER_FINISHTASK                 "/hotelservice/checkin/service/finish_task.json"
 
+//通过任务号，查询任务信息
+#define URI_WAITER_TASkSTATUS                 "/hotelservice/checkin/service/get_task"
+
 // 服务员发送消息接口
 #define URI_WAITER_SENDMESSAGE                "/hotelservice/checkin/service/send_chat.json"
 

@@ -72,6 +72,10 @@
     {
         datas = [self parseReloadIM:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_TASkSTATUS]) //通过任务号，获得任务状态
+    {
+        datas = [self parseWaiterTaskStatus:dict];
+    }
     //存储数据
     [dataManager saveContext];
     return datas;
@@ -146,7 +150,6 @@
    
     [array addObject:dic[@"retOk"]];
     [array addObject:dic[@"message"]];
-    
     return array;
 }
 
@@ -279,6 +282,17 @@
     return array;
 }
 
+//取消订单
+- (NSMutableArray *)parseWaiterTaskStatus:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+    waiterTask.taskStatus = [NSString stringWithFormat:@"%ld",[dic[@"status"] integerValue]];
+    [array addObject:waiterTask];
+    return array;
+}
+
 #pragma mark - 获取菜单列表
 // 获取菜单列表
 - (NSMutableArray *)parseMenuDetailList:(id)dict
@@ -313,4 +327,5 @@
     [array addObject:waiterTask];
     return array;
 }
+
 @end

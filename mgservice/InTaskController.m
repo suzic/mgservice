@@ -9,7 +9,7 @@
 #import "InTaskController.h"
 #import "MainViewController.h"
 
-@interface InTaskController ()
+@interface InTaskController ()<RequestNetWorkDelegate>
 @property (strong, nonatomic) YWConversationViewController * chatVC;
 @property (nonatomic,strong) YWConversationViewController * conversationView;
 
@@ -24,13 +24,14 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
-@property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;//取消任务
+@property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;//完成任务
+@property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//任务状态
 
 @property (nonatomic, strong) CADisplayLink * timer;
 @property (assign,nonatomic) NSInteger second;//时间
 @property (nonatomic,strong) YWP2PConversation * conversation;
 @property (nonatomic,strong) LCProgressHUD * hud;
-@property (nonnull,strong) DBWaiterTaskList * waiterTask;
+@property (nonnull,strong) DBWaiterTaskList * waiterTaskList;
 @end
 
 @implementation InTaskController
@@ -38,6 +39,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[RequestNetWork defaultManager]registerDelegate:self];
     self.bottomViewHeight.constant = 40;
     self.myLocation.layer.cornerRadius = 15.0f;
     self.heLocation.layer.cornerRadius = 15.0f;
@@ -62,8 +64,8 @@
     //模拟任务完成的方法
     [self endTask];
     
-    //拿到coredata里的数据
-    self.waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    //拿到coredata里的已接任务数据
+    self.waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     
     //即时通讯登录
     [self instantMessaging];
@@ -76,6 +78,9 @@
     
     //来新消息
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:@"NotiNewMessage" object:nil];
+    
+    //查询任务状态
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
 }
 
 #pragma mark-模拟完成任务
@@ -94,25 +99,83 @@
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        NSString * taskCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
-        DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
-        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                       @{@"diviceId":waiterInfo.deviceId,
-                                         @"deviceToken":waiterInfo.deviceToken,
-                                         @"taskCode":self.waiterTask.taskCode}];//任务编号
         
-        self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                              webURL:@URI_WAITER_FINISHTASK
-                                                                              params:params
-                                                                          withByUser:YES];
-        //登出IM
-        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-        self.waiterTask.taskCode = nil;
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self NETWORK_reloadWorkStatusTask];
+        
     }];
     [alert addAction:cancelAction];
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark-网络请求
+
+- (void)NETWORK_reloadWorkStatusTask
+{
+    [self whenSkipUse];
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"diviceId":waiterInfo.deviceId,
+                                     @"deviceToken":waiterInfo.deviceToken,
+                                     @"taskCode":self.waiterTaskList.taskCode}];//任务编号
+    NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,self.waiterTaskList.taskCode);
+    self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                          webURL:@URI_WAITER_FINISHTASK
+                                                                          params:params
+                                                                      withByUser:YES];
+}
+
+//通过任务编号，获得任务状态
+- (void)NETWORK_TaskStatus
+{
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
+    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                      webURL:@URI_WAITER_TASkSTATUS
+                                                                      params:params
+                                                                  withByUser:YES];
+}
+
+- (void)RESULT_reloadWorkStatusTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed) {
+        if (datas.count > 0) {
+            NSLog(@"%@",datas[0]);
+//            self.waiterTaskList = datas[0];
+            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+            [[DataManager defaultInstance] saveContext];
+            //登出IM
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+        NSLog(@"完成任务请求失败");
+    }
+}
+
+//如果用户取消任务，服务员端则删除已接任务，并且返回到主页面
+- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed) {
+        if ([self.waiterTaskList.status isEqualToString:@"9"] ) {
+            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+            [[DataManager defaultInstance] saveContext];
+            //登出IM
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [alert presentViewController:alert animated:YES completion:nil];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+        NSLog(@"取消任务请求失败%@，%@，%@",code,msg,datas);
+    }
 }
 
 #pragma mark - RequestNetWorkDelegate 代理方法
@@ -135,6 +198,8 @@
     [self.hud startWMProgress];
 }
 
+
+
 //成功回调
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
@@ -142,7 +207,11 @@
     [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
-        
+        [self RESULT_reloadWorkStatusTask:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    if (task == self.reloadTaskStatus)
+    {
+        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
     
 }
@@ -154,9 +223,23 @@
     [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
-        
+        [self RESULT_reloadWorkStatusTask:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
-    
+    if (task == self.reloadTaskStatus) {
+        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+}
+
+
+
+- (void)whenSkipUse
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
 }
 
 #pragma mark-即时通讯登录
@@ -164,12 +247,13 @@
 - (void)instantMessaging
 {
     //以下三行代码是固定值，如果不需要只需注释或删掉即可
-    self.waiterTask.wUserId = @"testuser10";
-    self.waiterTask.cUserId = @"test0";
-    self.waiterTask.cAppkey = @"23337443";
+//    self.waiterTaskList.wUserId = @"testuser10";
+//    self.waiterTaskList.cUserId = @"test0";
+//    self.waiterTaskList.cAppkey = @"23337443";
+//    NSLog(@"%@",self.waiterTaskList.wUserId);
     //登录IM
-    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTask.wUserId passWord:@"123456" preloginedBlock:nil successBlock:^{
-        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTask.cUserId appKey:self.waiterTask.cAppkey];
+    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
+        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.cUserId appKey:self.waiterTaskList.cAppkey];
         self.conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext: [SPKitExample sharedInstance].ywIMKit.IMCore];
         self.showMessageLabel = YES;
     } failedBlock:^(NSError * error) {
@@ -212,7 +296,7 @@
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-    NSDate* date = [formatter dateFromString:self.waiterTask.timeLimit];
+    NSDate* date = [formatter dateFromString:self.waiterTaskList.timeLimit];
     self.second = labs((NSInteger)[date timeIntervalSinceNow] *60);
     self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];
 }
@@ -264,9 +348,9 @@
         return;
     _showTalk = showTalk;
     self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
+    [UIView animateWithDuration:0.5f animations:^{
     CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
-    [UIView animateWithDuration:0.5f animations:^{
         [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
         self.chatHistoryView.alpha = showTalk ? 0.8 : 1;
     } completion:^(BOOL finished) {
@@ -304,14 +388,23 @@
 }
 
 #pragma mark-通知方法
-//通知中的方法
+//收到取消任务的通知后，删除已接任务
 - (void)backHomePage:(NSNotification*)notification
 {
-    self.waiterTask.taskCode = nil;
+//    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+    [[DataManager defaultInstance] saveContext];
+    //登出IM
+    [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+    [self whenSkipUse];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:action];
+    [alert presentViewController:alert animated:YES completion:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark-显示未读消息角标
+//显示未读消息角标
 - (void)newMessage:(NSNotification *)noti
 {
     self.messageLabel.text = [NSString stringWithFormat:@"%ld",self.conversation.conversationUnreadMessagesCount.integerValue];
@@ -320,6 +413,12 @@
     }else{
         self.messageLabel.hidden = self.conversation.conversationUnreadMessagesCount.integerValue > 0 ? NO : YES;
     }
+}
+
+//查询任务状态
+- (void)taskStatus:(NSNotificationCenter*)taskStatus
+{
+    [self NETWORK_TaskStatus];
 }
 
 //textView代理

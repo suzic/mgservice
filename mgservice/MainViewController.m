@@ -27,7 +27,7 @@
 @property (nonatomic,strong) NSString * strinter;
 @property (nonatomic,assign) NSInteger selectPageNumber;  // 请求订单页数
 @property (nonatomic,copy) NSString * foodPresentList; // 菜单列表业务号
-
+@property (nonatomic,assign) BOOL isPage;
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
@@ -82,6 +82,12 @@
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     self.waiterName.text = waiterInfo.name;
     self.waiterCurrentArea.text = waiterInfo.currentArea;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear: animated];
+    self.isPage = YES;
 }
 
 - (void)viewDidLoad
@@ -355,24 +361,10 @@
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                        @{@"diviceId":waiterInfo.deviceId,
                                          @"deviceToken":waiterInfo.deviceToken}];
-    
         self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                          webURL:@URI_WAITER_CHECKSTATUS
                                                                          params:params
                                                                      withByUser:YES];
-        
-        //已经登录
-        //如果没有抢单(到场任务),就算了
-        //否则跳转到地图页面
-        DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-        if(waiterTask.taskCode == nil)
-        {
-            return;
-        }
-        else
-        {
-            [self performSegueWithIdentifier:@"goTask" sender:nil];
-        }
     }
     
 }
@@ -393,7 +385,19 @@
         }
         else
         {
-            
+            //如果没有抢单(到场任务),就算了 否则跳转到地图页面
+            DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+            //        [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            //        [[DataManager defaultInstance]saveContext];
+            //如有已接任务有数据，就跳转到任务页面
+            if(waiterTask.taskCode == nil)
+            {
+                return;
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"goTask" sender:nil];
+            }
         }
     }
     else
@@ -450,6 +454,8 @@
             [self.taskArray addObject:task];
         }
         [self.taskTable reloadData];
+        
+        
     }
     else
     {
@@ -564,6 +570,7 @@
 {
     if (succeed) {
         if (datas.count > 0) {
+            self.isPage = NO;
             [self performSegueWithIdentifier:@"goTask" sender:nil];
             // 构建聊天界面
         }
@@ -870,11 +877,17 @@
 //通知中的方法
 - (void)pushMessType:(NSNotification*)notification
 {
-    //每次接收通知的时候都刷新tableview
-    if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
-        if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
-            self.selectPageNumber = 1;
-            [self NETWORK_requestTask];
+//    DBWaiterTaskList * waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+//    [[DataManager defaultInstance] deleteFromCoreData:waiterTaskList];
+//    [[DataManager defaultInstance] saveContext];
+    
+    //每次收到新任务消息推送的时候，都刷新tableview，
+    if (self.isPage == YES) {
+        if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
+            if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
+                self.selectPageNumber = 1;
+                [self NETWORK_requestTask];
+            }
         }
     }
 }
