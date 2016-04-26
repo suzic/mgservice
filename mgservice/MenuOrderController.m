@@ -39,8 +39,9 @@
     if (_menuArray.count > 0) {
         [_menuArray removeAllObjects];
     }
-    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
-    for (DBWaiterTaskList * waiterTask in array) {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    for (DBTaskList * waiterTask in array) {
         NSMutableArray * taskContent = [NSMutableArray array];
         // [self NETWORK_menuDetailList:waiterTask.drOrderNo];
         [taskContent addObject:waiterTask.userLocationDesc];
@@ -102,7 +103,7 @@
 {
     if (succeed)
     {
-        DBWaiterTaskList * waiterTask = datas[0];
+        DBTaskList * waiterTask = datas[0];
         if ([waiterTask.status isEqualToString:@"1"])
         {
             // 提交完成成功   删除菜单表中已完成的数据
@@ -128,6 +129,16 @@
             [self loadDBTaskData];
             if (_menuArray.count <= 0)
             {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
+                NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+                if (listArray.count > 0)
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenYES" object:nil];
+                }
+                else
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenNO" object:nil];
+                }
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }

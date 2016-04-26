@@ -2,7 +2,7 @@
 //  DBMessage+CoreDataProperties.m
 //  mgservice
 //
-//  Created by 罗禹 on 16/4/5.
+//  Created by 罗禹 on 16/4/22.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,11 +13,9 @@
 
 @implementation DBMessage (CoreDataProperties)
 
-@dynamic answer;
-@dynamic answerTime;
-@dynamic askTime;
-@dynamic chatCode;
-@dynamic question;
+@dynamic cAppkey;
+@dynamic cUserId;
+@dynamic wUserId;
 @dynamic belongCallList;
 
 @end

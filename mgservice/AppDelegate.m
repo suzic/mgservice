@@ -135,7 +135,8 @@
     NSLog(@"已激活APP");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
     //拿到coredata里的已接任务数据
-    DBWaiterTaskList * waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    DBTaskList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
     if (waiterTaskList != nil) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"pushTaskStatus" object:nil userInfo:nil];
     }

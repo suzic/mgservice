@@ -2,7 +2,7 @@
 //  DBTaskList+CoreDataProperties.h
 //  mgservice
 //
-//  Created by Sun Peng on 16/2/23.
+//  Created by 罗禹 on 16/4/22.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *accepTime;
 @property (nullable, nonatomic, retain) NSString *cancelTime;
 @property (nullable, nonatomic, retain) NSString *category;
+@property (nullable, nonatomic, retain) NSString *drOrderNo;
 @property (nullable, nonatomic, retain) NSString *finishTime;
 @property (nullable, nonatomic, retain) NSString *patternInfo;
 @property (nullable, nonatomic, retain) NSString *phone;
@@ -32,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *userLocationArea;
 @property (nullable, nonatomic, retain) NSString *userLocationDesc;
 @property (nullable, nonatomic, retain) NSString *userMessageInfo;
-@property (nullable, nonatomic, retain) NSString *drOrderNo;
+@property (nullable, nonatomic, retain) NSString *status;
+@property (nullable, nonatomic, retain) NSString *waiterStatus;
 @property (nullable, nonatomic, retain) DBWaiterInfor *belongWaiter;
 @property (nullable, nonatomic, retain) DBMessage *hasMessage;
 

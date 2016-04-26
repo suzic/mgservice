@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15B42" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="DBMessage" representedClassName="DBMessage" syncable="YES">
-        <attribute name="answer" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="answerTime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="askTime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="chatCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="question" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cAppkey" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wUserId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="belongCallList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBTaskList" inverseName="hasMessage" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
     <entity name="DBTaskList" representedClassName="DBTaskList" syncable="YES">
@@ -18,6 +16,7 @@
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="priority" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rush" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taskStatus" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
@@ -27,6 +26,7 @@
         <attribute name="userLocationArea" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userLocationDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="userMessageInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="waiterStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="belongWaiter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBWaiterInfor" inverseName="hasCallList" inverseEntity="DBWaiterInfor" syncable="YES"/>
         <relationship name="hasMessage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBMessage" inverseName="belongCallList" inverseEntity="DBMessage" syncable="YES"/>
     </entity>
@@ -60,39 +60,10 @@
         <attribute name="sellPrice" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="targetTelephone" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="DBWaiterTaskList" representedClassName="DBWaiterTaskList" syncable="YES">
-        <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cAppkey" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cUserId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deviceId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="deviceToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="priority" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rush" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="taskStatus" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userDeviceToken" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userDiviceld" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userLocation" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userLocationArea" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userLocationDesc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="userMessageInfo" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="wUserId" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <elements>
-        <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="133"/>
-        <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="345"/>
+        <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="103"/>
+        <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="373"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
-        <element name="DBWaiterPresentList" positionX="-4241" positionY="-1269" width="128" height="148"/>
-        <element name="DBWaiterTaskList" positionX="-3899" positionY="-1404" width="128" height="435"/>
+        <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="148"/>
     </elements>
 </model>

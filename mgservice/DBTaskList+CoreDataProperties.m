@@ -2,7 +2,7 @@
 //  DBTaskList+CoreDataProperties.m
 //  mgservice
 //
-//  Created by Sun Peng on 16/2/23.
+//  Created by 罗禹 on 16/4/22.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -16,6 +16,7 @@
 @dynamic accepTime;
 @dynamic cancelTime;
 @dynamic category;
+@dynamic drOrderNo;
 @dynamic finishTime;
 @dynamic patternInfo;
 @dynamic phone;
@@ -30,8 +31,9 @@
 @dynamic userLocationArea;
 @dynamic userLocationDesc;
 @dynamic userMessageInfo;
+@dynamic status;
+@dynamic waiterStatus;
 @dynamic belongWaiter;
 @dynamic hasMessage;
-@dynamic drOrderNo;
 
 @end

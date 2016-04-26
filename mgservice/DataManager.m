@@ -138,7 +138,7 @@ static NSString *const CoreDataModelFileName = @"mgservice";
         {
             // 如果有特殊的错误处理机制，请重写下面的代码.
 #warning abort() 会导致软件崩溃退出的同时生成错误日志. 如果你要发布该应用，应当避免使用该方法，它只是在开发阶段会很有用.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            //NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
         else

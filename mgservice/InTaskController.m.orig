@@ -253,8 +253,14 @@
 //    self.waiterTaskList.cAppkey = @"23337443";
 //    NSLog(@"%@",self.waiterTaskList.wUserId);
     //登录IM
+<<<<<<< HEAD
+    NSLog(@"%@",self.waiterTaskList.wUserId);
+    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
+        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.cUserId appKey:self.waiterTaskList.cAppkey];
+=======
     [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.hasMessage.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
         YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.hasMessage.cUserId appKey:self.waiterTaskList.hasMessage.cAppkey];
+>>>>>>> master
         self.conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext: [SPKitExample sharedInstance].ywIMKit.IMCore];
         self.showMessageLabel = YES;
     } failedBlock:^(NSError * error) {
