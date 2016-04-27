@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "SHLoadingView.h"
+
 @interface LoginViewController ()<RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
@@ -45,8 +45,10 @@
     
 }
 
-- (void)dealloc {
-    if(self.hud){
+- (void)dealloc
+{
+    if(self.hud)
+    {
         [self.hud stopWMProgress];
         [self.hud removeFromSuperview];
     }
@@ -150,8 +152,6 @@
 // 登录请求
 - (void)NETWORK_requestLogin
 {
-    //三亚红树林现场获取mac地址 或 假mac地址
-    [self NETWORK_getMAC];
     
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     NSLog(@"%@",waiterInfo.deviceId);
@@ -300,15 +300,18 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    [self NETWORK_requestLogin];
+    [self NETWORK_getMAC];
 }
 
 #pragma mark----------
 //现场获取mac地址
 - (void)NETWORK_getMAC
 {
-    SHLoadingView *loadingView = [SHLoadingView loadingView];
-    [loadingView showSynchronous];
+    LCProgressHUD *progresshud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                           andStyle:titleStyle andTitle:@"正在加载...."];
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate.window addSubview:progresshud];
+    [progresshud startWMProgress];
     NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -322,42 +325,24 @@
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             waiterInfor.deviceId = macStr;
             [[DataManager defaultInstance] saveContext];
-            // 获取Mac地址成功之后开启定位
-            [loadingView disapper];
+            [progresshud stopWMProgress];
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
-            //[self startUserCurrentArea];
-            // 检查最后一条呼叫任务
-            //[self requestTaskList];
+            // 获取mac地址后登录
+            [self NETWORK_requestLogin];
+
         }else
         {
+            [progresshud stopWMProgress];
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             //失败写假mac地址 ：[self uuid]
             waiterInfor.deviceId = [self uuid];
             [[DataManager defaultInstance] saveContext];
-            [loadingView disapper];
+            // 未获取mac地址写一个假数据登录
+            [self NETWORK_requestLogin];
             
         }
     }];
 }
-// 开始计算区域位置
-- (void)startUserCurrentArea
-{
-    // 检查是否登录
-//    BOOL login = [[DataManager defaultInstance] findUserLogIn];
-    // 在这里开始发送网络请求
-//    if (login == YES)
-//    {
-        DBWaiterInfor *paramenter = [[DataManager defaultInstance] getWaiterInfor];
-        // mac地址存在的时候开启获取区域位置
-        if (paramenter.deviceId)
-        {
-//            self.wifiManager = [[NGRPositioningManager alloc]initWithMacAddress:paramenter.diviceId appKey:@"" url:@"http://10.11.88.108:80/comet/"];
-//            self.wifiManager.poll = YES;
-//            self.wifiManager.timeInterval = 2000;
-//            self.wifiManager.delegate = self;
-//            [self.wifiManager start];
-        }
-//    }
-}
+
 @end
