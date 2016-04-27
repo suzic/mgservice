@@ -100,10 +100,7 @@
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        
         [self NETWORK_reloadWorkStatusTask];
-        
     }];
     [alert addAction:cancelAction];
     [alert addAction:defaultAction];
@@ -120,7 +117,6 @@
                                    @{@"diviceId":waiterInfo.deviceId,
                                      @"deviceToken":waiterInfo.deviceToken,
                                      @"taskCode":self.waiterTaskList.taskCode}];//任务编号
-    NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,self.waiterTaskList.taskCode);
     self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_FINISHTASK
                                                                           params:params
@@ -130,6 +126,8 @@
 //通过任务编号，获得任务状态
 - (void)NETWORK_TaskStatus
 {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
     self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -142,8 +140,6 @@
 {
     if (succeed) {
         if (datas.count > 0) {
-            NSLog(@"%@",datas[0]);
-//            self.waiterTaskList = datas[0];
             DBMessage * message = self.waiterTaskList.hasMessage;
             [[DataManager defaultInstance]deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
