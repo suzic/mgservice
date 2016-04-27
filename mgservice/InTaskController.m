@@ -16,8 +16,6 @@
 @property (strong, nonatomic) YWConversationViewController * chatVC;
 @property (nonatomic,strong) YWConversationViewController * conversationView;
 
-@property (strong, nonatomic) IBOutlet UIButton *myLocation;//我的位置
-@property (strong, nonatomic) IBOutlet UIButton *heLocation;//他的位置
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
@@ -55,9 +53,6 @@
     self.messageLabel.layer.masksToBounds = YES;
     self.messageLabel.layer.borderWidth = 1.0f;
     self.messageLabel.layer.cornerRadius = 15.0f;
-    
-    //发送通知，计算键盘高度
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
     //返回按钮 临时用
 //    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
@@ -419,14 +414,6 @@
 {
     [self NETWORK_TaskStatus];
 }
-
-//textView代理
-//- (void)textViewDidChange:(UITextView *)textView
-//{
-//    CGSize textMaxSize = CGSizeMake(self.view.frame.size.width - 20,MAXFLOAT);
-//    CGSize textSize = [textView.text sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
-//    self.bottomViewHeight.constant = textSize.height +20;
-//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
