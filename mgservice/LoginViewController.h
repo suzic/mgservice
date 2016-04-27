@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UITableViewController
-
+@property (nonatomic,strong) NSString * macStr;
 @end

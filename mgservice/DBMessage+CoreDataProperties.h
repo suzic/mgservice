@@ -2,7 +2,7 @@
 //  DBMessage+CoreDataProperties.h
 //  mgservice
 //
-//  Created by 罗禹 on 16/4/5.
+//  Created by 罗禹 on 16/4/22.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -15,11 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBMessage (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *answer;
-@property (nullable, nonatomic, retain) NSString *answerTime;
-@property (nullable, nonatomic, retain) NSString *askTime;
-@property (nullable, nonatomic, retain) NSString *chatCode;
-@property (nullable, nonatomic, retain) NSString *question;
+@property (nullable, nonatomic, retain) NSString *cAppkey;
+@property (nullable, nonatomic, retain) NSString *cUserId;
+@property (nullable, nonatomic, retain) NSString *wUserId;
 @property (nullable, nonatomic, retain) DBTaskList *belongCallList;
 
 @end

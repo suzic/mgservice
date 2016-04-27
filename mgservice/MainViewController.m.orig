@@ -27,7 +27,7 @@
 @property (nonatomic,strong) NSString * strinter;
 @property (nonatomic,assign) NSInteger selectPageNumber;  // 请求订单页数
 @property (nonatomic,copy) NSString * foodPresentList; // 菜单列表业务号
-@property (nonatomic,assign) BOOL isPage;//如果是yes，就是MainVC页面
+@property (nonatomic,assign) BOOL isPage;
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
@@ -388,6 +388,7 @@
         }
         else
         {
+<<<<<<< HEAD
             //有任务跳转到地图页面
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
             NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
@@ -397,6 +398,20 @@
                 if ([waiterTask.category isEqualToString:@"0"]) {
                     [self performSegueWithIdentifier:@"goTask" sender:nil];
                 }
+=======
+            //如果没有抢单(到场任务),就算了 否则跳转到地图页面
+            DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+            //        [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            //        [[DataManager defaultInstance]saveContext];
+            //如有已接任务有数据，就跳转到任务页面
+            if(waiterTask.taskCode == nil)
+            {
+                return;
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"goTask" sender:nil];
+>>>>>>> yadong
             }
         }
     }
@@ -417,7 +432,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
-    NSLog(@"%@",waiterInfo.deviceId);
+    
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"diviceId": waiterInfo.deviceId,
                                      @"deviceToken":waiterInfo.deviceToken,
@@ -454,6 +469,8 @@
             [self.taskArray addObject:task];
         }
         [self.taskTable reloadData];
+        
+        
     }
     else
     {
@@ -473,7 +490,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
-    NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,taskCode);
+    
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
                                                                                    @"deviceToken":waiterInfo.deviceToken,
                                                                                    @"taskCode":taskCode}];
@@ -506,6 +523,7 @@
                 [self NETWORK_menuDetailList:waiterTask.drOrderNo];
             }
 #warning 订单类型确定后更新 会再补充
+        }
         else
         {
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
@@ -887,6 +905,10 @@
 //通知中的方法
 - (void)pushMessType:(NSNotification*)notification
 {
+//    DBWaiterTaskList * waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+//    [[DataManager defaultInstance] deleteFromCoreData:waiterTaskList];
+//    [[DataManager defaultInstance] saveContext];
+    
     //每次收到新任务消息推送的时候，都刷新tableview，
     if (self.isPage == YES) {
         if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {

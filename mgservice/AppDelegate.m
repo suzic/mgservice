@@ -89,6 +89,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"xiaoxitongzhi:%@",userInfo[@"messType"]);
+    //如果messType类型等于5，证明管家端取消了任务
     if ([userInfo[@"messType"] isEqualToString:@"5"])
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
@@ -138,6 +139,12 @@
 //    NSLog(@"已激活APP");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiStartDrawMap object:nil];
+    //拿到coredata里的已接任务数据
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    DBTaskList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+    if (waiterTaskList != nil) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushTaskStatus" object:nil userInfo:nil];
+    }
 }
 
 //应用程序被终止时，执行此代理方法

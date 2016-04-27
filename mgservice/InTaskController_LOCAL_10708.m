@@ -8,11 +8,8 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
-#import "NgrmapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
-@property (retain, nonatomic) NgrmapViewController *ngrMapView;
-@property (weak, nonatomic) IBOutlet UIView *mapView;
 @property (strong, nonatomic) YWConversationViewController * chatVC;
 @property (nonatomic,strong) YWConversationViewController * conversationView;
 
@@ -44,6 +41,8 @@
     [super viewDidLoad];
     [[RequestNetWork defaultManager]registerDelegate:self];
     self.bottomViewHeight.constant = 40;
+    self.myLocation.layer.cornerRadius = 15.0f;
+    self.heLocation.layer.cornerRadius = 15.0f;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.hidesBackButton = YES;
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
@@ -101,7 +100,10 @@
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        
         [self NETWORK_reloadWorkStatusTask];
+        
     }];
     [alert addAction:cancelAction];
     [alert addAction:defaultAction];
@@ -118,6 +120,7 @@
                                    @{@"diviceId":waiterInfo.deviceId,
                                      @"deviceToken":waiterInfo.deviceToken,
                                      @"taskCode":self.waiterTaskList.taskCode}];//任务编号
+    NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,self.waiterTaskList.taskCode);
     self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_FINISHTASK
                                                                           params:params
@@ -127,8 +130,7 @@
 //通过任务编号，获得任务状态
 - (void)NETWORK_TaskStatus
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    self.waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
     self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -141,8 +143,10 @@
 {
     if (succeed) {
         if (datas.count > 0) {
+            NSLog(@"%@",datas[0]);
+//            self.waiterTaskList = datas[0];
             DBMessage * message = self.waiterTaskList.hasMessage;
-            [[DataManager defaultInstance] deleteFromCoreData:message];
+            [[DataManager defaultInstance]deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
             //登出IM
@@ -272,7 +276,7 @@
 //    self.conversationView.view.backgroundColor = [UIColor clearColor];
 //    self.conversationView.tableView.backgroundView = nil;
 //    self.conversationView.tableView.backgroundColor = [UIColor clearColor];
-    self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
+    self.messageLabel.text = [NSString stringWithFormat:@"%ld",self.conversation.conversationUnreadMessagesCount.integerValue];
     [self addChildViewController:self.conversationView];
     [self.chatHistoryView addSubview: self.conversationView.view];
 }
@@ -406,7 +410,7 @@
 //显示未读消息角标
 - (void)newMessage:(NSNotification *)noti
 {
-    self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
+    self.messageLabel.text = [NSString stringWithFormat:@"%ld",self.conversation.conversationUnreadMessagesCount.integerValue];
     if (self.showMessageLabel == NO) {
         self.messageLabel.hidden = YES;
     }else{
@@ -427,13 +431,5 @@
 //    CGSize textSize = [textView.text sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
 //    self.bottomViewHeight.constant = textSize.height +20;
 //}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showMap"])
-    {
-        self.ngrMapView = [segue destinationViewController];
-    }
-}
 
 @end

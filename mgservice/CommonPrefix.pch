@@ -69,6 +69,9 @@
 // 服务员提交完成
 #define URI_WAITER_FINISHTASK                 "/hotelservice/checkin/service/finish_task.json"
 
+//通过任务号，查询任务信息
+#define URI_WAITER_TASkSTATUS                 "/hotelservice/checkin/service/get_task"
+
 // 服务员发送消息接口
 #define URI_WAITER_SENDMESSAGE                "/hotelservice/checkin/service/send_chat.json"
 
@@ -80,6 +83,9 @@
 
 // 消息基准时间
 #define URI_MESSAGE_BASETIME                  "/hotelservice/service/comm/sysdate.json"
+
+// 即时通讯获取用户和服务员userid
+#define URL_ACHIEVE_USERID  "/hotelservice/manage/service/get_im_user.json"
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
@@ -94,7 +100,6 @@
 #import "DBMessage.h"
 #import "DBTaskList.h"
 #import "DBWaiterInfor.h"
-#import "DBWaiterTaskList.h"
 #import "DataManager.h"
 #import "RequestNetWork.h"
 #import "DBWaiterPresentList.h"
