@@ -141,7 +141,7 @@
     if (succeed) {
         if (datas.count > 0) {
             DBMessage * message = self.waiterTaskList.hasMessage;
-            [[DataManager defaultInstance]deleteFromCoreData:message];
+            [[DataManager defaultInstance] deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
             //登出IM

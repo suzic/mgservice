@@ -93,6 +93,8 @@
 		9C78A64A1CBF990B00932D0C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A6491CBF990B00932D0C /* ImageIO.framework */; };
 		9C78A64C1CBF991100932D0C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A64B1CBF991100932D0C /* AudioToolbox.framework */; };
 		9C78A64E1CBF991D00932D0C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A64D1CBF991D00932D0C /* AssetsLibrary.framework */; };
+		9CB8DFB71CD0A65E007CFFB9 /* SHLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB8DFB61CD0A65E007CFFB9 /* SHLoadingView.m */; };
+		9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */; };
 		9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */; };
 		D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01231C5B0A9300D242B1 /* FinishedController.m */; };
 		D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */; };
@@ -266,6 +268,10 @@
 		9C78A6491CBF990B00932D0C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		9C78A64B1CBF991100932D0C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9C78A64D1CBF991D00932D0C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		9CB8DFB51CD0A65E007CFFB9 /* SHLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHLoadingView.h; sourceTree = "<group>"; };
+		9CB8DFB61CD0A65E007CFFB9 /* SHLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHLoadingView.m; sourceTree = "<group>"; };
+		9CB8DFB81CD0A675007CFFB9 /* Defaut_Enu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaut_Enu.h; sourceTree = "<group>"; };
+		9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaut_Enu.m; sourceTree = "<group>"; };
 		9CBB00791CA537E900AA5C03 /* NSString+Addtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addtions.h"; sourceTree = "<group>"; };
 		9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addtions.m"; sourceTree = "<group>"; };
 		D06C01221C5B0A9300D242B1 /* FinishedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedController.h; sourceTree = "<group>"; };
@@ -752,6 +758,10 @@
 				F89B76111C77024800757096 /* NSDictionary+AllKeytoLowerCase.m */,
 				FCA9C9EB1CB39B28006579A4 /* Util.h */,
 				FCA9C9EC1CB39B28006579A4 /* Util.m */,
+				9CB8DFB51CD0A65E007CFFB9 /* SHLoadingView.h */,
+				9CB8DFB61CD0A65E007CFFB9 /* SHLoadingView.m */,
+				9CB8DFB81CD0A675007CFFB9 /* Defaut_Enu.h */,
+				9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */,
 				F89B76771C771D9100757096 /* MySingleton.h */,
 				F89B76781C771D9100757096 /* MySingleton.m */,
 				F84361F81C7C467A00320DE2 /* GCDAsyncUdpSocket.h */,
@@ -1017,6 +1027,7 @@
 				F89B75D81C76E23700757096 /* SPUserDefaultsManger.m in Sources */,
 				FC1922841CA10BDE00A941AE /* RequestNetWork.m in Sources */,
 				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
+				9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */,
 				9C78A6031CBF98B800932D0C /* SPInputViewPluginCallingCard.m in Sources */,
 				FC4822151CAA0D220070504E /* DBWaiterPresentList+CoreDataProperties.m in Sources */,
 				9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */,
@@ -1029,6 +1040,7 @@
 				9C78A6051CBF98B800932D0C /* SPGreetingBubbleViewModel.m in Sources */,
 				F84362241C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.m in Sources */,
 				D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */,
+				9CB8DFB71CD0A65E007CFFB9 /* SHLoadingView.m in Sources */,
 				FCCA14F21CA5041A00F5A502 /* MJRefreshNormalHeader.m in Sources */,
 				FC4822161CAA0D220070504E /* DBWaiterPresentList.m in Sources */,
 				9C789EB71CBF679300932D0C /* AFURLRequestSerialization.m in Sources */,
