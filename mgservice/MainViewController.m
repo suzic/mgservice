@@ -473,7 +473,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
-    
+    NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,taskCode);
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
                                                                                    @"deviceToken":waiterInfo.deviceToken,
                                                                                    @"taskCode":taskCode}];

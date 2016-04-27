@@ -126,8 +126,12 @@
 //通过任务编号，获得任务状态
 - (void)NETWORK_TaskStatus
 {
+<<<<<<< HEAD
+    self.waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+=======
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+>>>>>>> 71b7a62d5f78396516c71b5afdcaf9efe8a7bae6
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
     self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL

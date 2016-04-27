@@ -160,12 +160,12 @@
 {
     if (succeed) {
         if ([self.waiterTaskList.taskStatus isEqualToString:@"9"] ) {
+            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+            [[DataManager defaultInstance] saveContext];
+            //登出IM
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-                [[DataManager defaultInstance] saveContext];
-                //登出IM
-                [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             [alert addAction:action];
@@ -240,7 +240,7 @@
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 
-#pragma mark-即时通讯登录IM
+#pragma mark-即时通讯登录
 // 即时通讯登录
 - (void)instantMessaging
 {
@@ -389,13 +389,15 @@
 //收到取消任务的通知后，删除已接任务
 - (void)backHomePage:(NSNotification*)notification
 {
+//    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+    [[DataManager defaultInstance] saveContext];
+    //登出IM
+    [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+    [self whenSkipUse];
+    
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-        [[DataManager defaultInstance] saveContext];
-        //登出IM
-        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-        [self whenSkipUse];
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [alert addAction:action];
