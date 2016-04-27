@@ -27,7 +27,7 @@
 @property (nonatomic,strong) NSString * strinter;
 @property (nonatomic,assign) NSInteger selectPageNumber;  // 请求订单页数
 @property (nonatomic,copy) NSString * foodPresentList; // 菜单列表业务号
-@property (nonatomic,assign) BOOL isPage;
+@property (nonatomic,assign) BOOL isPage;//如果是yes，就是MainVC页面
 
 @property (retain, nonatomic) NSMutableArray *taskArray;
 @property (assign, nonatomic) NSInteger selectedIndex;
@@ -888,10 +888,6 @@
 //通知中的方法
 - (void)pushMessType:(NSNotification*)notification
 {
-//    DBWaiterTaskList * waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-//    [[DataManager defaultInstance] deleteFromCoreData:waiterTaskList];
-//    [[DataManager defaultInstance] saveContext];
-    
     //每次收到新任务消息推送的时候，都刷新tableview，
     if (self.isPage == YES) {
         if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {

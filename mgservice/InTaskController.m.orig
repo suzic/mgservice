@@ -31,11 +31,7 @@
 @property (assign,nonatomic) NSInteger second;//时间
 @property (nonatomic,strong) YWP2PConversation * conversation;
 @property (nonatomic,strong) LCProgressHUD * hud;
-<<<<<<< HEAD
-@property (nonnull,strong) DBTaskList * waiterTask;
-=======
-@property (nonnull,strong) DBWaiterTaskList * waiterTaskList;
->>>>>>> yadong
+@property (nonnull,strong) DBTaskList * waiterTaskList;
 @end
 
 @implementation InTaskController
@@ -68,14 +64,9 @@
     //模拟任务完成的方法
     [self endTask];
     
-<<<<<<< HEAD
     //拿到coredata里的数据
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    self.waiterTask = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-=======
-    //拿到coredata里的已接任务数据
-    self.waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
->>>>>>> yadong
+    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     
     //即时通讯登录
     [self instantMessaging];
@@ -139,6 +130,7 @@
 //通过任务编号，获得任务状态
 - (void)NETWORK_TaskStatus
 {
+    self.waiterTaskList = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
     self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -171,12 +163,12 @@
 {
     if (succeed) {
         if ([self.waiterTaskList.taskStatus isEqualToString:@"9"] ) {
-            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-            [[DataManager defaultInstance] saveContext];
-            //登出IM
-            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+                [[DataManager defaultInstance] saveContext];
+                //登出IM
+                [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             [alert addAction:action];
@@ -208,8 +200,6 @@
     [appDelegate.window addSubview:self.hud];
     [self.hud startWMProgress];
 }
-
-
 
 //成功回调
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
@@ -253,27 +243,24 @@
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 
-#pragma mark-即时通讯登录
+#pragma mark-即时通讯登录IM
 // 即时通讯登录
 - (void)instantMessaging
 {
     //以下三行代码是固定值，如果不需要只需注释或删掉即可
-<<<<<<< HEAD
-    self.waiterTask.hasMessage.wUserId = @"testuser10";
-    self.waiterTask.hasMessage.cUserId = @"test0";
-    self.waiterTask.hasMessage.cAppkey = @"23337443";
-    //登录IM
-    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTask.hasMessage.wUserId passWord:@"123456" preloginedBlock:nil successBlock:^{
-        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTask.hasMessage.cUserId appKey:self.waiterTask.hasMessage.cAppkey];
-=======
 //    self.waiterTaskList.wUserId = @"testuser10";
 //    self.waiterTaskList.cUserId = @"test0";
 //    self.waiterTaskList.cAppkey = @"23337443";
 //    NSLog(@"%@",self.waiterTaskList.wUserId);
     //登录IM
+<<<<<<< HEAD
+    NSLog(@"%@",self.waiterTaskList.wUserId);
     [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
         YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.cUserId appKey:self.waiterTaskList.cAppkey];
->>>>>>> yadong
+=======
+    [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.hasMessage.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
+        YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.hasMessage.cUserId appKey:self.waiterTaskList.hasMessage.cAppkey];
+>>>>>>> master
         self.conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext: [SPKitExample sharedInstance].ywIMKit.IMCore];
         self.showMessageLabel = YES;
     } failedBlock:^(NSError * error) {
@@ -411,15 +398,13 @@
 //收到取消任务的通知后，删除已接任务
 - (void)backHomePage:(NSNotification*)notification
 {
-//    DBWaiterTaskList * waiterTask = (DBWaiterTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBWaiterTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-    [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-    [[DataManager defaultInstance] saveContext];
-    //登出IM
-    [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-    [self whenSkipUse];
-    
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+        [[DataManager defaultInstance] saveContext];
+        //登出IM
+        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+        [self whenSkipUse];
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [alert addAction:action];
