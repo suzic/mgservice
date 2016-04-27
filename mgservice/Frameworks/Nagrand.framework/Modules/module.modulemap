@@ -1,0 +1,6 @@
+framework module Nagrand {
+  umbrella header "Nagrand.h"
+
+  export *
+  module * { export * }
+}

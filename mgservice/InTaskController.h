@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ChatCell.h"
 #import "NSString+Addtions.h"
-@interface InTaskController : UIViewController
+@interface InTaskController : NGRMapViewController
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @end

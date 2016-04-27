@@ -26,6 +26,9 @@
     //set AppKey and AppSecret
     [UMessage startWithAppkey:@"56f23615e0f55a8fc400053b" launchOptions:launchOptions];
     
+    // 地图开启
+    [NGREngine startWithLicense:@"204f65c9f87b4793ac630a96de11463d"];
+    
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -90,15 +93,16 @@
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
     }
-//    if ([userInfo[@"messType"] isEqualToString:@"4"])
-//    {
+    else
+    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
-//    }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     //home键时，执行此代理
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiStopDrawMap object:nil];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -131,9 +135,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"已激活APP");
+//    NSLog(@"已激活APP");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiStartDrawMap object:nil];
 }
+
 //应用程序被终止时，执行此代理方法
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

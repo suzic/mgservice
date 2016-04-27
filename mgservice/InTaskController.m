@@ -8,11 +8,12 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
+#import "NgrmapViewController.h"
 
 @interface InTaskController ()
+@property (retain, nonatomic) NgrmapViewController *ngrMapView;
+@property (weak, nonatomic) IBOutlet UIView *mapView;
 @property (strong, nonatomic) YWConversationViewController * chatVC;
-@property (strong, nonatomic) IBOutlet UIButton *myLocation;//我的位置
-@property (strong, nonatomic) IBOutlet UIButton *heLocation;//他的位置
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
@@ -31,8 +32,6 @@
 {
     [super viewDidLoad];
     self.bottomViewHeight.constant = 40;
-    self.myLocation.layer.cornerRadius = 15.0f;
-    self.heLocation.layer.cornerRadius = 15.0f;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.hidesBackButton = YES;
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
@@ -55,7 +54,7 @@
     [self theTimer];
     
     //接收通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"pushMessType" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
 }
 
 - (void)endTask
@@ -96,7 +95,7 @@
 //创建聊天对象
 - (void)createChat
 {
-    [[SPKitExample sharedInstance] callThisAfterISVAccountLoginSuccessWithYWLoginId:@"testuser10" passWord:@"123456" preloginedBlock:nil successBlock:^{
+    [[SPKitExample sharedInstance] callThisAfterISVAccountLoginSuccessWithYWLoginId:@"test001" passWord:@"123456" preloginedBlock:nil successBlock:^{
         //到这里已经完成SDK接入并登录成功
         //创建聊天对象
         YWPerson * person = [[YWPerson alloc]initWithPersonId:@"test0" appKey:@"23337443"];//23344766 //23337443
@@ -122,7 +121,6 @@
 - (void)changeTimer
 {
     self.second ++;
-    NSLog(@"%ld",self.second);
     if (self.second > 18000) {
         self.timeLable.textColor = [UIColor yellowColor];
     }
@@ -213,5 +211,13 @@
 //    CGSize textSize = [textView.text sizeWithFont:[UIFont systemFontOfSize:16.0] maxSize:textMaxSize];
 //    self.bottomViewHeight.constant = textSize.height +20;
 //}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showMap"])
+    {
+        self.ngrMapView = [segue destinationViewController];
+    }
+}
 
 @end
