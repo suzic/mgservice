@@ -80,6 +80,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.ngrMapView = nil;
+    [super viewWillDisappear:animated];
+    
+}
+
 #pragma mark-模拟完成任务
 - (void)endTask
 {
@@ -420,6 +427,7 @@
     if ([segue.identifier isEqualToString:@"showMap"])
     {
         self.ngrMapView = [segue destinationViewController];
+        [self addChildViewController:self.ngrMapView];
     }
 }
 

@@ -28,6 +28,8 @@
 
 @property (nonatomic,strong) LCProgressHUD * hud;
 
+@property (nonatomic,strong) LCProgressHUD * macHud;
+
 @end
 
 @implementation LoginViewController
@@ -307,11 +309,11 @@
 //现场获取mac地址
 - (void)NETWORK_getMAC
 {
-    LCProgressHUD *progresshud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+    self.macHud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
                                            andStyle:titleStyle andTitle:@"正在加载...."];
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:progresshud];
-    [progresshud startWMProgress];
+    [appDelegate.window addSubview:self.macHud];
+    [self.macHud startWMProgress];
     NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -325,14 +327,16 @@
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             waiterInfor.deviceId = macStr;
             [[DataManager defaultInstance] saveContext];
-            [progresshud stopWMProgress];
+            [self.macHud stopWMProgress];
+            [self.macHud removeFromSuperview];
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
             // 获取mac地址后登录
             [self NETWORK_requestLogin];
 
         }else
         {
-            [progresshud stopWMProgress];
+            [self.macHud stopWMProgress];
+            [self.macHud removeFromSuperview];
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             //失败写假mac地址 ：[self uuid]

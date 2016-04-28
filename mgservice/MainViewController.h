@@ -10,6 +10,6 @@
 
 @interface MainViewController : UIViewController
 @property (assign, nonatomic) BOOL direction;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *presentButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *presentButton;
 @property (assign,nonatomic) NSInteger second;
 @end
