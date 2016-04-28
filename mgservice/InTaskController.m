@@ -13,8 +13,7 @@
 @interface InTaskController ()<RequestNetWorkDelegate>
 @property (retain, nonatomic) NgrmapViewController *ngrMapView;
 @property (weak, nonatomic) IBOutlet UIView *mapView;
-@property (strong, nonatomic) YWConversationViewController * chatVC;
-@property (nonatomic,strong) YWConversationViewController * conversationView;
+@property (nonatomic,strong)  YWConversationViewController * conversationView;
 
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -46,7 +45,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
     self.chatHistoryViewBottom.constant = 60 - self.view.frame.size.height;
-    self.chatHistoryView.backgroundColor = [UIColor grayColor];
+    self.chatHistoryView.backgroundColor = [UIColor clearColor];
     self.showTalk = NO;
     
     self.messageLabel.layer.borderColor = [UIColor redColor].CGColor;
@@ -75,9 +74,10 @@
     
     //来新消息
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:@"NotiNewMessage" object:nil];
-    
+
     //查询任务状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
+    [self NETWORK_TaskStatus];
 }
 
 #pragma mark-模拟完成任务
@@ -104,7 +104,7 @@
 }
 
 #pragma mark-网络请求
-
+//完成任务
 - (void)NETWORK_reloadWorkStatusTask
 {
     [self whenSkipUse];
@@ -263,10 +263,10 @@
     
     self.conversationView = [[SPKitExample sharedInstance]exampleMakeConversationViewControllerWithConversation:self.conversation];
     self.conversationView.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 69-64);
-//    self.conversationView.backgroundImage = nil;
-//    self.conversationView.view.backgroundColor = [UIColor clearColor];
-//    self.conversationView.tableView.backgroundView = nil;
-//    self.conversationView.tableView.backgroundColor = [UIColor clearColor];
+    self.conversationView.backgroundImage = nil;
+    self.conversationView.view.backgroundColor = [UIColor clearColor];
+    self.conversationView.tableView.backgroundView = nil;
+    self.conversationView.tableView.backgroundColor = [UIColor clearColor];
     self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
     [self addChildViewController:self.conversationView];
     [self.chatHistoryView addSubview: self.conversationView.view];
@@ -341,15 +341,15 @@
     if (_showTalk == showTalk)
         return;
     _showTalk = showTalk;
+
     self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
-    [UIView animateWithDuration:0.5f animations:^{
     CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
+    [UIView animateWithDuration:0.25f animations:^{
         [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
-        self.chatHistoryView.alpha = showTalk ? 0.8 : 1;
-    } completion:^(BOOL finished) {
         self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
         self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
+    } completion:^(BOOL finished) {
     }];
 }
 
@@ -359,7 +359,7 @@
     if (self.showTalk == NO)
     {
         self.showTalk = YES;
-        //创建聊天对象
+//        //创建聊天对象
         [self instantMessageingFormation];
         self.showMessageLabel = NO;
         self.messageLabel.hidden = YES;
@@ -373,7 +373,7 @@
 //每次点地图按钮的时候执行这个。
 - (IBAction)swithTalk:(id)sender
 {
-    [self.chatVC.messageInputView resignFirstResponder];
+    [self.conversationView.messageInputView resignFirstResponder];
     self.showTalk = NO;
     [self deallocInstantMessageing];
     [self.conversation markConversationAsRead];

@@ -340,7 +340,7 @@
             [[DataManager defaultInstance] saveContext];
             // 未获取mac地址写一个假数据登录
             [self NETWORK_requestLogin];
-            
+
         }
     }];
 }
