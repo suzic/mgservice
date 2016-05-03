@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ChatCell.h"
-#import "NSString+Addtions.h"
+#import "NgrmapViewController.h"
+
 @interface InTaskController : UIViewController
+
+@property (retain, nonatomic) NgrmapViewController *ngrMapView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;

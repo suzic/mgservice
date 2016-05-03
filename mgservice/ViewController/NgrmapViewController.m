@@ -20,6 +20,7 @@
 #import "HPDProgress.h"
 #import "FloorRegionModel.h"
 #import "OneRegionModel.h"
+#import "InTaskController.h"
 
 typedef NS_ENUM(NSInteger, parkingState) {
     parking = 0,
@@ -98,7 +99,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopMap) name:NotiStopDrawMap object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startMap ) name:NotiStartDrawMap object:nil];
     
-    [self configMapView:nil];
+//    [self configMapView:nil];
 //    _locationFloorId = 666659;
     _locationFloorId = 0;
     self.interval = 0;
@@ -686,7 +687,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         [self.dataSource requestPlanarGraph:665520 success:^(NGRPlanarGraph *planarGraph) {
             weakSelf.outdoorButton.hidden = YES;
               HideHPDProgress;
-            [weakSelf startDraw:planarGraph];
+//            [weakSelf startDraw:planarGraph];
           
             [weakSelf.mapView visibleAllLayerFeature:@"Area" isVisible:NO];
             [weakSelf.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];
@@ -810,6 +811,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     HideHPDProgress;
     [self.autoChangeMaptimer invalidate];
     self.autoChangeMaptimer = nil;
+    self.intaskController.ngrMapView = nil;
 }
 #pragma mark-进入室内地图进入室内的数据处理
 /**

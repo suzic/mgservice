@@ -8,10 +8,8 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
-#import "NgrmapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
-@property (retain, nonatomic) NgrmapViewController *ngrMapView;
 @property (weak, nonatomic) IBOutlet UIView *mapView;
 @property (nonatomic,strong)  YWConversationViewController * conversationView;
 
@@ -79,7 +77,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
     [self NETWORK_TaskStatus];
 }
-
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.ngrMapView = nil;
+}
 #pragma mark-模拟完成任务
 - (void)endTask
 {
@@ -378,7 +380,7 @@
     [self deallocInstantMessageing];
     [self.conversation markConversationAsRead];
     self.showMessageLabel = YES;
-    self.messageLabel.hidden = YES;
+    self.messageLabel.hidden = NO;
 }
 
 #pragma mark-通知方法
@@ -420,6 +422,7 @@
     if ([segue.identifier isEqualToString:@"showMap"])
     {
         self.ngrMapView = [segue destinationViewController];
+        self.ngrMapView.intaskController = self;
     }
 }
 

@@ -275,7 +275,6 @@
 		4B87BD141CC75D14001324E5 /* touchPointData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B87BD131CC75D14001324E5 /* touchPointData.m */; };
 		4BA20C321CD0FB6B000CD987 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA20C301CD0FB6B000CD987 /* MainViewController.m */; };
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
-		9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C64A9BA1CA3E85B001DE397 /* ChatCell.m */; };
 		9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */; };
 		9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAB1CBF679300932D0C /* AFNetworkReachabilityManager.m */; };
 		9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAD1CBF679300932D0C /* AFSecurityPolicy.m */; };
@@ -709,8 +708,6 @@
 		4BA20C311CD0FB6B000CD987 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
-		9C64A9B91CA3E85B001DE397 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
-		9C64A9BA1CA3E85B001DE397 /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		9C789EA71CBF679300932D0C /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		9C789EA91CBF679300932D0C /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -1656,8 +1653,6 @@
 			children = (
 				D0CC733D1C59EB0F00314355 /* TaskCell.h */,
 				D0CC733E1C59EB0F00314355 /* TaskCell.m */,
-				9C64A9B91CA3E85B001DE397 /* ChatCell.h */,
-				9C64A9BA1CA3E85B001DE397 /* ChatCell.m */,
 				9CBB00791CA537E900AA5C03 /* NSString+Addtions.h */,
 				9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */,
 				D0CC73431C5A02DA00314355 /* InTaskController.h */,
@@ -2288,7 +2283,6 @@
 				9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */,
 				9C78A6031CBF98B800932D0C /* SPInputViewPluginCallingCard.m in Sources */,
 				FC4822151CAA0D220070504E /* DBWaiterPresentList+CoreDataProperties.m in Sources */,
-				9C64A9BB1CA3E85B001DE397 /* ChatCell.m in Sources */,
 				4B87BCF21CC752F4001324E5 /* HPDProgress.m in Sources */,
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,

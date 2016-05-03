@@ -8,6 +8,10 @@
 
 #import <Nagrand/Nagrand.h>
 
+@class InTaskController;
+
 @interface NgrmapViewController : NGRMapViewController
+
+@property (retain, nonatomic) InTaskController *intaskController;
 
 @end

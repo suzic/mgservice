@@ -336,7 +336,7 @@
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             //失败写假mac地址 ：[self uuid]
-            waiterInfor.deviceId = [self uuid];
+            waiterInfor.deviceId = @"123456789";//[self uuid];
             [[DataManager defaultInstance] saveContext];
             // 未获取mac地址写一个假数据登录
             [self NETWORK_requestLogin];
