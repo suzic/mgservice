@@ -233,7 +233,9 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    DBTaskList * waiterTask = (DBTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBTaskList"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
+    DBTaskList * waiterTask  = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
     waiterTask.taskCode =             dic[@"taskInfo"][@"taskCode"];
     waiterTask.userDiviceld =         dic[@"taskInfo"][@"diviceId"];
     waiterTask.userDeviceToken =      dic[@"taskInfo"][@"deviceToken"];

@@ -34,6 +34,22 @@
     [self loadDBTaskData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
+    NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    if (listArray.count > 0)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenYES" object:nil];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenNO" object:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+    [super viewWillDisappear:animated];
+}
+
 - (void)loadDBTaskData
 {
     if (_menuArray.count > 0) {
@@ -113,6 +129,7 @@
             // 删除已接订单表中的的数据
             [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
             [[DataManager defaultInstance]saveContext];
+            [self.menuArray removeObject:waiterTask];
             // 删除后重置选中
             if (_expandSectionIndex == NSNotFound)
             {
@@ -127,20 +144,6 @@
                 self.expandSectionIndex = NSNotFound;
             }
             [self loadDBTaskData];
-            if (_menuArray.count <= 0)
-            {
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
-                NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
-                if (listArray.count > 0)
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenYES" object:nil];
-                }
-                else
-                {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"listButtonHiddenNO" object:nil];
-                }
-                [self.navigationController popViewControllerAnimated:YES];
-            }
         }
         else
         {

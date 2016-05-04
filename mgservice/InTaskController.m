@@ -422,7 +422,7 @@
     if ([segue.identifier isEqualToString:@"showMap"])
     {
         self.ngrMapView = [segue destinationViewController];
-        self.ngrMapView.intaskController = self;
+        [self addChildViewController:self.ngrMapView];
     }
 }
 
