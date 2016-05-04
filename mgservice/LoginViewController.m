@@ -320,24 +320,24 @@
     NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-
-        if (macStr.length>0)
-        {
-            macStr = [macStr substringToIndex:macStr.length - 1];
-            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
-            DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
-            waiterInfor.deviceId = macStr;
-            [[DataManager defaultInstance] saveContext];
-            [self.macHud stopWMProgress];
-            [self.macHud removeFromSuperview];
-            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
-            // 获取mac地址后登录
-            [self NETWORK_requestLogin];
-
-        }else
-        {
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+//        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//
+//        if (macStr.length>0)
+//        {
+//            macStr = [macStr substringToIndex:macStr.length - 1];
+//            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
+//            DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
+//            waiterInfor.deviceId = macStr;
+//            [[DataManager defaultInstance] saveContext];
+//            [self.macHud stopWMProgress];
+//            [self.macHud removeFromSuperview];
+//            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
+//            // 获取mac地址后登录
+//            [self NETWORK_requestLogin];
+//
+//        }else
+//        {
             [self.macHud stopWMProgress];
             [self.macHud removeFromSuperview];
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
@@ -347,9 +347,9 @@
             [[DataManager defaultInstance] saveContext];
             // 未获取mac地址写一个假数据登录
             [self NETWORK_requestLogin];
-//
-        }
-    }];
+////
+//        }
+//    }];
 }
 
 @end
