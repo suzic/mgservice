@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-
+#import "MainViewController.h"
 @interface LoginViewController ()<RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
@@ -27,6 +27,8 @@
 @property (nonatomic,strong) NSURLSessionTask * waiterInfoTask;
 
 @property (nonatomic,strong) LCProgressHUD * hud;
+
+@property (nonatomic,strong) MainViewController * mainVC;
 
 @end
 
@@ -288,6 +290,7 @@
 // 点击登录方法
 - (IBAction)loginPressed:(id)sender
 {
+    self.mainVC.timer.paused = YES;
     NSString * username = self.account.text;
     NSString * password = self.passWord.text;
     if (username.length <= 0 || password.length <= 0)
@@ -326,6 +329,7 @@
             waiterInfor.deviceId = macStr;
             [[DataManager defaultInstance] saveContext];
             [progresshud stopWMProgress];
+            [progresshud removeFromSuperview];
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
             // 获取mac地址后登录
             [self NETWORK_requestLogin];
@@ -333,14 +337,15 @@
         }else
         {
             [progresshud stopWMProgress];
+            [progresshud removeFromSuperview];
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             //失败写假mac地址 ：[self uuid]
-            waiterInfor.deviceId = @"123456789";//[self uuid];
+            waiterInfor.deviceId = @"1234-5678-9";//[self uuid];
             [[DataManager defaultInstance] saveContext];
             // 未获取mac地址写一个假数据登录
             [self NETWORK_requestLogin];
-
+//
         }
     }];
 }

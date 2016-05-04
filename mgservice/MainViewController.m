@@ -46,9 +46,6 @@
 @implementation MainViewController
 {
     CGFloat lastScrollOffsetY;
-    
-    //  定时器
-    CADisplayLink *_timer;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
