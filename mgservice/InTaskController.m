@@ -141,6 +141,7 @@
             [[DataManager defaultInstance] deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
+            [self.conversation removeAllLocalMessages];
             [self deallocInstantMessageing];
             [self.conversation markConversationAsRead];
             //登出IM
@@ -163,6 +164,7 @@
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
                 [[DataManager defaultInstance] saveContext];
+                [self.conversation removeAllLocalMessages];
                 [self deallocInstantMessageing];
                 [self.conversation markConversationAsRead];
                 //登出IM
@@ -409,7 +411,6 @@
 - (void)newMessage:(NSNotification *)noti
 {
     self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
-    NSLog(@"收到的消息数量:%@",[NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue]);
     if (self.showMessageLabel == NO) {
         self.messageLabel.hidden = YES;
     }else{

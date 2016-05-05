@@ -107,7 +107,6 @@
     _second = 0;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     self.countdownLabel.font = [UIFont fontWithName:@"Verdana" size:34];
-    NSLog(@"----%@",[SPUserDefaultsManger getValue:@"background"]);
     //从沙盒获取工作状态
     if ([SPUserDefaultsManger getBool:KIsWorkState] ==0)
     {
@@ -302,8 +301,6 @@
                 if (![SPUserDefaultsManger getValue:kStart]) {
                     [SPUserDefaultsManger setValue:date forKey:kStart];
                 }
-                //        [self reloadWorkStatUs:@"1"];
-//                [SPUserDefaultsManger setValue:date forKey:kStart];
             }
             else
             {
@@ -317,7 +314,6 @@
                 NSDate * da = (NSDate *)[SPUserDefaultsManger getValue:kStart];
                 NSInteger inte = labs((NSInteger)(da.timeIntervalSinceNow)*60);
                 [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)inte] forKey:@"abc"];
-//                [SPUserDefaultsManger setBool:_timer.paused forKey:kPause];
             }
         }
         else
