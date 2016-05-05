@@ -301,13 +301,13 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSh-mX-O1r" userLabel="ChatHistory">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
-                                    <view alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJs-z0-VTS">
+                                    <view hidden="YES" alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJs-z0-VTS">
                                         <rect key="frame" x="0.0" y="-32" width="600" height="600"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LbJ-sI-KOI">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.62087831092042534" green="0.6521125095253788" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="64" id="aEh-e7-KEi"/>
                                         </constraints>
@@ -315,7 +315,7 @@
                                             <action selector="tapHistory:" destination="R0c-wX-lBE" eventType="touchUpInside" id="8PN-gl-Paw"/>
                                         </connections>
                                     </button>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lge-aO-qDg" userLabel="Message Label">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lge-aO-qDg" userLabel="Message Label">
                                         <rect key="frame" x="560" y="0.0" width="30" height="30"/>
                                         <color key="backgroundColor" red="0.97579711675643921" green="0.10031392425298691" blue="0.33385449647903442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -377,6 +377,7 @@
                         <outlet property="chatHistoryViewBottom" destination="8jD-Rs-e3r" id="hqL-s0-x46"/>
                         <outlet property="chatHistoryViewTop" destination="jPx-TI-BTh" id="jQD-Ea-t5k"/>
                         <outlet property="mapView" destination="xah-yd-m0g" id="lp7-Gd-6zr"/>
+                        <outlet property="messageLabel" destination="lge-aO-qDg" id="vvF-Am-9KU"/>
                         <outlet property="showMap" destination="KRT-ii-tj8" id="a9h-73-ys8"/>
                         <outlet property="timeLable" destination="S7V-au-laN" id="E3V-dy-5g3"/>
                     </connections>

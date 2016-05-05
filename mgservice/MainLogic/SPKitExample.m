@@ -156,7 +156,7 @@ UIAlertViewDelegate>
         [self exampleHandleAPNSPush];
         
         // 自定义全局导航栏
-//        [self exampleCustomGlobleNavigationBar];
+        [self exampleCustomGlobleNavigationBar];
         
         /// 监听消息生命周期回调
         [self exampleListenMyMessageLife];
@@ -583,54 +583,54 @@ UIAlertViewDelegate>
 /**
  *  自定义全局导航栏
  */
-//- (void)exampleCustomGlobleNavigationBar
-//{
-//#warning TODO: JUST RETURN IF NO NEED TO CHANGE Global Navigation Bar
-//    // 自定义导航栏背景
-//    if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
-//    {
-//        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
-//        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//        
-//        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-//        
-//        [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
-//    }
-//    else
-//    {
-//        UIImage *originImage = [UIImage imageNamed:@"pub_title_bg"];
-//        UIImage *backgroundImage = [originImage resizableImageWithCapInsets:UIEdgeInsetsMake(44, 7, 4, 7)];
-//        [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-//        
-//        
-//        [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor],
-//                                                               UITextAttributeTextShadowColor: [UIColor clearColor],
-//                                                               UITextAttributeFont: [UIFont boldSystemFontOfSize:18.0]}];
-//        
-//        NSDictionary *barButtonTittleAttributes = @{UITextAttributeTextColor: [UIColor whiteColor],
-//                                                    UITextAttributeTextShadowColor: [UIColor clearColor],
-//                                                    UITextAttributeFont: [UIFont systemFontOfSize:16.0f]};
-//        
-//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:barButtonTittleAttributes
-//                                                                                                forState:UIControlStateNormal];
-//        
-//        UIImage *backItemImage = [[UIImage imageNamed:@"pub_title_ico_back_white"] resizableImageWithCapInsets:UIEdgeInsetsMake(33, 24, 0, 24)
-//                                                                                                  resizingMode:UIImageResizingModeStretch];
-//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:backItemImage
-//                                                                                                      forState:UIControlStateNormal
-//                                                                                                    barMetrics:UIBarMetricsDefault];
-//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[UIImage new]
-//                                                                                            forState:UIControlStateNormal
-//                                                                                          barMetrics:UIBarMetricsDefault];
-//        
-//        [[UITabBar appearance] setBackgroundImage:backgroundImage];
-//        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-//    }
-//    
-//    
-//    // 自定义导航栏及导航按钮，可参考下面的文章
-//    // http://www.appcoda.com/customize-navigation-status-bar-ios-7/
-//}
+- (void)exampleCustomGlobleNavigationBar
+{
+#warning TODO: JUST RETURN IF NO NEED TO CHANGE Global Navigation Bar
+    // 自定义导航栏背景
+    if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
+    {
+        [[UINavigationBar appearance] setBarTintColor:[UIColor darkGrayColor]];
+        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        
+        [[UITabBar appearance] setTintColor:[UIColor darkGrayColor]];
+    }
+    else
+    {
+        UIImage *originImage = [UIImage imageNamed:@"pub_title_bg"];
+        UIImage *backgroundImage = [originImage resizableImageWithCapInsets:UIEdgeInsetsMake(44, 7, 4, 7)];
+        [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+        
+        
+        [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor],
+                                                               UITextAttributeTextShadowColor: [UIColor clearColor],
+                                                               UITextAttributeFont: [UIFont boldSystemFontOfSize:18.0]}];
+        
+        NSDictionary *barButtonTittleAttributes = @{UITextAttributeTextColor: [UIColor whiteColor],
+                                                    UITextAttributeTextShadowColor: [UIColor clearColor],
+                                                    UITextAttributeFont: [UIFont systemFontOfSize:16.0f]};
+        
+        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:barButtonTittleAttributes
+                                                                                                forState:UIControlStateNormal];
+        
+        UIImage *backItemImage = [[UIImage imageNamed:@"pub_title_ico_back_white"] resizableImageWithCapInsets:UIEdgeInsetsMake(33, 24, 0, 24)
+                                                                                                  resizingMode:UIImageResizingModeStretch];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:backItemImage
+                                                                                                      forState:UIControlStateNormal
+                                                                                                    barMetrics:UIBarMetricsDefault];
+        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[UIImage new]
+                                                                                            forState:UIControlStateNormal
+                                                                                          barMetrics:UIBarMetricsDefault];
+        
+        [[UITabBar appearance] setBackgroundImage:backgroundImage];
+        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    }
+    
+    
+    // 自定义导航栏及导航按钮，可参考下面的文章
+    // http://www.appcoda.com/customize-navigation-status-bar-ios-7/
+}
 
 /**
  *  自定义皮肤
@@ -995,7 +995,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 {
     [[self.ywIMKit.IMCore getConversationService] addOnNewMessageBlockV2:^(NSArray *aMessages, BOOL aIsOffline) {
         /// 你可以在此处根据需要播放提示音
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotiNewMessage" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiNewMessage object:nil];
         /// 展示透传消息
         [aMessages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             id<IYWMessage> msg = obj;

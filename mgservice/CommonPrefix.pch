@@ -38,6 +38,9 @@
 
 #define NotiStopDrawMap    @"NotiStopDrawMap"
 
+#define PushTaskStatus     @"PushTaskStatus"
+
+#define NotiNewMessage     @"NotiNewMessage"
 
 #define REQUEST_HEAD_NORMAL "http://"
 #define REQUEST_HEAD_SCREAT "https://"

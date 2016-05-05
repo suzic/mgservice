@@ -45,12 +45,11 @@
     self.chatHistoryViewBottom.constant = 60 - self.view.frame.size.height;
     self.chatHistoryView.backgroundColor = [UIColor clearColor];
     self.showTalk = NO;
-    
+
     self.messageLabel.layer.borderColor = [UIColor redColor].CGColor;
     self.messageLabel.layer.masksToBounds = YES;
     self.messageLabel.layer.borderWidth = 1.0f;
     self.messageLabel.layer.cornerRadius = 15.0f;
-    
     //返回按钮 临时用
 //    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
     
@@ -71,10 +70,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
     
     //来新消息
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:@"NotiNewMessage" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:NotiNewMessage object:nil];
 
     //查询任务状态
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     [self NETWORK_TaskStatus];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -142,6 +141,8 @@
             [[DataManager defaultInstance] deleteFromCoreData:message];
             [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
             [[DataManager defaultInstance] saveContext];
+            [self deallocInstantMessageing];
+            [self.conversation markConversationAsRead];
             //登出IM
             [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
             [self.navigationController popViewControllerAnimated:YES];
@@ -162,6 +163,8 @@
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
                 [[DataManager defaultInstance] saveContext];
+                [self deallocInstantMessageing];
+                [self.conversation markConversationAsRead];
                 //登出IM
                 [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
                 [self.navigationController popViewControllerAnimated:YES];
@@ -380,7 +383,7 @@
     [self deallocInstantMessageing];
     [self.conversation markConversationAsRead];
     self.showMessageLabel = YES;
-    self.messageLabel.hidden = NO;
+    self.messageLabel.hidden = YES;
 }
 
 #pragma mark-通知方法
@@ -391,6 +394,8 @@
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
         [[DataManager defaultInstance] saveContext];
+        [self deallocInstantMessageing];
+        [self.conversation markConversationAsRead];
         //登出IM
         [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
         [self whenSkipUse];
@@ -404,6 +409,7 @@
 - (void)newMessage:(NSNotification *)noti
 {
     self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
+    NSLog(@"收到的消息数量:%@",[NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue]);
     if (self.showMessageLabel == NO) {
         self.messageLabel.hidden = YES;
     }else{

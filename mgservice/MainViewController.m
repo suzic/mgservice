@@ -391,6 +391,7 @@
             if(array.count > 0)
             {
                 DBTaskList * waiterTask = array[0];
+                NSLog(@"%@",waiterTask.category);
                 if ([waiterTask.category isEqualToString:@"0"]) {
                     [self performSegueWithIdentifier:@"goTask" sender:nil];
                 }

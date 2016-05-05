@@ -144,7 +144,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
     if (waiterTaskList != nil) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"pushTaskStatus" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
     }
 }
 
