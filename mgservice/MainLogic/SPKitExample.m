@@ -260,7 +260,7 @@ UIAlertViewDelegate>
     NSError *error = nil;
     
     /// 同步初始化IM SDK， 异步方法可以参考asyncInitWithAppKey
-    [UMOpenIM syncInitWithAppKey:@"23344766" withUmengAppKey:@"5424dc93fd98c58ec20289da" getError:&error];
+    [UMOpenIM syncInitWithAppKey:@"23344766" withUmengAppKey:@"56f23615e0f55a8fc400053b" getError:&error];
     
     if (error.code != 0 && error.code != YWSdkInitErrorCodeAlreadyInited) {
         /// 初始化失败

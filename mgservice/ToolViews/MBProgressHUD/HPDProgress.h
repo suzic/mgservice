@@ -13,9 +13,9 @@ typedef void(^HideComplateBlock)();
 
 @interface HPDProgress : NSObject
 {
-    MBProgressHUD *_progressHud;
+    
 }
-
+@property(nonatomic,strong)MBProgressHUD *progressHud;
 + (HPDProgress *)defaultProgressHUD;
 
 // 显示带有加载指示的 hud

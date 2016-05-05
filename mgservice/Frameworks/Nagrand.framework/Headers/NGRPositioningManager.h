@@ -11,6 +11,8 @@
 #import <Nagrand/NGRLocation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class NGRPositioningManager;
+
 typedef NS_ENUM(NSInteger, NGRLocationStatus) {
     START = 0,
     STOP,
@@ -31,26 +33,31 @@ typedef NS_ENUM(NSInteger, NGRLocationStatus) {
 @optional
 /*!
  * @brief WIFI定位于蓝牙定位的回调方法
+ * @param manager - 回调的实例
  * @param oldLocation - 上一次的location，第一次返回null
  * @param newLocation - 这一次的location
  */
-- (void)didLocationChanged:(NGRLocation *)oldLocation newLocation:(NGRLocation *)newLocation status:(NGRLocationStatus)status;
+- (void)didLocationChanged:(NGRPositioningManager *)manager oldLocation:(NGRLocation *)oldLocation newLocation:(NGRLocation *)newLocation status:(NGRLocationStatus)status;
 
 /*!
  * @brief 定位异常回调方法
- * @param state - 异常参考NGRDataSourceState
+ * @param manager - 回调的实例
+ * @param status - 异常参考NGRDataSourceState
  */
-- (void)didLocationError:(NGRLocationStatus)status;
+- (void)didLocationError:(NGRPositioningManager *)manager error:(NGRLocationStatus)status;
 
 /*!
  * @brief 蓝牙数据库拉取成功
+ * @param manager - 回调的实例
  */
-- (void)didDownloadDatabaseSuccess;
+- (void)didDownloadDatabaseSuccess:(NGRPositioningManager *)manager;
 
 /*!
  * @brief 蓝牙拉取数据库失败
+ * @param manager - 回调的实例
+ * @param error - 错误信息
  */
-- (void)didDownloadDatabaseError;
+- (void)didDownloadDatabaseError:(NGRPositioningManager *)manager error:(NSError *)error;
 
 @end
 
@@ -71,12 +78,15 @@ typedef NS_ENUM(NSInteger, NGRLocationStatus) {
 @property (nonatomic, assign)BOOL poll;
 
 /*!
- * @brief 控制轮询时间间隔
+ * @brief 控制轮询时间间隔，单位毫秒
  */
 @property (nonatomic, assign)NSUInteger timeInterval;
+
+/*!
+ * @brief 控制超时时间，单位毫秒
+ */
 @property (nonatomic, assign)NSUInteger timeout;
 
-@property (nonatomic, assign)BOOL isPositioning;
 
 
 //WIFI

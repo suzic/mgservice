@@ -12,10 +12,11 @@
 
 @interface NavigationView : UIView
 @property (weak, nonatomic) IBOutlet UIButton *navigationButton;
-@property (weak, nonatomic) IBOutlet UILabel *endaddressLabel;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *currentaddressLabel;
-@property (weak, nonatomic) IBOutlet UIScrollView *currentaddressLabelBGScrollview;
 
-@property (weak, nonatomic) IBOutlet UILabel *startaddressLabel;
+@property (strong,nonatomic)NSMutableArray* dataArray;
+
+-(void)viewReloadData;
 @end

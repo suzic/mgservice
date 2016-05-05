@@ -63,16 +63,25 @@ typedef void (^NGRErrorBlock)(NSError *error);
  */
 @property (assign, nonatomic)id <NGRDataSourceDelegate> delegate;
 
+/*!
+ * @brief 控制超时时间，单位毫秒
+ */
 @property (nonatomic, assign)NSUInteger timeout;
 
 /*!
- * @brief 初始化一个DataSource
+ * @brief 初始化NGRDataSource
  * @discussion 需要提供一个地图数据服务器的地址。请通过开发者平台获取我们提供的地图数据服务器的地址。默认请使用http://api.ipalmap.com/
  * @param root - 地图数据服务器的地址
  * @return NGRDataSource的实例
  */
 - (instancetype)initWithRoot:(NSString *)root;
 
+/*!
+ * @brief 初始化NGRDataSource
+ * @discussion 根据一个NGRAsyncHttpClient实例构造datasource
+ * @param client - 可以通过client控制请求的服务器地址跟缓存，详情见NGRAsyncHttpClient类
+ * @return NGRDataSource的实例
+ */
 - (instancetype)initWithHttpClient:(NGRAsyncHttpClient *)client;
 
 /*!

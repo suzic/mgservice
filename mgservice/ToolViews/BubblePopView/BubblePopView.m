@@ -17,5 +17,8 @@
     // Drawing code
 }
 */
-
+-(void)setBubblePopTitle:(NSString *)bubblePopTitle{
+    self.title.text = bubblePopTitle;
+    _bubblePopTitle = bubblePopTitle;
+}
 @end

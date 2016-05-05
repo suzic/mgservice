@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <Nagrand/Nagrand.h>
-
+#import "EnumAndDefine.h"
 @protocol floorChangeDelegate <NSObject>
 /**
  *  点击了切换楼层的tableview
  *
  *  @param 需要实现 requestPlanarGraph 设置_currentFloorId = floorid
  */
--(void)tableviewDidselectForChangeFloorRequestPlanarGraphWithFloorID:(NSInteger)floorid andFloorName:(NSString*)floorName WithSearchPoi:(NGRLocationModel*)searchPoiModel;
+-(void)tableviewDidselectForChangeFloorRequestPlanarGraphWithFloorID:(NSInteger)floorid andFloorName:(NSString*)floorName WithSearchPoi:(NGRLocationModel*)searchPoiModel andSearchType:(searchType)searchType;
 
 @end
 

@@ -12,6 +12,6 @@
 
 @interface NgrmapViewController : NGRMapViewController
 
-@property (retain, nonatomic) InTaskController *intaskController;
+@property (weak, nonatomic) InTaskController *intaskController;
 
 @end

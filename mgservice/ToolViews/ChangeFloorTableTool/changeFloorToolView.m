@@ -15,7 +15,7 @@
 @implementation changeFloorToolView
 
 -(instancetype)initWithFrame:(CGRect)frame{
-    if (self=[super initWithFrame:CGRectMake(kScreenWidth - 40, (kScreenHeight - 44*5)/2, 40, 44*5)]) {
+    if (self=[super initWithFrame:CGRectMake(kScreenWidth - 40, frame.origin.y, 40, 44*5)]) {
         
         _tableViewOfFloors = [[UITableView alloc]initWithFrame:CGRectMake(0 , 44, 40, 44*3)];
         _tableViewOfFloors.backgroundColor =[UIColor colorWithRed:235.0/255.0 green:235.0/255.0 blue:235.0/255.0 alpha:1];
@@ -122,7 +122,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == _tableViewOfFloors ) {
         self.accumNum = 0;
-        [self.delegate tableviewDidselectForChangeFloorRequestPlanarGraphWithFloorID: ((NSNumber*)_floorNumberDataArray[indexPath.row]).integerValue andFloorName:_floorNameDataArray[indexPath.row] WithSearchPoi:nil];
+        [self.delegate tableviewDidselectForChangeFloorRequestPlanarGraphWithFloorID: ((NSNumber*)_floorNumberDataArray[indexPath.row]).integerValue andFloorName:_floorNameDataArray[indexPath.row] WithSearchPoi:nil andSearchType:searchNone];
         
     }
 }

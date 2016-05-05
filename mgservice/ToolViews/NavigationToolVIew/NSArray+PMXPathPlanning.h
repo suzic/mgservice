@@ -10,8 +10,10 @@
 
 @interface NSArray (PMXPathPlanning)
 
-/*
- array里面存的是PMXPathWithDifFloorData
+/**
+ *  array里面存的是PMXPathWithDifFloorData
+ *
+ *  @return PMXPathWithDifFloorData
  */
 - (NSArray *)pathWithDifFloor;
 

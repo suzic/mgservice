@@ -10,7 +10,7 @@
 #import "MainViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
-@property (weak, nonatomic) IBOutlet UIView *mapView;
+
 @property (nonatomic,strong)  YWConversationViewController * conversationView;
 
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
@@ -76,11 +76,6 @@
     //查询任务状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
     [self NETWORK_TaskStatus];
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    self.ngrMapView = nil;
 }
 #pragma mark-模拟完成任务
 - (void)endTask
@@ -325,9 +320,10 @@
     return string;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    self.mapViewController.intaskController = nil;
+    self.mapViewController = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -416,14 +412,12 @@
 {
     [self NETWORK_TaskStatus];
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showMap"])
     {
-        self.ngrMapView = [segue destinationViewController];
-        [self addChildViewController:self.ngrMapView];
+        self.mapViewController = (NgrmapViewController *)[segue destinationViewController];
+        self.mapViewController.intaskController = self;
     }
 }
-
 @end

@@ -35,8 +35,8 @@ FOUNDATION_EXPORT const unsigned char NagrandVersionString[];
 //io
 #import <Nagrand/NGRAsyncHttpClient.h>
 #import <Nagrand/NGRCacheAsyncHttpClient.h>
-//#import <Nagrand/NGRHttpCacheMethod.h>
-//#import <Nagrand/NGRFileCacheMethod.h>
+#import <Nagrand/NGRHttpCacheMethod.h>
+#import <Nagrand/NGRFileCacheMethod.h>
 
 
 //map

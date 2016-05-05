@@ -11,10 +11,12 @@
 #import <Nagrand/NGRDataSource.h>
 #import "NGRFeatureCollection.h"
 
-@class NGRNavigate, NGRLocation;
+@class NGRNavigateManager, NGRNavigate, NGRLocation;
 
 typedef NS_ENUM(NSInteger, NGRNaviagteState) {
-    NAVIGATE_OK = 0,
+    NAVIGATE_OK = 0,                //请求导航线成功
+    NAVIGATE_SWITCH_SUCCESS,        //切换导航线成功
+    NAVIGATE_CLIP_SUCCESS,          //切割导航线成功
     NAVIGATE_REQUEST_ERROR,			//导航请求失败
     NAVIGATE_REQUEST_TIMEOUT,      //导航请求超时
     NAVIGATE_UNKNOWN_ERROR,			//导航未知错误
@@ -34,13 +36,13 @@ typedef NS_ENUM(NSInteger, NGRNaviagteState) {
  * @brief 数据请求成功的回调
  * @param featureCollection - 渲染数据，可以用于构造featureLayer来显示在地图上
  */
-- (void)didNavigationRespond:(NGRFeatureCollection *)featureCollection;
+- (void)didNavigationRespond:(NGRNavigateManager *)manager feature:(NGRFeatureCollection *)featureCollection state:(NGRNaviagteState)state;
 
 /*!
  * @brief 数据请求失败
  * @param state - 错误代码
  */
-- (void)didNavigationRequestError:(NGRNaviagteState)state;
+- (void)didNavigationRequestError:(NGRNavigateManager *)manager state:(NGRNaviagteState)state;
 
 @end
 
@@ -55,6 +57,9 @@ typedef NS_ENUM(NSInteger, NGRNaviagteState) {
  */
 @property (nonatomic, weak)id<NGRNavigateManagerDelegate> delegate;
 
+/*!
+ * @brief 控制超时时间，单位毫秒
+ */
 @property (nonatomic, assign)NSUInteger timeout;
 
 /*!
@@ -66,6 +71,11 @@ typedef NS_ENUM(NSInteger, NGRNaviagteState) {
  * @brief featureCollection对应的id
  */
 @property (nonatomic, strong)NSArray<NSNumber *> *keys;
+
+/*!
+ * @brief 所有楼层的planarGraphID
+ */
+@property (nonatomic, strong, readonly)NSArray<NSNumber *> *allPlanarGraph;
 
 /*!
  * @brief 初始化manager，需要传入接口的地址
