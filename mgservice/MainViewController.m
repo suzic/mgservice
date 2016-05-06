@@ -102,35 +102,10 @@
     lastScrollOffsetY = 0;
     self.selectedIndex = 2;
     self.taskArray = [[NSMutableArray alloc]init];
-    [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
-    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
-    _second = 0;
-    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-    self.countdownLabel.font = [UIFont fontWithName:@"Verdana" size:34];
-    //从沙盒获取工作状态
-    if ([SPUserDefaultsManger getBool:KIsWorkState] ==0)
-    {
-        _timer.paused = NO;
-        _direction = YES;
-        [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
-        NSLog(@"%@",[SPUserDefaultsManger getValue:kStart]);
-        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
-        if (date) {
-            _second = labs((NSInteger)[date timeIntervalSinceNow] *60);
-        }
-    }
-    else
-    {
-        _direction = NO;
-        [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
-        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kPause];
-        self.strTime = [NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:kPause]];
-        if (date) {
-            _second = self.strTime.integerValue;
-            self.countdownLabel.text = [self calculate:_second];
-        }
-        _timer.paused = YES;
-    }
+    
+    //获取工作状态
+    [self workStatusInUserDefaults];
+    
     [self tableRefreshCreate];
     [self NETWORK_checkIsLogin];
     //接收通知
@@ -387,7 +362,6 @@
             if(array.count > 0)
             {
                 DBTaskList * waiterTask = array[0];
-                NSLog(@"%@",waiterTask.category);
                 if ([waiterTask.category isEqualToString:@"0"]) {
                     [self performSegueWithIdentifier:@"goTask" sender:nil];
                 }
@@ -878,7 +852,7 @@
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
-#pragma 接收通知
+#pragma mark - 接收通知
 //通知中的方法
 - (void)pushMessType:(NSNotification*)notification
 {
@@ -890,6 +864,39 @@
                 [self NETWORK_requestTask];
             }
         }
+    }
+}
+
+#pragma  mark - function
+- (void)workStatusInUserDefaults
+{
+    [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
+    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeTime)];
+    _second = 0;
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.countdownLabel.font = [UIFont fontWithName:@"Verdana" size:34];
+    //从沙盒获取工作状态
+    if ([SPUserDefaultsManger getBool:KIsWorkState] ==0)
+    {
+        _timer.paused = NO;
+        _direction = YES;
+        [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
+        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
+        if (date) {
+            _second = labs((NSInteger)[date timeIntervalSinceNow] *60);
+        }
+    }
+    else
+    {
+        _direction = NO;
+        [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
+        NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kPause];
+        self.strTime = [NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:kPause]];
+        if (date) {
+            _second = self.strTime.integerValue;
+            self.countdownLabel.text = [self calculate:_second];
+        }
+        _timer.paused = YES;
     }
 }
 @end

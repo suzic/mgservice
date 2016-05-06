@@ -32,6 +32,10 @@
 
 @property (nonatomic,strong) MainViewController * mainVC;
 
+@property (weak, nonatomic) IBOutlet UILabel *localMacAddress;
+
+@property (nonatomic,assign) BOOL inhotel;
+
 @end
 
 @implementation LoginViewController
@@ -46,7 +50,9 @@
     self.loginButton.layer.cornerRadius = 4.0f;
     
     //[self NETWORK_accessServerTime];
-    
+    self.inhotel = YES;
+    //获取MAC地址
+    [self NETWORK_getMAC];
 }
 
 - (void)dealloc
@@ -220,6 +226,20 @@
     }
 }
 
+#pragma mark - TableView DataSource & Delegate 协议方法
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0)
+        return self.inhotel == YES ? 2 : 3;
+    else
+        return 1;
+}
 
 #pragma mark - RequestNetWorkDelegate 协议方法
 
@@ -305,7 +325,8 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    [self NETWORK_getMAC];
+//    [self NETWORK_getMAC];
+    [self NETWORK_requestLogin];
 }
 
 #pragma mark----------
@@ -319,37 +340,54 @@
     [self.macHud startWMProgress];
     NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-//        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//
-//        if (macStr.length>0)
-//        {
-//            macStr = [macStr substringToIndex:macStr.length - 1];
-//            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
-//            DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
-//            waiterInfor.deviceId = macStr;
-//            [[DataManager defaultInstance] saveContext];
-//            [self.macHud stopWMProgress];
-//            [self.macHud removeFromSuperview];
-//            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
-//            // 获取mac地址后登录
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+        NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+
+        if (macStr.length>0)
+        {
+            self.inhotel = NO;
+            macStr = [macStr substringToIndex:macStr.length - 1];
+            [[NSUserDefaults standardUserDefaults]setObject:@"innet" forKey:@"netType"];
+            DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
+            waiterInfor.deviceId = macStr;
+            [[DataManager defaultInstance] saveContext];
+            [self.macHud stopWMProgress];
+            [self.macHud removeFromSuperview];
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macStr);
+            // 获取mac地址后登录
 //            [self NETWORK_requestLogin];
-//
-//        }else
-//        {
+
+        }else
+        {
+            self.inhotel = NO;
             [self.macHud stopWMProgress];
             [self.macHud removeFromSuperview];
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
             //失败写假mac地址 ：[self uuid]
-            waiterInfor.deviceId = @"1234-5678-9";//[self uuid];
+
+    //            waiterInfor.deviceId = @"1234-5678-9";//[self uuid];
+            // 未获取mac地址写一个假数据,并且存到本地，下次再运行时，如有本地有，就用本地的，没有就随机一个
+            NSString * strMac = [[NSUserDefaults standardUserDefaults] objectForKey:@"mac"];
+            if ([strMac isEqualToString:@""] || strMac == nil)
+            {
+                NSInteger x = arc4random() % 1000000000;
+                NSString * mac = [NSString stringWithFormat:@"-:%ld:-",x];
+                waiterInfor.deviceId = mac;
+                [[NSUserDefaults standardUserDefaults] setValue:mac forKey:@"mac"];
+            }
+            else
+            {
+                waiterInfor.deviceId = [[NSUserDefaults standardUserDefaults] objectForKey:@"mac"];
+            }
+            NSLog(@"%@",waiterInfor.deviceId);
+            self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];
             [[DataManager defaultInstance] saveContext];
-            // 未获取mac地址写一个假数据登录
-            [self NETWORK_requestLogin];
-////
-//        }
-//    }];
+            [self.tableView reloadData];
+//            [self NETWORK_requestLogin];
+        }
+    }];
 }
 
 @end

@@ -589,12 +589,12 @@ UIAlertViewDelegate>
     // 自定义导航栏背景
     if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
     {
-        [[UINavigationBar appearance] setBarTintColor:[UIColor darkGrayColor]];
+        [[UINavigationBar appearance] setBarTintColor:[UIColor orangeColor]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
         
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
         
-        [[UITabBar appearance] setTintColor:[UIColor darkGrayColor]];
+        [[UITabBar appearance] setTintColor:[UIColor orangeColor]];
     }
     else
     {

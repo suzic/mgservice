@@ -120,19 +120,6 @@
                                                                       withByUser:YES];
 }
 
-//通过任务编号，获得任务状态
-- (void)NETWORK_TaskStatus
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
-    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                      webURL:@URI_WAITER_TASkSTATUS
-                                                                      params:params
-                                                                  withByUser:YES];
-}
-
 - (void)RESULT_reloadWorkStatusTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed) {
@@ -151,8 +138,26 @@
     }
     else
     {
-        NSLog(@"完成任务请求失败");
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"完成任务失败！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     }
+}
+
+//通过任务编号，获得任务状态
+- (void)NETWORK_TaskStatus
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"taskCode":self.waiterTaskList.taskCode}];//任务编号
+    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                      webURL:@URI_WAITER_TASkSTATUS
+                                                                      params:params
+                                                                  withByUser:YES];
 }
 
 //如果用户取消任务，服务员端则删除已接任务，并且返回到主页面

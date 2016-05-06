@@ -31,7 +31,7 @@
     self.allHeightSet.constant = (((kScreenHeight - 64- 60 - 160) / 2) - 50) / 4;
 //    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;
 //    self.backgroudView.layer.borderWidth = cellSelected ? 0.5f : 0.0f;
-    self.backgroudView.backgroundColor = cellSelected ? [UIColor groupTableViewBackgroundColor] : [UIColor clearColor];
+    self.backgroudView.backgroundColor = cellSelected ? [UIColor whiteColor] : [UIColor groupTableViewBackgroundColor];
 }
 
 @end

@@ -678,12 +678,33 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="l3D-GI-Ke5">
+                                        <rect key="frame" x="0.0" y="187" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l3D-GI-Ke5" id="pkX-cg-BWZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FF：FF：FF" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt6-mH-wZj">
+                                                    <rect key="frame" x="8" y="13" width="584" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="mt6-mH-wZj" secondAttribute="trailing" id="KCG-Rh-wLZ"/>
+                                                <constraint firstItem="mt6-mH-wZj" firstAttribute="centerY" secondItem="pkX-cg-BWZ" secondAttribute="centerY" id="XaY-rr-DKK"/>
+                                                <constraint firstItem="mt6-mH-wZj" firstAttribute="leading" secondItem="pkX-cg-BWZ" secondAttribute="leadingMargin" id="t2T-Jj-dPd"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="8uE-6Q-fjW">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loginButton" rowHeight="80" id="c0O-FB-eXJ">
-                                        <rect key="frame" x="0.0" y="193" width="600" height="80"/>
+                                        <rect key="frame" x="0.0" y="237" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c0O-FB-eXJ" id="cWu-AU-7z8">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
@@ -714,7 +735,7 @@
                             <tableViewSection id="3mm-pz-sox">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="loginButton" rowHeight="200" id="Fwi-6F-PSW" userLabel="QrcodeCell">
-                                        <rect key="frame" x="0.0" y="279" width="600" height="200"/>
+                                        <rect key="frame" x="0.0" y="323" width="600" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fwi-6F-PSW" id="kHY-bT-Rjh">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
@@ -746,6 +767,7 @@
                     <navigationItem key="navigationItem" title="上班登录" id="9Bv-1r-F2E"/>
                     <connections>
                         <outlet property="account" destination="2SU-ai-pIg" id="UWO-dz-VRk"/>
+                        <outlet property="localMacAddress" destination="mt6-mH-wZj" id="aHV-Ay-51D"/>
                         <outlet property="loginButton" destination="sqb-OT-SCp" id="mye-Qh-z8h"/>
                         <outlet property="passWord" destination="koY-Ob-Nt2" id="gFF-mC-z6f"/>
                     </connections>
