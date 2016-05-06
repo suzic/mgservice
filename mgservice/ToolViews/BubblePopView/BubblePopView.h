@@ -10,5 +10,5 @@
 
 @interface BubblePopView : UIView
 @property (weak, nonatomic) IBOutlet UITextView *title;
-
+@property (copy,nonatomic)NSString* bubblePopTitle;
 @end

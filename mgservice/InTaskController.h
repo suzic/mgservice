@@ -10,9 +10,7 @@
 #import "NgrmapViewController.h"
 
 @interface InTaskController : UIViewController
-
-@property (retain, nonatomic) NgrmapViewController *ngrMapView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
+@property (weak, nonatomic) NgrmapViewController *mapViewController;
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
 @end

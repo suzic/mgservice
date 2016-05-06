@@ -128,6 +128,11 @@ typedef NS_ENUM(NSInteger, NGRLayerDrawingStatus) {
 @property (nonatomic, strong, readonly)NGRCoordinateOffset *coordinateOffset;
 
 /*!
+ * @brief 控制初始化的角度，默认为0，需要在draw之前调用才能生效
+ */
+@property (nonatomic, assign)CGFloat initRotation;
+
+/*!
  * @brief 是否开启overlay的碰撞检测
  */
 @property (nonatomic, assign)BOOL autoHiddenOverlay;
@@ -448,7 +453,6 @@ typedef NS_ENUM(NSInteger, NGRLayerDrawingStatus) {
  */
 - (CGFloat)pixelLengthFromRealDistance:(CGFloat)realDistance;
 
-- (void)drawTestGeometry;
 
 @end
 

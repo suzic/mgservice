@@ -8,9 +8,10 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
+#import "NgrmapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
-@property (weak, nonatomic) IBOutlet UIView *mapView;
+
 @property (nonatomic,strong)  YWConversationViewController * conversationView;
 
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
@@ -38,7 +39,6 @@
 {
     [super viewDidLoad];
     [[RequestNetWork defaultManager]registerDelegate:self];
-    self.bottomViewHeight.constant = 40;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.hidesBackButton = YES;
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
@@ -76,10 +76,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     [self NETWORK_TaskStatus];
 }
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    self.ngrMapView = nil;
+    self.mapViewController = nil;
 }
 #pragma mark-模拟完成任务
 - (void)endTask
@@ -274,7 +273,7 @@
     [self deallocInstantMessageing];
     
     self.conversationView = [[SPKitExample sharedInstance]exampleMakeConversationViewControllerWithConversation:self.conversation];
-    self.conversationView.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 69-64);
+    self.conversationView.view.frame = CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height);
     self.conversationView.backgroundImage = nil;
     self.conversationView.view.backgroundColor = [UIColor clearColor];
     self.conversationView.tableView.backgroundView = nil;
@@ -335,11 +334,6 @@
     return string;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -353,16 +347,16 @@
     if (_showTalk == showTalk)
         return;
     _showTalk = showTalk;
-
-    self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
-    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
-    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
-    [UIView animateWithDuration:0.25f animations:^{
-        [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
-        self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
-        self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
-    } completion:^(BOOL finished) {
-    }];
+    [self.mapViewController showMsgView:_showTalk];
+//    self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
+//    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
+//    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
+//    [UIView animateWithDuration:0.25f animations:^{
+//        [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
+//        self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
+//        self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
+//    } completion:^(BOOL finished) {
+//    }];
 }
 
 //这是聊天记录视图下的大按钮的点击事件
@@ -428,14 +422,4 @@
 {
     [self NETWORK_TaskStatus];
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showMap"])
-    {
-        self.ngrMapView = [segue destinationViewController];
-        [self addChildViewController:self.ngrMapView];
-    }
-}
-
 @end

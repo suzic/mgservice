@@ -249,8 +249,8 @@ return {
         style = 'icon',
         icon = "00000000.png",
         use_texture_origin_size = false,
-        width = 30,
-        height = 30,
+        width = 40,
+        height = 40,
         anchor_x = 0.5,
         anchor_y = 0.5
     }
@@ -263,8 +263,10 @@ return {
         style = 'icon',
         icon = a,
         use_texture_origin_size = false,
-        width = 30,
-        height = 30,
+        width = 40,
+        height = 40,
+        anchor_x = 0.5,
+        anchor_y = 0.5
     }
 }
 end
@@ -389,13 +391,6 @@ CONFIG = {
                             [15001000] = SetColorWith('0xfffcfbd4', '0xfffcfbd4'),
                             [700713] = SetImageWith('24097000_area.png',true,1,true),
                             [671980] = SetImageWith('texture_1.jpg', true, 0, true),
-
-                            [665551] = SetImageWith('xiaofangzi.png',false,1,true),
-                            [665524] = SetImageWith('xiaofangzi.png',false,1,true),
-                            [684544] = SetImageWith('wuding.png',false,0,true),
-                            [684543] = SetImageWith('mumianjiudian.png',false,0,true),
-                            [684542] = SetImageWith('putijiudian.png',false,0,true),
-                            [665520] = SetImageWith('caoping.png',false,0,true),
                             [665522] = SetImageWith('665522.png',false,0,true),
                             [665594] = SetImageWith('665594.png',false,0,true),
                             [935024] = NULLSTYLE(),
@@ -413,9 +408,9 @@ CONFIG = {
                             style = 'annotation',
                             color = '0xFF000000',
                             field = 'name',
-                            size = 30,
-                            outline_color = '0xFFffffff',
-                            outline_width = 0.1,
+                            size = 40,
+                            outline_color = '0xffffffff',
+                            outline_width = 2,
                             anchor_x = 0.5,
                             anchor_y = 0.5
                         },

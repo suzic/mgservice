@@ -28,8 +28,10 @@
 
 - (void)showHUDOnView:(UIView *)view message:(NSString *)message
 {
-    _progressHud = [[MBProgressHUD alloc] initWithView:view];
-    _progressHud.mode = MBProgressHUDModeIndeterminate;
+    if (!self.progressHud) {
+        _progressHud = [[MBProgressHUD alloc] initWithView:view];
+        _progressHud.mode = MBProgressHUDModeIndeterminate;
+    }
     _progressHud.labelText = message;
     _progressHud.removeFromSuperViewOnHide = YES;
     [view addSubview:_progressHud];

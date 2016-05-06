@@ -14,4 +14,6 @@
 
 @property (retain, nonatomic) InTaskController *intaskController;
 
+- (void)showMsgView:(BOOL)show;
+
 @end

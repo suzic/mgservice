@@ -6,11 +6,11 @@
 	<dict>
 		<key>.DS_Store</key>
 		<data>
-		my503I1KlOJhktx3gTjxpNdAoL4=
+		ZVW4Zm+pKXp0fzHexCY/kerBBvs=
 		</data>
 		<key>Headers/NGRAsyncHttpClient.h</key>
 		<data>
-		gLWWPweAaHAAguyfVScmNs6hYYE=
+		CvKJsRyVPGBZSdoQlkgec3oIrS8=
 		</data>
 		<key>Headers/NGRBase.h</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Headers/NGRCacheAsyncHttpClient.h</key>
 		<data>
-		ZDlCXc8gTnscC7H+suvhorx700g=
+		63UIiaoNPy6JacRmww7CCy+vOtI=
 		</data>
 		<key>Headers/NGRCategoryModel.h</key>
 		<data>
@@ -38,11 +38,11 @@
 		</data>
 		<key>Headers/NGRDataSource.h</key>
 		<data>
-		k6gWRIguGIIa87X9BSxPbGz8oYU=
+		tACC3mC093Ugw9CCsiWZqwAdePk=
 		</data>
 		<key>Headers/NGRDataSourceDelegate.h</key>
 		<data>
-		F9Si5ICiyQB14NGYHBj/A+BQvQA=
+		v1ZnApnChoNKdwCrh8f7y5FJV0A=
 		</data>
 		<key>Headers/NGRElement.h</key>
 		<data>
@@ -64,6 +64,10 @@
 		<data>
 		y8BBaYkwOzMSfKnL/f1C6fWOvcU=
 		</data>
+		<key>Headers/NGRFileCacheMethod.h</key>
+		<data>
+		k+l6rvGn+056wfaS5ss+rvOn85Q=
+		</data>
 		<key>Headers/NGRFloorModel.h</key>
 		<data>
 		UglFbVWN/ZEiHX8Cy0awFyI05dE=
@@ -71,6 +75,10 @@
 		<key>Headers/NGRGeometry.h</key>
 		<data>
 		f0AABt6kreGvl3p3pg16EkvbSiA=
+		</data>
+		<key>Headers/NGRHttpCacheMethod.h</key>
+		<data>
+		h6bQmIdO+/T1qAj1HZxgkJkoxuw=
 		</data>
 		<key>Headers/NGRInvalidLicenseException.h</key>
 		<data>
@@ -94,7 +102,7 @@
 		</data>
 		<key>Headers/NGRMapView.h</key>
 		<data>
-		8OT8fqz37OOs+dSeYyeFaOr11zk=
+		nwv6vkboBq2yrR6FyZUD2vrvc5U=
 		</data>
 		<key>Headers/NGRMapViewController.h</key>
 		<data>
@@ -102,7 +110,7 @@
 		</data>
 		<key>Headers/NGRNavigateManager.h</key>
 		<data>
-		6Tr8EpDv7TGWnuIERErNpprkqU0=
+		FjDDl7brNadhfobmg85/oCopF34=
 		</data>
 		<key>Headers/NGROverlayer.h</key>
 		<data>
@@ -114,7 +122,7 @@
 		</data>
 		<key>Headers/NGRPositioningManager.h</key>
 		<data>
-		SK1DKPp23zuu7iG2DK71fHm+gGM=
+		lg0VL5PffKqnhNS1jWORwwQFNW8=
 		</data>
 		<key>Headers/NGRRegionModel.h</key>
 		<data>
@@ -134,7 +142,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		qS9QgDtMupMeS0+lhMv6VwvytVY=
+		7eEvp1DNFQTZiGReW6MGNx9cg1A=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -147,11 +155,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gLWWPweAaHAAguyfVScmNs6hYYE=
+			CvKJsRyVPGBZSdoQlkgec3oIrS8=
 			</data>
 			<key>hash2</key>
 			<data>
-			+3itJ9rmnSe3N0QLGJl+zoqMqf9PntQ7qWZjhT1pQLI=
+			E1Cw2SvDhhc5lrGMJNQCgNtGDklKd1syanlXyGZLBd4=
 			</data>
 		</dict>
 		<key>Headers/NGRBase.h</key>
@@ -180,11 +188,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZDlCXc8gTnscC7H+suvhorx700g=
+			63UIiaoNPy6JacRmww7CCy+vOtI=
 			</data>
 			<key>hash2</key>
 			<data>
-			AkTrWdWupPtJdR8ckAzygGaDIh7zkYUGYYHyuDFPH+A=
+			VXRCVRkuNE5xVgedWIQraInL31T4jN8MDbu3O+UULK0=
 			</data>
 		</dict>
 		<key>Headers/NGRCategoryModel.h</key>
@@ -224,22 +232,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			k6gWRIguGIIa87X9BSxPbGz8oYU=
+			tACC3mC093Ugw9CCsiWZqwAdePk=
 			</data>
 			<key>hash2</key>
 			<data>
-			2mQ1q7j1MeriNhHvBV7Lr+MXM3pZ6yHW37HhBdutrpE=
+			0rLJViLgRCdblmZpeMe5mk+4NsFJ/4iDalZEagBSEOk=
 			</data>
 		</dict>
 		<key>Headers/NGRDataSourceDelegate.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			F9Si5ICiyQB14NGYHBj/A+BQvQA=
+			v1ZnApnChoNKdwCrh8f7y5FJV0A=
 			</data>
 			<key>hash2</key>
 			<data>
-			MUagupHi3JGYGO4jbIxwzU7kFO1tAYwdS2w131pi7FU=
+			3szgdktjs8EnNTm2g6k8JqMsKVKl9E1PAjM7rCOxhAY=
 			</data>
 		</dict>
 		<key>Headers/NGRElement.h</key>
@@ -297,6 +305,17 @@
 			+Ufu0k3Pvb9MI/h2ZN9u3WvbBg4o+lXume8IKUw11WE=
 			</data>
 		</dict>
+		<key>Headers/NGRFileCacheMethod.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			k+l6rvGn+056wfaS5ss+rvOn85Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			fWvrVPajTjW4ZVg2F2nBAnbvd5I8K/CHrraoCWbzREM=
+			</data>
+		</dict>
 		<key>Headers/NGRFloorModel.h</key>
 		<dict>
 			<key>hash</key>
@@ -317,6 +336,17 @@
 			<key>hash2</key>
 			<data>
 			7jBEwBSR44XYBI4mpnyXPgNA3juqJz19wMVDuxRrc5M=
+			</data>
+		</dict>
+		<key>Headers/NGRHttpCacheMethod.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h6bQmIdO+/T1qAj1HZxgkJkoxuw=
+			</data>
+			<key>hash2</key>
+			<data>
+			cDAIkds40OaiIOABuRtKOa/NS1d2+cp97hQgzb2A+Rk=
 			</data>
 		</dict>
 		<key>Headers/NGRInvalidLicenseException.h</key>
@@ -378,11 +408,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8OT8fqz37OOs+dSeYyeFaOr11zk=
+			nwv6vkboBq2yrR6FyZUD2vrvc5U=
 			</data>
 			<key>hash2</key>
 			<data>
-			Trbe40LoO1WBwym5Knx/k5Z/iL5WWsqHIa5L8FHyIVQ=
+			NiTrckx57DJN8+KSdfY5rg00GLoymRt3Z51fqMdb13E=
 			</data>
 		</dict>
 		<key>Headers/NGRMapViewController.h</key>
@@ -400,11 +430,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6Tr8EpDv7TGWnuIERErNpprkqU0=
+			FjDDl7brNadhfobmg85/oCopF34=
 			</data>
 			<key>hash2</key>
 			<data>
-			jH0gzMoonoFFUZm3wg4lQcQwUc6SnexmlzkFQ1xSvk4=
+			K60RSjvDandpKEFPhSV1tauIz/bwxdkyM8X9zVrjm6A=
 			</data>
 		</dict>
 		<key>Headers/NGROverlayer.h</key>
@@ -433,11 +463,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			SK1DKPp23zuu7iG2DK71fHm+gGM=
+			lg0VL5PffKqnhNS1jWORwwQFNW8=
 			</data>
 			<key>hash2</key>
 			<data>
-			bvToy3H+bt6veOy+xixECzuwmLhRu18LPAb5AxWN7W0=
+			28nOdHlDZvCa0d9MIlPS8fynTFjHHx1G8AQZzt102NE=
 			</data>
 		</dict>
 		<key>Headers/NGRRegionModel.h</key>
