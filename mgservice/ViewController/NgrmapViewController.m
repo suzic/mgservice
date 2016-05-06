@@ -122,21 +122,31 @@ typedef NS_ENUM(NSInteger, parkingState) {
 @property(strong,nonatomic)UIButton* cancelNavigationButton;
 @property (retain, nonatomic) UIBarButtonItem *rightBarButton;
 
+@property (weak, nonatomic) IBOutlet UIView *inTaskView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskBottom;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *showMap;
+
 @end
 
 @implementation NgrmapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.inTaskTop.constant = kScreenHeight - 60;
+    self.title = @"当前执行中任务";
+    self.navigationItem.hidesBackButton = YES;
+    self.inTaskTop.constant = self.view.frame.size.height - 124;
+    self.inTaskBottom.constant = 60 - self.view.frame.size.height;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
+    
     [self configMapView:nil];
     _locationFloorId = 0;
     self.interval = 0;
     self.selectStartDisData = [[CollectionMessage alloc]init];
     self.selectEndDisData = [[CollectionMessage alloc]init];
-    self.navigationItem.backBarButtonItem =[[UIBarButtonItem alloc]initWithTitle:@"返回"
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:nil
-                                                                          action:nil];
     self.indoorPoiIdArray = [NSMutableArray array];
      self.navigationEndPoint = CGPointMake(0, 0);
     self.regionArray = [NSMutableArray array];
@@ -153,9 +163,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.regionPointArrayOutDoor = [NSMutableArray array];
     self.distanceCount = 0;
     self.mapView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self action:nil];
+    
     self.mapView.mapOptions.skewEnabled = NO;
 //    self.mapView.mapOptions.sigleTapEnabled = NO;
     self.mapView.mergeGesture = true;
@@ -164,7 +172,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _searchVC = [[InSearchViewController alloc]init];
     _searchVC.delegate = self;
     _currentLocationPoint = CGPointMake(0, 0);
-    self.navigationItem.rightBarButtonItem = self.rightBarButton;
+//    self.navigationItem.rightBarButtonItem = self.rightBarButton;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
      //添加定位错误状态
@@ -214,6 +222,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.intaskController.mapViewController = nil;
     self.intaskController = nil;
 }
+
 -(void)addAutochangeMapButton{
     self.autoChangeMapButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.autoChangeMapButton addTarget:self action:@selector(autochangfloor) forControlEvents:UIControlEventTouchUpInside];
@@ -1752,4 +1761,39 @@ typedef NS_ENUM(NSInteger, parkingState) {
 -(void)changeServices:(UISegmentedControl*)sender{
     self.selectedIndex = sender.selectedSegmentIndex;
 }
+- (void)StartDrawMap
+{
+    [self.mapView start];
+}
+- (void)StopDrawMap
+{
+    [self.mapView stop];
+}
+- (IBAction)showMapButton:(id)sender
+{
+    [self showMsgView:NO];
+}
+
+- (void)showMsgView:(BOOL)show
+{
+    self.navigationItem.rightBarButtonItem = show ? self.showMap : nil;
+    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
+    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
+    [UIView animateWithDuration:0.25f animations:^{
+        [self.inTaskView setFrame:show ? showHistoryRect : hideHistoryRect];
+        self.inTaskTop.constant = show ? 64 : self.view.frame.size.height - 64;
+        self.inTaskBottom.constant = show ? 0.0f : 64 - self.view.frame.size.height;
+    } completion:^(BOOL finished) {
+    }];
+
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showInTask"])
+    {
+        self.intaskController = (InTaskController *)[segue destinationViewController];
+        self.intaskController.mapViewController = self;
+    }
+}
+
 @end

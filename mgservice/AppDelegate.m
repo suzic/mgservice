@@ -104,6 +104,8 @@
 {
     //home键时，执行此代理
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiStopDrawMap object:nil];
+//    CCDirector::sharedDirector()->pause();
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

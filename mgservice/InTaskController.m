@@ -8,6 +8,7 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
+#import "NgrmapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 
@@ -38,7 +39,6 @@
 {
     [super viewDidLoad];
     [[RequestNetWork defaultManager]registerDelegate:self];
-    self.bottomViewHeight.constant = 40;
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.hidesBackButton = YES;
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
@@ -76,6 +76,10 @@
     //查询任务状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:@"pushTaskStatus" object:nil];
     [self NETWORK_TaskStatus];
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    self.mapViewController = nil;
 }
 #pragma mark-模拟完成任务
 - (void)endTask
@@ -259,7 +263,7 @@
     [self deallocInstantMessageing];
     
     self.conversationView = [[SPKitExample sharedInstance]exampleMakeConversationViewControllerWithConversation:self.conversation];
-    self.conversationView.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 69-64);
+    self.conversationView.view.frame = CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height);
     self.conversationView.backgroundImage = nil;
     self.conversationView.view.backgroundColor = [UIColor clearColor];
     self.conversationView.tableView.backgroundView = nil;
@@ -320,12 +324,6 @@
     return string;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    self.mapViewController.intaskController = nil;
-    self.mapViewController = nil;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -339,16 +337,16 @@
     if (_showTalk == showTalk)
         return;
     _showTalk = showTalk;
-
-    self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
-    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
-    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
-    [UIView animateWithDuration:0.25f animations:^{
-        [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
-        self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
-        self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
-    } completion:^(BOOL finished) {
-    }];
+    [self.mapViewController showMsgView:_showTalk];
+//    self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
+//    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
+//    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
+//    [UIView animateWithDuration:0.25f animations:^{
+//        [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
+//        self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
+//        self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
+//    } completion:^(BOOL finished) {
+//    }];
 }
 
 //这是聊天记录视图下的大按钮的点击事件
@@ -411,13 +409,5 @@
 - (void)taskStatus:(NSNotificationCenter*)taskStatus
 {
     [self NETWORK_TaskStatus];
-}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showMap"])
-    {
-        self.mapViewController = (NgrmapViewController *)[segue destinationViewController];
-        self.mapViewController.intaskController = self;
-    }
 }
 @end

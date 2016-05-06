@@ -11,7 +11,6 @@
 
 @interface InTaskController : UIViewController
 @property (weak, nonatomic) NgrmapViewController *mapViewController;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
 @end
