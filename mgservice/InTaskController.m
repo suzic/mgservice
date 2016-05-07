@@ -371,6 +371,12 @@
         self.messageLabel.hidden = YES;
     }else{
         NSLog(@"无动作");
+        [self.conversationView.messageInputView resignFirstResponder];
+        self.showTalk = NO;
+        [self deallocInstantMessageing];
+        [self.conversation markConversationAsRead];
+        self.showMessageLabel = YES;
+        self.messageLabel.hidden = YES;
         return;
     }
 }

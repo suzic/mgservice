@@ -134,11 +134,11 @@ typedef NS_ENUM(NSInteger, parkingState) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.inTaskTop.constant = kScreenHeight - 60;
+    self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;
     self.inTaskTop.constant = self.view.frame.size.height - 124;
-    self.inTaskBottom.constant = 60 - self.view.frame.size.height;
+    self.inTaskBottom.constant = 64 - self.view.frame.size.height;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
     
@@ -1781,8 +1781,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
     CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
     [UIView animateWithDuration:0.25f animations:^{
         [self.inTaskView setFrame:show ? showHistoryRect : hideHistoryRect];
-        self.inTaskTop.constant = show ? 64 : self.view.frame.size.height - 64;
-        self.inTaskBottom.constant = show ? 0.0f : 64 - self.view.frame.size.height;
+        self.inTaskTop.constant = show ? 0.0f : self.view.frame.size.height - 124;
+        self.inTaskBottom.constant = show ? 0.0f : 60 - self.view.frame.size.height;
     } completion:^(BOOL finished) {
     }];
 
