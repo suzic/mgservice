@@ -362,6 +362,7 @@
             if(array.count > 0)
             {
                 DBTaskList * waiterTask = array[0];
+                NSLog(@"%@",waiterTask.category);
                 if ([waiterTask.category isEqualToString:@"0"]) {
                     [self performSegueWithIdentifier:@"goTask" sender:nil];
                 }
@@ -478,7 +479,10 @@
         else
         {
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                //刷新列表
+                [self refreshList];
+            }];
             [alert addAction:action];
             [self presentViewController:alert animated:YES completion:^{
                 [self whenSkipUse];
@@ -488,7 +492,10 @@
     else
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            //刷新列表
+            [self refreshList];
+        }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:^{
             [self whenSkipUse];
@@ -518,7 +525,7 @@
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self NETWORK_menuDetailList:self.foodPresentList];
+            [self refreshList];
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
@@ -857,6 +864,13 @@
 - (void)pushMessType:(NSNotification*)notification
 {
     //每次收到新任务消息推送的时候，都刷新tableview，
+    [self refreshList];
+}
+
+#pragma  mark - function
+- (void)refreshList
+{
+    //刷新列表
     if (self.isPage == YES) {
         if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
             if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
@@ -866,8 +880,6 @@
         }
     }
 }
-
-#pragma  mark - function
 - (void)workStatusInUserDefaults
 {
     [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
