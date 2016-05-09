@@ -589,12 +589,12 @@ UIAlertViewDelegate>
     // 自定义导航栏背景
     if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
     {
-        [[UINavigationBar appearance] setBarTintColor:[UIColor orangeColor]];
+        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0 green:0.6 blue:0.5 alpha:1]];
         [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
         
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
         
-        [[UITabBar appearance] setTintColor:[UIColor orangeColor]];
+        [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0 green:0.6 blue:0.5 alpha:1]];
     }
     else
     {
@@ -909,8 +909,12 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 #warning TODO: JUST RETURN IF NO NEED TO ADD Custom Emoticon OR CHANGE TO YOUR ACTUAL METHOD TO ADD Custom Emoticon
     if ([aConversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
         YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
+        messageInputView.disableAudioInput = YES;
         for ( id item in messageInputView.allPluginList )
         {
+            if ([item isKindOfClass:[YWInputViewPluginLocationPicker class]]) {
+                [messageInputView removePlugin:item];
+            }
             if ( ![item isKindOfClass:[YWInputViewPluginEmoticonPicker class]] ) continue;
 
             YWInputViewPluginEmoticonPicker *emotionPicker = (YWInputViewPluginEmoticonPicker *)item;
