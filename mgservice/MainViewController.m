@@ -416,6 +416,7 @@
             for (DBTaskList * taskList in self.taskArray) {
                 [[DataManager defaultInstance]deleteFromCoreData:taskList];
             }
+            [[DataManager defaultInstance]saveContext];
             [self.taskArray removeAllObjects];
         }
         for (DBTaskList * task in datas) {

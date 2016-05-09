@@ -36,7 +36,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = 1"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (listArray.count > 0)
     {
@@ -52,8 +52,8 @@
 
 - (void)loadDBTaskData
 {
-    if (_menuArray.count > 0) {
-        [_menuArray removeAllObjects];
+    if (self.menuArray.count > 0) {
+        [self.menuArray removeAllObjects];
     }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
