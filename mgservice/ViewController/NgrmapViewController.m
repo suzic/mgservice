@@ -122,10 +122,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
 @property(strong,nonatomic)UIButton* cancelNavigationButton;
 @property (retain, nonatomic) UIBarButtonItem *rightBarButton;
 
+
 @property (weak, nonatomic) IBOutlet UIView *inTaskView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskBottom;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *showMap;
 
 @end
 
@@ -539,6 +539,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
         self.navigationItem.rightBarButtonItem = _rightBarButton;
     }
     return _rightBarButton;
+}
+
+- (IBAction)tenM:(id)sender {
 }
  //跳转到搜索起始点和终点的页面
 -(void)searchSelectStartPoint:(UIButton*)sender{
@@ -1769,9 +1772,28 @@ typedef NS_ENUM(NSInteger, parkingState) {
 {
     [self.mapView stop];
 }
+
+- (IBAction)tenMButton:(id)sender
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.intaskController NETWORK_reloadWorkStatusTask];
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (IBAction)showMapButton:(id)sender
 {
     [self showMsgView:NO];
+    [self.intaskController.conversationView.messageInputView resignFirstResponder];
+    self.intaskController.showTalk = NO;
+    [self.intaskController deallocInstantMessageing];
+    [self.intaskController.conversation markConversationAsRead];
+    self.intaskController.showMessageLabel = YES;
+    self.intaskController.messageLabel.hidden = YES;
 }
 
 - (void)showMsgView:(BOOL)show

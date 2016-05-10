@@ -12,23 +12,19 @@
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 
-@property (nonatomic,strong)  YWConversationViewController * conversationView;
 
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
 @property (weak, nonatomic) IBOutlet UILabel *timeLable;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
-@property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
 @property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;//完成任务
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//任务状态
 
 @property (nonatomic, strong) CADisplayLink * timer;
 @property (assign,nonatomic) NSInteger second;//时间
-@property (nonatomic,strong) YWP2PConversation * conversation;
 @property (nonatomic,strong) LCProgressHUD * hud;
 @property (nonnull,strong) DBTaskList * waiterTaskList;
 @end
@@ -54,7 +50,7 @@
 //    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
     
     //模拟任务完成的方法
-    [self endTask];
+//    [self endTask];
     
     //拿到coredata里的数据
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
@@ -311,7 +307,7 @@
 {
     self.second ++;
     if (self.second > 18000) {
-        self.timeLable.textColor = [UIColor orangeColor];
+        self.timeLable.textColor = [UIColor redColor];
     }
     self.timeLable.text = [self calculate:self.second];
 }
@@ -377,6 +373,7 @@
         [self.conversation markConversationAsRead];
         self.showMessageLabel = YES;
         self.messageLabel.hidden = YES;
+        self.navigationItem.rightBarButtonItem = self.showTalk ? nil : self.mapViewController.showMap;
         return;
     }
 }

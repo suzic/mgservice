@@ -352,7 +352,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.62087831090000001" green="0.65211250949999999" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="height" secondItem="XSh-mX-O1r" secondAttribute="height" id="3aJ-SZ-Ce6"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="6Sc-YK-EgV"/>
@@ -370,7 +370,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XSh-mX-O1r" firstAttribute="centerX" secondItem="WQR-q0-iTo" secondAttribute="centerX" id="5nv-x3-wcj"/>
                             <constraint firstItem="XSh-mX-O1r" firstAttribute="centerY" secondItem="WQR-q0-iTo" secondAttribute="centerY" id="jp8-uv-frY"/>
@@ -838,7 +838,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Afy-Te-2Fo">
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Afy-Te-2Fo">
                                 <rect key="frame" x="0.0" y="72" width="600" height="528"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -855,6 +855,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="pgk-MY-j5U">
+                        <barButtonItem key="leftBarButtonItem" title="小于10米" id="OOz-hF-A6S">
+                            <connections>
+                                <action selector="tenMButton:" destination="D1N-z6-To1" id="oEp-Eg-HgZ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="收起" id="UpT-Zd-I8v">
                             <connections>
                                 <action selector="showMapButton:" destination="D1N-z6-To1" id="x5a-dn-aYn"/>
@@ -866,6 +871,7 @@
                         <outlet property="inTaskTop" destination="ipB-LX-TeK" id="GXU-oA-hgd"/>
                         <outlet property="inTaskView" destination="Afy-Te-2Fo" id="fiZ-vz-XOj"/>
                         <outlet property="showMap" destination="UpT-Zd-I8v" id="Uum-BJ-dO7"/>
+                        <outlet property="tenM" destination="OOz-hF-A6S" id="9hN-L3-Olb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mcg-ZR-EVT" userLabel="First Responder" sceneMemberID="firstResponder"/>

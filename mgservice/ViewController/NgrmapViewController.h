@@ -15,5 +15,10 @@
 @property (retain, nonatomic) InTaskController *intaskController;
 
 - (void)showMsgView:(BOOL)show;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *showMap;
 
+- (IBAction)tenMButton:(id)sender;
+
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *tenM;
 @end
