@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15B42" minimumToolsVersion="Automatic">
     <entity name="DBMessage" representedClassName="DBMessage" syncable="YES">
         <attribute name="cAppkey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cUserId" optional="YES" attributeType="String" syncable="YES"/>
@@ -53,8 +53,11 @@
     </entity>
     <entity name="DBWaiterPresentList" representedClassName="DBWaiterPresentList" syncable="YES">
         <attribute name="count" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deliverEndTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deliverStartTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="drName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="menuName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="menuOrderMoney" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="orderNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ready" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sellPrice" optional="YES" attributeType="String" syncable="YES"/>
@@ -64,6 +67,6 @@
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="103"/>
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="373"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
-        <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="148"/>
+        <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
     </elements>
 </model>

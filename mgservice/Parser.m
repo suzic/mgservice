@@ -308,7 +308,10 @@
         presentList.menuName = list[@"menuName"];
         presentList.sellPrice = list[@"sellPrice"];
         presentList.orderNo = dic[@"list"][0][@"orderNo"];
+        presentList.menuOrderMoney = dic[@"list"][0][@"menuOrderMoney"];//菜单总价（未计服务费的）
         presentList.targetTelephone = dic[@"list"][0][@"targetInfo"][@"targetTelephone"];
+        presentList.deliverStartTime = dic[@"list"][0][@"targetInfo"][@"deliverStartTime"];//要求送达的 起始时间
+        presentList.deliverEndTime = dic[@"list"][0][@"targetInfo"][@"deliverEndTime"];    //要求送达的 结束时间
         presentList.ready = @"0";
         [array addObject:presentList];
     }

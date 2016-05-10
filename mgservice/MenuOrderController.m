@@ -258,8 +258,14 @@
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
     cell.locationDec.text = self.menuArray[section][0];
     cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
-    NSLog(@"%@",[NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]]);
     cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
+    NSString * startTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverStartTime]];
+    NSString * endTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverEndTime]];
+    NSString * separatedStartTime = [startTime componentsSeparatedByString:@" "][1];
+    NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+    cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedStartTime,separatedEndTime];
+    cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[[self.menuArray[section] lastObject][0] menuOrderMoney]];
+    [cell.menuOrderMoney sizeToFit];
     cell.readyInfo.tag = section + 100;
     [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -338,7 +344,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 66.0f;
+    return 110;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
