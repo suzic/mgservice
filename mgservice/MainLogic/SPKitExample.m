@@ -1228,40 +1228,40 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
             /// 用户划开Push导致app启动
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                if ([self exampleIsPreLogined]) {
-                    /// 说明已经预登录成功
-                    YWConversation *conversation = nil;
-                    if (conversationClass == [YWP2PConversation class]) {
-                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    } else if (conversationClass == [YWTribeConversation class]) {
-                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    }
-                    if (conversation) {
-                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
-                    }
-                }
+//                if ([self exampleIsPreLogined]) {
+//                    /// 说明已经预登录成功
+//                    YWConversation *conversation = nil;
+//                    if (conversationClass == [YWP2PConversation class]) {
+//                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    } else if (conversationClass == [YWTribeConversation class]) {
+//                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    }
+//                    if (conversation) {
+//                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
+//                    }
+//                }
             });
             
         } else {
             /// app已经启动时处理Push
             
-            if (state != UIApplicationStateActive) {
-                if ([self exampleIsPreLogined]) {
-                    /// 说明已经预登录成功
-                    YWConversation *conversation = nil;
-                    if (conversationClass == [YWP2PConversation class]) {
-                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    } else if (conversationClass == [YWTribeConversation class]) {
-                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    }
-                    if (conversation) {
-                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
-                    }
-                }
-            } else {
-                /// 应用处于前台
-                /// 建议不做处理，等待IM连接建立后，收取离线消息。
-            }
+//            if (state != UIApplicationStateActive) {
+//                if ([self exampleIsPreLogined]) {
+//                    /// 说明已经预登录成功
+//                    YWConversation *conversation = nil;
+//                    if (conversationClass == [YWP2PConversation class]) {
+//                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    } else if (conversationClass == [YWTribeConversation class]) {
+//                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    }
+//                    if (conversation) {
+//                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
+//                    }
+//                }
+//            } else {
+//                /// 应用处于前台
+//                /// 建议不做处理，等待IM连接建立后，收取离线消息。
+//            }
         }
     } forKey:self.description ofPriority:YWBlockPriorityDeveloper];
 }

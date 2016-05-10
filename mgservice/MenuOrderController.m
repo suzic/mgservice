@@ -10,13 +10,13 @@
 #import "MenuItemCell.h"
 #import "MenuSectionCell.h"
 
-@interface MenuOrderController () <UITableViewDataSource, UITableViewDelegate, MenuItemCellDelegate>
+@interface MenuOrderController () <UITableViewDataSource, UITableViewDelegate, MenuItemCellDelegate,UIActionSheetDelegate>
 
 @property (retain, nonatomic) NSMutableArray *menuArray;
 @property (assign, nonatomic) NSInteger expandSectionIndex;
 @property (retain, nonatomic) UIButton *expandCompleteButton;
 @property (assign, nonatomic) NSInteger selectButtonTag;
-
+@property (nonatomic,strong) NSString * phoneNumber;
 @property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask; // 服务员提交任务的请求标识·
 @property (nonatomic,strong) NSURLSessionTask * menuDetailListTask; // 菜单详情
 
@@ -258,7 +258,12 @@
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
     cell.locationDec.text = self.menuArray[section][0];
     cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
+    
     cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
+    [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+    UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
+    [cell.phoneNumber addGestureRecognizer:phoneTap];
+    
     NSString * startTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverStartTime]];
     NSString * endTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverEndTime]];
     NSString * separatedStartTime = [startTime componentsSeparatedByString:@" "][1];
@@ -393,5 +398,29 @@
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 
+#pragma mark - 点击事件
+- (void)phoneCall:(UITapGestureRecognizer *)tap
+{
+    UILabel * label = (UILabel*)tap.view;
+    self.phoneNumber = [label.text componentsSeparatedByString:@"："][1];
+    UIActionSheet * actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:self.phoneNumber, nil];
+    [actionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.phoneNumber]]];
+    }
+}
 
+//设置不同字体颜色
+-(void)fuwenbenLabel:(UILabel *)labell FontNumber:(id)font AndRange:(NSRange)range AndColor:(UIColor *)vaColor
+{
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:labell.text];
+    //设置字号
+//    [str addAttribute:NSFontAttributeName value:font range:range];
+    //设置文字颜色
+    [str addAttribute:NSForegroundColorAttributeName value:vaColor range:range];
+    labell.attributedText = str;
+}
 @end

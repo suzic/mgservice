@@ -13,6 +13,9 @@
 - (void)awakeFromNib
 {
     self.readyInfo.layer.cornerRadius = 4.0f;
+    self.phoneNumber.userInteractionEnabled = YES;
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -20,5 +23,7 @@
 
     // Configure the view for the selected state
 }
+
+
 
 @end
