@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *limitTime;
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumber;
 
+@property (weak, nonatomic) IBOutlet UILabel *deliverStartAndEndTime;//要求送达的起始时间和结束时间
+@property (weak, nonatomic) IBOutlet UILabel *menuOrderMoney;//总金额
 @end

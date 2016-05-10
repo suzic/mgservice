@@ -23,6 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *ready;
 @property (nullable, nonatomic, retain) NSString *targetTelephone;
 
+@property (nullable, nonatomic, retain) NSString *menuOrderMoney;   //菜单顺序价格,如果不加服务费，用这个参数
+@property (nullable, nonatomic, retain) NSString *orderMoney;       //菜单总金额（加了服务费）后的金额
+@property (nullable, nonatomic, retain) NSString *serviceCharge;    //服务费 如：（35.10）
+@property (nullable, nonatomic, retain) NSString *deliverStartTime; //要求送达起始时间，格式为：（2016-05-10 10:00:00）
+@property (nullable, nonatomic, retain) NSString *deliverEndTime;   //要求送达的结束时间，格式为：（2016-05-10 10:30:00）
+
 @end
 
 NS_ASSUME_NONNULL_END

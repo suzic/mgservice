@@ -22,6 +22,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *countdownLabel; // 显示倒计时文本
 @property (weak, nonatomic) IBOutlet UILabel *waiterName; // 服务员姓名
+@property (weak, nonatomic) IBOutlet UILabel *waiterID;  //服务员工号
+
 @property (weak, nonatomic) IBOutlet UILabel *waiterCurrentArea; // 当值区域
 @property (nonatomic,strong) NSString * strTime;
 @property (nonatomic,strong) NSString * strinter;
@@ -79,6 +81,7 @@
     }
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     self.waiterName.text = waiterInfo.name;
+    self.waiterID.text = waiterInfo.workNum;
     self.waiterCurrentArea.text = waiterInfo.currentArea;
 }
 
@@ -479,7 +482,7 @@
         }
         else
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败了" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 //刷新列表
                 [self refreshList];
@@ -493,7 +496,7 @@
     else
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //刷新列表
             [self refreshList];
         }];
@@ -524,10 +527,8 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self refreshList];
-        }];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"菜单详情获取失败！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
     }
