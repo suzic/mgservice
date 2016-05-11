@@ -17,6 +17,7 @@
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
 @property (nonatomic,strong) YWP2PConversation * conversation;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 
 - (void)deallocInstantMessageing;
 

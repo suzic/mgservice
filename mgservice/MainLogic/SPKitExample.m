@@ -909,7 +909,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 #warning TODO: JUST RETURN IF NO NEED TO ADD Custom Emoticon OR CHANGE TO YOUR ACTUAL METHOD TO ADD Custom Emoticon
     if ([aConversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
         YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
-        messageInputView.disableAudioInput = YES;
+//        messageInputView.disableAudioInput = YES;
         for ( id item in messageInputView.allPluginList )
         {
             if ([item isKindOfClass:[YWInputViewPluginLocationPicker class]]) {

@@ -18,7 +18,6 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewBottom;//聊天记录视图下
 @property (weak, nonatomic) IBOutlet UILabel *timeLable;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (retain, nonatomic) NSMutableArray *messageArray;
 @property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;//完成任务
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//任务状态
@@ -45,7 +44,7 @@
     self.messageLabel.layer.borderColor = [UIColor redColor].CGColor;
     self.messageLabel.layer.masksToBounds = YES;
     self.messageLabel.layer.borderWidth = 1.0f;
-    self.messageLabel.layer.cornerRadius = 15.0f;
+    self.messageLabel.layer.cornerRadius = 25.0f/2.0f;
     //返回按钮 临时用
 //    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
     
@@ -71,10 +70,16 @@
     //查询任务状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     [self NETWORK_TaskStatus];
+    
+    NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
+    if (messageCount != nil) {
+        self.messageLabel.text = messageCount;
+        self.messageLabel.hidden = NO;
+    }
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
-    self.mapViewController = nil;
+    
 }
 #pragma mark-模拟完成任务
 - (void)endTask
@@ -308,6 +313,7 @@
     self.second ++;
     if (self.second > 18000) {
         self.timeLable.textColor = [UIColor redColor];
+        self.mapViewController.title = @"当前执行中任务(已超时)";
     }
     self.timeLable.text = [self calculate:self.second];
 }
@@ -365,6 +371,7 @@
         [self instantMessageingFormation];
         self.showMessageLabel = NO;
         self.messageLabel.hidden = YES;
+        [SPUserDefaultsManger deleteforKey:@"messageCount"];
     }else{
         NSLog(@"无动作");
         [self.conversationView.messageInputView resignFirstResponder];
@@ -412,7 +419,10 @@
 //显示未读消息角标
 - (void)newMessage:(NSNotification *)noti
 {
-    self.messageLabel.text = [NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue];
+    [SPUserDefaultsManger setValue:[NSString stringWithFormat:@"%ld",(long)self.conversation.conversationUnreadMessagesCount.integerValue] forKey:@"messageCount"];
+    
+    NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
+    self.messageLabel.text = messageCount;
     if (self.showMessageLabel == NO) {
         self.messageLabel.hidden = YES;
     }else{
@@ -424,5 +434,10 @@
 - (void)taskStatus:(NSNotificationCenter*)taskStatus
 {
     [self NETWORK_TaskStatus];
+}
+
+- (void)dealloc
+{
+    self.mapViewController = nil;
 }
 @end

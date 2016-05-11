@@ -137,6 +137,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.rightBarButtonItem = nil;
     self.inTaskTop.constant = self.view.frame.size.height - 124;
     self.inTaskBottom.constant = 64 - self.view.frame.size.height;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
@@ -219,8 +220,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.autoChangeMaptimer = nil;
     [self.substractionTimer invalidate];
     self.substractionTimer = nil;
-    self.intaskController.mapViewController = nil;
-    self.intaskController = nil;
+    
 }
 
 -(void)addAutochangeMapButton{
@@ -1078,11 +1078,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     //    CGPoint navigationEndPoint = [_navigationManager getPointFromFeatureCollection:featureCollection atIndex:lastPointIndex];
     //    CGPoint navigationStartPoint = [_navigationManager getPointFromFeatureCollection:featureCollection atIndex:0];
 }
-- (void)dealloc
-{
-    _dataSource.delegate = nil;
-    
-}
+
 #pragma mark-搜索相关
 -(void)searchPoiWithDestinationString:(NSString*)destination andNeewShowAlert:(BOOL)need{
     [_dataSource searchPOI:destination start:0 count:30 parents:nil categories:nil];
@@ -1798,7 +1794,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 - (void)showMsgView:(BOOL)show
 {
-    self.navigationItem.rightBarButtonItem = show ? self.showMap : nil;
+    self.navigationItem.rightBarButtonItem = show ? self.intaskController.showMap : nil;
     CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
     [UIView animateWithDuration:0.25f animations:^{
@@ -1818,4 +1814,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
 }
 
+- (void)dealloc
+{
+    _dataSource.delegate = nil;
+    self.intaskController.mapViewController = nil;
+    self.intaskController = nil;
+}
 @end

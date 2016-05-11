@@ -328,24 +328,24 @@
                                             <action selector="tapHistory:" destination="R0c-wX-lBE" eventType="touchUpInside" id="8PN-gl-Paw"/>
                                         </connections>
                                     </button>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lge-aO-qDg" userLabel="Message Label">
-                                        <rect key="frame" x="560" y="0.0" width="30" height="30"/>
-                                        <color key="backgroundColor" red="0.97579711675643921" green="0.10031392425298691" blue="0.33385449647903442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="3de-Hm-Rcf"/>
-                                            <constraint firstAttribute="width" constant="30" id="Wfb-5j-SkY"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:15" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7V-au-laN">
                                         <rect key="frame" x="492" y="20" width="98" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="到场服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNu-Hk-Olc">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lge-aO-qDg" userLabel="Message Label">
+                                        <rect key="frame" x="560" y="0.0" width="25" height="25"/>
+                                        <color key="backgroundColor" red="0.97579711675643921" green="0.10031392425298691" blue="0.33385449647903442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="3de-Hm-Rcf"/>
+                                            <constraint firstAttribute="width" constant="25" id="Wfb-5j-SkY"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呼叫服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNu-Hk-Olc">
                                         <rect key="frame" x="10" y="27" width="60" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -356,15 +356,15 @@
                                 <constraints>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="height" secondItem="XSh-mX-O1r" secondAttribute="height" id="3aJ-SZ-Ce6"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="6Sc-YK-EgV"/>
-                                    <constraint firstItem="lge-aO-qDg" firstAttribute="top" secondItem="LbJ-sI-KOI" secondAttribute="top" id="9aJ-ea-24H"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="Eqi-lC-LhN"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" constant="27" id="HKz-WR-LMR"/>
                                     <constraint firstAttribute="trailing" secondItem="LbJ-sI-KOI" secondAttribute="trailing" id="HLe-kK-yEi"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="10" id="NBh-p3-Mly"/>
-                                    <constraint firstItem="lge-aO-qDg" firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" id="e3p-Ah-kzL"/>
+                                    <constraint firstItem="lge-aO-qDg" firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" constant="-5" id="e3p-Ah-kzL"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerY" secondItem="XSh-mX-O1r" secondAttribute="centerY" id="eW9-jY-fmD"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="baseline" secondItem="S7V-au-laN" secondAttribute="baseline" constant="-2" id="g6n-gh-KMy"/>
-                                    <constraint firstAttribute="trailing" secondItem="lge-aO-qDg" secondAttribute="trailing" constant="10" id="ruv-Ni-IV4"/>
+                                    <constraint firstItem="LbJ-sI-KOI" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" id="mXP-yb-qMS"/>
+                                    <constraint firstAttribute="trailing" secondItem="lge-aO-qDg" secondAttribute="trailing" constant="15" id="ruv-Ni-IV4"/>
                                     <constraint firstItem="LbJ-sI-KOI" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" id="wvE-9s-ptg"/>
                                     <constraint firstItem="lge-aO-qDg" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" id="yhc-V5-hij"/>
                                 </constraints>
@@ -379,7 +379,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="任务执行中" id="NNJ-aZ-F3Q">
-                        <barButtonItem key="rightBarButtonItem" title="地图" id="KRT-ii-tj8">
+                        <barButtonItem key="rightBarButtonItem" title="收起" id="KRT-ii-tj8">
                             <connections>
                                 <action selector="swithTalk:" destination="R0c-wX-lBE" id="OlK-D4-dUS"/>
                             </connections>
@@ -519,7 +519,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="要求到达时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ey-1f-UfW">
                                                     <rect key="frame" x="8" y="90" width="600" height="20"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="总额" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxY-Dw-nJE">
@@ -528,7 +528,7 @@
                                                         <constraint firstAttribute="width" constant="348" id="nty-EG-MQg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预期 12:30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q21-R1-bz7">
@@ -855,7 +855,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="pgk-MY-j5U">
-                        <barButtonItem key="leftBarButtonItem" title="小于10米" id="OOz-hF-A6S">
+                        <barButtonItem key="leftBarButtonItem" title="完成" id="OOz-hF-A6S">
                             <connections>
                                 <action selector="tenMButton:" destination="D1N-z6-To1" id="oEp-Eg-HgZ"/>
                             </connections>
@@ -880,6 +880,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ufs-Xc-iK0"/>
+        <segue reference="L41-6n-WrM"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -236,8 +236,8 @@
     DBWaiterPresentList * present = [self.menuArray[indexPath.section] lastObject][indexPath.row];
     
     cell.oneMenuName = present;
-    cell.menuName.text = [NSString stringWithFormat:@"%@ X %@", present.menuName, present.count];
-    cell.menuPrice.text = [NSString stringWithFormat:@"¥ %@", present.sellPrice];
+    cell.menuName.text = [NSString stringWithFormat:@"%@", present.menuName];
+    cell.menuPrice.text = [NSString stringWithFormat:@"¥ %@ X %@", present.sellPrice,present.count];
     cell.menuReady.on = [present.ready isEqualToString:@"1"] ? YES : NO;
     cell.delegate = self;
     return cell;
@@ -266,9 +266,9 @@
     
     NSString * startTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverStartTime]];
     NSString * endTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverEndTime]];
-    NSString * separatedStartTime = [startTime componentsSeparatedByString:@" "][1];
+    NSString * separatedstartTime= [startTime substringFromIndex:5];
     NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
-    cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedStartTime,separatedEndTime];
+    cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
     cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[[self.menuArray[section] lastObject][0] menuOrderMoney]];
     [cell.menuOrderMoney sizeToFit];
     cell.readyInfo.tag = section + 100;

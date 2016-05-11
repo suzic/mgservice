@@ -485,7 +485,7 @@
             UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败了" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 //刷新列表
-                [self refreshList];
+                [self NETWORK_requestTask];
             }];
             [alert addAction:action];
             [self presentViewController:alert animated:YES completion:^{
@@ -498,7 +498,7 @@
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //刷新列表
-            [self refreshList];
+            [self NETWORK_requestTask];
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:^{
