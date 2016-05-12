@@ -364,10 +364,11 @@
             NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
             if(array.count > 0)
             {
-                DBTaskList * waiterTask = array[0];
-                NSLog(@"%@",waiterTask.category);
-                if ([waiterTask.category isEqualToString:@"0"]) {
-                    [self performSegueWithIdentifier:@"goTask" sender:nil];
+                for (DBTaskList * waiterTask in array) {
+                    if([waiterTask.category isEqualToString:@"0"])
+                    {
+                        [self performSegueWithIdentifier:@"goTask" sender:nil];
+                    }
                 }
             }
         }
@@ -430,7 +431,7 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"请求数据失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"点击刷新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             //[self reloadCurrentData];
         }];
@@ -482,7 +483,7 @@
         }
         else
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败了" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败了" message:msg preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 //刷新列表
                 [self NETWORK_requestTask];
@@ -495,7 +496,7 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:@"手速太慢了！已经被其他小伙伴抢走了" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单失败" message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             //刷新列表
             [self NETWORK_requestTask];

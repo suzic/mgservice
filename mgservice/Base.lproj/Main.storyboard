@@ -345,8 +345,15 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="向上箭头" translatesAutoresizingMaskIntoConstraints="NO" id="OjL-j6-ae0">
+                                        <rect key="frame" x="10" y="21" width="20" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="W7o-La-Pje"/>
+                                            <constraint firstAttribute="height" constant="30" id="jkw-63-Pc3"/>
+                                        </constraints>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呼叫服务" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNu-Hk-Olc">
-                                        <rect key="frame" x="10" y="27" width="60" height="18"/>
+                                        <rect key="frame" x="40" y="27" width="60" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -356,10 +363,12 @@
                                 <constraints>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="height" secondItem="XSh-mX-O1r" secondAttribute="height" id="3aJ-SZ-Ce6"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerX" secondItem="XSh-mX-O1r" secondAttribute="centerX" id="6Sc-YK-EgV"/>
+                                    <constraint firstItem="OjL-j6-ae0" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="10" id="E0b-Z1-smG"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="Eqi-lC-LhN"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="top" secondItem="XSh-mX-O1r" secondAttribute="top" constant="27" id="HKz-WR-LMR"/>
                                     <constraint firstAttribute="trailing" secondItem="LbJ-sI-KOI" secondAttribute="trailing" id="HLe-kK-yEi"/>
-                                    <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="10" id="NBh-p3-Mly"/>
+                                    <constraint firstItem="OjL-j6-ae0" firstAttribute="centerY" secondItem="JNu-Hk-Olc" secondAttribute="centerY" id="J8z-Dg-OYv"/>
+                                    <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="XSh-mX-O1r" secondAttribute="leading" constant="40" id="NBh-p3-Mly"/>
                                     <constraint firstItem="lge-aO-qDg" firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" constant="-5" id="e3p-Ah-kzL"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerY" secondItem="XSh-mX-O1r" secondAttribute="centerY" id="eW9-jY-fmD"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="baseline" secondItem="S7V-au-laN" secondAttribute="baseline" constant="-2" id="g6n-gh-KMy"/>
@@ -386,6 +395,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="arrowUpAndDownImage" destination="OjL-j6-ae0" id="ldZ-VR-4HW"/>
                         <outlet property="chatHistoryView" destination="XSh-mX-O1r" id="FWX-iI-dG6"/>
                         <outlet property="messageLabel" destination="lge-aO-qDg" id="vvF-Am-9KU"/>
                         <outlet property="showMap" destination="KRT-ii-tj8" id="a9h-73-ys8"/>
@@ -879,6 +889,9 @@
             <point key="canvasLocation" x="528" y="1250"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="向上箭头" width="90" height="220"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="L41-6n-WrM"/>
     </inferredMetricsTieBreakers>

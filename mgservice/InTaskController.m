@@ -133,6 +133,7 @@
             [self.conversation markConversationAsRead];
             //登出IM
             [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [SPUserDefaultsManger deleteforKey:@"messageCount"];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
@@ -174,6 +175,7 @@
                 [self.conversation markConversationAsRead];
                 //登出IM
                 [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+                [SPUserDefaultsManger deleteforKey:@"messageCount"];
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             [alert addAction:action];
@@ -366,6 +368,9 @@
 {
     if (self.showTalk == NO)
     {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(M_PI);
+        }];
         self.showTalk = YES;
 //        //创建聊天对象
         [self instantMessageingFormation];
@@ -374,6 +379,9 @@
         [SPUserDefaultsManger deleteforKey:@"messageCount"];
     }else{
         NSLog(@"无动作");
+        [UIView animateWithDuration:0.5f animations:^{
+            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
+        }];
         [self.conversationView.messageInputView resignFirstResponder];
         self.showTalk = NO;
         [self deallocInstantMessageing];
@@ -389,6 +397,9 @@
 //每次点地图按钮的时候执行这个。
 - (IBAction)swithTalk:(id)sender
 {
+    [UIView animateWithDuration:0.5f animations:^{
+        self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
+    }];
     [self.conversationView.messageInputView resignFirstResponder];
     self.showTalk = NO;
     [self deallocInstantMessageing];
