@@ -25,7 +25,7 @@
 @property (nonatomic, strong) CADisplayLink * timer;
 @property (assign,nonatomic) NSInteger second;//时间
 @property (nonatomic,strong) LCProgressHUD * hud;
-@property (nonnull,strong) DBTaskList * waiterTaskList;
+
 @end
 
 @implementation InTaskController
@@ -50,10 +50,6 @@
     
     //模拟任务完成的方法
 //    [self endTask];
-    
-    //拿到coredata里的数据
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    self.waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     
     //即时通讯登录
     [self instantMessaging];
@@ -80,6 +76,16 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     
+}
+- (DBTaskList *)waiterTaskList
+{
+    if (_waiterTaskList == nil)
+    {
+        //拿到coredata里的数据
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+        _waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
+    }
+    return _waiterTaskList;
 }
 #pragma mark-模拟完成任务
 - (void)endTask
@@ -303,7 +309,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
     NSDate* date = [formatter dateFromString:self.waiterTaskList.timeLimit];
     self.second = labs((NSInteger)[date timeIntervalSinceNow] *60);
     self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];

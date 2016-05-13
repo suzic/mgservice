@@ -14,11 +14,16 @@
 
 @property (retain, nonatomic) InTaskController *intaskController;
 
-- (void)showMsgView:(BOOL)show;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *showMap;
 
 - (IBAction)tenMButton:(id)sender;
 
-
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *tenM;
+
+/**
+ * @abstract 添加用户位置到地图上
+ */
+- (void)addUserLocationImageInMap:(NSString *)mac;
+
+- (void)showMsgView:(BOOL)show;
 @end

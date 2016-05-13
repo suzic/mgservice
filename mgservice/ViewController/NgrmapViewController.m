@@ -126,7 +126,11 @@ typedef NS_ENUM(NSInteger, parkingState) {
 @property (weak, nonatomic) IBOutlet UIView *inTaskView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskBottom;
-
+@property (strong,nonatomic)NGRPositioningManager* userManager;
+@property (assign,nonatomic) CGPoint userPoint;
+@property (assign, nonatomic) CGPoint waiterPoint;
+@property(strong,nonatomic)NGROverlayer *userOverLayer;
+@property (assign, nonatomic) BOOL showFinish;
 @end
 
 @implementation NgrmapViewController
@@ -187,7 +191,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
      //添加选择起始点的view
 //    [self addSelectStartAndEndView];
      //添加起始点的图片
-//    [self addStartAndEndPointImageView];
+    [self addStartAndEndPointImageView];
      //添加起始点的图片添加导航头头的view
 //    [self addTitleView];
      //添加起始点的图片搜索开始和结束的div
@@ -199,7 +203,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
      //添加左气泡
 //    [self addProcessOverlayer];
      //添加限定区域的代码
-//    [self addRegionPointData];
+    [self addRegionPointData];
     //自动转换定位点偏角
     [self addLocationCompass];
     //添加长按事件
@@ -212,6 +216,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [self addAlertLocationErrorView];
     //改变背景颜色
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
     HideHPDProgress;
@@ -462,6 +467,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.floorChangeToolView = [[changeFloorToolView alloc]initWithFrame:CGRectMake(0,64+44+20, 0, 0)];
     self.floorChangeToolView.delegate = self;
     [self.view addSubview:self.floorChangeToolView];
+    self.floorChangeToolView.hidden = YES;
 }
 
 -(void)addSearchStartAndEndDiv{
@@ -606,6 +612,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _locationImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
     _locationImageView.image = [UIImage imageNamed:@"locationPoint"];
     _locationOverlayer =[[NGROverlayer alloc]initWithView:_locationImageView];
+    
+    UIImageView *userImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    userImageView.image = [UIImage imageNamed:@"locationPointF"];
+    _userOverLayer =[[NGROverlayer alloc]initWithView:userImageView];
 }
  //选择wifi定位
 -(void)selectWifi{
@@ -774,33 +784,55 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if ([self abolishLocationPointBehaviourWithStatus:status andNewLocation:newLocation] ) {
         return;
     }
-    [self getNewLocationRefreshStateNewLocation:newLocation];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //当前楼层等于定位点的楼层号不进行自动楼 层切换只进行定位点的位移。
-        if (_currentFloorId == newLocation.floorId){
-             self.shouldAutoChangFloor = YES;
-            //定位点改变了
-            [self locationPointChangenewLocation:newLocation];
-            //切割导航线
-            if (_isNavigatingActualTime&&self.nowfeaturecollection.count>1&&!self.isRequestingMap&&_hasNavigatioLine) {
+    if (manager == self.userManager)
+    {
+        if (_currentFloorId == newLocation.floorId)
+        {
+            self.userPoint = newLocation.point;
+            [self.mapView addOverlayer:_userOverLayer];
+            [UIView animateWithDuration:0.5 animations:^{
+                _userOverLayer.view.center = [self.mapView getScreenPositionFromWorldPosition:newLocation.point];
+                _userOverLayer.worldPosition = newLocation.point;
                 
-                [self cutoffNavigationLineWithNewLocation:newLocation];
+            }];
+        }
+    }
+    else if (manager == self.wifiManager)
+    {
+        [self getNewLocationRefreshStateNewLocation:newLocation];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //当前楼层等于定位点的楼层号不进行自动楼 层切换只进行定位点的位移。
+            if (_currentFloorId == newLocation.floorId){
+                self.waiterPoint = newLocation.point;
+                 self.shouldAutoChangFloor = YES;
+                //定位点改变了
+                [self locationPointChangenewLocation:newLocation];
+                //切割导航线
+                if (_isNavigatingActualTime&&self.nowfeaturecollection.count>1&&!self.isRequestingMap&&_hasNavigatioLine) {
+                    
+                    [self cutoffNavigationLineWithNewLocation:newLocation];
+                }
+            }//当前楼层不等于定位点的楼层，进行自动切换楼层的逻辑判断
+            else if ((_isNavigatingActualTime||self.shouldAutoChangFloor == YES)&&self.autoChangeMapButton.hidden==YES){
+                [self LocationChangeStateAutochangFloor];
             }
-        }//当前楼层不等于定位点的楼层，进行自动切换楼层的逻辑判断
-        else if ((_isNavigatingActualTime||self.shouldAutoChangFloor == YES)&&self.autoChangeMapButton.hidden==YES){
-            [self LocationChangeStateAutochangFloor];
-        }
-        NSInteger floorNum=0;
-        if (self.nowfeaturecollection.name!=nil&&![self.nowfeaturecollection.name isEqualToString:@""]) {
-            floorNum = self.nowfeaturecollection.name.integerValue;
-        }
-        if (_isNavigatingActualTime&&!self.isRequestingMap) {
-            if (self.nowfeaturecollection.count>1) {
-                 [self autoNavigateWithnewLocation:newLocation];
+            NSInteger floorNum=0;
+            if (self.nowfeaturecollection.name!=nil&&![self.nowfeaturecollection.name isEqualToString:@""]) {
+                floorNum = self.nowfeaturecollection.name.integerValue;
             }
-             [self autoFinishNavigateWithnewLocation:newLocation];
-        }
-    });
+            if (_isNavigatingActualTime&&!self.isRequestingMap) {
+                if (self.nowfeaturecollection.count>1) {
+                     [self autoNavigateWithnewLocation:newLocation];
+                }
+                 [self autoFinishNavigateWithnewLocation:newLocation];
+            }
+        });
+    }
+    if (self.showFinish == NO)
+    {
+        [self distanceBetweenTwoPoints];
+    }
+    
 }
 
 //定位异常回调方法
@@ -897,6 +929,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         }
         if (!weakSelf.hasOpenWifiLocation) {
             [weakSelf selectWifi];
+            [self addUserLocationImageInMap:self.intaskController.waiterTaskList.userDiviceld];
             weakSelf.hasOpenWifiLocation = YES;
         }
         /**
@@ -1812,6 +1845,33 @@ typedef NS_ENUM(NSInteger, parkingState) {
         self.intaskController = (InTaskController *)[segue destinationViewController];
         self.intaskController.mapViewController = self;
     }
+}
+- (void)distanceBetweenTwoPoints
+{
+    double distance = sqrt(pow((self.userPoint.x - self.waiterPoint.x), 2) + pow((self.userPoint.y - self.waiterPoint.y), 2));
+    if (distance <= 10.00)
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"消息通知" message:@"您的距离客人距离还有十米，请完成当前任务吧 ！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.intaskController NETWORK_reloadWorkStatusTask];
+
+        }];
+        [alert addAction:action];
+        self.showFinish = YES;
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+- (void)addUserLocationImageInMap:(NSString *)mac
+{
+    if (mac == nil || [mac isEqualToString:@""])
+        return;
+    
+    self.userManager = [[NGRPositioningManager alloc]initWithMacAddress:mac appKey:@"" url:@"http://10.11.88.108:80/comet/"];
+    self.userManager.poll = YES;
+    self.userManager.timeInterval = 2000;
+    self.userManager.timeout = 1000;
+    self.userManager.delegate = self;
+    [self.userManager start];
 }
 
 - (void)dealloc

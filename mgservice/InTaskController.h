@@ -11,6 +11,7 @@
 
 @interface InTaskController : UIViewController
 @property (weak, nonatomic) NgrmapViewController *mapViewController;
+
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
 @property (nonatomic,strong)  YWConversationViewController * conversationView;
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpAndDownImage;
+@property (nonatomic,strong) DBTaskList * waiterTaskList;
 
 - (void)deallocInstantMessageing;
 
