@@ -345,10 +345,10 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="向上箭头" translatesAutoresizingMaskIntoConstraints="NO" id="OjL-j6-ae0">
-                                        <rect key="frame" x="10" y="21" width="20" height="30"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="up" translatesAutoresizingMaskIntoConstraints="NO" id="OjL-j6-ae0">
+                                        <rect key="frame" x="10" y="21" width="30" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="20" id="W7o-La-Pje"/>
+                                            <constraint firstAttribute="width" constant="30" id="W7o-La-Pje"/>
                                             <constraint firstAttribute="height" constant="30" id="jkw-63-Pc3"/>
                                         </constraints>
                                     </imageView>
@@ -890,7 +890,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="向上箭头" width="90" height="220"/>
+        <image name="up" width="27" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="L41-6n-WrM"/>

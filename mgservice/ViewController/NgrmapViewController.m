@@ -131,6 +131,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 @property (assign, nonatomic) CGPoint waiterPoint;
 @property(strong,nonatomic)NGROverlayer *userOverLayer;
 @property (assign, nonatomic) BOOL showFinish;
+@property (retain, nonatomic) UIAlertController *alertController;
 @end
 
 @implementation NgrmapViewController
@@ -180,10 +181,12 @@ typedef NS_ENUM(NSInteger, parkingState) {
 //    self.navigationItem.rightBarButtonItem = self.rightBarButton;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    //添加限定区域的代码
+    [self addRegionPointData];
      //添加定位错误状态
     [self addlocationErrorState];
      //添加楼层列表
-//    [self addFloorData];
+    [self addFloorData];
      //切换楼层相关的
     [self addChangeFloorBGViewToolView];
      //添加地图数据
@@ -202,8 +205,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 //    [self addNavigationStartView];
      //添加左气泡
 //    [self addProcessOverlayer];
-     //添加限定区域的代码
-    [self addRegionPointData];
+    
     //自动转换定位点偏角
     [self addLocationCompass];
     //添加长按事件
@@ -216,6 +218,17 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [self addAlertLocationErrorView];
     //改变背景颜色
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
+    
+    self.alertController = [UIAlertController alertControllerWithTitle:@"消息通知" message:@"您的距离客人距离十米，请完成当前任务吧 ！" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.intaskController NETWORK_reloadWorkStatusTask];
+        
+    }];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [self.alertController addAction:cancelAction];
+    [self.alertController addAction:action];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -256,7 +269,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _Locationbtn.backgroundColor = [UIColor whiteColor];
     [_Locationbtn addTarget:self action:@selector(gotoCurrentCenter) forControlEvents:UIControlEventTouchUpInside];
     _Locationbtn.frame = CGRectMake(10 , 20+ 64 +40, 40, 40);
-    [self.view addSubview:_Locationbtn];
+//    [self.view addSubview:_Locationbtn];
+    [self.view insertSubview:_Locationbtn belowSubview:self.inTaskView];
 }
 //去掉自动跳转的功能
 -(void)cancelAutochangeFloorTimer{
@@ -446,6 +460,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     //添加指南针视图
     self.compassView = [[CompassView alloc]init];
     [self.view addSubview:self.compassView];
+    [self.view insertSubview:self.compassView belowSubview:self.inTaskView];
 }
 - (void)mapViewDidRotating:(NGRMapView *)mapView rotation:(CGFloat)rotation{
     [self.compassView compassViewRotateWithAngleFromNorth: mapView.angleFromNorth -54.2074];
@@ -467,7 +482,6 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.floorChangeToolView = [[changeFloorToolView alloc]initWithFrame:CGRectMake(0,64+44+20, 0, 0)];
     self.floorChangeToolView.delegate = self;
     [self.view addSubview:self.floorChangeToolView];
-    self.floorChangeToolView.hidden = YES;
 }
 
 -(void)addSearchStartAndEndDiv{
@@ -828,10 +842,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
             }
         });
     }
-    if (self.showFinish == NO)
-    {
-        [self distanceBetweenTwoPoints];
-    }
+    
+    // 是否展示十米提醒
+    [self distanceBetweenTwoPoints];
     
 }
 
@@ -1846,21 +1859,33 @@ typedef NS_ENUM(NSInteger, parkingState) {
         self.intaskController.mapViewController = self;
     }
 }
+- (void)setShowFinish:(BOOL)showFinish
+{
+    if (_showFinish == showFinish)
+        return;
+    _showFinish = showFinish;
+    
+    
+    if (_showFinish == YES)
+    {
+        [self presentViewController:self.alertController animated:YES completion:nil];
+
+    }else
+    {
+        [self.alertController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }
+}
 - (void)distanceBetweenTwoPoints
 {
     double distance = sqrt(pow((self.userPoint.x - self.waiterPoint.x), 2) + pow((self.userPoint.y - self.waiterPoint.y), 2));
     if (distance <= 10.00)
-    {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"消息通知" message:@"您的距离客人距离还有十米，请完成当前任务吧 ！" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self.intaskController NETWORK_reloadWorkStatusTask];
-
-        }];
-        [alert addAction:action];
         self.showFinish = YES;
-        [self presentViewController:alert animated:YES completion:nil];
-    }
+    else
+        self.showFinish = NO;
 }
+
 - (void)addUserLocationImageInMap:(NSString *)mac
 {
     if (mac == nil || [mac isEqualToString:@""])

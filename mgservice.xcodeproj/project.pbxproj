@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B2A3F401CE5C0C400194B54 /* locationPointF.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B2A3F3F1CE5C0C400194B54 /* locationPointF.png */; };
+		4B2A3F441CE6C6DE00194B54 /* 组-15.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B2A3F431CE6C6DE00194B54 /* 组-15.png */; };
 		4B87BD0B1CC753EF001324E5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */; };
 		4B87BD0D1CC753F7001324E5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */; };
 		4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */; };
@@ -382,7 +382,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B2A3F3F1CE5C0C400194B54 /* locationPointF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locationPointF.png; sourceTree = "<group>"; };
+		4B2A3F431CE6C6DE00194B54 /* 组-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "组-15.png"; sourceTree = "<group>"; };
 		4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -1037,7 +1037,7 @@
 		4B87BBB01CC752B1001324E5 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4B2A3F3F1CE5C0C400194B54 /* locationPointF.png */,
+				4B2A3F431CE6C6DE00194B54 /* 组-15.png */,
 				A89C96E11CDADB0B0031A7A4 /* 222.png */,
 				A89C96E21CDADB0B0031A7A4 /* 定位.png */,
 				A89C96E31CDADB0B0031A7A4 /* 定位起点.png */,
@@ -1852,6 +1852,7 @@
 				A89C97C71CDADB330031A7A4 /* 17001000.png in Resources */,
 				9C78A61D1CBF98B800932D0C /* 未标题-1_07.png in Resources */,
 				A89C97FB1CDADB330031A7A4 /* 23033000.png in Resources */,
+				4B2A3F441CE6C6DE00194B54 /* 组-15.png in Resources */,
 				A89C96C51CDADAE10031A7A4 /* nagrand.toc in Resources */,
 				A89C97391CDADB0C0031A7A4 /* whole.jpg in Resources */,
 				9C78A61B1CBF98B800932D0C /* 未标题-1_03.png in Resources */,
@@ -2089,7 +2090,6 @@
 				A89C97491CDADB0C0031A7A4 /* xiaofangzi.png in Resources */,
 				A89C980F1CDADB330031A7A4 /* 24097000.png in Resources */,
 				9C78A6221CBF98B800932D0C /* 未标题-1_20.png in Resources */,
-				4B2A3F401CE5C0C400194B54 /* locationPointF.png in Resources */,
 				A89C97301CDADB0C0031A7A4 /* ico_setbegin@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

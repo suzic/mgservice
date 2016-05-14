@@ -374,9 +374,10 @@
 {
     if (self.showTalk == NO)
     {
-        [UIView animateWithDuration:0.5f animations:^{
-            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(M_PI);
-        }];
+//        [UIView animateWithDuration:0.5f animations:^{
+//            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(M_PI);
+//        }];
+        self.arrowUpAndDownImage.image = [UIImage imageNamed:@"down"];
         self.showTalk = YES;
 //        //创建聊天对象
         [self instantMessageingFormation];
@@ -385,9 +386,10 @@
         [SPUserDefaultsManger deleteforKey:@"messageCount"];
     }else{
         NSLog(@"无动作");
-        [UIView animateWithDuration:0.5f animations:^{
-            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
-        }];
+//        [UIView animateWithDuration:0.5f animations:^{
+//            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
+//        }];
+        self.arrowUpAndDownImage.image = [UIImage imageNamed:@"up"];
         [self.conversationView.messageInputView resignFirstResponder];
         self.showTalk = NO;
         [self deallocInstantMessageing];
@@ -403,9 +405,10 @@
 //每次点地图按钮的时候执行这个。
 - (IBAction)swithTalk:(id)sender
 {
-    [UIView animateWithDuration:0.5f animations:^{
-        self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
-    }];
+//    [UIView animateWithDuration:0.5f animations:^{
+//        self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
+//    }];
+    self.arrowUpAndDownImage.image = [UIImage imageNamed:@"up"];
     [self.conversationView.messageInputView resignFirstResponder];
     self.showTalk = NO;
     [self deallocInstantMessageing];

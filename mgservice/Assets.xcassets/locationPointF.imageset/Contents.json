@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "向上箭头.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "locationPointK.png",
       "scale" : "2x"
     },
     {
