@@ -220,8 +220,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
     
     self.alertController = [UIAlertController alertControllerWithTitle:@"消息通知" message:@"您的距离客人距离十米，请完成当前任务吧 ！" preferredStyle:UIAlertControllerStyleAlert];
+    __weak typeof (self) weakSelf = self;
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.intaskController NETWORK_reloadWorkStatusTask];
+        [weakSelf.intaskController NETWORK_reloadWorkStatusTask];
         
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -481,7 +482,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 -(void)addChangeFloorBGViewToolView{
     self.floorChangeToolView = [[changeFloorToolView alloc]initWithFrame:CGRectMake(0,64+44+20, 0, 0)];
     self.floorChangeToolView.delegate = self;
-    [self.view addSubview:self.floorChangeToolView];
+    [self.view insertSubview:self.floorChangeToolView belowSubview:self.inTaskView];
 }
 
 -(void)addSearchStartAndEndDiv{
@@ -942,7 +943,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         }
         if (!weakSelf.hasOpenWifiLocation) {
             [weakSelf selectWifi];
-            [self addUserLocationImageInMap:self.intaskController.waiterTaskList.userDiviceld];
+            [weakSelf addUserLocationImageInMap:weakSelf.intaskController.waiterTaskList.userDiviceld];
             weakSelf.hasOpenWifiLocation = YES;
         }
         /**
