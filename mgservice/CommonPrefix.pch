@@ -72,6 +72,9 @@
 // 服务员提交完成
 #define URI_WAITER_FINISHTASK                 "/hotelservice/checkin/service/finish_task.json"
 
+// 服务员取消订餐请求
+#define URI_WAITER_CANCELORDER                "/hotelservice/checkin/service/waiter_cancel_task.json"
+
 //通过任务号，查询任务信息
 #define URI_WAITER_TASkSTATUS                 "/hotelservice/checkin/service/get_task"
 
