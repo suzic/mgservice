@@ -64,6 +64,10 @@
     {
         datas = [self parseWaiterFinishTask:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_CANCELORDER])   //服务员取消订单
+    {
+        datas = [self parseWaiterCancelTask:dict];
+    }
     else if ([ident isEqualToString:@URI_WAITER_REPASTORDERS]) // 获取菜单详情
     {
         datas = [self parseMenuDetailList:dict];
@@ -282,7 +286,31 @@
     return array;
 }
 
-//取消订单
+#pragma mark - 服务员取消订单
+- (NSMutableArray *)parseWaiterCancelTask:(id)dict
+{
+    NSLog(@"%@",dict);
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
+    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    if (result.count <= 0 || result == nil)
+    {
+        return nil;
+    }
+    else
+    {
+        for (DBTaskList * waiterTask in result) {
+            waiterTask.status = dic[@"status"];
+            waiterTask.cancelTime = dic[@"cancelTime"];
+            waiterTask.accepTime = dic[@"progreeInfo"][@"acceptTime"];
+            [array addObject:waiterTask];
+        }
+    }
+    return array;
+}
+
+//通过任务号，查询任务信息,如果taskStatus = @"9",那么证明客人已经取消订单
 - (NSMutableArray *)parseWaiterTaskStatus:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];

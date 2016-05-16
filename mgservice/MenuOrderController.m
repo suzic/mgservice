@@ -19,6 +19,8 @@
 @property (nonatomic,strong) NSString * phoneNumber;
 @property (nonatomic,strong) NSURLSessionTask * waiterFinishTaskTask; // 服务员提交任务的请求标识·
 @property (nonatomic,strong) NSURLSessionTask * menuDetailListTask; // 菜单详情
+@property (nonatomic,strong) NSURLSessionTask * waiterCancelOrder; //服务员取消订单
+@property (nonatomic,strong) DBTaskList * waiterTaskList;
 
 @end
 
@@ -55,6 +57,7 @@
     if (self.menuArray.count > 0) {
         [self.menuArray removeAllObjects];
     }
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     for (DBTaskList * waiterTask in array) {
@@ -184,10 +187,64 @@
     }
     else
     {
-
+        
     }
 }
 
+// 服务员取消订餐
+- (void)NETWORK_calcelOrder:(NSString *)taskCode
+{
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,@"deviceToken":waiterInfo.deviceToken,@"taskCode":taskCode}];
+    NSLog(@"%@",params);
+    self.waiterCancelOrder = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                       webURL:@URI_WAITER_CANCELORDER
+                                                                       params:params
+                                                                   withByUser:YES];
+}
+
+- (void)RESULT_waiterCancelOrder:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        DBTaskList * waiterTask = datas[0];
+        if ([waiterTask.status isEqualToString:@"9"])
+        {
+            DBTaskList * waiterTask = datas[0];
+            // 取消任务成功   删除菜单表中已取消的数据
+            for (DBWaiterPresentList * presentList in [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo]) {
+                [[DataManager defaultInstance]deleteFromCoreData:presentList];
+            }
+            // 删除已接订单表中的的数据
+            [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
+            [[DataManager defaultInstance]saveContext];
+            [self.menuArray removeObject:waiterTask];
+            // 删除后重置选中
+            if (_expandSectionIndex == NSNotFound)
+            {
+                
+            }
+            else if (_selectButtonTag < _expandSectionIndex)
+            {
+                self.expandSectionIndex--;
+            }
+            else if (_selectButtonTag == _expandSectionIndex)
+            {
+                self.expandSectionIndex = NSNotFound;
+            }
+            [self loadDBTaskData];
+        }
+    }
+    else
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"取消失败" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:^{
+            [self whenSkipUse];
+        }];
+    }
+}
 
 #pragma mark - RequestNetWorkDelegate 协议方法
 
@@ -202,6 +259,10 @@
     {
         [self RESULT_menuDetailList:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
+    else if (task == self.waiterCancelOrder)
+    {
+        [self RESULT_waiterCancelOrder:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -214,6 +275,10 @@
     else if (task == self.menuDetailListTask)
     {
         [self RESULT_menuDetailList:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.waiterCancelOrder)
+    {
+        [self RESULT_waiterCancelOrder:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 
@@ -247,7 +312,6 @@
 {
     if (self.menuArray.count <= 0)
         return nil;
-    
     MenuSectionCell * cell = [tableView dequeueReusableCellWithIdentifier:@"menuHeader"];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
@@ -260,6 +324,7 @@
     cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
     
     cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
+    
     [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
     UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
     [cell.phoneNumber addGestureRecognizer:phoneTap];
@@ -295,7 +360,23 @@
         cell.contentView.backgroundColor = [UIColor whiteColor];
     }
     
+    UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToDo:)];
+    longPressGr.minimumPressDuration = 1.0;
+    [cell.contentView addGestureRecognizer:longPressGr];
+    
     return cell.contentView;
+}
+
+- (void)longPressToDo:(UILongPressGestureRecognizer *)longPress
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"你确定要取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * determineAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self NETWORK_calcelOrder:self.menuArray [longPress.view.tag][2]];
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:determineAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)completeReady:(UIButton *)sender
