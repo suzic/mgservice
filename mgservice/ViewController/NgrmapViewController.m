@@ -247,7 +247,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.autoChangeMapButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.autoChangeMapButton addTarget:self action:@selector(autochangfloor) forControlEvents:UIControlEventTouchUpInside];
     self.autoChangeMapButton.frame = CGRectMake(75, 94, kScreenWidth-150, 20);
-    [self.view addSubview:self.autoChangeMapButton];
+//    [self.view addSubview:self.autoChangeMapButton];
+    [self.view insertSubview:self.autoChangeMapButton belowSubview:self.inTaskView];
     self.autoChangeMapButton.titleLabel.numberOfLines = 1;
     self.autoChangeMapButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [self.autoChangeMapButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
