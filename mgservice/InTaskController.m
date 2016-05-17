@@ -309,7 +309,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     NSDate* date = [formatter dateFromString:self.waiterTaskList.timeLimit];
     self.second = labs((NSInteger)[date timeIntervalSinceNow] *60);
     self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];

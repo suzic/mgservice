@@ -227,7 +227,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        _showFinish = NO;
+//        _showFinish = NO;
     }];
     [self.alertController addAction:cancelAction];
     [self.alertController addAction:action];
@@ -1897,13 +1897,14 @@ typedef NS_ENUM(NSInteger, parkingState) {
 {
     if (mac == nil || [mac isEqualToString:@""])
         return;
-    
-    self.userManager = [[NGRPositioningManager alloc]initWithMacAddress:mac appKey:@"" url:@"http://10.11.88.108:80/comet/"];
-    self.userManager.poll = YES;
-    self.userManager.timeInterval = 2000;
-    self.userManager.timeout = 1000;
-    self.userManager.delegate = self;
-    [self.userManager start];
+    __weak typeof (self) weakSelf = self;
+
+    weakSelf.userManager = [[NGRPositioningManager alloc]initWithMacAddress:mac appKey:@"" url:@"http://10.11.88.108:80/comet/"];
+    weakSelf.userManager.poll = YES;
+    weakSelf.userManager.timeInterval = 2000;
+    weakSelf.userManager.timeout = 1000;
+    weakSelf.userManager.delegate = weakSelf;
+    [weakSelf.userManager start];
 }
 
 - (void)dealloc
