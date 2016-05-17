@@ -138,7 +138,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.userPoint = CGPointMake(0, 0);
+    self.waiterPoint = CGPointMake(0, 0);
     self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;
@@ -226,7 +227,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
+        _showFinish = NO;
     }];
     [self.alertController addAction:cancelAction];
     [self.alertController addAction:action];
@@ -718,10 +719,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
    
     if (_currentFloorId == newLocation.floorId){
-        [self.mapView addOverlayer:_locationOverlayer];
+        [self.mapView addOverlayer:_userOverLayer];
         [UIView animateWithDuration:0.5 animations:^{
-            _locationOverlayer.view.center = [self.mapView getScreenPositionFromWorldPosition:adsorbPoint];
-            _locationOverlayer.worldPosition = adsorbPoint;
+            _userOverLayer.view.center = [self.mapView getScreenPositionFromWorldPosition:adsorbPoint];
+            _userOverLayer.worldPosition = adsorbPoint;
             
         }];
     }
@@ -799,26 +800,26 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if ([self abolishLocationPointBehaviourWithStatus:status andNewLocation:newLocation] ) {
         return;
     }
-    if (manager == self.userManager)
+    if (manager == self.wifiManager)
     {
         if (_currentFloorId == newLocation.floorId)
         {
-            self.userPoint = newLocation.point;
-            [self.mapView addOverlayer:_userOverLayer];
+            self.waiterPoint = newLocation.point;
+            [self.mapView addOverlayer:_locationOverlayer];
             [UIView animateWithDuration:0.5 animations:^{
-                _userOverLayer.view.center = [self.mapView getScreenPositionFromWorldPosition:newLocation.point];
-                _userOverLayer.worldPosition = newLocation.point;
+                _locationOverlayer.view.center = [self.mapView getScreenPositionFromWorldPosition:newLocation.point];
+                _locationOverlayer.worldPosition = newLocation.point;
                 
             }];
         }
     }
-    else if (manager == self.wifiManager)
+    else if (manager == self.userManager)
     {
         [self getNewLocationRefreshStateNewLocation:newLocation];
         dispatch_async(dispatch_get_main_queue(), ^{
             //当前楼层等于定位点的楼层号不进行自动楼 层切换只进行定位点的位移。
             if (_currentFloorId == newLocation.floorId){
-                self.waiterPoint = newLocation.point;
+                self.userPoint = newLocation.point;
                  self.shouldAutoChangFloor = YES;
                 //定位点改变了
                 [self locationPointChangenewLocation:newLocation];
@@ -1880,6 +1881,11 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 - (void)distanceBetweenTwoPoints
 {
+ 
+    if (self.waiterPoint.x == 0 || self.waiterPoint.y == 0 || self.userPoint.x == 0|| self.userPoint.y == 0)
+    {
+        return;
+    }
     double distance = sqrt(pow((self.userPoint.x - self.waiterPoint.x), 2) + pow((self.userPoint.y - self.waiterPoint.y), 2));
     if (distance <= 10.00)
         self.showFinish = YES;
