@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
     
+    [SPUserDefaultsManger setValue:@"0" forKey:KIsAllowRefresh];
     self.expandSectionIndex = NSNotFound;
     self.selectButtonTag = NSNotFound;
     self.menuArray = [NSMutableArray array];
@@ -38,6 +39,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [SPUserDefaultsManger setValue:@"1" forKey:KIsAllowRefresh];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     NSArray * listArray = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (listArray.count > 0)
@@ -61,15 +63,15 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     for (DBTaskList * waiterTask in array) {
-        NSMutableArray * taskContent = [NSMutableArray array];
-        // [self NETWORK_menuDetailList:waiterTask.drOrderNo];
-        [taskContent addObject:waiterTask.userLocationDesc];
-        [taskContent addObject:waiterTask.timeLimit];
-        [taskContent addObject:waiterTask.taskCode];
-        NSArray * presentList = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
-        [taskContent addObject:presentList];
+//        NSMutableArray * taskContent = [NSMutableArray array];
+//        // [self NETWORK_menuDetailList:waiterTask.drOrderNo];
+//        [taskContent addObject:waiterTask.userLocationDesc];
+//        [taskContent addObject:waiterTask.timeLimit];
+//        [taskContent addObject:waiterTask.taskCode];
+//        NSArray * presentList = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+//        [taskContent addObject:waiterTask];
         
-        [self.menuArray addObject:taskContent];
+        [self.menuArray addObject:waiterTask];
     }
     [self.tableView reloadData];
 }
@@ -104,7 +106,8 @@
 // 服务员提交完成任务
 - (void)NETWORK_waiterFinishTask:(NSInteger)selectTask
 {
-    NSString * taskCode = self.menuArray[selectTask][2];
+    DBTaskList * waiterTask = self.menuArray[selectTask];
+    NSString * taskCode = waiterTask.taskCode;
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
@@ -291,14 +294,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *menuItems = [self.menuArray[section] lastObject];
+    DBTaskList * waiterTask = self.menuArray[section];
+    NSArray *menuItems = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
     return self.expandSectionIndex == section ? menuItems.count : 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuCell"];
-    DBWaiterPresentList * present = [self.menuArray[indexPath.section] lastObject][indexPath.row];
+    DBWaiterPresentList * present = [[DataManager defaultInstance]getPresentList:[self.menuArray[indexPath.section] drOrderNo]][indexPath.row];
     
     cell.oneMenuName = present;
     cell.menuName.text = [NSString stringWithFormat:@"%@", present.menuName];
@@ -320,29 +324,33 @@
     [cell.contentView addGestureRecognizer:tap];
     cell.contentView.tag = section;
     cell.contentView.backgroundColor = [UIColor lightGrayColor];
-    cell.locationDec.text = self.menuArray[section][0];
-    cell.limitTime.text = [self.menuArray[section][1] componentsSeparatedByString:@" "][1];
     
-    cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[[self.menuArray[section] lastObject][0] targetTelephone]];
+    DBTaskList * waiterTask = self.menuArray[section];
+    cell.locationDec.text = waiterTask.userLocationDesc;
+    cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
+    
+    NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+    if (presentListArray.count > 0) {
+        cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
+    }
     
     [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
     UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
     [cell.phoneNumber addGestureRecognizer:phoneTap];
     
-    NSString * startTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverStartTime]];
-    NSString * endTime = [NSString stringWithFormat:@"%@",[[self.menuArray[section] lastObject][0] deliverEndTime]];
+    NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+    NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
     NSString * separatedstartTime= [startTime substringFromIndex:5];
     NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
     cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
-    cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[[self.menuArray[section] lastObject][0] menuOrderMoney]];
+    cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
     [cell.menuOrderMoney sizeToFit];
     cell.readyInfo.tag = section + 100;
     [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *menuInfo = [self.menuArray[section]lastObject];
-    NSInteger totalCount = menuInfo.count;
+    NSInteger totalCount = presentListArray.count;
     NSInteger completeCount = 0;
-    for (DBWaiterPresentList * list in menuInfo)
+    for (DBWaiterPresentList * list in presentListArray)
         if ([list.ready isEqualToString:@"1"]) completeCount++;
     if (completeCount < totalCount)
     {
@@ -372,7 +380,7 @@
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"你确定要取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * determineAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self NETWORK_calcelOrder:self.menuArray [longPress.view.tag][2]];
+        [self NETWORK_calcelOrder:[self.menuArray [longPress.view.tag] taskCode]];
     }];
     [alert addAction:cancelAction];
     [alert addAction:determineAction];
@@ -381,7 +389,7 @@
 
 - (void)completeReady:(UIButton *)sender
 {
-    NSArray *menuInfo = [self.menuArray[sender.tag - 100]lastObject];
+    NSArray *menuInfo = [[DataManager defaultInstance]getPresentList:[self.menuArray[sender.tag - 100] drOrderNo]];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
     for (DBWaiterPresentList * present in menuInfo)
@@ -451,7 +459,7 @@
     presentList.ready = cell.menuReady.on == YES ? @"1" : @"0";
     [[DataManager defaultInstance]saveContext];
     
-    NSArray *menuInfo = [self.menuArray[self.expandSectionIndex]lastObject];
+    NSArray *menuInfo = [[DataManager defaultInstance]getPresentList:[self.menuArray[self.expandSectionIndex] drOrderNo]];
     NSInteger totalCount = menuInfo.count;
     NSInteger completeCount = 0;
     for (DBWaiterPresentList * list in menuInfo)
