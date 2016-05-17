@@ -376,7 +376,9 @@
     }];
     [alert addAction:cancelAction];
     [alert addAction:determineAction];
-    [self presentViewController:alert animated:YES completion:nil];
+    [self presentViewController:alert animated:YES completion:^{
+        [[RequestNetWork defaultManager]registerDelegate:self];
+    }];
 }
 
 - (void)completeReady:(UIButton *)sender
