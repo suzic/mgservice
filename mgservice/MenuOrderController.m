@@ -21,6 +21,7 @@
 @property (nonatomic,strong) NSURLSessionTask * menuDetailListTask; // 菜单详情
 @property (nonatomic,strong) NSURLSessionTask * waiterCancelOrder; //服务员取消订单
 @property (nonatomic,strong) DBTaskList * waiterTaskList;
+@property (nonatomic,assign) BOOL isDeleteStatus;   //记录左划状态
 
 @end
 
@@ -30,6 +31,7 @@
 {
     [super viewDidLoad];
     
+    self.isDeleteStatus = NO;
     [SPUserDefaultsManger setValue:@"0" forKey:KIsAllowRefresh];
     self.expandSectionIndex = NSNotFound;
     self.selectButtonTag = NSNotFound;
@@ -222,6 +224,7 @@
             [[DataManager defaultInstance]deleteFromCoreData:waiterTask];
             [[DataManager defaultInstance]saveContext];
             [self.menuArray removeObject:waiterTask];
+            self.isDeleteStatus = NO;
             // 删除后重置选中
             if (_expandSectionIndex == NSNotFound)
             {
@@ -368,19 +371,51 @@
         cell.contentView.backgroundColor = [UIColor whiteColor];
     }
     
-    UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToDo:)];
-    longPressGr.minimumPressDuration = 1.0;
-    [cell.contentView addGestureRecognizer:longPressGr];
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHeader:)];
+    [cell.contentView addGestureRecognizer:pan];
+
+    cell.deleteLabel.tag = section;
+    UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+    [cell.deleteLabel addGestureRecognizer:tapImage];
     
     return cell.contentView;
 }
 
-- (void)longPressToDo:(UILongPressGestureRecognizer *)longPress
+- (void)panHeader:(UIPanGestureRecognizer *)pan
+{
+    CGPoint point = [pan translationInView:self.view];
+    //如果左划，就让x坐标到-80
+    if (point.x<0 && self.isDeleteStatus == NO) {
+        self.isDeleteStatus = YES;
+        [UIView animateWithDuration:0.4 animations:^{
+            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
+            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
+            CGRect rect = pan.view.frame;
+            rect.origin.x = -80;
+            pan.view.frame = rect;
+        }];
+    }
+    //如果右划，就让x坐标到0
+    if (point.x > 0)
+    {
+        self.isDeleteStatus = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
+            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
+            CGRect rect = pan.view.frame;
+            rect.origin.x = 0;
+            pan.view.frame = rect;
+        }];
+    }
+}
+
+- (void)tapLabel:(UITapGestureRecognizer *)tapLabel
 {
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"你确定要取消订单吗？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction * determineAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self NETWORK_calcelOrder:[self.menuArray [longPress.view.tag] taskCode]];
+        self.selectButtonTag = tapLabel.view.tag - 100;
+        [self NETWORK_calcelOrder:[self.menuArray [tapLabel.view.tag] taskCode]];
     }];
     [alert addAction:cancelAction];
     [alert addAction:determineAction];
@@ -420,6 +455,7 @@
 
 - (void)tapHeader:(UITapGestureRecognizer *)gesture
 {
+    self.isDeleteStatus = NO;
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     NSInteger tapSection = gesture.view.tag;
     

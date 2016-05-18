@@ -14,8 +14,7 @@
 {
     self.readyInfo.layer.cornerRadius = 4.0f;
     self.phoneNumber.userInteractionEnabled = YES;
-    
-    
+    self.deleteLabel.userInteractionEnabled = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
