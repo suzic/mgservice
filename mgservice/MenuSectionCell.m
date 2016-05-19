@@ -15,6 +15,7 @@
     self.readyInfo.layer.cornerRadius = 4.0f;
     self.phoneNumber.userInteractionEnabled = YES;
     self.deleteLabel.userInteractionEnabled = YES;
+    self.deleteWidth.constant = kScreenWidth / 5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

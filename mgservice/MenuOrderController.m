@@ -331,7 +331,6 @@
     DBTaskList * waiterTask = self.menuArray[section];
     cell.locationDec.text = waiterTask.userLocationDesc;
     cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
-    
     NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
     if (presentListArray.count > 0) {
         cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
@@ -384,29 +383,145 @@
 - (void)panHeader:(UIPanGestureRecognizer *)pan
 {
     CGPoint point = [pan translationInView:self.view];
-    //如果左划，就让x坐标到-80
-    if (point.x<0 && self.isDeleteStatus == NO) {
-        self.isDeleteStatus = YES;
-        [UIView animateWithDuration:0.4 animations:^{
-            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
-            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
-            CGRect rect = pan.view.frame;
-            rect.origin.x = -80;
-            pan.view.frame = rect;
-        }];
-    }
-    //如果右划，就让x坐标到0
-    if (point.x > 0)
+    CGRect rect = pan.view.frame;
+
+    pan.maximumNumberOfTouches = 1;
+    pan.minimumNumberOfTouches = 1;
+
+    if (pan.state == UIGestureRecognizerStateBegan)
     {
-        self.isDeleteStatus = NO;
-        [UIView animateWithDuration:0.4 animations:^{
-            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
-            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
-            CGRect rect = pan.view.frame;
-            rect.origin.x = 0;
-            pan.view.frame = rect;
-        }];
+        if (pan.view.frame.origin.x >= 0)
+        {
+            self.isDeleteStatus = NO;
+        }
+        else
+        {
+            self.isDeleteStatus = YES;
+        }
     }
+    else if (pan.state == UIGestureRecognizerStateChanged)
+    {
+        if (self.isDeleteStatus == NO)
+        {
+            if (rect.origin.x > 0)
+            {
+                rect.origin.x = 0;
+                pan.view.frame = rect;
+            }
+            else if (rect.origin.x < 0)
+            {
+                rect.origin.x = point.x;
+                pan.view.frame = rect;
+            }
+            else
+            {
+                if (point.x >= 0)
+                {
+                    rect.origin.x = 0;
+                    pan.view.frame = rect;
+                }
+                else
+                {
+                    rect.origin.x = point.x;
+                    pan.view.frame = rect;
+                }
+            }
+        }
+        else
+        {
+            if (rect.origin.x < -(kScreenWidth / 5))
+            {
+                rect.origin.x = -(kScreenWidth / 5);
+                pan.view.frame = rect;
+            }
+            else if (rect.origin.x > -(kScreenWidth / 5))
+            {
+                rect.origin.x = -(kScreenWidth / 5) + point.x;
+                if (-(kScreenWidth / 5) + point.x > 0)
+                {
+                    rect.origin.x = 0;
+                }
+                else
+                {
+                    rect.origin.x = -(kScreenWidth / 5) + point.x;
+                }
+                pan.view.frame = rect;
+            }
+            else
+            {
+                if (point.x < 0)
+                {
+                    rect.origin.x = -(kScreenWidth / 5);
+                    pan.view.frame = rect;
+                }
+                else
+                {
+                    rect.origin.x = -(kScreenWidth / 5) + point.x;
+                    pan.view.frame = rect;
+                }
+            }
+        }
+    }
+    else if (pan.state == UIGestureRecognizerStateEnded)
+    {
+        if (self.isDeleteStatus == NO)
+        {
+            if (point.x < -kScreenWidth / 10)
+            {
+                rect.origin.x = -(kScreenWidth / 5);
+                [UIView animateWithDuration:0.1 animations:^{
+                    pan.view.frame = rect;
+                }];
+            }
+            else
+            {
+                rect.origin.x = 0;
+                [UIView animateWithDuration:0.1 animations:^{
+                    pan.view.frame = rect;
+                }];
+            }
+        }
+        else
+        {
+            if (point.x > kScreenWidth / 10)
+            {
+                rect.origin.x = 0;
+                [UIView animateWithDuration:0.1 animations:^{
+                    pan.view.frame = rect;
+                }];
+            }
+            else
+            {
+                rect.origin.x = -(kScreenWidth / 5);
+                [UIView animateWithDuration:0.1 animations:^{
+                    pan.view.frame = rect;
+                }];
+            }
+        }
+    }
+    //    //如果左划，就让x坐标到-80
+    //    if (point.x<0 && self.isDeleteStatus == NO) {
+    //        self.isDeleteStatus = YES;
+    //        [UIView animateWithDuration:0.4 animations:^{
+    //            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
+    //            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
+    //            CGRect rect = pan.view.frame;
+    //            rect.origin.x = -kScreenWidth / 5;
+    //            pan.view.frame = rect;
+    //        }];
+    //    }
+    //    //如果右划，就让x坐标到0
+    //    if (point.x > 0)
+    //    {
+    //        self.isDeleteStatus = NO;
+    //        [UIView animateWithDuration:0.4 animations:^{
+    //            pan.view.center = CGPointMake(pan.view.center.x + point.x, pan.view.center.y);
+    //            [pan setTranslation:CGPointMake(0, 0) inView:self.view];
+    //            CGRect rect = pan.view.frame;
+    //            rect.origin.x = 0;
+    //            pan.view.frame = rect;
+    //        }];
+    //    }
 }
 
 - (void)tapLabel:(UITapGestureRecognizer *)tapLabel
