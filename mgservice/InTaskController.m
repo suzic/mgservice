@@ -280,7 +280,6 @@
 - (void)instantMessageingFormation
 {
     [self deallocInstantMessageing];
-    
     self.conversationView = [[SPKitExample sharedInstance]exampleMakeConversationViewControllerWithConversation:self.conversation];
     self.conversationView.view.frame = CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height);
     self.conversationView.backgroundImage = nil;
@@ -325,22 +324,18 @@
     }
     self.timeLable.text = [self calculate:self.second];
 }
+
 // 格式化时间
 - (NSString *)calculate:(NSInteger)totalSecond
 {
     NSString *string    = @"";
-    
     NSInteger seconds   = totalSecond / 60 % 60;
-    
     NSInteger mins      = totalSecond / 3600 % 60;
-    
     NSInteger hours     = totalSecond / 3600 / 60 % 60;
-    
     NSString *secondStr = seconds < 10 ? [NSString stringWithFormat:@"0%ld",(long)seconds] :[NSString stringWithFormat:@"%ld",(long)seconds];
     NSString *minStr    = mins < 10 ? [NSString stringWithFormat:@"0%ld",(long)mins] :[NSString stringWithFormat:@"%ld",(long)mins];
     NSString *hourStr   = hours < 10 ? [NSString stringWithFormat:@"0%ld",(long)hours] :[NSString stringWithFormat:@"%ld",(long)hours];
     string = [NSString stringWithFormat: @"%@:%@:%@",hourStr,minStr,secondStr];
-    
     return string;
 }
 
@@ -358,15 +353,6 @@
         return;
     _showTalk = showTalk;
     [self.mapViewController showMsgView:_showTalk];
-//    self.navigationItem.rightBarButtonItem = showTalk ? self.showMap : nil;
-//    CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
-//    CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
-//    [UIView animateWithDuration:0.25f animations:^{
-//        [self.chatHistoryView setFrame:showTalk ? showHistoryRect : hideHistoryRect];
-//        self.chatHistoryViewTop.constant = showTalk ? 0.0f : self.view.frame.size.height - 124;
-//        self.chatHistoryViewBottom.constant = showTalk ? 0.0f : 60 - self.view.frame.size.height;
-//    } completion:^(BOOL finished) {
-//    }];
 }
 
 //这是聊天记录视图下的大按钮的点击事件
@@ -374,21 +360,15 @@
 {
     if (self.showTalk == NO)
     {
-//        [UIView animateWithDuration:0.5f animations:^{
-//            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(M_PI);
-//        }];
         self.arrowUpAndDownImage.image = [UIImage imageNamed:@"down"];
         self.showTalk = YES;
-//        //创建聊天对象
+        //创建聊天对象
         [self instantMessageingFormation];
         self.showMessageLabel = NO;
         self.messageLabel.hidden = YES;
         [SPUserDefaultsManger deleteforKey:@"messageCount"];
     }else{
         NSLog(@"无动作");
-//        [UIView animateWithDuration:0.5f animations:^{
-//            self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
-//        }];
         self.arrowUpAndDownImage.image = [UIImage imageNamed:@"up"];
         [self.conversationView.messageInputView resignFirstResponder];
         self.showTalk = NO;
@@ -405,9 +385,6 @@
 //每次点地图按钮的时候执行这个。
 - (IBAction)swithTalk:(id)sender
 {
-//    [UIView animateWithDuration:0.5f animations:^{
-//        self.arrowUpAndDownImage.transform=CGAffineTransformMakeRotation(0);
-//    }];
     self.arrowUpAndDownImage.image = [UIImage imageNamed:@"up"];
     [self.conversationView.messageInputView resignFirstResponder];
     self.showTalk = NO;
