@@ -13,6 +13,10 @@
 		4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */; };
 		4B87BD111CC75426001324E5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD101CC75426001324E5 /* libc++.tbd */; };
 		4BA20C321CD0FB6B000CD987 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA20C301CD0FB6B000CD987 /* MainViewController.m */; };
+		9C36904B1D066E6100FE8936 /* LPPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690471D066E6100FE8936 /* LPPageViewController.m */; };
+		9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690491D066E6100FE8936 /* LPPageViewMenu.m */; };
+		9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */; };
+		9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690581D067A2A00FE8936 /* PageViewController.m */; };
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
 		9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */; };
 		9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAB1CBF679300932D0C /* AFNetworkReachabilityManager.m */; };
@@ -389,6 +393,13 @@
 		4B87BD101CC75426001324E5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		4BA20C301CD0FB6B000CD987 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4BA20C311CD0FB6B000CD987 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9C3690461D066E6100FE8936 /* LPPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageViewController.h; sourceTree = "<group>"; };
+		9C3690471D066E6100FE8936 /* LPPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageViewController.m; sourceTree = "<group>"; };
+		9C3690481D066E6100FE8936 /* LPPageViewMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageViewMenu.h; sourceTree = "<group>"; };
+		9C3690491D066E6100FE8936 /* LPPageViewMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageViewMenu.m; sourceTree = "<group>"; };
+		9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPPageViewMenu.xib; sourceTree = "<group>"; };
+		9C3690571D067A2A00FE8936 /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageViewController.h; path = mgservice/PageViewController.h; sourceTree = SOURCE_ROOT; };
+		9C3690581D067A2A00FE8936 /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageViewController.m; path = mgservice/PageViewController.m; sourceTree = SOURCE_ROOT; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		9C789EA71CBF679300932D0C /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
@@ -1094,6 +1105,18 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		9C3690451D066E6100FE8936 /* Page */ = {
+			isa = PBXGroup;
+			children = (
+				9C3690461D066E6100FE8936 /* LPPageViewController.h */,
+				9C3690471D066E6100FE8936 /* LPPageViewController.m */,
+				9C3690481D066E6100FE8936 /* LPPageViewMenu.h */,
+				9C3690491D066E6100FE8936 /* LPPageViewMenu.m */,
+				9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */,
+			);
+			path = Page;
+			sourceTree = "<group>";
+		};
 		9C789EA61CBF679300932D0C /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1529,6 +1552,9 @@
 		D06C01311C5B138700D242B1 /* MenuTask */ = {
 			isa = PBXGroup;
 			children = (
+				9C3690451D066E6100FE8936 /* Page */,
+				9C3690571D067A2A00FE8936 /* PageViewController.h */,
+				9C3690581D067A2A00FE8936 /* PageViewController.m */,
 				FCCA151B1CA524B700F5A502 /* MenuOrderController.h */,
 				FCCA151C1CA524B700F5A502 /* MenuOrderController.m */,
 				D06C01281C5B136500D242B1 /* MenuItemCell.h */,
@@ -2008,6 +2034,7 @@
 				A89C973E1CDADB0C0031A7A4 /* Search_181px_1190971_easyicon.net@3x.png in Resources */,
 				A89C98191CDADB330031A7A4 /* 24117000.png in Resources */,
 				A89C96CC1CDADAE10031A7A4 /* COGLES2LightmapModulate.fsh in Resources */,
+				9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */,
 				FCCA14E61CA503F700F5A502 /* MJRefresh.bundle in Resources */,
 				A89C96DF1CDADAE10031A7A4 /* regionLocation_45.json in Resources */,
 				A89C98241CDADB330031A7A4 /* 24163000.png in Resources */,
@@ -2127,6 +2154,7 @@
 				9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */,
 				9C78A6031CBF98B800932D0C /* SPInputViewPluginCallingCard.m in Sources */,
 				FC4822151CAA0D220070504E /* DBWaiterPresentList+CoreDataProperties.m in Sources */,
+				9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */,
 				A89C96961CDADAB40031A7A4 /* NSArray+PMXPathPlanning.m in Sources */,
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
@@ -2156,6 +2184,7 @@
 				A89C968F1CDADAB40031A7A4 /* LocationErrorView.m in Sources */,
 				FCCA15131CA5043C00F5A502 /* MJRefreshFooter.m in Sources */,
 				A89C96991CDADAB40031A7A4 /* SelectStartingAndEndPoint.m in Sources */,
+				9C36904B1D066E6100FE8936 /* LPPageViewController.m in Sources */,
 				9C78A6381CBF98B800932D0C /* SPUtil.m in Sources */,
 				FCCA14E71CA503F700F5A502 /* MJRefreshConst.m in Sources */,
 				D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */,
@@ -2190,6 +2219,7 @@
 				A89C968B1CDADAB40031A7A4 /* BubblePopView1.m in Sources */,
 				A89C965E1CDADA5E0031A7A4 /* PointView.m in Sources */,
 				FCCA15121CA5043C00F5A502 /* MJRefreshComponent.m in Sources */,
+				9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */,
 				D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */,
 				9C78A6091CBF98B800932D0C /* SPInputViewPluginTransparent.m in Sources */,
 				9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */,

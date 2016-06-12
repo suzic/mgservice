@@ -30,13 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.isDeleteStatus = NO;
     [SPUserDefaultsManger setValue:@"0" forKey:KIsAllowRefresh];
     self.expandSectionIndex = NSNotFound;
     self.selectButtonTag = NSNotFound;
     self.menuArray = [NSMutableArray array];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OrderStatus:) name:@"OrderStatus" object:nil];
     [self loadDBTaskData];
+    self.orderStatus = @"ongoing";
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -320,64 +321,164 @@
     if (self.menuArray.count <= 0)
         return nil;
     MenuSectionCell * cell = [tableView dequeueReusableCellWithIdentifier:@"menuHeader"];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
-    NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
-    for (UIGestureRecognizer *gs in gestures)
-        [cell.contentView removeGestureRecognizer:gs];
-    [cell.contentView addGestureRecognizer:tap];
-    cell.contentView.tag = section;
-    cell.contentView.backgroundColor = [UIColor lightGrayColor];
-    
-    DBTaskList * waiterTask = self.menuArray[section];
-    cell.locationDec.text = waiterTask.userLocationDesc;
-    cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
-    NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
-    if (presentListArray.count > 0) {
-        cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
+    if ([self.orderStatus isEqualToString:@"complete"]) {
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
+        NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
+        for (UIGestureRecognizer *gs in gestures)
+            [cell.contentView removeGestureRecognizer:gs];
+        [cell.contentView addGestureRecognizer:tap];
+        cell.contentView.tag = section;
+        cell.contentView.backgroundColor = [UIColor lightGrayColor];
+        
+        DBTaskList * waiterTask = self.menuArray[section];
+        cell.locationDec.text = waiterTask.userLocationDesc;
+        cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
+        NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+        if (presentListArray.count > 0) {
+//            cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
+            cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",@"11111111111"];
+        }
+        
+        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+        UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
+        [cell.phoneNumber addGestureRecognizer:phoneTap];
+        
+        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
+        NSString * separatedstartTime= [startTime substringFromIndex:5];
+        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
+        cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
+        [cell.menuOrderMoney sizeToFit];
+        cell.readyInfo.tag = section + 100;
+        [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.readyInfo.hidden = YES;
+        if (section == self.expandSectionIndex)
+        {
+            self.expandCompleteButton = cell.readyInfo;
+            cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
+        
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHeader:)];
+        [cell.contentView addGestureRecognizer:pan];
+        
+        cell.deleteLabel.tag = section;
+        UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+        [cell.deleteLabel addGestureRecognizer:tapImage];
+        
+        return cell.contentView;
     }
-    
-    [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
-    UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
-    [cell.phoneNumber addGestureRecognizer:phoneTap];
-    
-    NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
-    NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
-    NSString * separatedstartTime= [startTime substringFromIndex:5];
-    NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
-    cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
-    cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
-    [cell.menuOrderMoney sizeToFit];
-    cell.readyInfo.tag = section + 100;
-    [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
-    
-    NSInteger totalCount = presentListArray.count;
-    NSInteger completeCount = 0;
-    for (DBWaiterPresentList * list in presentListArray)
-        if ([list.ready isEqualToString:@"1"]) completeCount++;
-    if (completeCount < totalCount)
+    if ([self.orderStatus isEqualToString:@"ongoing"])
     {
-        [cell.readyInfo setBackgroundColor:[UIColor grayColor]];
-        [cell.readyInfo setTitle:[NSString stringWithFormat:@"%ld / %ld 完成", (long)completeCount, (long)totalCount] forState:UIControlStateNormal];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
+        NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
+        for (UIGestureRecognizer *gs in gestures)
+            [cell.contentView removeGestureRecognizer:gs];
+        [cell.contentView addGestureRecognizer:tap];
+        cell.contentView.tag = section;
+        cell.contentView.backgroundColor = [UIColor lightGrayColor];
+        
+        DBTaskList * waiterTask = self.menuArray[section];
+        cell.locationDec.text = waiterTask.userLocationDesc;
+        cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
+        NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+        if (presentListArray.count > 0) {
+            cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
+        }
+        
+        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+        UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
+        [cell.phoneNumber addGestureRecognizer:phoneTap];
+        
+        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
+        NSString * separatedstartTime= [startTime substringFromIndex:5];
+        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
+        cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
+        [cell.menuOrderMoney sizeToFit];
+        cell.readyInfo.tag = section + 100;
+        [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
+        
+        NSInteger totalCount = presentListArray.count;
+        NSInteger completeCount = 0;
+        for (DBWaiterPresentList * list in presentListArray)
+            if ([list.ready isEqualToString:@"1"]) completeCount++;
+        if (completeCount < totalCount)
+        {
+            [cell.readyInfo setBackgroundColor:[UIColor grayColor]];
+            [cell.readyInfo setTitle:[NSString stringWithFormat:@"%ld / %ld 完成", (long)completeCount, (long)totalCount] forState:UIControlStateNormal];
+        }
+        else
+        {
+            [cell.readyInfo setBackgroundColor:[UIColor blueColor]];
+            [cell.readyInfo setTitle:@"完成" forState:UIControlStateNormal];
+        }
+        if (section == self.expandSectionIndex)
+        {
+            self.expandCompleteButton = cell.readyInfo;
+            cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
+        
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHeader:)];
+        [cell.contentView addGestureRecognizer:pan];
+        
+        cell.deleteLabel.tag = section;
+        UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+        [cell.deleteLabel addGestureRecognizer:tapImage];
+        
+        return cell.contentView;
     }
     else
     {
-        [cell.readyInfo setBackgroundColor:[UIColor blueColor]];
-        [cell.readyInfo setTitle:@"完成" forState:UIControlStateNormal];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
+        NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
+        for (UIGestureRecognizer *gs in gestures)
+            [cell.contentView removeGestureRecognizer:gs];
+        [cell.contentView addGestureRecognizer:tap];
+        cell.contentView.tag = section;
+        cell.contentView.backgroundColor = [UIColor lightGrayColor];
+        
+        DBTaskList * waiterTask = self.menuArray[section];
+        cell.locationDec.text = waiterTask.userLocationDesc;
+        cell.limitTime.text = [waiterTask.timeLimit componentsSeparatedByString:@" "][1];
+        NSArray * presentListArray = [[DataManager defaultInstance]getPresentList:waiterTask.drOrderNo];
+        if (presentListArray.count > 0) {
+            cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
+        }
+        
+        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+        UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
+        [cell.phoneNumber addGestureRecognizer:phoneTap];
+        
+        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
+        NSString * separatedstartTime= [startTime substringFromIndex:5];
+        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
+        cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
+        [cell.menuOrderMoney sizeToFit];
+        cell.readyInfo.tag = section + 100;
+        [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.readyInfo.hidden = YES;
+        if (section == self.expandSectionIndex)
+        {
+            self.expandCompleteButton = cell.readyInfo;
+            cell.contentView.backgroundColor = [UIColor whiteColor];
+        }
+        
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHeader:)];
+        [cell.contentView addGestureRecognizer:pan];
+        
+        cell.deleteLabel.tag = section;
+        UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
+        [cell.deleteLabel addGestureRecognizer:tapImage];
+        
+        return cell.contentView;
     }
-    if (section == self.expandSectionIndex)
-    {
-        self.expandCompleteButton = cell.readyInfo;
-        cell.contentView.backgroundColor = [UIColor whiteColor];
-    }
-    
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panHeader:)];
-    [cell.contentView addGestureRecognizer:pan];
-
-    cell.deleteLabel.tag = section;
-    UITapGestureRecognizer * tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapLabel:)];
-    [cell.deleteLabel addGestureRecognizer:tapImage];
-    
-    return cell.contentView;
 }
 
 - (void)panHeader:(UIPanGestureRecognizer *)pan
@@ -664,5 +765,13 @@
     //设置文字颜色
     [str addAttribute:NSForegroundColorAttributeName value:vaColor range:range];
     labell.attributedText = str;
+}
+
+#pragma mark - 通知
+- (void)OrderStatus:(NSNotification *)notification
+{
+    NSLog(@"%@",[notification.userInfo objectForKey:@"OrderStatus"]);
+    self.orderStatus = [notification.userInfo objectForKey:@"OrderStatus"];
+    [self.tableView reloadData];
 }
 @end

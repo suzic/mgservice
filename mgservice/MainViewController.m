@@ -9,12 +9,16 @@
 #import "MainViewController.h"
 #import "TaskCell.h"
 #import "LCProgressHUD.h"
+#import "PageViewController.h"
+#import "MenuOrderController.h"
+#import "CompleteViewController.h"
+#import "AppDelegate.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
-
+@property (strong, nonatomic) AppDelegate * win;
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
@@ -94,7 +98,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [[RequestNetWork defaultManager]registerDelegate:self];
     
     self.statusButton.layer.cornerRadius = 40.0f;
@@ -524,7 +527,9 @@
     if (succeed)
     {
         [self whenSkipUse];
-        [self performSegueWithIdentifier:@"goMenu" sender:nil];
+//        [self performSegueWithIdentifier:@"goMenu" sender:nil];
+        PageViewController * pageVC = [[PageViewController alloc]init];
+        [self.navigationController pushViewController:pageVC animated:YES];
     }
     else
     {
@@ -674,6 +679,18 @@
     alert.tag = ALERT_OFFWORK;
     [alert show];
 }
+
+- (IBAction)presentButton:(id)sender
+{
+    PageViewController * pageVC = [[PageViewController alloc]init];
+    [self.navigationController pushViewController:pageVC animated:YES];
+    
+    //如果想Push到一个storyboard创建的页面的话，需要以下代码
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    MenuOrderController * menuOC  = (MenuOrderController *)[storyboard instantiateViewControllerWithIdentifier:@"menu"];
+//    [self.navigationController pushViewController:menuOC animated:YES];
+}
+
 
 - (void)presentButtonHiddenYES
 {
