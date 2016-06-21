@@ -11,8 +11,9 @@
 #import "LCProgressHUD.h"
 #import "PageViewController.h"
 #import "MenuOrderController.h"
-#import "CompleteViewController.h"
 #import "AppDelegate.h"
+#import "ScanningView.h"
+#import "GuestInfoController.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
@@ -47,6 +48,9 @@
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
+
+
+
 @end
 
 @implementation MainViewController
@@ -87,6 +91,19 @@
     self.waiterName.text = waiterInfo.name;
     self.waiterID.text = waiterInfo.workNum;
     self.waiterCurrentArea.text = waiterInfo.currentArea;
+    if ([self.waiterCurrentArea.text isEqualToString:@"前台"])
+    {
+        self.taskTable.hidden = YES;
+        self.acceptButton.hidden = YES;
+        self.InforView.hidden = self.showInfor;
+//        NSLog(@"%d",self.showInfor);
+    }else
+    {
+        self.taskTable.hidden = NO;
+        self.acceptButton.hidden = NO;
+        self.scanning.hidden = YES;
+        self.InforView.hidden = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -102,7 +119,7 @@
     
     self.statusButton.layer.cornerRadius = 40.0f;
     self.acceptButton.layer.cornerRadius = 4.0f;
-    
+    self.scanning.layer.cornerRadius = 8.0f;
     self.selectPageNumber = 1;
     _direction = NO;
     lastScrollOffsetY = 0;
@@ -742,6 +759,12 @@
     [self.taskTable reloadRowsAtIndexPaths:updateIndexes withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+- (IBAction)canningAction:(id)sender
+{
+    ScanningView * scanVC = [[ScanningView alloc]init];
+    [self.navigationController pushViewController:scanVC animated:YES];
+}
+
 #pragma mark - UITableView Datasource & delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -866,6 +889,10 @@
     { 
 //        id theSegue = segue.destinationViewController;
 //        [theSegue setValue:sender forKey:@"getStrDate"];
+    }else if ([segue.identifier isEqualToString:@"showInfor"])
+    {
+        GuestInfoController *infor = (GuestInfoController *)[segue destinationViewController];
+        infor.mainViewController = self;
     }
 }
 
@@ -886,6 +913,8 @@
     //每次收到新任务消息推送的时候，都刷新tableview，
     [self refreshList];
 }
+
+
 
 #pragma  mark - function
 - (void)refreshList
@@ -930,5 +959,12 @@
         }
         _timer.paused = YES;
     }
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

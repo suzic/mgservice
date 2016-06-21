@@ -14,4 +14,10 @@
 @property (assign,nonatomic) NSInteger second;
 
 @property (nonatomic, strong) CADisplayLink * timer;//定时器
+@property (weak, nonatomic) IBOutlet UIButton *scanning;
+@property (assign, nonatomic) BOOL showInfor;
+@property (weak, nonatomic) IBOutlet UIView *InforView;
+
+- (IBAction)canningAction:(id)sender;
+
 @end
