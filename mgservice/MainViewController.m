@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "ScanningView.h"
 #import "GuestInfoController.h"
+#import "StatisticalController.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
@@ -71,7 +72,8 @@
     NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (array.count <= 0 || array == nil)
     {
-        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
+//        self.navigationItem.rightBarButtonItem = nil;
     }
     else
     {
@@ -82,7 +84,8 @@
             }
             else
             {
-                self.navigationItem.rightBarButtonItem = nil;
+                self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
+//                self.navigationItem.rightBarButtonItem = nil;
             }
             break;
         }
@@ -699,8 +702,13 @@
 
 - (IBAction)presentButton:(id)sender
 {
-    PageViewController * pageVC = [[PageViewController alloc]init];
-    [self.navigationController pushViewController:pageVC animated:YES];
+    // 跳转到任务列表
+//    PageViewController * pageVC = [[PageViewController alloc]init];
+//    [self.navigationController pushViewController:pageVC animated:YES];
+    
+    // 跳转到任务历史
+    StatisticalController * statistical = [[StatisticalController alloc]init];
+    [self.navigationController pushViewController:statistical animated:YES];
     
     //如果想Push到一个storyboard创建的页面的话，需要以下代码
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -716,7 +724,8 @@
 
 - (void)presentButtonHiddenNO
 {
-    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
+//    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (IBAction)obtainTask:(id)sender

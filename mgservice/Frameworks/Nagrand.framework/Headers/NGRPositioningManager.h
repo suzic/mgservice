@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, NGRLocationStatus) {
     STOP,
     CLOSE,
     MOVE,
-    ENTER,
+    //ENTER,
     OUT,
     HEART_BEAT,
     ERROR

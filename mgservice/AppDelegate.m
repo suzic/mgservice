@@ -26,7 +26,7 @@
     //set AppKey and AppSecret
     [UMessage startWithAppkey:@"56f23615e0f55a8fc400053b" launchOptions:launchOptions];
     // 地图开启
-    [NGREngine startWithLicense:@"204f65c9f87b4793ac630a96de11463d"];
+    //[NGREngine startWithLicense:@"204f65c9f87b4793ac630a96de11463d"];
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
