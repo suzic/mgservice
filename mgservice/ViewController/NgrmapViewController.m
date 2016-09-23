@@ -149,7 +149,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
     
-    [self configMapView:nil];
+//    [self configMapView:nil];
     _locationFloorId = 0;
     self.interval = 0;
     self.selectStartDisData = [[CollectionMessage alloc]init];

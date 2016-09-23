@@ -27,6 +27,8 @@
     self.taskContent.hidden = !cellSelected;
     self.taskAddress.hidden = !cellSelected;
     self.taskTime.hidden = !cellSelected;
+    self.pickSingleButton.hidden = !cellSelected;
+    self.pickSingleButton.layer.cornerRadius = 30.0f;
 
     self.allHeightSet.constant = (((kScreenHeight - 64- 60 - 160) / 2) - 50) / 4;
 //    self.backgroudView.layer.borderColor = [UIColor darkGrayColor].CGColor;

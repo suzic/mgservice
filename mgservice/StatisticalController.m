@@ -57,6 +57,13 @@
     openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
+    self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
+}
+
 #pragma mark - tableView delegate & dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -143,5 +150,6 @@
     //    [self.tableView reloadData];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
 }
+
 
 @end

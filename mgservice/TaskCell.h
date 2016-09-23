@@ -19,5 +19,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *taskContent;
 @property (strong, nonatomic) IBOutlet UILabel *taskAddress;
 @property (strong, nonatomic) IBOutlet UILabel *taskTime;
+@property (weak, nonatomic) IBOutlet UIButton *pickSingleButton;//抢单按钮
 
 @end

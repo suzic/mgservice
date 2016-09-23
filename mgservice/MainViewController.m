@@ -728,13 +728,9 @@
 //    self.navigationItem.rightBarButtonItem = nil;
 }
 
-- (IBAction)obtainTask:(id)sender
+// 抢单
+- (IBAction)pickSingleButtonAction:(id)sender
 {
-#pragma 临时调试跳转
-//    [self performSegueWithIdentifier:@"goTask" sender:nil];
-    if (self.taskArray.count <= 0 ||self.taskArray == nil) {
-        return;
-    }
     DBTaskList * taskList = (DBTaskList *)self.taskArray[self.selectedIndex - 2];
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单" message:@"确认要抢该订单？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -748,6 +744,31 @@
     [self presentViewController:alert animated:YES completion:^{
         [[RequestNetWork defaultManager]registerDelegate:self];
     }];
+}
+
+- (IBAction)obtainTask:(id)sender
+{
+#pragma 临时调试跳转
+//    [self performSegueWithIdentifier:@"goTask" sender:nil];
+//    if (self.taskArray.count <= 0 ||self.taskArray == nil) {
+//        return;
+//    }
+//    DBTaskList * taskList = (DBTaskList *)self.taskArray[self.selectedIndex - 2];
+//    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单" message:@"确认要抢该订单？" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        
+//    }];
+//    UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [self NETWORK_waiterGetIndent:taskList.taskCode];
+//    }];
+//    [alert addAction:confirmAction];
+//    [alert addAction:cancelAction];
+//    [self presentViewController:alert animated:YES completion:^{
+//        [[RequestNetWork defaultManager]registerDelegate:self];
+//    }];
+    // 跳转到任务列表
+    PageViewController * pageVC = [[PageViewController alloc]init];
+    [self.navigationController pushViewController:pageVC animated:YES];
 }
 
 - (NSMutableArray *)taskArray

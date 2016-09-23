@@ -29,6 +29,8 @@
 		9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982571D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m */; };
 		9C49825B1D13E5D20088FCBB /* SelectInfoBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */; };
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
+		9C6EB2F91D952707007DEE00 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F61D952707007DEE00 /* CalendarViewController.m */; };
+		9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */; };
 		9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */; };
 		9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAB1CBF679300932D0C /* AFNetworkReachabilityManager.m */; };
 		9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAD1CBF679300932D0C /* AFSecurityPolicy.m */; };
@@ -434,6 +436,10 @@
 		9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectInfoBeforeCell.m; sourceTree = "<group>"; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		9C6EB2F51D952707007DEE00 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		9C6EB2F61D952707007DEE00 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
+		9C6EB2F71D952707007DEE00 /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
+		9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatter.m"; sourceTree = "<group>"; };
 		9C789EA71CBF679300932D0C /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		9C789EA91CBF679300932D0C /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -1170,6 +1176,17 @@
 			path = Page;
 			sourceTree = "<group>";
 		};
+		9C6EB2F41D952696007DEE00 /* DateCalender */ = {
+			isa = PBXGroup;
+			children = (
+				9C6EB2F51D952707007DEE00 /* CalendarViewController.h */,
+				9C6EB2F61D952707007DEE00 /* CalendarViewController.m */,
+				9C6EB2F71D952707007DEE00 /* NSDate+Formatter.h */,
+				9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */,
+			);
+			name = DateCalender;
+			sourceTree = "<group>";
+		};
 		9C789EA61CBF679300932D0C /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1698,6 +1715,7 @@
 				D06C01311C5B138700D242B1 /* MenuTask */,
 				D06C01331C5B198800D242B1 /* FinishTask */,
 				9C8310051D87FC9E009D7BA5 /* statisticalTask */,
+				9C6EB2F41D952696007DEE00 /* DateCalender */,
 				4BA20C311CD0FB6B000CD987 /* MainViewController.h */,
 				4BA20C301CD0FB6B000CD987 /* MainViewController.m */,
 				D0CC731E1C59B8E000314355 /* Assets.xcassets */,
@@ -2215,6 +2233,7 @@
 				FC1A1D0F1C9FA16400D851A7 /* YWNetWork.m in Sources */,
 				9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */,
 				A89C969A1CDADAB40031A7A4 /* touchPointData.m in Sources */,
+				9C6EB2F91D952707007DEE00 /* CalendarViewController.m in Sources */,
 				9C78A6071CBF98B800932D0C /* SPBaseBubbleChatViewCustomize.m in Sources */,
 				F84362231C7C626B00320DE2 /* DBWaiterInfor.m in Sources */,
 				FCCA15141CA5043C00F5A502 /* MJRefreshHeader.m in Sources */,
@@ -2245,6 +2264,7 @@
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				FCEDD8501CC9D6D4002DBC52 /* DBMessage+CoreDataProperties.m in Sources */,
+				9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */,
 				9C78A6061CBF98B800932D0C /* SPInputViewPluginGreeting.m in Sources */,
 				9C83100B1D87FD3F009D7BA5 /* StatisticalController.m in Sources */,
 				F8234FC71C7AED88006A60FA /* DataManager+User.m in Sources */,
