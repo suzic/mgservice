@@ -2,7 +2,7 @@
 //  StatisticalController.m
 //  mgservice
 //
-//  Created by sjlh on 16/9/13.
+//  Created by wangyadong on 16/9/13.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 
@@ -95,6 +95,7 @@
     else
         cell.contentView.backgroundColor = [UIColor whiteColor];
     
+    cell.starView.rating = 4.0f;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
     for (UIGestureRecognizer *gs in gestures)

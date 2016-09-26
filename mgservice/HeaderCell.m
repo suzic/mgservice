@@ -2,7 +2,7 @@
 //  HeaderCell.m
 //  mgservice
 //
-//  Created by sjlh on 16/9/20.
+//  Created by wangyadong on 16/9/20.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 
@@ -13,6 +13,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    _starView = [[StarView alloc]initWithFrame:CGRectMake(self.contentView.frame.size.width - 150, 10, 150, 20)];
+//    _starView.rating = 3.0f;
+    [self.contentView addSubview:_starView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

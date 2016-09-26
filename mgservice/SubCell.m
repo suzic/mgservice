@@ -2,7 +2,7 @@
 //  SubCell.m
 //  mgservice
 //
-//  Created by sjlh on 16/9/20.
+//  Created by wangyadong on 16/9/20.
 //  Copyright © 2016年 Suzic. All rights reserved.
 //
 

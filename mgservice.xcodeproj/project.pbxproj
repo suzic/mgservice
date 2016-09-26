@@ -31,6 +31,8 @@
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
 		9C6EB2F91D952707007DEE00 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F61D952707007DEE00 /* CalendarViewController.m */; };
 		9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */; };
+		9C71F8211D98D3B800EF1C3A /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C71F81E1D98D3B800EF1C3A /* StarView.m */; };
+		9C71F8221D98D3B800EF1C3A /* UIViewExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C71F8201D98D3B800EF1C3A /* UIViewExt.m */; };
 		9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */; };
 		9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAB1CBF679300932D0C /* AFNetworkReachabilityManager.m */; };
 		9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C789EAD1CBF679300932D0C /* AFSecurityPolicy.m */; };
@@ -440,6 +442,10 @@
 		9C6EB2F61D952707007DEE00 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		9C6EB2F71D952707007DEE00 /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
 		9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatter.m"; sourceTree = "<group>"; };
+		9C71F81D1D98D3B800EF1C3A /* StarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarView.h; sourceTree = "<group>"; };
+		9C71F81E1D98D3B800EF1C3A /* StarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarView.m; sourceTree = "<group>"; };
+		9C71F81F1D98D3B800EF1C3A /* UIViewExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewExt.h; sourceTree = "<group>"; };
+		9C71F8201D98D3B800EF1C3A /* UIViewExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewExt.m; sourceTree = "<group>"; };
 		9C789EA71CBF679300932D0C /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		9C789EA81CBF679300932D0C /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		9C789EA91CBF679300932D0C /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -1404,6 +1410,10 @@
 				9CDAFAAE1D90E1CC00711BAB /* HeaderCell.m */,
 				9CDAFAB01D90E1D500711BAB /* SubCell.h */,
 				9CDAFAB11D90E1D500711BAB /* SubCell.m */,
+				9C71F81D1D98D3B800EF1C3A /* StarView.h */,
+				9C71F81E1D98D3B800EF1C3A /* StarView.m */,
+				9C71F81F1D98D3B800EF1C3A /* UIViewExt.h */,
+				9C71F8201D98D3B800EF1C3A /* UIViewExt.m */,
 			);
 			name = statisticalTask;
 			sourceTree = "<group>";
@@ -2231,6 +2241,7 @@
 			files = (
 				FCCA15031CA5043100F5A502 /* MJRefreshBackGifFooter.m in Sources */,
 				FC1A1D0F1C9FA16400D851A7 /* YWNetWork.m in Sources */,
+				9C71F8221D98D3B800EF1C3A /* UIViewExt.m in Sources */,
 				9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */,
 				A89C969A1CDADAB40031A7A4 /* touchPointData.m in Sources */,
 				9C6EB2F91D952707007DEE00 /* CalendarViewController.m in Sources */,
@@ -2264,6 +2275,7 @@
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				FCEDD8501CC9D6D4002DBC52 /* DBMessage+CoreDataProperties.m in Sources */,
+				9C71F8211D98D3B800EF1C3A /* StarView.m in Sources */,
 				9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */,
 				9C78A6061CBF98B800932D0C /* SPInputViewPluginGreeting.m in Sources */,
 				9C83100B1D87FD3F009D7BA5 /* StatisticalController.m in Sources */,
