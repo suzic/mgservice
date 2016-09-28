@@ -53,7 +53,6 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int i = 1,j = 1;
     if (indexPath.section == 0)
     {
         if (self.showInfor == 1) {

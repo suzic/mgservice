@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StarView.h"
 @interface HeaderCell : UITableViewCell
-@property (nonatomic,strong)StarView *  starView;
+@property (strong,nonatomic)StarView *  starView;
+@property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
+
 @end

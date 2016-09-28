@@ -9,6 +9,7 @@
 #import "StatisticalController.h"
 #import "HeaderCell.h"
 #import "SubCell.h"
+#import "PageViewController.h"
 @interface StatisticalController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray * openedInSectionArr;
@@ -21,11 +22,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *workHoursLabel;   //工作时长
 
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (weak, nonatomic) IBOutlet UIButton *completeButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
 
 // tableview展开、收缩相关
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (assign, nonatomic) NSInteger expandSectionIndex;
-@property (nonatomic,assign) BOOL isDeleteStatus;
 
 
 @end
@@ -51,7 +54,6 @@
     self.buttonView.layer.shadowOpacity = 0.2;
     
     self.expandSectionIndex = NSNotFound;
-    self.isDeleteStatus = NO;
     
     // 每个section展开收起状态标识符
     openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
@@ -62,6 +64,14 @@
     [super viewWillAppear:animated];
     NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
+    
+    self.completeButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];
+    self.cancelButton.backgroundColor = [UIColor whiteColor];
+    openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
+    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArr.count] forState:UIControlStateNormal];
+    
+    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",openedInSectionArr.count-7] forState:UIControlStateNormal];
+    [self.tableView reloadData];
 }
 
 #pragma mark - tableView delegate & dataSource
@@ -84,6 +94,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SubCell * cell = [tableView dequeueReusableCellWithIdentifier:@"subCell"];
+    if (indexPath.section == 2 || indexPath.section == 4) {
+        [cell.taskTypeButton setTitle:@"进入查看菜单" forState:UIControlStateNormal];
+        cell.taskTypeButton.tag = 1111;
+        cell.taskTypeLabel.text = @"要求时间 20:10:00";
+        cell.taskTypeLabel.textColor = [UIColor redColor];
+    }
+    else
+    {
+        [cell.taskTypeButton setTitle:@"进入查看聊天记录" forState:UIControlStateNormal];
+        cell.taskTypeButton.tag = 0000;
+        cell.taskTypeLabel.text = @"呼叫内容 呼叫到场咨询";
+        cell.taskTypeLabel.textColor = [UIColor blackColor];
+    }
     return cell;
 }
 
@@ -95,7 +118,15 @@
     else
         cell.contentView.backgroundColor = [UIColor whiteColor];
     
-    cell.starView.rating = 4.0f;
+    if (section == 2 || section == 4)
+    {
+        cell.taskNameLabel.text = @"送餐任务 - c00111222";
+        cell.starView.rating = 2.0f;
+    }
+    else
+    {
+        cell.starView.rating = 4.0f;
+    }
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
     for (UIGestureRecognizer *gs in gestures)
@@ -125,7 +156,6 @@
 // header的点击事件，展开、收起的功能
 - (void)tapHeader:(UITapGestureRecognizer *)gesture
 {
-    self.isDeleteStatus = NO;
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     NSInteger tapSection = gesture.view.tag;
     
@@ -152,5 +182,38 @@
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+// 进入任务页面按钮点击事件
+- (IBAction)pushTaskPageButtonAction:(UIButton *)sender
+{
+    if (sender.tag == 0000)
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"进入聊天页面的功能暂未开发" preferredStyle:1];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    if (sender.tag == 1111) {
+        // 跳转到任务列表
+        PageViewController * pageVC = [[PageViewController alloc]init];
+        [self.navigationController pushViewController:pageVC animated:YES];
+    }
+    
+}
+- (IBAction)completeButtonAction:(UIButton *)sender
+{
+    self.completeButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];
+    self.cancelButton.backgroundColor = [UIColor whiteColor];
+    openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
+    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArr.count] forState:UIControlStateNormal];
+    [self.tableView reloadData];
+}
+- (IBAction)cancelButtonAction:(UIButton *)sender
+{
+    self.completeButton.backgroundColor = [UIColor whiteColor];
+    self.cancelButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];//恶心绿
+    openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0",nil];
+    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",openedInSectionArr.count] forState:UIControlStateNormal];
+    [self.tableView reloadData];
+}
 
 @end

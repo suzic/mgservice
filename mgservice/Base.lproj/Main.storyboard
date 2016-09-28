@@ -446,10 +446,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GuestInfoScanningBeforeCell" rowHeight="127" id="yJS-jP-Hdc" userLabel="GuestInfoScanningBeforeCell" customClass="GuestInfoScanningBeforeCell">
-                                        <rect key="frame" x="0.0" y="28" width="1000" height="127"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="127"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yJS-jP-Hdc" id="Hv9-Eu-0Kb">
-                                            <frame key="frameInset" width="1000" height="127"/>
+                                            <frame key="frameInset" width="414" height="126"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未获取用户信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KOv-DI-2ny">
@@ -495,10 +495,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GuestInfoCell" rowHeight="173" id="dK4-2s-OeF" customClass="GuestInfoCell">
-                                        <rect key="frame" x="0.0" y="155" width="1000" height="173"/>
+                                        <rect key="frame" x="0.0" y="155" width="414" height="173"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dK4-2s-OeF" id="sTt-YB-Wbl">
-                                            <frame key="frameInset" width="1000" height="173"/>
+                                            <frame key="frameInset" width="414" height="172"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="客人信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdI-Bh-xRY">
@@ -551,10 +551,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectInfoBeforeCell" rowHeight="160" id="bG1-fV-Jyp" userLabel="SelectInfoBeforeCell" customClass="SelectInfoBeforeCell">
-                                        <rect key="frame" x="0.0" y="328" width="1000" height="160"/>
+                                        <rect key="frame" x="0.0" y="328" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bG1-fV-Jyp" id="sD6-Pk-cIg">
-                                            <frame key="frameInset" width="1000" height="160"/>
+                                            <frame key="frameInset" width="414" height="159"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="填写入住号" textAlignment="center" minimumFontSize="34" translatesAutoresizingMaskIntoConstraints="NO" id="kYG-Ta-NH4" userLabel="textField">
@@ -604,10 +604,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SelectInfoCell" rowHeight="169" id="MWo-FY-xt9" userLabel="SelectInfoCell" customClass="SelectInfoCell">
-                                        <rect key="frame" x="0.0" y="488" width="1000" height="169"/>
+                                        <rect key="frame" x="0.0" y="488" width="414" height="169"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MWo-FY-xt9" id="yi9-et-oW0">
-                                            <frame key="frameInset" width="1000" height="169"/>
+                                            <frame key="frameInset" width="414" height="168"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kZ-X6-ZDa" userLabel="roomText">
@@ -731,10 +731,10 @@
                         <inset key="separatorInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="finishCell" id="gOR-bn-p68" customClass="FinishTaskCell">
-                                <rect key="frame" x="0.0" y="55" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gOR-bn-p68" id="mmV-5K-akY">
-                                    <frame key="frameInset" width="414" height="44"/>
+                                    <frame key="frameInset" width="414" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="任务名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fql-HE-K92">
@@ -811,10 +811,10 @@
                                 <inset key="separatorInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuHeader" rowHeight="127" id="J39-3Q-nm3" customClass="MenuSectionCell">
-                                        <rect key="frame" x="0.0" y="55" width="494" height="127"/>
+                                        <rect key="frame" x="0.0" y="56" width="494" height="127"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J39-3Q-nm3" id="Oy4-HH-yxI">
-                                            <frame key="frameInset" width="494" height="127"/>
+                                            <frame key="frameInset" width="494" height="126"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客房 60525" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QoM-Ca-qCp">
@@ -898,10 +898,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuCell" rowHeight="44" id="Yjz-AL-lwQ" customClass="MenuItemCell">
-                                        <rect key="frame" x="0.0" y="182.33333333333334" width="494" height="44"/>
+                                        <rect key="frame" x="0.0" y="183" width="494" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yjz-AL-lwQ" id="7Jm-4R-gff">
-                                            <frame key="frameInset" width="494" height="44"/>
+                                            <frame key="frameInset" width="494" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="菜名 X 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3M-c8-5L0">
@@ -1037,6 +1037,9 @@
                                         <state key="normal" title="已完成（23）">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="completeButtonAction:" destination="pCo-Cd-Za6" eventType="touchUpInside" id="Aaz-At-mni"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INC-BM-5cG">
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1044,6 +1047,9 @@
                                         <state key="normal" title="已取消（14）">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="cancelButtonAction:" destination="pCo-Cd-Za6" eventType="touchUpInside" id="UAb-2Q-sjA"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -1063,10 +1069,10 @@
                                 <inset key="separatorInset" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="subCell" rowHeight="140" id="GoR-cU-rT8" userLabel="subCell" customClass="SubCell">
-                                        <rect key="frame" x="0.0" y="55" width="414" height="140"/>
+                                        <rect key="frame" x="0.0" y="56" width="414" height="140"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GoR-cU-rT8" id="pR7-5I-oky">
-                                            <frame key="frameInset" width="414" height="140"/>
+                                            <frame key="frameInset" width="414" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下单时间 18:00:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zb4-C8-IXa">
@@ -1106,6 +1112,9 @@
                                                         <constraint firstAttribute="width" constant="150" id="uin-r4-afe"/>
                                                     </constraints>
                                                     <state key="normal" title="进入查看聊天记录"/>
+                                                    <connections>
+                                                        <action selector="pushTaskPageButtonAction:" destination="pCo-Cd-Za6" eventType="touchUpInside" id="h8U-ML-4aW"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -1118,16 +1127,23 @@
                                                 <constraint firstItem="yjt-vj-kLB" firstAttribute="top" secondItem="FR4-Hc-fas" secondAttribute="bottom" constant="10" id="gBO-CB-2w8"/>
                                                 <constraint firstItem="RHv-M8-SaP" firstAttribute="leading" secondItem="pR7-5I-oky" secondAttribute="leadingMargin" constant="20" id="nNZ-E3-m2r"/>
                                                 <constraint firstItem="yjt-vj-kLB" firstAttribute="leading" secondItem="pR7-5I-oky" secondAttribute="leadingMargin" constant="20" id="vvZ-f3-kFC"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="59P-p9-30Q" secondAttribute="trailing" constant="20" id="yA8-bX-srp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="59P-p9-30Q" secondAttribute="trailing" constant="10" id="yA8-bX-srp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <connections>
+                                            <outlet property="acceptTimeLabel" destination="FR4-Hc-fas" id="cyL-C0-RP8"/>
+                                            <outlet property="completeTimeLabel" destination="yjt-vj-kLB" id="nte-F0-C7U"/>
+                                            <outlet property="issuedTimeLabel" destination="zb4-C8-IXa" id="BZx-mf-nrZ"/>
+                                            <outlet property="taskTypeButton" destination="59P-p9-30Q" id="jD0-4H-wYC"/>
+                                            <outlet property="taskTypeLabel" destination="RHv-M8-SaP" id="NW8-qh-QLL"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" id="U03-hQ-WPs" userLabel="headerCell" customClass="HeaderCell">
-                                        <rect key="frame" x="0.0" y="195" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="196" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U03-hQ-WPs" id="Dbx-W0-FYa">
-                                            <frame key="frameInset" width="414" height="44"/>
+                                            <frame key="frameInset" width="414" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="呼叫任务 - c001234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VAU-Kl-ifY">
@@ -1145,6 +1161,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="taskNameLabel" destination="VAU-Kl-ifY" id="lra-6w-5DF"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1176,6 +1195,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttonView" destination="iva-yL-T3D" id="ueE-Y3-RMa"/>
+                        <outlet property="cancelButton" destination="INC-BM-5cG" id="nK4-NX-TKk"/>
+                        <outlet property="completeButton" destination="TET-wQ-yhQ" id="gzD-P4-74j"/>
                         <outlet property="dateTimeLabel" destination="ZVN-yd-drC" id="v8i-xn-hr9"/>
                         <outlet property="downWorkTimeLabel" destination="mhU-az-ibJ" id="SMD-zE-xff"/>
                         <outlet property="tableView" destination="YQO-eS-ftu" id="NaO-kT-5IV"/>
@@ -1237,7 +1258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l2W-Rc-QQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2607" y="1234"/>
+            <point key="canvasLocation" x="2783" y="1234"/>
         </scene>
         <!--上班登录-->
         <scene sceneID="VOR-hf-U0r">
@@ -1256,7 +1277,7 @@
                                         <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dep-qG-f6W" id="rcD-L8-jD0">
-                                            <frame key="frameInset" width="414" height="44"/>
+                                            <frame key="frameInset" width="414" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="员工工号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHI-Yh-z2d">
@@ -1286,7 +1307,7 @@
                                         <rect key="frame" x="0.0" y="143" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F8g-SC-oKc" id="waQ-Jh-rk9">
-                                            <frame key="frameInset" width="414" height="44"/>
+                                            <frame key="frameInset" width="414" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登录密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-IC-lVM">
@@ -1316,7 +1337,7 @@
                                         <rect key="frame" x="0.0" y="187" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l3D-GI-Ke5" id="pkX-cg-BWZ">
-                                            <frame key="frameInset" width="414" height="44"/>
+                                            <frame key="frameInset" width="414" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FF：FF：FF" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mt6-mH-wZj">
@@ -1341,7 +1362,7 @@
                                         <rect key="frame" x="0.0" y="237" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c0O-FB-eXJ" id="cWu-AU-7z8">
-                                            <frame key="frameInset" width="414" height="80"/>
+                                            <frame key="frameInset" width="414" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqb-OT-SCp">
@@ -1372,7 +1393,7 @@
                                         <rect key="frame" x="0.0" y="323" width="414" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fwi-6F-PSW" id="kHY-bT-Rjh">
-                                            <frame key="frameInset" width="414" height="200"/>
+                                            <frame key="frameInset" width="414" height="199"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-fi-njh">
