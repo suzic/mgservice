@@ -20,6 +20,10 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+/**
+ * @abstract 获取静态单例应用代理对象
+ */
++ (AppDelegate *)sharedDelegate;
 
 @end
 

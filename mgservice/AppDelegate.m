@@ -99,6 +99,11 @@
     }
 }
 
++ (AppDelegate *)sharedDelegate
+{
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     //home键时，执行此代理

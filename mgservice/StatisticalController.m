@@ -10,6 +10,7 @@
 #import "HeaderCell.h"
 #import "SubCell.h"
 #import "PageViewController.h"
+#import "GradingView.h"
 @interface StatisticalController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray * openedInSectionArr;
@@ -187,10 +188,14 @@
 {
     if (sender.tag == 0000)
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"进入聊天页面的功能暂未开发" preferredStyle:1];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:action];
-        [self presentViewController:alert animated:YES completion:nil];
+//        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"进入聊天页面的功能暂未开发" preferredStyle:1];
+//        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//        [alert addAction:action];
+//        [self presentViewController:alert animated:YES completion:nil];
+        NSString * task = @"呼叫任务（c00123）已完成";
+        NSString * content = @"当您确定找到客人后即可标记呼叫任务（c00123）完成；\r 如果服务员移动离开客人超过10米距离，则该窗口自动消失（仍为未完成）。";
+        GradingView * gradingView = [[GradingView alloc]initWithTaskType:@"您已距客人10米之内" contentText:content color:[UIColor grayColor]];
+        [gradingView showGradingView:YES];
     }
     if (sender.tag == 1111) {
         // 跳转到任务列表

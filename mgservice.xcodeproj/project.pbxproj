@@ -25,6 +25,7 @@
 		9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690491D066E6100FE8936 /* LPPageViewMenu.m */; };
 		9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */; };
 		9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690581D067A2A00FE8936 /* PageViewController.m */; };
+		9C43FD441D9BA77D001E217F /* GradingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C43FD431D9BA77D001E217F /* GradingView.m */; };
 		9C4982551D13BF270088FCBB /* SelectInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982541D13BF270088FCBB /* SelectInfoCell.m */; };
 		9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982571D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m */; };
 		9C49825B1D13E5D20088FCBB /* SelectInfoBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */; };
@@ -430,6 +431,8 @@
 		9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPPageViewMenu.xib; sourceTree = "<group>"; };
 		9C3690571D067A2A00FE8936 /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageViewController.h; path = mgservice/PageViewController.h; sourceTree = SOURCE_ROOT; };
 		9C3690581D067A2A00FE8936 /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageViewController.m; path = mgservice/PageViewController.m; sourceTree = SOURCE_ROOT; };
+		9C43FD421D9BA77D001E217F /* GradingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradingView.h; sourceTree = "<group>"; };
+		9C43FD431D9BA77D001E217F /* GradingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradingView.m; sourceTree = "<group>"; };
 		9C4982531D13BF270088FCBB /* SelectInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectInfoCell.h; sourceTree = "<group>"; };
 		9C4982541D13BF270088FCBB /* SelectInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectInfoCell.m; sourceTree = "<group>"; };
 		9C4982561D13E5B90088FCBB /* GuestInfoScanningBeforeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestInfoScanningBeforeCell.h; sourceTree = "<group>"; };
@@ -1677,6 +1680,8 @@
 				9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */,
 				9C4982531D13BF270088FCBB /* SelectInfoCell.h */,
 				9C4982541D13BF270088FCBB /* SelectInfoCell.m */,
+				9C43FD421D9BA77D001E217F /* GradingView.h */,
+				9C43FD431D9BA77D001E217F /* GradingView.m */,
 			);
 			name = CallTask;
 			sourceTree = "<group>";
@@ -2287,6 +2292,7 @@
 				D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */,
 				FCCA14F21CA5041A00F5A502 /* MJRefreshNormalHeader.m in Sources */,
 				FC4822161CAA0D220070504E /* DBWaiterPresentList.m in Sources */,
+				9C43FD441D9BA77D001E217F /* GradingView.m in Sources */,
 				9C789EB71CBF679300932D0C /* AFURLRequestSerialization.m in Sources */,
 				9C49825B1D13E5D20088FCBB /* SelectInfoBeforeCell.m in Sources */,
 				FCCA15051CA5043100F5A502 /* MJRefreshBackStateFooter.m in Sources */,
