@@ -11,16 +11,16 @@
 #import "SubCell.h"
 #import "PageViewController.h"
 #import "GradingView.h"
-@interface StatisticalController ()<UITableViewDelegate,UITableViewDataSource>
+@interface StatisticalController ()<UITableViewDelegate,UITableViewDataSource,RequestNetWorkDelegate>
 {
     NSMutableArray * openedInSectionArr;
 }
 // 工作时间相关
-@property (weak, nonatomic) IBOutlet UIView *workTimeView;      //工作相关控件View
-@property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;    //显示日期
-@property (weak, nonatomic) IBOutlet UILabel *upWorkTimeLabel;  //上班时间
-@property (weak, nonatomic) IBOutlet UILabel *downWorkTimeLabel;//下班时间
-@property (weak, nonatomic) IBOutlet UILabel *workHoursLabel;   //工作时长
+@property (weak, nonatomic) IBOutlet UIView *workTimeView;      // 工作相关控件View
+@property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;    // 显示日期
+@property (weak, nonatomic) IBOutlet UILabel *upWorkTimeLabel;  // 上班时间
+@property (weak, nonatomic) IBOutlet UILabel *downWorkTimeLabel;// 下班时间
+@property (weak, nonatomic) IBOutlet UILabel *workHoursLabel;   // 工作时长
 
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (weak, nonatomic) IBOutlet UIButton *completeButton;
@@ -31,7 +31,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (assign, nonatomic) NSInteger expandSectionIndex;
 
-
+// 网络请求
+@property (nonatomic, strong) NSURLSessionTask * requestTaskStatistical;// 任务统计
+@property (nonatomic,strong) LCProgressHUD * hud;
 @end
 
 @implementation StatisticalController
@@ -39,6 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[RequestNetWork defaultManager]registerDelegate:self];
     //工作相关控件View
     self.workTimeView.layer.cornerRadius = 6.0f;
     self.workTimeView.layer.borderColor = [UIColor grayColor].CGColor;
@@ -58,6 +61,9 @@
     
     // 每个section展开收起状态标识符
     openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
+    
+    //任务统计
+    [self NETWORK_requestTaskStatistical];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -152,6 +158,87 @@
     return 140;
 }
 
+#pragma mark - 网络请求
+// 任务统计
+- (void)NETWORK_requestTaskStatistical
+{
+    /*
+     输入参数：
+     waiterId       服务员编号     string类型        必填项
+     taskStatus     任务状态       string类型        0代表已完成   1代表已取消   必填项
+     startDate      任务开始时间    DateTime类型      非必填项
+     endDate        任务结束时间    DateTime类型      非必填项
+     pageNo         当前页码       int类型 非必填项    默认第一页
+     pageCount      每页显示数量    int类型 非必填项    默认10条
+     */
+    DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"waiterId": waiterInfo.workNum,
+                                     @"taskStatus":@"0",
+                                     }];
+    self.requestTaskStatistical = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                    webURL:@URL_TASKSTATISTICAL
+                                                                    params:params
+                                                                withByUser:YES];
+}
+
+// 任务统计
+- (void)RESULT_requestTaskStatistical:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    NSLog(@"%@",datas);
+}
+
+#pragma mark - RequestNetWorkDelegate 代理方法
+
+- (void)startRequest:(NSURLSessionTask *)task
+{
+    if (!self.hud)
+    {
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }
+    else
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
+                                               andStyle:titleStyle andTitle:@"正在加载...."];
+    }
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate.window addSubview:self.hud];
+    [self.hud startWMProgress];
+}
+
+- (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
+{
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
+    if (task == self.requestTaskStatistical)
+    {
+        [self RESULT_requestTaskStatistical:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+}
+
+- (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
+{
+    [self.hud stopWMProgress];
+    [self.hud removeFromSuperview];
+    if (task == self.requestTaskStatistical)
+    {
+        [self RESULT_requestTaskStatistical:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+}
+
+- (void)dealloc
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
+}
 #pragma mark - 点击事件
 
 // header的点击事件，展开、收起的功能
