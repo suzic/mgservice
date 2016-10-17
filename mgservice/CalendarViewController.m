@@ -43,6 +43,7 @@
     [super viewDidLoad];
     
     [self.view addSubview:self.collectionView];
+
     self.tempDate = [NSDate date];
     self.dateLabel.text = self.tempDate.yyyyMMByLineWithDate;
     [self getDataDayModel:self.tempDate];

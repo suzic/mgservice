@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *currentLocation;
 @property (nullable, nonatomic, retain) NSString *deviceId;
 @property (nullable, nonatomic, retain) NSString *deviceToken;
+@property (nullable, nonatomic, retain) NSString *waiterId;
 @property (nullable, nonatomic, retain) NSString *dutyin;
 @property (nullable, nonatomic, retain) NSString *dutyout;
 @property (nullable, nonatomic, retain) NSString *gender;

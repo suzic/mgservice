@@ -57,7 +57,7 @@
     self.topHead = tophead;
     self.requestURL = url;
     self.params = params;
-    self.serverAddress = [MySingleton sharedSingleton].baseInterfaceUrl;
+    self.serverAddress = [MySingleton sharedSingleton].baseInterfaceUrl;//@"192.168.10.74:8080";
     NetWorkHelp *netWorkHelp = [[NetWorkHelp alloc] init];
     
     // 判断查询间隔是否满足足够长的状态（当byUser为NO时，间隔不够时将不发送实际请求）
@@ -70,8 +70,8 @@
         NSMutableDictionary* header = [[NSMutableDictionary alloc]init];
         [header setObject:@"application/json; charset=utf-8" forKey:@"Content-Type"];
         [header setObject:@"" forKey:@"mymhotel-ticket"];
-        [header setObject:@"1002" forKey:@"mymhotel-type"];
-        [header setObject:@"4.0" forKey:@"mymhotel-version"];
+        [header setObject:@"1001" forKey:@"mymhotel-type"];
+        [header setObject:@"1.0" forKey:@"mymhotel-version"];
         [header setObject:@"JSON" forKey:@"mymhotel-dataType"];
         [header setObject:@"JSON" forKey:@"mymhotel-ackDataType"];
         [header setObject:[Util getMacAdd] forKey:@"mymhotel-sourceCode"];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15B42" minimumToolsVersion="Automatic">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="15G31" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="DBMessage" representedClassName="DBMessage" syncable="YES">
         <attribute name="cAppkey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cUserId" optional="YES" attributeType="String" syncable="YES"/>
@@ -47,6 +47,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nay" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="waiterId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasCallList" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DBTaskList" inverseName="belongWaiter" inverseEntity="DBTaskList" syncable="YES"/>
@@ -66,7 +67,7 @@
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="103"/>
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="373"/>
-        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="330"/>
+        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="345"/>
         <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
     </elements>
 </model>

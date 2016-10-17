@@ -32,5 +32,6 @@
 @dynamic password;
 @dynamic hasCallList;
 @dynamic dutyLevel;
+@dynamic waiterId;
 
 @end

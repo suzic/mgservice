@@ -173,7 +173,7 @@
      */
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"waiterId": waiterInfo.workNum,
+                                   @{@"waiterId": waiterInfo.waiterId,
                                      @"taskStatus":@"0",
                                      }];
     self.requestTaskStatistical = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
@@ -226,6 +226,7 @@
     if (task == self.requestTaskStatistical)
     {
         [self RESULT_requestTaskStatistical:NO withResponseCode:code withMessage:msg withDatas:nil];
+        NSLog(@"%@",msg);
     }
 }
 

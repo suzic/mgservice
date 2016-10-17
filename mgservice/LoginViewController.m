@@ -139,7 +139,8 @@
 //    NSLog(@"%@",waiterInfo.workNum);
 //    NSLog(@"%@",waiterInfo.password);
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
-                                                                                   @"deviceToken":waiterInfo.deviceToken}];
+                                                                                   @"deviceToken":waiterInfo.deviceToken,
+                                                                                   @"waiterId":@"211"}];
     self.waiterInfoTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                    webURL:@URI_WAITER_CHECKINFO
                                                                    params:params
@@ -173,7 +174,7 @@
     self.requestLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                      webURL:@URI_WAITER_LOGIN
                                                                      params:params
-                                                                 withByUser:YES];
+                                                                  withByUser:YES];
     self.loginParams = params;
     
 }

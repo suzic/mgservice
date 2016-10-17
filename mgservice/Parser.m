@@ -80,6 +80,10 @@
     {
         datas = [self parseWaiterTaskStatus:dict];
     }
+    else if ([ident isEqualToString:@URL_TASKSTATISTICAL]) //服务员任务统计
+    {
+        datas = [self parseTaskStatistical:dict];
+    }
     //存储数据
     [dataManager saveContext];
     return datas;
@@ -154,6 +158,10 @@
    
     [array addObject:dic[@"retOk"]];
     [array addObject:dic[@"message"]];
+    [array addObject:dic[@"waiterId"]];
+    DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance] getWaiterInfor];
+    waiterInfo.waiterId = dic[@"waiterId"];
+    [array addObject:waiterInfo];
     return array;
 }
 
@@ -362,6 +370,14 @@
         waiterTask.hasMessage = message;
     }
     [array addObject:waiterTask];
+    return array;
+}
+
+#pragma mark - 任务统计
+- (NSMutableArray *)parseTaskStatistical:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
     return array;
 }
 
