@@ -121,6 +121,7 @@
 		9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */; };
 		9CDAFAAF1D90E1CC00711BAB /* HeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAFAAE1D90E1CC00711BAB /* HeaderCell.m */; };
 		9CDAFAB21D90E1D500711BAB /* SubCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAFAB11D90E1D500711BAB /* SubCell.m */; };
+		A87E48DB1DADE31800C98D97 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A87E48DA1DADE31800C98D97 /* UserNotifications.framework */; };
 		A89C964E1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A89C964D1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework */; };
 		A89C96511CDADA250031A7A4 /* Nagrand.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A89C964F1CDADA250031A7A4 /* Nagrand.bundle */; };
 		A89C96521CDADA250031A7A4 /* Nagrand.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A89C96501CDADA250031A7A4 /* Nagrand.framework */; };
@@ -441,7 +442,6 @@
 		9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectInfoBeforeCell.m; sourceTree = "<group>"; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
-		9C6AA4EC1DADE31300E647CE /* mgservice.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mgservice.entitlements; sourceTree = "<group>"; };
 		9C6EB2F51D952707007DEE00 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		9C6EB2F61D952707007DEE00 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		9C6EB2F71D952707007DEE00 /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
@@ -562,6 +562,8 @@
 		9CDAFAAE1D90E1CC00711BAB /* HeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCell.m; sourceTree = "<group>"; };
 		9CDAFAB01D90E1D500711BAB /* SubCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCell.h; sourceTree = "<group>"; };
 		9CDAFAB11D90E1D500711BAB /* SubCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubCell.m; sourceTree = "<group>"; };
+		A87E48D91DADE2B000C98D97 /* mgservice.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mgservice.entitlements; sourceTree = "<group>"; };
+		A87E48DA1DADE31800C98D97 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		A89C964D1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOpenIMSDKFMWK.framework; sourceTree = "<group>"; };
 		A89C964F1CDADA250031A7A4 /* Nagrand.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Nagrand.bundle; sourceTree = "<group>"; };
 		A89C96501CDADA250031A7A4 /* Nagrand.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Nagrand.framework; sourceTree = "<group>"; };
@@ -924,6 +926,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A87E48DB1DADE31800C98D97 /* UserNotifications.framework in Frameworks */,
 				4B87BD111CC75426001324E5 /* libc++.tbd in Frameworks */,
 				4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */,
 				4B87BD0D1CC753F7001324E5 /* CoreMotion.framework in Frameworks */,
@@ -1718,7 +1721,7 @@
 		D0CC730E1C59B8E000314355 /* mgservice */ = {
 			isa = PBXGroup;
 			children = (
-				9C6AA4EC1DADE31300E647CE /* mgservice.entitlements */,
+				A87E48D91DADE2B000C98D97 /* mgservice.entitlements */,
 				4B87BACB1CC7521B001324E5 /* Map */,
 				D0CC73291C59B91E00314355 /* Database */,
 				F89B76131C77050200757096 /* NetWork */,
@@ -1821,6 +1824,7 @@
 		F89B76291C770BE600757096 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A87E48DA1DADE31800C98D97 /* UserNotifications.framework */,
 				4B87BD101CC75426001324E5 /* libc++.tbd */,
 				4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */,
 				4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */,
