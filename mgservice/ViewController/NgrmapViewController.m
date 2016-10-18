@@ -146,8 +146,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.navigationItem.rightBarButtonItem = nil;
     self.inTaskTop.constant = self.view.frame.size.height - 124;
     self.inTaskBottom.constant = 64 - self.view.frame.size.height;
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
+
     
 //    [self configMapView:nil];
     _locationFloorId = 0;
@@ -169,54 +168,20 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.regionPointArray_45 = [NSMutableArray array];
     self.regionPointArrayOutDoor = [NSMutableArray array];
     self.distanceCount = 0;
-//    self.mapView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
-    
-//    self.mapView.mapOptions.skewEnabled = NO;
-//    self.mapView.mapOptions.sigleTapEnabled = NO;
-//    self.mapView.mergeGesture = true;
-//    self.mapView.transferGesture = true;
-//    self.mapView.fitScreenRatio = 1.0;
+
     _searchVC = [[InSearchViewController alloc]init];
     _searchVC.delegate = self;
     _currentLocationPoint = CGPointMake(0, 0);
 //    self.navigationItem.rightBarButtonItem = self.rightBarButton;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    //添加限定区域的代码
-//    [self addRegionPointData];
-     //添加定位错误状态
-//    [self addlocationErrorState];
-     //添加楼层列表
-//    [self addFloorData];
-     //切换楼层相关的
-//    [self addChangeFloorBGViewToolView];
-     //添加地图数据
-//    [self addMapData];
-     //添加选择起始点的view
-//    [self addSelectStartAndEndView];
-     //添加起始点的图片
-//    [self addStartAndEndPointImageView];
-     //添加起始点的图片添加导航头头的view
-//    [self addTitleView];
-     //添加起始点的图片搜索开始和结束的div
-//    [self addSearchStartAndEndDiv];
-     //加入指南针
-//    [self addCompassView];
-     //已经开始导航之后的界面
-//    [self addNavigationStartView];
-     //添加左气泡
-//    [self addProcessOverlayer];
+
     
     //自动转换定位点偏角
     [self addLocationCompass];
-    //添加长按事件
-//    [self addLongTapGes];
-    //添加定位的那个按钮
-//    [self addLocationButton];
+
      //顶部自动切换楼层的计时代码。
     [self addAutochangeMapButton];
-     // 添加定位失败的提示
-//    [self addAlertLocationErrorView];
+
     //改变背景颜色
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
     
@@ -672,10 +637,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
  */
 -(BOOL)abolishLocationPointBehaviourWithStatus:(NGRLocationStatus)status andNewLocation:(NGRLocation *)newLocation{
     if (status != MOVE){
-//        ShowOMGToast(self.locationErrorState[status]);
         return YES;
     }else{
-//         ShowOMGToast(@"move");
     }
     if (newLocation.point.x==0) {
         return  YES;
@@ -910,62 +873,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 #pragma mark-加载地图完毕
 -(void)requestMapOutDoorWithSearchPoi:(NGRLocationModel*)searchPoiModel andsearchType:(searchType)searchType{
-//    self.isRequestingMap = YES;
-//    //5秒后换提示语
-//    [self delayLoadingAnimationWithTime:20 isNavigate:NO];
-//    [self hiddenSelectStartOrEndView];
-//    self.shouldAutoChangFloor = NO;
-//    NSInteger errorFloorIdDataBack = (NSInteger)_currentFloorId;//导航失败的时候回复原来的floorid
-//    self.currentFloorId = 665520;
-//    //在切换楼层的这个时间差内currentfloorid＝＝newlocation.floorid会开启自动切换楼层所以在手动切换楼层的时候要先改变floorid
-//    _floorChangeToolView.hidden = YES;
-//   _floorChangeToolView.hidden = YES;
-//    _currentFloorName = @"室外马路上";
-//    __weak typeof (self)weakSelf = self;
-//    [self.dataSource requestPlanarGraph:665520 success:^(NGRPlanarGraph *planarGraph) {
-//        [weakSelf invalidDelayLoadingTimer];
-//        weakSelf.outdoorButton.hidden = YES;
-//        HideHPDProgress;
-//        [weakSelf startDraw:planarGraph];
-//        
-//        weakSelf.isRequestingMap = NO;
-//        [weakSelf.mapView visibleAllLayerFeature:@"Area" isVisible:NO];//23025000  23024000
-//        [weakSelf.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];
-//        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23024000) isVisible:YES];
-//        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23025000) isVisible:YES];        if (searchPoiModel)
-//        {
-//            [weakSelf getSearchResultThanAutoHandelLocationModel:searchPoiModel andSearchType:searchType];
-//        }
-//       
-//        [weakSelf.mapView rotateIn:weakSelf.mapView.center andAngle:-54.2];
-//        [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
-//        if (weakSelf.currentLocationPoint.x!=0&&weakSelf.currentFloorId==weakSelf.locationFloorId) {
-//            [weakSelf.mapView moveToPoint:weakSelf.currentLocationPoint animated:NO duration:300];
-//             [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
-//        }
-//        if (!weakSelf.hasOpenWifiLocation) {
-//            [weakSelf selectWifi];
-//            [weakSelf addUserLocationImageInMap:weakSelf.intaskController.waiterTaskList.userDiviceld];
-//            weakSelf.hasOpenWifiLocation = YES;
-//        }
-//        /**
-//         *  绘制导航线的
-//         */
-//        weakSelf.currentFloorId = 665520;
-//        weakSelf.isClipNavigationLine = NO;
-//        [weakSelf.navigationManager switchPlanarGraph: 665520];
-//    } error:^(NSError *error) {
-//        [weakSelf invalidDelayLoadingTimer];
-//        HideHPDProgress;
-//        UIAlertView*alert = [[UIAlertView alloc]initWithTitle:@"加载地图失败"
-//                                                      message:@"当前网络不佳快给我找个wifi!"
-//                                                     delegate:weakSelf
-//                                            cancelButtonTitle:@"确定"
-//                                            otherButtonTitles:nil, nil];
-//        [alert show];
-//        weakSelf.currentFloorId = errorFloorIdDataBack;
-//        weakSelf.isRequestingMap = NO;
-//    }];
+
 }
 
 -(void)resetOverLayer{
@@ -974,13 +882,6 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 #pragma mark-加载地图
 
-//- (void)mapViewDidEndZooming:(NGRMapView *)mapView{
-//    if (mapView.zoomLevel >= 4) {
-//        [self.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];
-//    }else{
-//        [self.mapView visibleAllLayerFeature:@"Facility" isVisible:YES];
-//    }
-//}
 
 #pragma mark-uitableview的回调方法711007  711398
 -(void)tableviewDidselectForChangeFloorRequestPlanarGraphWithFloorID:(NSInteger)floorid andFloorName:(NSString*)floorName WithSearchPoi:(NGRLocationModel*)searchPoiModel andSearchType:(searchType)searchType{
@@ -1006,13 +907,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
         if (searchPoiModel) {
             [weakSelf getSearchResultThanAutoHandelLocationModel:searchPoiModel andSearchType:searchType ];
         }
-//        [weakSelf.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];//厕所
         [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23043000) isVisible:NO];
         [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23041000) isVisible:NO];
-        
-//        [weakSelf.mapView visibleAllLayerFeature:@"Area" isVisible:NO];
-//        [weakSelf.mapView setMaxZoom:300];//缩小665520
-//        [weakSelf.mapView setMinZoom:40];//放大
+
         if (weakSelf.mapView.currentID) {
             weakSelf.isClipNavigationLine = NO;
             [weakSelf.navigationManager switchPlanarGraph:weakSelf.mapView.currentID];
@@ -1124,8 +1021,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 #pragma mark-获取起点终点的方法
 -(void)getfeaturestartend{
-    //    CGPoint navigationEndPoint = [_navigationManager getPointFromFeatureCollection:featureCollection atIndex:lastPointIndex];
-    //    CGPoint navigationStartPoint = [_navigationManager getPointFromFeatureCollection:featureCollection atIndex:0];
+
 }
 
 #pragma mark-搜索相关
@@ -1646,55 +1542,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 
 -(void)touchPoint:(CGPoint)point withFeature:(NGRFeature *)feature {
-    /*
-    self.selectStartAndEndPintView.poinName = feature.display;
-    NSString* regionName = [self insidePolygonWithPoint:[self.mapView getWorldPositionFromScreenPosition:point]];
-    NSLog(@"regionName＝%@",regionName);
-    if (feature !=nil && feature.ID != 0) {
-        if ([feature.locationType isEqualToString:@"BUILDING"])
-        {
-            _selectedIndoorID = feature.featureId;
-            _selectStartAndEndPintView.comeInIndooorButton.hidden = NO;
-            
-        }else{
-            _selectStartAndEndPintView.comeInIndooorButton.hidden = YES;
-        }
-    }
-    // 有导航线，可以进入室内
-    if ( _hasNavigatioLine == YES) {
-        _selectStartAndEndPintView.startButton.hidden = YES;
-        _selectStartAndEndPintView.endButton.hidden = YES;
 
-    }else{
-        _selectStartAndEndPintView.startButton.hidden = NO;
-        _selectStartAndEndPintView.endButton.hidden = NO;
-    }
-    _appearCenterPoint =CGPointMake(point.x - 70,point.y - 50);
-    //这是没有点在地图以内665620
-    if (feature == nil) {
-        [self hiddenSelectStartOrEndView];
-        [self hiddenSelectStartOrEndView];
-    }else{
-        if( _selectStartAndEndPintView.selectStartData == nil && _selectStartAndEndPintView.selectEndData == nil){
-            //第一次点地图上的点就是说地图上的起始点都没被选中
-            [self addOverlayer:_selectPinOverlayer andScreenPoint:point andFloorId:_currentFloorId];
-            [self showSelectStartOrEndView];
-        }else if(_selectStartAndEndPintView.selectStartData != nil || _selectStartAndEndPintView.selectEndData != nil){
-              //起点终点都有了
-            if(_selectStartAndEndPintView.selectStartData != nil && _selectStartAndEndPintView.selectEndData != nil){
-                [self showSelectStartOrEndView];
-            }else{
-                [self addOverlayer:_selectPinOverlayer andScreenPoint:point andFloorId:_currentFloorId];
-                [self showSelectStartOrEndView];
-            }
-        }
-        touchPointData* touchPoint = [[touchPointData alloc]init];
-        touchPoint.floorID = (NGRID)_currentFloorId;
-        touchPoint.floorName = _currentFloorName;
-        touchPoint.location =[self.mapView getWorldPositionFromScreenPosition:point];//[feature  getCentroid];
-        _selectStartAndEndPintView.selectData = touchPoint;
-    }
-    */
 }
 
 -(void)addOverlayer:(NGROverlayer*)overlayer andScreenPoint:(CGPoint)screenPoint andFloorId:(NGRID)floorid{
@@ -1736,11 +1584,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 
 - (void)longPressHandle:(UILongPressGestureRecognizer *)sender {
-//    if (sender.state == UIGestureRecognizerStateBegan) {
-//        CGPoint tapLocation = [sender locationInView:self.mapView];
-//        id feature = [self.mapView searchFeatureWithPoint:tapLocation];
-//        [self touchPoint:tapLocation withFeature:feature];
-//    }
+
 }
 
 -(void)timeSubtract{

@@ -140,7 +140,7 @@
 //    NSLog(@"%@",waiterInfo.password);
     NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
                                                                                    @"deviceToken":waiterInfo.deviceToken,
-                                                                                   @"waiterId":@"211"}];
+                                                                                   @"waiterId":waiterInfo.waiterId}];
     self.waiterInfoTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                    webURL:@URI_WAITER_CHECKINFO
                                                                    params:params
@@ -156,7 +156,7 @@
     else
     {
         // 失败需要重新登录
-        [self NETWORK_requestLogin];
+//        [self NETWORK_requestLogin];
     }
 }
 
@@ -200,6 +200,7 @@
             waiterInfo.password = _loginParams[@"passward"];
             waiterInfo.deviceId = _loginParams[@"diviceId"];
             waiterInfo.deviceToken = _loginParams[@"deviceToken"];
+//            waiterInfo.waiterId = _loginParams[@"waiterId"];
             [[DataManager defaultInstance]saveContext];
             //登录成功获取服务员信息
             [self NETWORK_waiterInfo];

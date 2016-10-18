@@ -134,6 +134,8 @@
     {
         cell.starView.rating = 4.0f;
     }
+//    openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
+
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
     for (UIGestureRecognizer *gs in gestures)
@@ -259,11 +261,14 @@
     if (self.expandSectionIndex != NSNotFound)
         [indexSet addIndex:self.expandSectionIndex];
     
+    //如果当前行是未选中状态
     if ([[openedInSectionArr objectAtIndex:gesture.view.tag] intValue] == 0) {
+        //就把这一行 变成选中状态
         [openedInSectionArr replaceObjectAtIndex:gesture.view.tag withObject:@"1"];
     }
     else
     {
+        //否则就是选中状态，改成未选中
         [openedInSectionArr replaceObjectAtIndex:gesture.view.tag withObject:@"0"];
     }
     
