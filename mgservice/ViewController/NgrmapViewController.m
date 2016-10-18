@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 @property(assign,nonatomic)BOOL hasOpenWifiLocation;
 @property(assign,nonatomic)CGPoint navigationEndPoint;
 @property(assign,nonatomic)BOOL shouldAutoChangFloor;
-@property(strong,nonatomic)UIActionSheet* selectStartAndEndSheet;
+//@property(strong,nonatomic)UIActionSheet* selectStartAndEndSheet;
 @property(copy,nonatomic)NSString* currentFloorName;
 @property(strong,nonatomic)NGROverlayer* locationOverlayer;
 @property(nonatomic,strong)NSMutableDictionary* floorNameDic;
@@ -146,8 +146,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.navigationItem.rightBarButtonItem = nil;
     self.inTaskTop.constant = self.view.frame.size.height - 124;
     self.inTaskBottom.constant = 64 - self.view.frame.size.height;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StartDrawMap) name:NotiStartDrawMap object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(StopDrawMap) name:NotiStopDrawMap object:nil];
     
 //    [self configMapView:nil];
     _locationFloorId = 0;
@@ -169,13 +169,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.regionPointArray_45 = [NSMutableArray array];
     self.regionPointArrayOutDoor = [NSMutableArray array];
     self.distanceCount = 0;
-    self.mapView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+//    self.mapView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     
-    self.mapView.mapOptions.skewEnabled = NO;
+//    self.mapView.mapOptions.skewEnabled = NO;
 //    self.mapView.mapOptions.sigleTapEnabled = NO;
-    self.mapView.mergeGesture = true;
-    self.mapView.transferGesture = true;
-    self.mapView.fitScreenRatio = 1.0;
+//    self.mapView.mergeGesture = true;
+//    self.mapView.transferGesture = true;
+//    self.mapView.fitScreenRatio = 1.0;
     _searchVC = [[InSearchViewController alloc]init];
     _searchVC.delegate = self;
     _currentLocationPoint = CGPointMake(0, 0);
@@ -183,25 +183,25 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //添加限定区域的代码
-    [self addRegionPointData];
+//    [self addRegionPointData];
      //添加定位错误状态
-    [self addlocationErrorState];
+//    [self addlocationErrorState];
      //添加楼层列表
-    [self addFloorData];
+//    [self addFloorData];
      //切换楼层相关的
-    [self addChangeFloorBGViewToolView];
+//    [self addChangeFloorBGViewToolView];
      //添加地图数据
-    [self addMapData];
+//    [self addMapData];
      //添加选择起始点的view
 //    [self addSelectStartAndEndView];
      //添加起始点的图片
-    [self addStartAndEndPointImageView];
+//    [self addStartAndEndPointImageView];
      //添加起始点的图片添加导航头头的view
 //    [self addTitleView];
      //添加起始点的图片搜索开始和结束的div
 //    [self addSearchStartAndEndDiv];
      //加入指南针
-    [self addCompassView];
+//    [self addCompassView];
      //已经开始导航之后的界面
 //    [self addNavigationStartView];
      //添加左气泡
@@ -212,11 +212,11 @@ typedef NS_ENUM(NSInteger, parkingState) {
     //添加长按事件
 //    [self addLongTapGes];
     //添加定位的那个按钮
-    [self addLocationButton];
+//    [self addLocationButton];
      //顶部自动切换楼层的计时代码。
     [self addAutochangeMapButton];
      // 添加定位失败的提示
-    [self addAlertLocationErrorView];
+//    [self addAlertLocationErrorView];
     //改变背景颜色
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
     
@@ -910,62 +910,62 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 #pragma mark-加载地图完毕
 -(void)requestMapOutDoorWithSearchPoi:(NGRLocationModel*)searchPoiModel andsearchType:(searchType)searchType{
-    self.isRequestingMap = YES;
-    //5秒后换提示语
-    [self delayLoadingAnimationWithTime:20 isNavigate:NO];
-    [self hiddenSelectStartOrEndView];
-    self.shouldAutoChangFloor = NO;
-    NSInteger errorFloorIdDataBack = (NSInteger)_currentFloorId;//导航失败的时候回复原来的floorid
-    self.currentFloorId = 665520;
-    //在切换楼层的这个时间差内currentfloorid＝＝newlocation.floorid会开启自动切换楼层所以在手动切换楼层的时候要先改变floorid
-    _floorChangeToolView.hidden = YES;
-   _floorChangeToolView.hidden = YES;
-    _currentFloorName = @"室外马路上";
-    __weak typeof (self)weakSelf = self;
-    [self.dataSource requestPlanarGraph:665520 success:^(NGRPlanarGraph *planarGraph) {
-        [weakSelf invalidDelayLoadingTimer];
-        weakSelf.outdoorButton.hidden = YES;
-        HideHPDProgress;
-        [weakSelf startDraw:planarGraph];
-        
-        weakSelf.isRequestingMap = NO;
-        [weakSelf.mapView visibleAllLayerFeature:@"Area" isVisible:NO];//23025000  23024000
-        [weakSelf.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];
-        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23024000) isVisible:YES];
-        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23025000) isVisible:YES];        if (searchPoiModel)
-        {
-            [weakSelf getSearchResultThanAutoHandelLocationModel:searchPoiModel andSearchType:searchType];
-        }
-       
-        [weakSelf.mapView rotateIn:weakSelf.mapView.center andAngle:-54.2];
-        [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
-        if (weakSelf.currentLocationPoint.x!=0&&weakSelf.currentFloorId==weakSelf.locationFloorId) {
-            [weakSelf.mapView moveToPoint:weakSelf.currentLocationPoint animated:NO duration:300];
-             [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
-        }
-        if (!weakSelf.hasOpenWifiLocation) {
-            [weakSelf selectWifi];
-            [weakSelf addUserLocationImageInMap:weakSelf.intaskController.waiterTaskList.userDiviceld];
-            weakSelf.hasOpenWifiLocation = YES;
-        }
-        /**
-         *  绘制导航线的
-         */
-        weakSelf.currentFloorId = 665520;
-        weakSelf.isClipNavigationLine = NO;
-        [weakSelf.navigationManager switchPlanarGraph: 665520];
-    } error:^(NSError *error) {
-        [weakSelf invalidDelayLoadingTimer];
-        HideHPDProgress;
-        UIAlertView*alert = [[UIAlertView alloc]initWithTitle:@"加载地图失败"
-                                                      message:@"当前网络不佳快给我找个wifi!"
-                                                     delegate:weakSelf
-                                            cancelButtonTitle:@"确定"
-                                            otherButtonTitles:nil, nil];
-        [alert show];
-        weakSelf.currentFloorId = errorFloorIdDataBack;
-        weakSelf.isRequestingMap = NO;
-    }];
+//    self.isRequestingMap = YES;
+//    //5秒后换提示语
+//    [self delayLoadingAnimationWithTime:20 isNavigate:NO];
+//    [self hiddenSelectStartOrEndView];
+//    self.shouldAutoChangFloor = NO;
+//    NSInteger errorFloorIdDataBack = (NSInteger)_currentFloorId;//导航失败的时候回复原来的floorid
+//    self.currentFloorId = 665520;
+//    //在切换楼层的这个时间差内currentfloorid＝＝newlocation.floorid会开启自动切换楼层所以在手动切换楼层的时候要先改变floorid
+//    _floorChangeToolView.hidden = YES;
+//   _floorChangeToolView.hidden = YES;
+//    _currentFloorName = @"室外马路上";
+//    __weak typeof (self)weakSelf = self;
+//    [self.dataSource requestPlanarGraph:665520 success:^(NGRPlanarGraph *planarGraph) {
+//        [weakSelf invalidDelayLoadingTimer];
+//        weakSelf.outdoorButton.hidden = YES;
+//        HideHPDProgress;
+//        [weakSelf startDraw:planarGraph];
+//        
+//        weakSelf.isRequestingMap = NO;
+//        [weakSelf.mapView visibleAllLayerFeature:@"Area" isVisible:NO];//23025000  23024000
+//        [weakSelf.mapView visibleAllLayerFeature:@"Facility" isVisible:NO];
+//        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23024000) isVisible:YES];
+//        [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23025000) isVisible:YES];        if (searchPoiModel)
+//        {
+//            [weakSelf getSearchResultThanAutoHandelLocationModel:searchPoiModel andSearchType:searchType];
+//        }
+//       
+//        [weakSelf.mapView rotateIn:weakSelf.mapView.center andAngle:-54.2];
+//        [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
+//        if (weakSelf.currentLocationPoint.x!=0&&weakSelf.currentFloorId==weakSelf.locationFloorId) {
+//            [weakSelf.mapView moveToPoint:weakSelf.currentLocationPoint animated:NO duration:300];
+//             [weakSelf performSelector:@selector(resetOverLayer) withObject:nil afterDelay:0.3];
+//        }
+//        if (!weakSelf.hasOpenWifiLocation) {
+//            [weakSelf selectWifi];
+//            [weakSelf addUserLocationImageInMap:weakSelf.intaskController.waiterTaskList.userDiviceld];
+//            weakSelf.hasOpenWifiLocation = YES;
+//        }
+//        /**
+//         *  绘制导航线的
+//         */
+//        weakSelf.currentFloorId = 665520;
+//        weakSelf.isClipNavigationLine = NO;
+//        [weakSelf.navigationManager switchPlanarGraph: 665520];
+//    } error:^(NSError *error) {
+//        [weakSelf invalidDelayLoadingTimer];
+//        HideHPDProgress;
+//        UIAlertView*alert = [[UIAlertView alloc]initWithTitle:@"加载地图失败"
+//                                                      message:@"当前网络不佳快给我找个wifi!"
+//                                                     delegate:weakSelf
+//                                            cancelButtonTitle:@"确定"
+//                                            otherButtonTitles:nil, nil];
+//        [alert show];
+//        weakSelf.currentFloorId = errorFloorIdDataBack;
+//        weakSelf.isRequestingMap = NO;
+//    }];
 }
 
 -(void)resetOverLayer{
@@ -1859,7 +1859,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if ([segue.identifier isEqualToString:@"showInTask"])
     {
         self.intaskController = (InTaskController *)[segue destinationViewController];
-        self.intaskController.mapViewController = self;
+//        self.intaskController.mapViewController = self;
     }
 }
 - (void)setShowFinish:(BOOL)showFinish
@@ -1911,7 +1911,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 - (void)dealloc
 {
     _dataSource.delegate = nil;
-    self.intaskController.mapViewController = nil;
+//    self.intaskController.mapViewController = nil;
     self.intaskController = nil;
 }
 @end

@@ -115,7 +115,8 @@
         NSLog(@"%@",self.dateLabel.text);
     }
     [[NSUserDefaults standardUserDefaults] setValue:self.dateLabel.text forKey:@"dateTime"];
-    [self dismissModalViewControllerAnimated:YES];
+//    [self dismissModalViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (UICollectionView *)collectionView{
