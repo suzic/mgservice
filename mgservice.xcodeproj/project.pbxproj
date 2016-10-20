@@ -25,6 +25,8 @@
 		9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690491D066E6100FE8936 /* LPPageViewMenu.m */; };
 		9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */; };
 		9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690581D067A2A00FE8936 /* PageViewController.m */; };
+		9C3AC1531DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */; };
+		9C3AC1541DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC1521DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m */; };
 		9C43FD441D9BA77D001E217F /* GradingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C43FD431D9BA77D001E217F /* GradingView.m */; };
 		9C4982551D13BF270088FCBB /* SelectInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982541D13BF270088FCBB /* SelectInfoCell.m */; };
 		9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982571D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m */; };
@@ -432,6 +434,10 @@
 		9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPPageViewMenu.xib; sourceTree = "<group>"; };
 		9C3690571D067A2A00FE8936 /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageViewController.h; path = mgservice/PageViewController.h; sourceTree = SOURCE_ROOT; };
 		9C3690581D067A2A00FE8936 /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageViewController.m; path = mgservice/PageViewController.m; sourceTree = SOURCE_ROOT; };
+		9C3AC14F1DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalList+CoreDataClass.h"; sourceTree = "<group>"; };
+		9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBStatisticalList+CoreDataClass.m"; sourceTree = "<group>"; };
+		9C3AC1511DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalList+CoreDataProperties.h"; sourceTree = "<group>"; };
+		9C3AC1521DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBStatisticalList+CoreDataProperties.m"; sourceTree = "<group>"; };
 		9C43FD421D9BA77D001E217F /* GradingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradingView.h; sourceTree = "<group>"; };
 		9C43FD431D9BA77D001E217F /* GradingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradingView.m; sourceTree = "<group>"; };
 		9C4982531D13BF270088FCBB /* SelectInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectInfoCell.h; sourceTree = "<group>"; };
@@ -1870,6 +1876,10 @@
 				F843621C1C7C626B00320DE2 /* DBWaiterInfor.m */,
 				F843621D1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.h */,
 				F843621E1C7C626B00320DE2 /* DBWaiterInfor+CoreDataProperties.m */,
+				9C3AC14F1DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.h */,
+				9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */,
+				9C3AC1511DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.h */,
+				9C3AC1521DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m */,
 				FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */,
 			);
 			name = Objects;
@@ -2274,6 +2284,7 @@
 				D0CC733F1C59EB0F00314355 /* TaskCell.m in Sources */,
 				F89B761F1C7706A700757096 /* LCProgressHUD.m in Sources */,
 				A89C982E1CDAE0F40031A7A4 /* UIButton+Bootstrap.m in Sources */,
+				9C3AC1531DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m in Sources */,
 				9C3686401D1245B80009FD39 /* ScanningView.m in Sources */,
 				9C789EB91CBF679300932D0C /* AFURLSessionManager.m in Sources */,
 				9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */,
@@ -2292,6 +2303,7 @@
 				9C71F8211D98D3B800EF1C3A /* StarView.m in Sources */,
 				9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */,
 				9C78A6061CBF98B800932D0C /* SPInputViewPluginGreeting.m in Sources */,
+				9C3AC1541DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m in Sources */,
 				9C83100B1D87FD3F009D7BA5 /* StatisticalController.m in Sources */,
 				F8234FC71C7AED88006A60FA /* DataManager+User.m in Sources */,
 				9C36863D1D12447B0009FD39 /* ZHScanView.m in Sources */,

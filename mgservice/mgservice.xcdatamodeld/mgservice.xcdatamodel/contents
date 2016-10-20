@@ -6,12 +6,27 @@
         <attribute name="wUserId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="belongCallList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBTaskList" inverseName="hasMessage" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
+    <entity name="DBStatisticalList" representedClassName="DBStatisticalList" syncable="YES">
+        <attribute name="acceptTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="confirmState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="locationArea" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selectedState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="DBTaskList" representedClassName="DBTaskList" syncable="YES">
         <attribute name="accepTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="drOrderNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="patternInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="priority" optional="YES" attributeType="String" syncable="YES"/>
@@ -66,7 +81,8 @@
     </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="103"/>
-        <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="373"/>
+        <element name="DBStatisticalList" positionX="-4473" positionY="-1134" width="128" height="210"/>
+        <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="405"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="345"/>
         <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
     </elements>

@@ -13,9 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    _starView = [[StarView alloc]initWithFrame:CGRectMake(self.contentView.frame.size.width - 150, 10, 150, 20)];
+    _starView = [[StarView alloc]initWithFrame:CGRectMake(self.contentView.frame.size.width - 110, 10, 110, 20)];
 //    _starView.rating = 3.0f;
     [self.contentView addSubview:_starView];
+    [self.taskNameLabel sizeToFit];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

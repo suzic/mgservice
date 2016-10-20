@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *userMessageInfo;
 @property (nullable, nonatomic, retain) NSString *status;
 @property (nullable, nonatomic, retain) NSString *waiterStatus;
+@property (nullable, nonatomic, retain) NSString *createTime;
+@property (nullable, nonatomic, retain) NSString *messageInfo;
 @property (nullable, nonatomic, retain) DBWaiterInfor *belongWaiter;
 @property (nullable, nonatomic, retain) DBMessage *hasMessage;
 

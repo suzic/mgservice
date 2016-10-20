@@ -130,9 +130,12 @@
 {
     if (succeed) {
         if (datas.count > 0) {
-            DBMessage * message = self.waiterTaskList.hasMessage;
-            [[DataManager defaultInstance] deleteFromCoreData:message];
-            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+//            DBMessage * message = self.waiterTaskList.hasMessage;
+//            [[DataManager defaultInstance] deleteFromCoreData:message];
+//            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
+//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+//            DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+            self.waiterTaskList.taskStatus = @"1";
             [[DataManager defaultInstance] saveContext];
             [self.conversation removeAllLocalMessages];
             [self deallocInstantMessageing];
@@ -154,7 +157,7 @@
     }
 }
 
-//通过任务编号，获得任务状态
+//通过任务编号，获得任务信息
 - (void)NETWORK_TaskStatus
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
@@ -266,6 +269,7 @@
 //    self.waiterTaskList.cAppkey = @"23337443";
 //    NSLog(@"%@",self.waiterTaskList.wUserId);
     //登录IM
+    NSLog(@"%@",self.waiterTaskList.hasMessage.wUserId);
     [[SPKitExample sharedInstance]callThisAfterISVAccountLoginSuccessWithYWLoginId:self.waiterTaskList.hasMessage.wUserId passWord:@"sjlh2016" preloginedBlock:nil successBlock:^{
         YWPerson * person = [[YWPerson alloc]initWithPersonId:self.waiterTaskList.hasMessage.cUserId appKey:self.waiterTaskList.hasMessage.cAppkey];
         self.conversation = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext: [SPKitExample sharedInstance].ywIMKit.IMCore];

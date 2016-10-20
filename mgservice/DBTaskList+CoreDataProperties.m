@@ -35,5 +35,6 @@
 @dynamic waiterStatus;
 @dynamic belongWaiter;
 @dynamic hasMessage;
-
+@dynamic createTime;
+@dynamic messageInfo;
 @end

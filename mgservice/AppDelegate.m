@@ -149,7 +149,12 @@
     //拿到coredata里的已接任务数据
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
-    if (waiterTaskList != nil) {
+//    if (waiterTaskList != nil) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
+//    }
+    NSLog(@"%@",waiterTaskList.status);
+    if ([waiterTaskList.status isEqualToString:@"0"] || [waiterTaskList.status isEqualToString:@"2"])
+    {
         [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
     }
 }

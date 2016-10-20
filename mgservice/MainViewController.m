@@ -388,7 +388,7 @@
             if(array.count > 0)
             {
                 for (DBTaskList * waiterTask in array) {
-                    if([waiterTask.category isEqualToString:@"0"])
+                    if([waiterTask.category isEqualToString:@"0"] && [waiterTask.taskStatus isEqualToString:@"0"])
                     {
                         [self performSegueWithIdentifier:@"goTask" sender:nil];
                     }

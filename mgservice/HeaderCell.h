@@ -11,5 +11,6 @@
 @interface HeaderCell : UITableViewCell
 @property (strong,nonatomic)StarView *  starView;
 @property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *taskCode;
 
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface StatisticalController : UIViewController
-
+@property (nonatomic,strong) DBTaskList * waiterTaskList;
 @end

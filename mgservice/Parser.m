@@ -76,7 +76,7 @@
     {
         datas = [self parseReloadIM:dict];
     }
-    else if ([ident isEqualToString:@URI_WAITER_TASkSTATUS]) //通过任务号，获得任务状态
+    else if ([ident isEqualToString:@URI_WAITER_TASkSTATUS]) //通过任务号，获得任务信息
     {
         datas = [self parseWaiterTaskStatus:dict];
     }
@@ -326,6 +326,11 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
     waiterTask.taskStatus = [NSString stringWithFormat:@"%ld",[dic[@"status"] integerValue]];
+    waiterTask.timeLimit = dic[@"taskInfo"][@"timeLimit"];      //要求完成时间(在送餐任务里提现)
+    waiterTask.messageInfo = dic[@"taskInfo"][@"messageInfo"];
+    waiterTask.createTime = dic[@"progressInfo"][@"createTime"];//创建时间
+    waiterTask.finishTime = dic[@"progressInfo"][@"finishTime"];//任务完成时间
+    waiterTask.accepTime = dic[@"progressInfo"][@"acceptTime"]; //任务领取时间
     [array addObject:waiterTask];
     return array;
 }
@@ -378,6 +383,14 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
+    for (NSDictionary * list in dic[@"list"]) {
+        DBStatisticalList * statistical = (DBStatisticalList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBStatisticalList"];
+        statistical.messageInfo = list[@"messageInfo"];
+        statistical.taskCode = list[@"taskCode"];
+        statistical.selectedState = @"0";
+        statistical.category = list[@"category"];
+        [array addObject:statistical];
+    }
     return array;
 }
 
