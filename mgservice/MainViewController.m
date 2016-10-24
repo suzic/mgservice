@@ -15,12 +15,14 @@
 #import "ScanningView.h"
 #import "GuestInfoController.h"
 #import "StatisticalController.h"
+#import "InTaskController.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
 @property (strong, nonatomic) AppDelegate * win;
+@property (strong, nonatomic) InTaskController * inTask;
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
@@ -46,6 +48,7 @@
 @property (nonatomic, strong) NSURLSessionTask * waiterGetIndentTask;
 @property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
 @property (nonatomic, strong) NSURLSessionTask * reloadIMTask;//登录IM请求
+@property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//通过任务编号 获取任务信息
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
@@ -274,8 +277,7 @@
         return;
 
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId":waiterInfo.deviceId,
-                                     @"deviceToken":waiterInfo.deviceToken,
+                                   @{@"waiterId":waiterInfo.waiterId,
                                      @"workingState":workstate}];
     self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_WORKSTATUS
@@ -357,7 +359,7 @@
     else if([waiterInfo.attendanceState isEqualToString:@"1"])
     {
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                       @{@"diviceId":waiterInfo.deviceId,
+                                       @{@"waiterId":waiterInfo.waiterId,
                                          @"deviceToken":waiterInfo.deviceToken}];
         self.checkIsLoginTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                          webURL:@URI_WAITER_CHECKSTATUS
@@ -383,16 +385,22 @@
         else
         {
             //有任务跳转到地图页面
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-            NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
-            if(array.count > 0)
+//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+//            NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBStatisticalInfoList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+//            if(array.count > 0)
+//            {
+//                for (DBStatisticalInfoList * waiterTask in array) {
+//                    if([waiterTask.category isEqualToString:@"0"] && [waiterTask.taskStatus isEqualToString:@"0"])
+//                    {
+//                        [self performSegueWithIdentifier:@"goTask" sender:nil];
+//                    }
+//                }
+//            }
+            //通过任务编号，获得任务信息
+            NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+            if (![strCode isEqualToString:@""])
             {
-                for (DBTaskList * waiterTask in array) {
-                    if([waiterTask.category isEqualToString:@"0"] && [waiterTask.taskStatus isEqualToString:@"0"])
-                    {
-                        [self performSegueWithIdentifier:@"goTask" sender:nil];
-                    }
-                }
+                [self NETWORK_TaskStatus:strCode];
             }
         }
     }
@@ -407,16 +415,53 @@
     }
 }
 
+
+//通过任务编号 获取任务信息
+- (void)NETWORK_TaskStatus:(NSString *)strCode
+{
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"taskCode":strCode}];//任务编号
+    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                      webURL:@URI_WAITER_TASkSTATUS
+                                                                      params:params
+                                                                  withByUser:YES];
+}
+
+- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        DBStatisticalInfoList * infoList = datas[0];
+        NSLog(@"%@",infoList.taskStatus);
+        if ([infoList.taskStatus isEqualToString:@"0"])
+        {
+            [self performSegueWithIdentifier:@"goTask" sender:nil];
+        }
+        if ([infoList.taskStatus isEqualToString:@"9"])
+        {
+            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //登出IM
+                [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+                [SPUserDefaultsManger deleteforKey:@"messageCount"];
+                [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+            }];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+}
+
+
 // 请求任务列表
 - (void)NETWORK_requestTask
 {
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
-    NSLog(@"%@",waiterInfo.deviceId);
+    NSLog(@"%@",waiterInfo.waiterId);
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"diviceId": waiterInfo.deviceId,
-                                     @"deviceToken":waiterInfo.deviceToken,
+                                   @{@"waiterId": waiterInfo.waiterId,
                                      @"pageNo":[NSString stringWithFormat:@"%ld",(long)self.selectPageNumber],
                                      @"pageCount":@"10",
                                      @"taskStatus":@"2"}];
@@ -471,8 +516,7 @@
     if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
         return;
     NSLog(@"%@...%@...%@",waiterInfo.deviceId,waiterInfo.deviceToken,taskCode);
-    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"diviceId":waiterInfo.deviceId,
-                                                                                   @"deviceToken":waiterInfo.deviceToken,
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"waiterId":waiterInfo.waiterId,
                                                                                    @"taskCode":taskCode}];
     self.waiterGetIndentTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                         webURL:@URI_WAITER_RUSHTASK
@@ -493,6 +537,7 @@
             // 抢单到达服务成功  跳转
             if ([waiterTask.category isEqualToString:@"0"])
             {
+                [SPUserDefaultsManger setValue:@"1" forKey:@"isTask"];
                 [self whenSkipUse];
                 [self NETWORK_reloadIM];
             }
@@ -565,7 +610,9 @@
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"taskCode":waiterTask.taskCode}];
+    NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"taskCode":strCode}];
+    NSLog(@"%@",waiterTask.taskCode);
     self.reloadIMTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                   webURL:@URL_ACHIEVE_USERID
                                                                   params:dic
@@ -636,6 +683,10 @@
     else if (task == self.reloadIMTask)
     {
         [self RESULT_reloadIM:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
+    if (task == self.reloadTaskStatus)
+    {
+        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
     
 }

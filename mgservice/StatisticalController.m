@@ -71,14 +71,6 @@
     self.cancelArr = [[NSMutableArray alloc]init];
     self.taskInfo = [[NSMutableArray alloc]init];
     
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-//    DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
-//    [self.taskInfo addObject:waiterTask];
-//    
-//    DBStatisticalList * statistical = (DBStatisticalList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBStatisticalList"];
-//    [self.openedInSectionArr addObject:statistical];
-//    NSLog(@"%ld",self.openedInSectionArr.count);
-    
     //任务统计
     [self NETWORK_requestTaskStatistical:@"0"];
 
@@ -90,14 +82,11 @@
     NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
     
-//    self.completeButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];
-//    self.cancelButton.backgroundColor = [UIColor whiteColor];
-//    _openedInSectionArr = [[NSMutableArray alloc] initWithObjects:@"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0", @"0",nil];
     NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
-    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
+    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%d）",openedInSectionArrCount] forState:UIControlStateNormal];
     NSInteger cancelCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"cancelArrCount"];
-    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelCount] forState:UIControlStateNormal];
-    [self.tableView reloadData];
+    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",cancelCount] forState:UIControlStateNormal];
+//    [self.tableView reloadData];
 }
 
 #pragma mark - tableView delegate & dataSource
@@ -116,10 +105,24 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // 判断section的展开收起状态
-    DBStatisticalList * statistical = self.openedInSectionArr[section];
-    if ([statistical.selectedState isEqualToString:@"1"])
-    {
-        return self.taskInfo.count;
+//    DBStatisticalList * statistical = self.openedInSectionArr[section];
+//    if ([statistical.selectedState isEqualToString:@"1"])
+//    {
+//        return self.taskInfo.count;
+//    }
+    if (self.isStatusButton == 0) {
+        DBStatisticalList * statistical = self.openedInSectionArr[section];
+        if ([statistical.selectedState isEqualToString:@"1"])
+        {
+            return self.taskInfo.count;
+        }
+    }
+    if (self.isStatusButton == 1) {
+        DBStatisticalList * statistical = self.cancelArr[section];
+        if ([statistical.selectedState isEqualToString:@"1"])
+        {
+            return self.taskInfo.count;
+        }
     }
     
     return 0;
@@ -128,18 +131,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SubCell * cell = [tableView dequeueReusableCellWithIdentifier:@"subCell"];
-    DBTaskList * taskList = self.taskInfo[indexPath.row];
+    DBStatisticalInfoList * taskList = self.taskInfo[indexPath.row];
     DBStatisticalList * statistical = self.openedInSectionArr[indexPath.section];
-    NSLog(@"%@",taskList.accepTime);
+    NSLog(@"%@",taskList.createTime);
     cell.issuedTimeLabel.text = [NSString stringWithFormat:@"下单时间 %@",taskList.createTime];    //任务下单时间
-    cell.acceptTimeLabel.text = [NSString stringWithFormat:@"接单时间 %@",taskList.accepTime];     //任务领取时间
-    cell.completeTimeLabel.text = [NSString stringWithFormat:@"完成时间 %@",taskList.finishTime];  //任务完成时间
+    cell.acceptTimeLabel.text = [NSString stringWithFormat:@"接单时间 %@",taskList.acceptTime];     //任务领取时间
     
     //如果切换的是“已完成”订单，“完成时间” 的label显示   否则隐藏
     if (self.isStatusButton == 0)
-        cell.completeTimeLabel.hidden = NO;
+        cell.completeTimeLabel.text = [NSString stringWithFormat:@"完成时间 %@",taskList.finishTime];  //任务完成时间
     else
-        cell.completeTimeLabel.hidden = YES;
+        cell.completeTimeLabel.text = [NSString stringWithFormat:@"取消时间 %@",taskList.cancelTime];
     
     //如果是呼叫任务
     if ([statistical.category isEqualToString:@"0"])
@@ -261,8 +263,8 @@
             }
             NSInteger openedInSectionArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"openedInSectionArrCount"];
             NSInteger cancelArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"cancelArrCount"];
-            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
-            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelArrCount] forState:UIControlStateNormal];
+            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%d）",openedInSectionArrCount] forState:UIControlStateNormal];
+            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",cancelArrCount] forState:UIControlStateNormal];
             [self.tableView reloadData];
         }
     }
@@ -295,13 +297,31 @@
     {
         if (datas.count > 0) {
             //每次点击header的时候，都清空一次数组，不然会重复添加
-            [self.taskInfo removeAllObjects];
-            
-            for (DBTaskList * task in datas) {
-                [self.taskInfo addObject:task];
-            }
+//            if (self.isStatusButton == 0)
+//            {
+                [self.taskInfo removeAllObjects];
+                for (DBStatisticalInfoList * task in datas)
+                {
+                    [self.taskInfo addObject:task];
+                }
+//            }
+//            
+//            if (self.isStatusButton == 1) {
+//                [self.taskInfo removeAllObjects];
+//                for (DBStatisticalInfoList * task in datas)
+//                {
+//                    [self.taskInfo addObject:task];
+//                }
+//            }
             [self.tableView reloadData];
         }
+    }
+    else
+    {
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有网络" preferredStyle:1];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -385,8 +405,17 @@
     
     
     
+    
+    DBStatisticalList * statistical;
+    if (self.isStatusButton == 0)
+    {
+        statistical = self.openedInSectionArr[tapSection];
+    }
+    if (self.isStatusButton == 1)
+    {
+        statistical = self.cancelArr[tapSection];
+    }
     //如果当前行是未选中状态
-    DBStatisticalList * statistical = self.openedInSectionArr[tapSection];
     if ([statistical.selectedState isEqualToString:@"0"]) {
         //取消所有选中状态
         for (DBStatisticalList * stat in self.openedInSectionArr)
@@ -400,8 +429,33 @@
         //把这一行 变成选中状态
         statistical.selectedState = @"1";
         
-        //根据任务号，请求任务信息
-        [self NETWORK_TaskStatus:statistical.taskCode];
+        //如果缓存没有任务信息，就请求任务信息接口
+        [self.taskInfo removeAllObjects];
+
+        DBStatisticalInfoList * statisticalInfo = (DBStatisticalInfoList *)[[DataManager defaultInstance] findWaiterRushByTaskCode:statistical.taskCode];
+        NSLog(@"%@",statisticalInfo.finishTime);
+        if (self.isStatusButton == 0)
+        {
+            if ([statisticalInfo.finishTime isEqualToString:@""] || statisticalInfo.finishTime == nil)
+            {
+                [self NETWORK_TaskStatus:statistical.taskCode];
+            }
+            else
+            {
+                [self.taskInfo addObject:statisticalInfo];
+            }
+        }
+        if (self.isStatusButton == 1)
+        {
+            if ([statisticalInfo.acceptTime isEqualToString:@""] || statisticalInfo.finishTime == nil)
+            {
+                [self NETWORK_TaskStatus:statistical.taskCode];
+            }
+            else
+            {
+                [self.taskInfo addObject:statisticalInfo];
+            }
+        }
         
     }
     else

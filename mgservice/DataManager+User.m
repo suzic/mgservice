@@ -15,11 +15,11 @@
 {
     DBTaskList *taskList = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", taskCode];
-    NSArray *result = [self arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    NSArray *result = [self arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 ||result == nil)
     {
-        taskList = (DBTaskList *)[self insertIntoCoreData:@"DBTaskList"];
-        taskList.taskCode = taskCode;
+//        taskList = (DBTaskList *)[self insertIntoCoreData:@"DBTaskList"];
+//        taskList.taskCode = taskCode;
     }else
         taskList = result[0];
     return taskList;

@@ -298,7 +298,7 @@ UIAlertViewDelegate>
         if (aError.code == 0 || [[self.ywIMKit.IMCore getLoginService] isCurrentLogined]) {
             /// 登录成功
 #ifdef DEBUG
-//            [[SPUtil sharedInstance] showNotificationInViewController:self.rootWindow.rootViewController title:@"登录成功" subtitle:nil type:SPMessageNotificationTypeSuccess];
+            [[SPUtil sharedInstance] showNotificationInViewController:self.rootWindow.rootViewController title:@"登录成功" subtitle:nil type:SPMessageNotificationTypeSuccess];
 #endif
             
             if (aSuccessBlock) {
@@ -306,6 +306,7 @@ UIAlertViewDelegate>
             }
         } else {
             /// 登录失败
+            NSLog(@"%@",aError);
             [[SPUtil sharedInstance] showNotificationInViewController:self.rootWindow.rootViewController title:@"登录失败" subtitle:aError.description type:SPMessageNotificationTypeError];
             
             if (aFailedBlock) {

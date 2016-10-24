@@ -6,6 +6,17 @@
         <attribute name="wUserId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="belongCallList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBTaskList" inverseName="hasMessage" inverseEntity="DBTaskList" syncable="YES"/>
     </entity>
+    <entity name="DBStatisticalInfoList" representedClassName="DBStatisticalInfoList" syncable="YES">
+        <attribute name="acceptTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cancelTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="finishTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="DBStatisticalList" representedClassName="DBStatisticalList" syncable="YES">
         <attribute name="acceptTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
@@ -85,5 +96,6 @@
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="405"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="345"/>
         <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
+        <element name="DBStatisticalInfoList" positionX="-4473" positionY="-1134" width="128" height="180"/>
     </elements>
 </model>

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "SPUserDefaultsManger.h"
 #import "MainViewController.h"
+#import "InTaskController.h"
 #import "UMessage.h"
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -147,16 +148,35 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"pushMessType" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiStartDrawMap object:nil];
     //拿到coredata里的已接任务数据
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    DBTaskList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+//    DBStatisticalInfoList * waiterTaskList = [[[DataManager defaultInstance]arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
 //    if (waiterTaskList != nil) {
 //        [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
 //    }
-    NSLog(@"%@",waiterTaskList.status);
-    if ([waiterTaskList.status isEqualToString:@"0"] || [waiterTaskList.status isEqualToString:@"2"])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
-    }
+//    NSLog(@"%@",waiterTaskList.status);
+//    if ([waiterTaskList.status isEqualToString:@"0"] || [waiterTaskList.status isEqualToString:@"2"])
+//    {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
+//    }
+    //有任务跳转到地图页面
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+//    NSMutableArray * array = (NSMutableArray *)[[DataManager defaultInstance]arrayFromCoreData:@"DBStatisticalInfoList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
+//    NSMutableArray * array  = (NSMutableArray *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+//    if(array.count > 0)
+//    {
+//        for (DBStatisticalInfoList * waiterTask in array)
+//        {
+//            if([waiterTask.category isEqualToString:@"0"] && [waiterTask.taskStatus isEqualToString:@"0"])
+//            {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:PushTaskStatus object:nil userInfo:nil];
+//                InTaskController *task = [[InTaskController alloc]init];
+//                UINavigationController *pushNav = [[UINavigationController alloc]initWithRootViewController:task];
+//                [self.window.rootViewController presentViewController:pushNav animated:YES completion:nil];
+//            }
+//        }
+//    }
+    
 }
 
 //应用程序被终止时，执行此代理方法

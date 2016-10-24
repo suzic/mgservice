@@ -340,7 +340,7 @@
             cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",@"11111111111"];
         }
         
-        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+//        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
         UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
         [cell.phoneNumber addGestureRecognizer:phoneTap];
         
@@ -388,16 +388,16 @@
             cell.phoneNumber.text = [NSString stringWithFormat:@"联系电话：%@",[presentListArray[0] targetTelephone]];
         }
         
-        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
+//        [self fuwenbenLabel:cell.phoneNumber FontNumber:nil AndRange:NSMakeRange(0, 5) AndColor:[UIColor blackColor]];
         UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
         [cell.phoneNumber addGestureRecognizer:phoneTap];
         
-        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
-        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
-        NSString * separatedstartTime= [startTime substringFromIndex:5];
-        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
-        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
-        cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
+//        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+//        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
+//        NSString * separatedstartTime= [startTime substringFromIndex:5];
+//        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+//        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
+//        cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
         [cell.menuOrderMoney sizeToFit];
         cell.readyInfo.tag = section + 100;
         [cell.readyInfo addTarget:self action:@selector(completeReady:) forControlEvents:UIControlEventTouchUpInside];
@@ -453,11 +453,11 @@
         UITapGestureRecognizer * phoneTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(phoneCall:)];
         [cell.phoneNumber addGestureRecognizer:phoneTap];
         
-        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
-        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
-        NSString * separatedstartTime= [startTime substringFromIndex:5];
-        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
-        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
+//        NSString * startTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverStartTime]];
+//        NSString * endTime = [NSString stringWithFormat:@"%@",[presentListArray[0] deliverEndTime]];
+//        NSString * separatedstartTime= [startTime substringFromIndex:5];
+//        NSString * separatedEndTime= [endTime componentsSeparatedByString:@" "][1];
+//        cell.deliverStartAndEndTime.text = [NSString stringWithFormat:@"要求送达时间：%@ - %@",separatedstartTime,separatedEndTime];
         cell.menuOrderMoney.text = [NSString stringWithFormat:@"总额：￥ %@",[presentListArray[0] menuOrderMoney]];
         [cell.menuOrderMoney sizeToFit];
         cell.readyInfo.tag = section + 100;

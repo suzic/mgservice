@@ -121,6 +121,8 @@
 		9C83100B1D87FD3F009D7BA5 /* StatisticalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C83100A1D87FD3F009D7BA5 /* StatisticalController.m */; };
 		9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */; };
 		9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */; };
+		9CCA34C51DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA34C21DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m */; };
+		9CCA34C61DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA34C41DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m */; };
 		9CDAFAAF1D90E1CC00711BAB /* HeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAFAAE1D90E1CC00711BAB /* HeaderCell.m */; };
 		9CDAFAB21D90E1D500711BAB /* SubCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDAFAB11D90E1D500711BAB /* SubCell.m */; };
 		A87E48DB1DADE31800C98D97 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A87E48DA1DADE31800C98D97 /* UserNotifications.framework */; };
@@ -564,6 +566,10 @@
 		9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defaut_Enu.m; sourceTree = "<group>"; };
 		9CBB00791CA537E900AA5C03 /* NSString+Addtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addtions.h"; sourceTree = "<group>"; };
 		9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addtions.m"; sourceTree = "<group>"; };
+		9CCA34C11DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalInfoList+CoreDataClass.h"; sourceTree = "<group>"; };
+		9CCA34C21DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBStatisticalInfoList+CoreDataClass.m"; sourceTree = "<group>"; };
+		9CCA34C31DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalInfoList+CoreDataProperties.h"; sourceTree = "<group>"; };
+		9CCA34C41DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBStatisticalInfoList+CoreDataProperties.m"; sourceTree = "<group>"; };
 		9CDAFAAD1D90E1CC00711BAB /* HeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderCell.h; sourceTree = "<group>"; };
 		9CDAFAAE1D90E1CC00711BAB /* HeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderCell.m; sourceTree = "<group>"; };
 		9CDAFAB01D90E1D500711BAB /* SubCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubCell.h; sourceTree = "<group>"; };
@@ -1880,6 +1886,10 @@
 				9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */,
 				9C3AC1511DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.h */,
 				9C3AC1521DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m */,
+				9CCA34C11DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.h */,
+				9CCA34C21DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m */,
+				9CCA34C31DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.h */,
+				9CCA34C41DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m */,
 				FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */,
 			);
 			name = Objects;
@@ -2298,6 +2308,7 @@
 				9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */,
 				A89C96961CDADAB40031A7A4 /* NSArray+PMXPathPlanning.m in Sources */,
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
+				9CCA34C61DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
 				FCEDD8501CC9D6D4002DBC52 /* DBMessage+CoreDataProperties.m in Sources */,
 				9C71F8211D98D3B800EF1C3A /* StarView.m in Sources */,
@@ -2344,6 +2355,7 @@
 				9C789EB41CBF679300932D0C /* AFHTTPSessionManager.m in Sources */,
 				9C78A6011CBF98B800932D0C /* SPCallingCardBubbleChatView.m in Sources */,
 				A89C965C1CDADA5E0031A7A4 /* InSearchViewController.m in Sources */,
+				9CCA34C51DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m in Sources */,
 				A89C96921CDADAB40031A7A4 /* AMHuaDongXuanZeView.m in Sources */,
 				FCA9C9ED1CB39B28006579A4 /* Util.m in Sources */,
 				A89C965D1CDADA5E0031A7A4 /* NgrmapViewController.m in Sources */,

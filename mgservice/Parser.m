@@ -76,6 +76,10 @@
     {
         datas = [self parseReloadIM:dict];
     }
+    else if ([ident isEqualToString:@URI_WAITER_TASkSTATUS]) //通过任务号，获取统计信息
+    {
+        datas = [self parseWaiterStatisticalInfoTaskStatus:dict];
+    }
     else if ([ident isEqualToString:@URI_WAITER_TASkSTATUS]) //通过任务号，获得任务信息
     {
         datas = [self parseWaiterTaskStatus:dict];
@@ -265,6 +269,7 @@
     waiterTask.finishTime =           dic[@"progreeInfo"][@"finishTime"];
     waiterTask.cancelTime =           dic[@"cancelTime"];
     waiterTask.status =               dic[@"status"];
+    [SPUserDefaultsManger setValue:waiterTask.taskCode forKey:@"taskCode"];
     [array addObject:waiterTask];
     [array addObject:dic];
     return array;
@@ -278,6 +283,7 @@
     NSDictionary * dic = (NSDictionary *)dict;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    NSArray *result1 = [[DataManager defaultInstance] arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 || result == nil)
     {
         return nil;
@@ -286,9 +292,15 @@
     {
         for (DBTaskList * waiterTask in result) {
             waiterTask.status = dic[@"status"];
-            waiterTask.finishTime = dic[@"finishTime"];
+            waiterTask.createTime =
+            waiterTask.finishTime = dic[@"progreeInfo"][@"finishTime"];
             waiterTask.accepTime = dic[@"progreeInfo"][@"acceptTime"];
             [array addObject:waiterTask];
+        }
+        for (DBStatisticalInfoList * statisticalInfo in result1)
+        {
+            statisticalInfo.finishTime = dic[@"progreeInfo"][@"finishTime"];
+            [array addObject:statisticalInfo];
         }
     }
     return array;
@@ -297,7 +309,6 @@
 #pragma mark - 服务员取消订单
 - (NSMutableArray *)parseWaiterCancelTask:(id)dict
 {
-    NSLog(@"%@",dict);
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
@@ -324,7 +335,8 @@
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+//    DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+    DBTaskList * waiterTask = (DBTaskList *)[[DataManager defaultInstance]insertIntoCoreData:@"DBTaskList"];
     waiterTask.taskStatus = [NSString stringWithFormat:@"%ld",[dic[@"status"] integerValue]];
     waiterTask.timeLimit = dic[@"taskInfo"][@"timeLimit"];      //要求完成时间(在送餐任务里提现)
     waiterTask.messageInfo = dic[@"taskInfo"][@"messageInfo"];
@@ -332,6 +344,25 @@
     waiterTask.finishTime = dic[@"progressInfo"][@"finishTime"];//任务完成时间
     waiterTask.accepTime = dic[@"progressInfo"][@"acceptTime"]; //任务领取时间
     [array addObject:waiterTask];
+    return array;
+}
+
+//通过任务编号，插入统计信息
+- (NSMutableArray *)parseWaiterStatisticalInfoTaskStatus:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    DBStatisticalInfoList * statisticalInfo = (DBStatisticalInfoList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBStatisticalInfoList"];
+    statisticalInfo.taskStatus = [NSString stringWithFormat:@"%ld",[dic[@"status"] integerValue]];
+    statisticalInfo.timeLimit = dic[@"taskInfo"][@"timeLimit"];      //要求完成时间(在送餐任务里体现)
+    statisticalInfo.messageInfo = dic[@"taskInfo"][@"messageInfo"];
+    statisticalInfo.taskCode =    dic[@"taskInfo"][@"taskCode"];
+    statisticalInfo.category =    dic[@"taskInfo"][@"category"];
+    statisticalInfo.createTime = dic[@"progressInfo"][@"createTime"];//创建时间
+    statisticalInfo.finishTime = dic[@"progressInfo"][@"finishTime"];//任务完成时间
+    statisticalInfo.acceptTime = dic[@"progressInfo"][@"acceptTime"]; //任务领取时间
+    statisticalInfo.cancelTime = dic[@"cancelTime"];                    //任务取消时间
+    [array addObject:statisticalInfo];
     return array;
 }
 

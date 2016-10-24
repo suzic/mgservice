@@ -111,6 +111,7 @@
 #import "DBWaiterInfor.h"
 #import "DataManager.h"
 #import "DBStatisticalList+CoreDataClass.h"
+#import "DBStatisticalInfoList+CoreDataClass.h"
 #import "RequestNetWork.h"
 #import "DBWaiterPresentList.h"
 #import "DataManager+User.h"

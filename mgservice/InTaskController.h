@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "NgrmapViewController.h"
+#import "NgrmapViewController.h"
 
 @interface InTaskController : UIViewController
-//@property (weak, nonatomic) NgrmapViewController *mapViewController;
+@property (weak, nonatomic) NgrmapViewController *mapViewController;
 
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
@@ -27,4 +27,6 @@
 //完成任务
 - (void)NETWORK_reloadWorkStatusTask;
 
+//
+- (void)NETWORK_TaskStatus;
 @end
