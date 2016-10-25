@@ -146,15 +146,15 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.navigationItem.rightBarButtonItem = nil;
     self.inTaskTop.constant = self.view.frame.size.height - 124;
     self.inTaskBottom.constant = 64 - self.view.frame.size.height;
-
     
-//    [self configMapView:nil];
+    
+    //    [self configMapView:nil];
     _locationFloorId = 0;
     self.interval = 0;
     self.selectStartDisData = [[CollectionMessage alloc]init];
     self.selectEndDisData = [[CollectionMessage alloc]init];
     self.indoorPoiIdArray = [NSMutableArray array];
-     self.navigationEndPoint = CGPointMake(0, 0);
+    self.navigationEndPoint = CGPointMake(0, 0);
     self.regionArray = [NSMutableArray array];
     self.jsonFloorDataArray = [NSMutableArray array];
     self.collectionArray = [NSMutableArray array];
@@ -168,20 +168,20 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.regionPointArray_45 = [NSMutableArray array];
     self.regionPointArrayOutDoor = [NSMutableArray array];
     self.distanceCount = 0;
-
+    
     _searchVC = [[InSearchViewController alloc]init];
     _searchVC.delegate = self;
     _currentLocationPoint = CGPointMake(0, 0);
-//    self.navigationItem.rightBarButtonItem = self.rightBarButton;
+    //    self.navigationItem.rightBarButtonItem = self.rightBarButton;
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
     
     //自动转换定位点偏角
     [self addLocationCompass];
-
-     //顶部自动切换楼层的计时代码。
+    
+    //顶部自动切换楼层的计时代码。
     [self addAutochangeMapButton];
-
+    
     //改变背景颜色
     [self.mapView setBackgroundColor:rgba(192, 192, 192, 0.8)];
     
@@ -192,7 +192,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         
     }];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        _showFinish = NO;
+        //        _showFinish = NO;
     }];
     [self.alertController addAction:cancelAction];
     [self.alertController addAction:action];
@@ -212,7 +212,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.autoChangeMapButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.autoChangeMapButton addTarget:self action:@selector(autochangfloor) forControlEvents:UIControlEventTouchUpInside];
     self.autoChangeMapButton.frame = CGRectMake(75, 94, kScreenWidth-150, 20);
-//    [self.view addSubview:self.autoChangeMapButton];
+    //    [self.view addSubview:self.autoChangeMapButton];
     [self.view insertSubview:self.autoChangeMapButton belowSubview:self.inTaskView];
     self.autoChangeMapButton.titleLabel.numberOfLines = 1;
     self.autoChangeMapButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -237,7 +237,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _Locationbtn.backgroundColor = [UIColor whiteColor];
     [_Locationbtn addTarget:self action:@selector(gotoCurrentCenter) forControlEvents:UIControlEventTouchUpInside];
     _Locationbtn.frame = CGRectMake(10 , 20+ 64 +40, 40, 40);
-//    [self.view addSubview:_Locationbtn];
+    //    [self.view addSubview:_Locationbtn];
     [self.view insertSubview:_Locationbtn belowSubview:self.inTaskView];
 }
 //去掉自动跳转的功能
@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.shouldAutoChangFloor = NO;
 }
 -(void)gotoCurrentCenter{
-   touchPointData* currentLocation = [self UserCurrentLocation];
+    touchPointData* currentLocation = [self UserCurrentLocation];
     if (currentLocation) {
         //去掉自动跳转的功能
         [self cancelAutochangeFloorTimer];
@@ -289,12 +289,12 @@ typedef NS_ENUM(NSInteger, parkingState) {
     UILongPressGestureRecognizer *longPressGes = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandle:)];
     [self.mapView addGestureRecognizer:longPressGes];
 }
- -(void)addLocationCompass{
-     _locationManager = [[CLLocationManager alloc]init];
-     _locationManager.delegate = self;
-     _locationManager.headingFilter =kCLHeadingFilterNone;
-     [_locationManager startUpdatingHeading];
-     
+-(void)addLocationCompass{
+    _locationManager = [[CLLocationManager alloc]init];
+    _locationManager.delegate = self;
+    _locationManager.headingFilter =kCLHeadingFilterNone;
+    [_locationManager startUpdatingHeading];
+    
 }
 -(void)addProcessOverlayer{
     _bubblePopStart = [[NSBundle mainBundle]loadNibNamed:@"BubblePopView" owner:self options:nil][0];
@@ -305,7 +305,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _popImageOverlayerStart.view = _bubblePopStart;
     _popImageOverlayerEnd = [[NGROverlayer alloc]init];
     _popImageOverlayerEnd.view = _bubblePopEnd;
-  
+    
 }
 #pragma mark-添加限定区域
 //添加限定区域的代码
@@ -352,26 +352,26 @@ typedef NS_ENUM(NSInteger, parkingState) {
         //循环是用来得到一个区域块的点位数据
         for (OneRegionModel* oneReg in self.regionPointArrayOutDoor) {
             //循环得到一个xy坐标
-                CGMutablePathRef pathRef = CGPathCreateMutable();
-                double startX = 0 ;
-                double startY = 0 ;
-                for (int i = 0; i<[oneReg.regionArray count]; i++) {
-                    NSArray* pointXY = oneReg.regionArray[i];
-                    double x = [pointXY[0] doubleValue];
-                    double y = [pointXY[1] doubleValue];
-                    
-                    if (i== 0) {
-                        startX = x;
-                        startY = y;
-                        CGPathMoveToPoint(pathRef, NULL, x, y);
-                    }else if(i == [oneReg.regionArray count] - 1){
-                        CGPathAddLineToPoint(pathRef, NULL, x, y);
-                        CGPathAddLineToPoint(pathRef, NULL, startX, startY);
-                        CGPathCloseSubpath(pathRef);
-                    }else{
-                        CGPathAddLineToPoint(pathRef, NULL, x, y);
-                    }
-                    
+            CGMutablePathRef pathRef = CGPathCreateMutable();
+            double startX = 0 ;
+            double startY = 0 ;
+            for (int i = 0; i<[oneReg.regionArray count]; i++) {
+                NSArray* pointXY = oneReg.regionArray[i];
+                double x = [pointXY[0] doubleValue];
+                double y = [pointXY[1] doubleValue];
+                
+                if (i== 0) {
+                    startX = x;
+                    startY = y;
+                    CGPathMoveToPoint(pathRef, NULL, x, y);
+                }else if(i == [oneReg.regionArray count] - 1){
+                    CGPathAddLineToPoint(pathRef, NULL, x, y);
+                    CGPathAddLineToPoint(pathRef, NULL, startX, startY);
+                    CGPathCloseSubpath(pathRef);
+                }else{
+                    CGPathAddLineToPoint(pathRef, NULL, x, y);
+                }
+                
                 if (CGPathContainsPoint(pathRef, NULL, touchpoint, NO)) {
                     regionName = oneReg.name;
                 }
@@ -407,9 +407,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
                         }
                     }
                 }else{
-                     regionName =floorRegion.mapName;
+                    regionName =floorRegion.mapName;
                 }
-               
+                
             }
         }
     }
@@ -531,7 +531,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 - (IBAction)tenM:(id)sender {
 }
- //跳转到搜索起始点和终点的页面
+//跳转到搜索起始点和终点的页面
 -(void)searchSelectStartPoint:(UIButton*)sender{
     _searchVC.searchType = sender.tag;
     [self.navigationController pushViewController:_searchVC animated:YES];
@@ -574,7 +574,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     _selectPinView.frame = CGRectMake(0, 0, 30, 30);
     _selectPinView.image=[UIImage imageNamed:@"定位"];
     _selectPinView.layer.anchorPoint = CGPointMake(0.5, 1);
-
+    
     _selectPinOverlayer.view = _selectPinView;
     _selectStartOverlayer = [[NGROverlayer alloc]init];
     _selectStartPinView = [[UIImageView alloc] init];
@@ -599,7 +599,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     userImageView.image = [UIImage imageNamed:@"locationPointF"];
     _userOverLayer =[[NGROverlayer alloc]initWithView:userImageView];
 }
- //选择wifi定位
+//选择wifi定位
 -(void)selectWifi{
     if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"netType"]isEqualToString:@"innet"]){
         __weak typeof (self) weakSelf = self;
@@ -656,14 +656,14 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     self.isClipNavigationLine =YES;
     [self.navigationManager clipFeatureCollectionByCoordinate:newLocation.point];
-
+    
 }
 //得到新的定位点之后刷新相关状态
 -(void)getNewLocationRefreshStateNewLocation:(NGRLocation *)newLocation{
     _locationFloorId = newLocation.floorId;
     self.currentLocation = newLocation;
     self.currentLocationPoint = newLocation.point;
-
+    
 }
 
 -(void)locationPointChangenewLocation:(NGRLocation *)newLocation{
@@ -674,14 +674,14 @@ typedef NS_ENUM(NSInteger, parkingState) {
         if ([self.navigationManager respondsToSelector:@selector(getMinDistanceByPoint:)]) {
             pointdistance = [self.navigationManager getMinDistanceByPoint:newLocation.point];
         }
-       
+        
     }
     if (pointdistance<5&& pointdistance!=0) {
         adsorbPoint = [self.navigationManager getPointOfIntersectioanByPoint:self.currentLocationPoint] ;
     }else{
         adsorbPoint = newLocation.point;
     }
-   
+    
     if (_currentFloorId == newLocation.floorId){
         [self.mapView addOverlayer:_userOverLayer];
         [UIView animateWithDuration:0.5 animations:^{
@@ -727,7 +727,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     if (_selectStartAndEndPintView.isGetingNavigationData == NO&&self.distanceCount>1) {
         self.distanceCount = 0;
-       
+        
         self.selectStartAndEndPintView.selectStartData =nil;
         self.selectStartAndEndPintView.selectStartData = [self UserCurrentLocation];
         [self againLoadNavigationStartData :[self UserCurrentLocation] EndData:_selectStartAndEndPintView.selectEndData];
@@ -746,7 +746,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     if (distance<breakthrough&&_currentFloorId == self.selectStartAndEndPintView.selectEndData.floorID&&_isNavigatingActualTime) {
         if (!self.finishNavAlert) {
-             self.finishNavAlert = [ [UIAlertView alloc]initWithTitle:@"您已到达目的地附近，本次导航结束。" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            self.finishNavAlert = [ [UIAlertView alloc]initWithTitle:@"您已到达目的地附近，本次导航结束。" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         }
         self.finishNavAlert.tag = 10;
         self.finishNavAlert.delegate = self;
@@ -755,10 +755,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView==self.finishNavAlert) {
-          [self dismissNavigationToolView];
+        [self dismissNavigationToolView];
     }
 }
- //  定位点变化
+//  定位点变化
 - (void)didLocationChanged:(NGRPositioningManager *)manager oldLocation:(NGRLocation *)oldLocation newLocation:(NGRLocation *)newLocation status:(NGRLocationStatus)status{
     self.alertlocationEView.hidden = YES;
     if ([self abolishLocationPointBehaviourWithStatus:status andNewLocation:newLocation] ) {
@@ -784,7 +784,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
             //当前楼层等于定位点的楼层号不进行自动楼 层切换只进行定位点的位移。
             if (_currentFloorId == newLocation.floorId){
                 self.userPoint = newLocation.point;
-                 self.shouldAutoChangFloor = YES;
+                self.shouldAutoChangFloor = YES;
                 //定位点改变了
                 [self locationPointChangenewLocation:newLocation];
                 //切割导航线
@@ -802,9 +802,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
             }
             if (_isNavigatingActualTime&&!self.isRequestingMap) {
                 if (self.nowfeaturecollection.count>1) {
-                     [self autoNavigateWithnewLocation:newLocation];
+                    [self autoNavigateWithnewLocation:newLocation];
                 }
-                 [self autoFinishNavigateWithnewLocation:newLocation];
+                [self autoFinishNavigateWithnewLocation:newLocation];
             }
         });
     }
@@ -816,7 +816,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 //定位异常回调方法
 - (void)didLocationError:(NGRPositioningManager *)manager error:(NGRLocationStatus)status{
-//    ShowOMGToast(self.locationErrorState[status]);
+    //    ShowOMGToast(self.locationErrorState[status]);
     self.alertlocationEView.hidden = NO;
     self.alertlocationEView.alertMessageStr = @"网络不佳，无法定位";
 }
@@ -827,7 +827,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"netType"]isEqualToString:@"innet"]) {
             _dataSource = [[NGRDataSource alloc] initWithRoot:@"http://10.11.88.105/"];
         }else{
-//            _dataSource = [[NGRDataSource alloc] initWithRoot:@"http://172.16.10.235:8080/nagrand-service/"];
+            //            _dataSource = [[NGRDataSource alloc] initWithRoot:@"http://172.16.10.235:8080/nagrand-service/"];
             _dataSource = [[NGRDataSource alloc] init];
         }
         _dataSource.delegate = self;
@@ -840,12 +840,12 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.shouldAutoChangFloor = YES;
 }
 -(void)requestMapOutDoorWithAlert{
-     ShowHudViewOnSelfViewWithMessage(@"正在加载地图");
+    ShowHudViewOnSelfViewWithMessage(@"正在加载地图");
     [self requestMapOutDoorWithSearchPoi:nil  andsearchType:searchNone];
 }
 -(void)subtraction:(NSTimer*)timer{
     self.substractionCount--;
-     [HPDProgress defaultProgressHUD].progressHud.labelText =[NSString stringWithFormat:@"网络不佳，规划时间不超过%ld秒",(long)self.substractionCount];
+    [HPDProgress defaultProgressHUD].progressHud.labelText =[NSString stringWithFormat:@"网络不佳，规划时间不超过%ld秒",(long)self.substractionCount];
     if (self.substractionCount==0) {
         HideHPDProgress;
         [self invalidDelayLoadingTimer];
@@ -873,7 +873,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 #pragma mark-加载地图完毕
 -(void)requestMapOutDoorWithSearchPoi:(NGRLocationModel*)searchPoiModel andsearchType:(searchType)searchType{
-
+    
 }
 
 -(void)resetOverLayer{
@@ -909,7 +909,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         }
         [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23043000) isVisible:NO];
         [weakSelf.mapView visibleLayerFeature:@"Facility" key:@"category" value:@(23041000) isVisible:NO];
-
+        
         if (weakSelf.mapView.currentID) {
             weakSelf.isClipNavigationLine = NO;
             [weakSelf.navigationManager switchPlanarGraph:weakSelf.mapView.currentID];
@@ -929,7 +929,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 
 #pragma mark-进入室内地图进入室内的数据处理
- //进入室内的方式
+//进入室内的方式
 -(void)comeInInDoorMapWithMapID:(NGRID)mapid andFloorID:(NGRID)floorID WithSearchPoi:(NGRLocationModel*)searchPoiModel andSearchType:(searchType)searchType{
     self.shouldAutoChangFloor = NO;
     _currentFloorId =0;
@@ -941,7 +941,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     __weak typeof(self) weakSelf = self;
     [_dataSource requestPoiChildren:validMapid success:^(NSArray *pois){
-         HideHPDProgress;
+        HideHPDProgress;
         if (pois.count==0) {
             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"没有楼层数据" message:nil
                                                           delegate:weakSelf
@@ -1021,7 +1021,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 #pragma mark-获取起点终点的方法
 -(void)getfeaturestartend{
-
+    
 }
 
 #pragma mark-搜索相关
@@ -1074,13 +1074,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
             [self getSearchResultThanAutoHandelLocationModel:locationModel andSearchType:searchType];
         }
     }else if ([locationModel.type isEqualToString: kTypeFloor]){
-         ShowHudViewOnSelfViewWithMessage(@"正在跳转搜索到的位置");
+        ShowHudViewOnSelfViewWithMessage(@"正在跳转搜索到的位置");
         [self comeInInDoorMapWithMapID:locationModel.parentID andFloorID:locationModel.ID WithSearchPoi:locationModel andSearchType:searchType];
     }
 }
 //得到搜索结果之后自动处理
 -(void)getSearchResultThanAutoHandelLocationModel:(NGRLocationModel*)locationModel andSearchType:(searchType)searchType{
-
+    
     NGRFeature *feature =  [self.mapView searchFeatureWithId:locationModel.ID];//672677
     CGPoint point = [feature getCentroid];
     touchPointData* touchPoint = [[touchPointData alloc]init];
@@ -1091,7 +1091,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         if (locationModel.parentID == outDoorId) {
             touchPoint.floorID = (NSInteger)locationModel.parentID;
             touchPoint.floorName = @"户外";
-           
+            
         }else{
             for (FloorRegionModel* floorRegion in self.jsonFloorDataArray) {
                 if (locationModel.parentID == floorRegion.floorid.integerValue) {
@@ -1124,7 +1124,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         default:
             break;
     }
-
+    
 }
 -(touchPointData*)searchVCgetCurrentUserLocation{
     return [self UserCurrentLocation];
@@ -1142,7 +1142,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     [self.outdoorButton removeFromSuperview];
     [self.Locationbtn removeFromSuperview];
     self.navigationItem.rightBarButtonItem = nil;
-   
+    
 }
 -(void)endNavigateAppearAllbutton{
     if (_currentFloorId != outDoorId) {
@@ -1150,9 +1150,9 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     [self.view addSubview: self.outdoorButton ];
     [self.view addSubview:self.Locationbtn];
-     self.navigationItem.rightBarButtonItem = self.rightBarButton;
+    self.navigationItem.rightBarButtonItem = self.rightBarButton;
     
-
+    
 }
 /**
  *  开始导航，更新界面
@@ -1214,10 +1214,10 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.navigationStartView.dataArray = self.collectionArray;
     [self.navigationStartView viewReloadData];
     
-
+    
 }
 -(CollectionMessage*)getfloorMessageFromFloorID:(NSNumber*)floorID{
-     CollectionMessage* collectModel = [[CollectionMessage alloc]init];
+    CollectionMessage* collectModel = [[CollectionMessage alloc]init];
     for (FloorRegionModel* floorRegion in self.jsonFloorDataArray) {
         if (floorID.integerValue == floorRegion.floorid.integerValue) {
             NSString* str = [NSString stringWithFormat:@"%@-%@",floorRegion.mapName,floorRegion.floorName];
@@ -1249,13 +1249,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
         self.selectEndDisData.floorName = [NSString stringWithFormat:@"%@-%@",floorMessage.floorName,poiStr];
         [(UIButton*)target setTitle:self.selectEndDisData.floorName forState:UIControlStateNormal];
     }else if(target == _bubblePopStart){
-       _bubblePopStart.bubblePopTitle = [NSString stringWithFormat:@"%@-%@",floorMessage.floorName,poiStr];
+        _bubblePopStart.bubblePopTitle = [NSString stringWithFormat:@"%@-%@",floorMessage.floorName,poiStr];
     }else if(target == _bubblePopEnd){
         _bubblePopEnd.bubblePopTitle = [NSString stringWithFormat:@"%@-%@",floorMessage.floorName,poiStr];
     }
     
 }
- //添加选择起点终点的界面
+//添加选择起点终点的界面
 - (void)addAnnotation:(CGPoint)point ImageName:(NSString *)name ChangtoFloor:(NSUInteger)floorID{
     if ([name isEqualToString:@"luoyao起点.png"]) {
         [self addOverlayer:_selectStartOverlayer andScreenPoint:[self.mapView getScreenPositionFromWorldPosition:point]  andFloorId:self.selectStartAndEndPintView.selectStartData.floorID];
@@ -1268,7 +1268,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }else if([name isEqualToString:@"luoyao终点.png"]){
         [self addOverlayer:_selectEndOverlayer andScreenPoint:[self.mapView getScreenPositionFromWorldPosition:point]  andFloorId:self.selectStartAndEndPintView.selectEndData.floorID];
         
-         [self setSelectDisplayTitle:_selectEndButton andpoint:point andFloorid:[NSNumber numberWithInteger: self.selectStartAndEndPintView.selectEndData.floorID]];
+        [self setSelectDisplayTitle:_selectEndButton andpoint:point andFloorid:[NSNumber numberWithInteger: self.selectStartAndEndPintView.selectEndData.floorID]];
     }else{
         
     }
@@ -1325,13 +1325,13 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 -(void)navigationresponseStateHandleWith:(NGRFeatureCollection *)featureCollection{
     _hasNavigatioLine = YES;//这个时候让点击事件无效直到结束之后再变成NO
-     _selectStartAndEndPintView.isGetingNavigationData = NO;
+    _selectStartAndEndPintView.isGetingNavigationData = NO;
     _navigationStartView.navigationButton.userInteractionEnabled = YES;
     [self invalidDelayLoadingTimer];
 }
 -(void)addNavigationLayer:(NGRFeatureCollection *)featureCollection{
     [_naviLayer clearFeatures];
-     _naviLayer = [[NGRFeatureLayer alloc] initWithFeatureName:@"navigate"];
+    _naviLayer = [[NGRFeatureLayer alloc] initWithFeatureName:@"navigate"];
     [_naviLayer setCoordinateOffset:self.mapView.coordinateOffset];
     [self.mapView addLayer:_naviLayer];
     [_naviLayer addFeatures:featureCollection];
@@ -1372,7 +1372,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     self.autoRotationangle = -self.autoRotationangle;
     if (_isNavigatingActualTime) {
-//        [self autoRotationtoVerticalToScreen];
+        //        [self autoRotationtoVerticalToScreen];
     }
 }
 -(void)addPopViewwith:(NGRFeatureCollection *)featureCollection{
@@ -1401,7 +1401,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
             //            _bubblePopEnd.title.text = _bubblePopTitle1;//修改
         }
     }
-
+    
 }
 -(void)setDistanceFromEndPoint:(int)distance{
     int time  = (int)distance/1.5/60;
@@ -1422,7 +1422,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
         if ([self.mapView respondsToSelector:@selector(searchFeatureWithPoint:)]) {
             featureEnd = [self.mapView searchFeatureWithPoint:[self.mapView getScreenPositionFromWorldPosition:self.selectStartAndEndPintView.selectEndData.location]];//崩溃
         }
-    
+        
         if (featureEnd.display) {
             [mutStr appendString:featureEnd.display];
         }else{
@@ -1483,15 +1483,15 @@ typedef NS_ENUM(NSInteger, parkingState) {
     //添加气泡
     if (state==NAVIGATE_SWITCH_SUCCESS||state==NAVIGATE_OK) {
         [self.mapView removeAllOverlayer];
-         [self addPopViewwith:featureCollection];
+        [self addPopViewwith:featureCollection];
     }
     //添加中间步骤
     [self addCenterstepwith:featureCollection];
     //距离终点多少米的显示
     [self setDistanceFromEndPoint:_navigationManager.navigationTotalLineLength];
-
+    
 }
- //开始导航之后自动旋转
+//开始导航之后自动旋转
 -(void)autoRotationtoVerticalToScreen{
     [self.mapView rotateIn:self.AngelpointCenter andAngle:self.autoRotationangle];
     [self.mapView moveToRect:CGRectMake(self.navigationStartPoint.x-10, self.navigationStartPoint.y-10, 20, 20) animated:YES duration:300];
@@ -1502,20 +1502,20 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if (pointtype == startPoint) {
         [self setSelectDisplayTitle:_bubblePopStart andpoint:point andFloorid:[NSNumber numberWithInteger:self.selectStartAndEndPintView.selectStartData.floorID] ];
     }else{
-           [self setSelectDisplayTitle:_bubblePopEnd andpoint:point andFloorid:[NSNumber numberWithInteger:self.selectStartAndEndPintView.selectEndData.floorID] ];
+        [self setSelectDisplayTitle:_bubblePopEnd andpoint:point andFloorid:[NSNumber numberWithInteger:self.selectStartAndEndPintView.selectEndData.floorID] ];
     }
     return selectName;
 }
- //调用导航的接口导航
+//调用导航的接口导航
 - (void)shopPopoverViewnavigationWithStartData:(touchPointData *)startPoi EndData:(touchPointData *)endPoi{
     _selectStartAndEndPintView.isGetingNavigationData = YES;
     
     if (!_navigationManager) {
         if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"netType"]isEqualToString:@"innet"]) {
-             _navigationManager = [[NGRNavigateManager alloc] initWithUrl:@"http://10.11.88.105/"];
-           
+            _navigationManager = [[NGRNavigateManager alloc] initWithUrl:@"http://10.11.88.105/"];
+            
         }else{
-//            _navigationManager = [[NGRNavigateManager alloc] initWithUrl:@"http://172.16.10.235:8080/nagrand-service/"];
+            //            _navigationManager = [[NGRNavigateManager alloc] initWithUrl:@"http://172.16.10.235:8080/nagrand-service/"];
             _navigationManager = [[NGRNavigateManager alloc] init];
         }
         _navigationManager.delegate = self;
@@ -1524,7 +1524,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.isClipNavigationLine = NO;
     [_navigationManager navigationFromPoint:startPoi.location fromFloor:startPoi.floorID toPoint:endPoi.location toFloor:endPoi.floorID defaultFloor:self.mapView.currentID];
     ShowHudViewOnSelfViewWithMessage(@"正在加载导航数据");
-   [self delayLoadingAnimationWithTime:20 isNavigate:YES];//5秒后提醒
+    [self delayLoadingAnimationWithTime:20 isNavigate:YES];//5秒后提醒
     [self navigationViewAppear];
 }
 
@@ -1535,20 +1535,20 @@ typedef NS_ENUM(NSInteger, parkingState) {
     //中间层气泡
     [self appearPopViewType:startPoint WithCGPoint:self.selectStartAndEndPintView.selectStartData.location];
     [self appearPopViewType:endPoint WithCGPoint:self.selectStartAndEndPintView.selectEndData.location];
-//    _selectStartAndEndPintView.isGetingNavigationData = YES;
+    //    _selectStartAndEndPintView.isGetingNavigationData = YES;
     self.isClipNavigationLine = NO;
     [_navigationManager navigationFromPoint:startPoi.location fromFloor:startPoi.floorID toPoint:endPoi.location toFloor:endPoi.floorID defaultFloor:self.mapView.currentID];
     _hasNavigatioLine = YES;//这个时候让点击事件无效直到结束之后再变成NO
 }
 
 -(void)touchPoint:(CGPoint)point withFeature:(NGRFeature *)feature {
-
+    
 }
 
 -(void)addOverlayer:(NGROverlayer*)overlayer andScreenPoint:(CGPoint)screenPoint andFloorId:(NGRID)floorid{
-        overlayer.worldPosition = [self.mapView getWorldPositionFromScreenPosition:screenPoint];
-        overlayer.floorId = floorid;
-        [self.mapView addOverlayer: overlayer];
+    overlayer.worldPosition = [self.mapView getWorldPositionFromScreenPosition:screenPoint];
+    overlayer.floorId = floorid;
+    [self.mapView addOverlayer: overlayer];
     
 }
 -(void)showSelectStartOrEndView{
@@ -1558,7 +1558,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     }
     UIWindow* window = [UIApplication sharedApplication].delegate.window;
     [window addSubview:_selectStartAndEndPintView];
-       _selectStartAndEndPintView.bgImageView.center = CGPointMake(kScreenWidth/2, kScreenHeight);
+    _selectStartAndEndPintView.bgImageView.center = CGPointMake(kScreenWidth/2, kScreenHeight);
     [UIView animateWithDuration:0.2 animations:^{
         _selectStartAndEndPintView.bgImageView.center = CGPointMake(kScreenWidth/2, kScreenHeight-(_selectStartAndEndPintView.height/2)-10);
     } completion:^(BOOL finished) {
@@ -1584,7 +1584,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 
 - (void)longPressHandle:(UILongPressGestureRecognizer *)sender {
-
+    
 }
 
 -(void)timeSubtract{
@@ -1641,7 +1641,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
                     [self comeInInDoorMapWithMapID:floorRegion.mapID.integerValue andFloorID:_locationFloorId WithSearchPoi:nil andSearchType:searchNone];
                     
                 }
-               _currentFloorId = _locationFloorId;//15分钟自动切换或者点击切换。
+                _currentFloorId = _locationFloorId;//15分钟自动切换或者点击切换。
                 
             }
         }
@@ -1696,14 +1696,14 @@ typedef NS_ENUM(NSInteger, parkingState) {
         self.inTaskBottom.constant = show ? 0.0f : 60 - self.view.frame.size.height;
     } completion:^(BOOL finished) {
     }];
-
+    
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showInTask"])
     {
         self.intaskController = (InTaskController *)[segue destinationViewController];
-//        self.intaskController.mapViewController = self;
+        self.intaskController.mapViewController = self;
     }
 }
 - (void)setShowFinish:(BOOL)showFinish
@@ -1716,7 +1716,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if (_showFinish == YES)
     {
         [self presentViewController:self.alertController animated:YES completion:nil];
-
+        
     }else
     {
         [self.alertController dismissViewControllerAnimated:YES completion:^{
@@ -1726,7 +1726,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 }
 - (void)distanceBetweenTwoPoints
 {
- 
+    
     if (self.waiterPoint.x == 0 || self.waiterPoint.y == 0 || self.userPoint.x == 0|| self.userPoint.y == 0)
     {
         return;
@@ -1743,7 +1743,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
     if (mac == nil || [mac isEqualToString:@""])
         return;
     __weak typeof (self) weakSelf = self;
-
+    
     weakSelf.userManager = [[NGRPositioningManager alloc]initWithMacAddress:mac appKey:@"" url:@"http://10.11.88.108:80/comet/"];
     weakSelf.userManager.poll = YES;
     weakSelf.userManager.timeInterval = 2000;
@@ -1755,7 +1755,7 @@ typedef NS_ENUM(NSInteger, parkingState) {
 - (void)dealloc
 {
     _dataSource.delegate = nil;
-//    self.intaskController.mapViewController = nil;
+    //    self.intaskController.mapViewController = nil;
     self.intaskController = nil;
 }
 @end

@@ -377,7 +377,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJs-z0-VTS">
+                                    <view hidden="YES" alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJs-z0-VTS">
                                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
@@ -390,7 +390,7 @@
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="width" secondItem="XSh-mX-O1r" secondAttribute="width" id="Eqi-lC-LhN"/>
                                     <constraint firstAttribute="trailing" secondItem="LbJ-sI-KOI" secondAttribute="trailing" id="HLe-kK-yEi"/>
                                     <constraint firstItem="OjL-j6-ae0" firstAttribute="centerY" secondItem="JNu-Hk-Olc" secondAttribute="centerY" id="J8z-Dg-OYv"/>
-                                    <constraint firstItem="S7V-au-laN" firstAttribute="top" secondItem="lge-aO-qDg" secondAttribute="bottom" constant="-9" id="MMS-yj-Kid"/>
+                                    <constraint firstItem="S7V-au-laN" firstAttribute="top" secondItem="lge-aO-qDg" secondAttribute="bottom" constant="-15" id="MMS-yj-Kid"/>
                                     <constraint firstItem="JNu-Hk-Olc" firstAttribute="leading" secondItem="OjL-j6-ae0" secondAttribute="trailing" constant="5" id="Xd4-Ea-SSv"/>
                                     <constraint firstItem="gJs-z0-VTS" firstAttribute="centerY" secondItem="XSh-mX-O1r" secondAttribute="centerY" id="eW9-jY-fmD"/>
                                     <constraint firstItem="lge-aO-qDg" firstAttribute="trailing" secondItem="S7V-au-laN" secondAttribute="trailing" id="ecr-tQ-I5r"/>

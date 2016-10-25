@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NgrmapViewController.h"
-
+#import "GradingView.h"
 @interface InTaskController : UIViewController
 @property (weak, nonatomic) NgrmapViewController *mapViewController;
 
