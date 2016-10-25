@@ -8,14 +8,16 @@
 
 #import "GradingView.h"
 #import "InTaskController.h"
+#import "MainViewController.h"
 
 @interface GradingView()
 
 @property (nonatomic, assign) TaskType taskType;
-@property (nonatomic, strong) InTaskController * inTask;
+@property (nonatomic, strong) InTaskController *inTask;
+@property (nonatomic, strong) MainViewController *MainVC;
 @property (nonatomic, strong) NSString *titleString;
 @property (nonatomic, strong) NSString *taskContentString;
-@property (nonatomic, strong) UIColor * contentColor;
+@property (nonatomic, strong) UIColor *contentColor;
 @end
 
 @implementation GradingView
@@ -80,6 +82,8 @@
 
 - (void)buttonAction:(UIButton *)btn
 {
+    //通知，回到主页
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"backMainViewController" object:nil];
     [self showGradingView:NO];
 }
 

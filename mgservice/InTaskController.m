@@ -64,6 +64,10 @@
 
     //查询任务状态
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
+    
+    //回到主页
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
+    
     [self NETWORK_TaskStatus];
     
     NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
@@ -146,7 +150,6 @@
             NSString * content = @"服务员点击了完成任务";
             GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
             [gradingView showGradingView:YES];
-            [self.navigationController popViewControllerAnimated:YES];
         }
     }
     else
@@ -187,16 +190,15 @@
         }
         if ([infoList.taskStatus isEqualToString:@"9"])
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 //登出IM
-                [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-                [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-                [SPUserDefaultsManger deleteforKey:@"messageCount"];
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
-            [alert addAction:action];
-            [self presentViewController:alert animated:YES completion:nil];
+            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [SPUserDefaultsManger deleteforKey:@"messageCount"];
+            
+            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",self.waiterTaskList.taskCode];
+            NSString * content = @"客人取消了呼叫服务";
+            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+            [gradingView showGradingView:YES];
         }
     }
 }
@@ -406,19 +408,6 @@
 //收到取消任务的通知后，删除已接任务
 - (void)backHomePage:(NSNotification*)notification
 {
-//    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-//        [[DataManager defaultInstance] saveContext];
-//        [self deallocInstantMessageing];
-//        [self.conversation markConversationAsRead];
-//        //登出IM
-//        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-//        [self whenSkipUse];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    }];
-//    [alert addAction:action];
-//    [self presentViewController:alert animated:YES completion:nil];
     [self NETWORK_TaskStatus];
 }
 
@@ -442,6 +431,11 @@
     [self NETWORK_TaskStatus];
 }
 
+//回到主页
+- (void)backMainViewController:(NSNotificationCenter *)noti
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)dealloc
 {
     self.mapViewController = nil;

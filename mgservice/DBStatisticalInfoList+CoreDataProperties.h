@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *taskCode;
 @property (nullable, nonatomic, copy) NSString *taskStatus;
 @property (nullable, nonatomic, copy) NSString *category;
+
 @end
 
 NS_ASSUME_NONNULL_END

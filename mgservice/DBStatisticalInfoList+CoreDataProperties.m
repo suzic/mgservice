@@ -23,4 +23,5 @@
 @dynamic taskCode;
 @dynamic taskStatus;
 @dynamic category;
+
 @end

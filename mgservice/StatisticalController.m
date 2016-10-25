@@ -80,12 +80,13 @@
 {
     [super viewWillAppear:animated];
     NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
+    NSLog(@"%@",dateTime);
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
     
     NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
-    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%d）",openedInSectionArrCount] forState:UIControlStateNormal];
+    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
     NSInteger cancelCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"cancelArrCount"];
-    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",cancelCount] forState:UIControlStateNormal];
+    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelCount] forState:UIControlStateNormal];
 //    [self.tableView reloadData];
 }
 
@@ -192,7 +193,7 @@
         cell.taskNameLabel.text = @"送餐任务";
     
     cell.taskCode.text = statistical.taskCode;
-    cell.starView.rating = 0.0f;
+    cell.starView.rating = [statistical.score floatValue];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSelectedStateHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
@@ -263,8 +264,8 @@
             }
             NSInteger openedInSectionArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"openedInSectionArrCount"];
             NSInteger cancelArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"cancelArrCount"];
-            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%d）",openedInSectionArrCount] forState:UIControlStateNormal];
-            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",cancelArrCount] forState:UIControlStateNormal];
+            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
+            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelArrCount] forState:UIControlStateNormal];
             [self.tableView reloadData];
         }
     }
@@ -296,23 +297,10 @@
     if (succeed)
     {
         if (datas.count > 0) {
-            //每次点击header的时候，都清空一次数组，不然会重复添加
-//            if (self.isStatusButton == 0)
-//            {
-                [self.taskInfo removeAllObjects];
-                for (DBStatisticalInfoList * task in datas)
-                {
-                    [self.taskInfo addObject:task];
-                }
-//            }
-//            
-//            if (self.isStatusButton == 1) {
-//                [self.taskInfo removeAllObjects];
-//                for (DBStatisticalInfoList * task in datas)
-//                {
-//                    [self.taskInfo addObject:task];
-//                }
-//            }
+            for (DBStatisticalInfoList * task in datas)
+            {
+                [self.taskInfo addObject:task];
+            }
             [self.tableView reloadData];
         }
     }
@@ -447,7 +435,8 @@
         }
         if (self.isStatusButton == 1)
         {
-            if ([statisticalInfo.acceptTime isEqualToString:@""] || statisticalInfo.finishTime == nil)
+            NSLog(@"%@",statisticalInfo.cancelTime);
+            if ([statisticalInfo.cancelTime isEqualToString:@""] || statisticalInfo.cancelTime == nil)
             {
                 [self NETWORK_TaskStatus:statistical.taskCode];
             }

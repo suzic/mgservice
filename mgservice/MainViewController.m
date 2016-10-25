@@ -436,15 +436,16 @@
         }
         if ([infoList.taskStatus isEqualToString:@"9"])
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"客人已取消任务！" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                //登出IM
-                [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-                [SPUserDefaultsManger deleteforKey:@"messageCount"];
-                [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-            }];
-            [alert addAction:action];
-            [self presentViewController:alert animated:YES completion:nil];
+
+            //登出IM
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [SPUserDefaultsManger deleteforKey:@"messageCount"];
+            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+            
+            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",infoList.taskCode];
+            NSString * content = @"客人取消了呼叫服务";
+            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+            [gradingView showGradingView:YES];
         }
     }
 }

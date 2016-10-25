@@ -22,5 +22,5 @@
 @dynamic locationArea;
 @dynamic category;
 @dynamic selectedState;
-
+@dynamic score;
 @end

@@ -26,6 +26,7 @@
         <attribute name="locationArea" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="messageInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="score" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="selectedState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeLimit" optional="YES" attributeType="String" syncable="YES"/>
@@ -92,10 +93,10 @@
     </entity>
     <elements>
         <element name="DBMessage" positionX="-4214" positionY="-1089" width="128" height="103"/>
-        <element name="DBStatisticalList" positionX="-4473" positionY="-1134" width="128" height="210"/>
+        <element name="DBStatisticalInfoList" positionX="-4473" positionY="-1134" width="128" height="180"/>
+        <element name="DBStatisticalList" positionX="-4473" positionY="-1134" width="128" height="225"/>
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="405"/>
         <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="345"/>
         <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
-        <element name="DBStatisticalInfoList" positionX="-4473" positionY="-1134" width="128" height="180"/>
     </elements>
 </model>

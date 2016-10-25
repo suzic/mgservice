@@ -362,6 +362,7 @@
     statisticalInfo.finishTime = dic[@"progressInfo"][@"finishTime"];//任务完成时间
     statisticalInfo.acceptTime = dic[@"progressInfo"][@"acceptTime"]; //任务领取时间
     statisticalInfo.cancelTime = dic[@"cancelTime"];                    //任务取消时间
+    NSLog(@"%@",statisticalInfo.cancelTime);
     [array addObject:statisticalInfo];
     return array;
 }
@@ -420,6 +421,7 @@
         statistical.taskCode = list[@"taskCode"];
         statistical.selectedState = @"0";
         statistical.category = list[@"category"];
+        statistical.score =  list[@"score"];
         [array addObject:statistical];
     }
     return array;

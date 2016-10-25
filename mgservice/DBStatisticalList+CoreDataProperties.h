@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *locationArea;//具体位置描述
 @property (nullable, nonatomic, copy) NSString *category;   //任务主题
 @property (nullable, nonatomic, copy) NSString *selectedState;
-
+@property (nullable, nonatomic, copy) NSString *score;
 @end
 
 NS_ASSUME_NONNULL_END

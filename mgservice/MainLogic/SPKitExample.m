@@ -283,7 +283,7 @@ UIAlertViewDelegate>
  */
 - (void)exampleLoginWithUserID:(NSString *)aUserID password:(NSString *)aPassword successBlock:(void(^)())aSuccessBlock failedBlock:(void (^)(NSError *))aFailedBlock
 {
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     aSuccessBlock = [aSuccessBlock copy];
     aFailedBlock = [aFailedBlock copy];
     
@@ -391,7 +391,7 @@ UIAlertViewDelegate>
 
 - (void)exampleSetProfile
 {
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     
     /// 如果你已经将所有的用户Profile都导入到了IM服务器，则可以直接注释掉下面setFetchProfileForPersonBlock:函数,在开发者未设置这个block的情况下，SDK默认会从服务端获取。
     /// 或者你还没有将用户Profile导入到IM服务器，则需要参考这里设置setFetchProfileForPersonBlock:中的实现，并修改成你自己获取用户Profile的方式。
@@ -1168,7 +1168,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 - (void)exampleListenOnPreviewImage
 {
 #warning TODO: JUST RETURN IF NO NEED TO ADD Custom Menu When Preview Image OR CHANGE TO YOUR ACTUAL METHOD
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     
     [self.ywIMKit setPreviewImageMessageBlockV2:^(id<IYWMessage> aMessage, YWConversation *aOfConversation, UIViewController *aFromController) {
         
@@ -1208,7 +1208,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
  */
 - (void)exampleHandleAPNSPush
 {
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     
     [[[YWAPI sharedInstance] getGlobalPushService] addHandlePushBlockV4:^(NSDictionary *aResult, BOOL *aShouldStop) {
         BOOL isLaunching = [aResult[YWPushHandleResultKeyIsLaunching] boolValue];
