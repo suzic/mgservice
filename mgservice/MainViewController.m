@@ -214,7 +214,8 @@
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"workNum":waiterInfo.workNum,
-                                     @"passward":waiterInfo.password}];
+                                     @"passward":waiterInfo.password,
+                                     @"waiterId":waiterInfo.waiterId}];
     self.reloadAttendanceStateTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_LOGOUT
                                                                           params:params
@@ -255,7 +256,7 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:@"下班失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示信息" message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             [[RequestNetWork defaultManager]registerDelegate:self];
         }];

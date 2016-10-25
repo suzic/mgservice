@@ -47,7 +47,6 @@
     self.messageLabel.layer.cornerRadius = 25.0f/2.0f;
     //返回按钮 临时用
 //    self.navigationItem.hidesBackButton = !self.navigationItem.hidesBackButton;
-    
     //模拟任务完成的方法
 //    [self endTask];
     
@@ -143,7 +142,11 @@
             //登出IM
             [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
             [SPUserDefaultsManger deleteforKey:@"messageCount"];
-            [self.navigationController popViewControllerAnimated:YES];
+            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）已完成",self.waiterTaskList.taskCode];
+            NSString * content = @"服务员点击了完成任务";
+            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+            [gradingView showGradingView:YES];
+//            [self.navigationController popViewControllerAnimated:YES];
         }
     }
     else

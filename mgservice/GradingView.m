@@ -7,10 +7,12 @@
 //
 
 #import "GradingView.h"
+#import "InTaskController.h"
 
 @interface GradingView()
 
 @property (nonatomic, assign) TaskType taskType;
+@property (nonatomic, strong) InTaskController * inTask;
 @property (nonatomic, strong) NSString *titleString;
 @property (nonatomic, strong) NSString *taskContentString;
 @property (nonatomic, strong) UIColor * contentColor;
