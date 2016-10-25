@@ -8,7 +8,7 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
-//#import "NgrmapViewController.h"
+#import "NgrmapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 
@@ -146,7 +146,7 @@
             NSString * content = @"服务员点击了完成任务";
             GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
             [gradingView showGradingView:YES];
-//            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
     else
@@ -289,7 +289,7 @@
 {
     [self deallocInstantMessageing];
     self.conversationView = [[SPKitExample sharedInstance]exampleMakeConversationViewControllerWithConversation:self.conversation];
-    self.conversationView.view.frame = CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height-100);
+    self.conversationView.view.frame = CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height);
     self.conversationView.backgroundImage = nil;
     self.conversationView.view.backgroundColor = [UIColor clearColor];
     self.conversationView.tableView.backgroundView = nil;
@@ -384,7 +384,7 @@
         [self.conversation markConversationAsRead];
         self.showMessageLabel = YES;
         self.messageLabel.hidden = YES;
-//        self.navigationItem.rightBarButtonItem = self.showTalk ? nil : self.mapViewController.showMap;
+        self.navigationItem.rightBarButtonItem = self.showTalk ? nil : self.mapViewController.showMap;
         return;
     }
 }
