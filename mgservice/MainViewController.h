@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController
-@property (assign, nonatomic) BOOL direction;
+
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *presentButton;
 @property (assign,nonatomic) NSInteger second;
 

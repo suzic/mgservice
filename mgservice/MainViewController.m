@@ -52,6 +52,7 @@
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
+@property (nonatomic, strong) DBWaiterInfor *waiterinfo;
 
 
 
@@ -127,22 +128,25 @@
     self.acceptButton.layer.cornerRadius = 4.0f;
     self.scanning.layer.cornerRadius = 8.0f;
     self.selectPageNumber = 1;
-    _direction = NO;
     lastScrollOffsetY = 0;
     self.selectedIndex = 2;
     self.taskArray = [[NSMutableArray alloc]init];
     
+    [self NETWORK_checkIsLogin];
     //获取工作状态
     [self workStatusInUserDefaults];
     
     [self tableRefreshCreate];
-    [self NETWORK_checkIsLogin];
     //接收通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushMessType:) name:@"pushMessType" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenYES) name:@"listButtonHiddenYES" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenNO) name:@"listButtonHiddenNO" object:nil];
 }
-
+- (DBWaiterInfor *)waiterinfo
+{
+    _waiterinfo = [[DataManager defaultInstance] getWaiterInfor];
+    return _waiterinfo;
+}
 #pragma mark - 上拉加载下拉刷新
 // 在tableview上添加控件
 - (void)tableRefreshCreate
@@ -229,18 +233,12 @@
         {
             [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
             _timer.paused = YES;
-            _direction = NO;
             _second = 0;
             self.countdownLabel.text = [self calculate:_second];
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:kStart];
             [SPUserDefaultsManger deleteforKey:kPause];
             [SPUserDefaultsManger deleteforKey:@"abc"];
             [SPUserDefaultsManger setBool:1 forKey:@"isWorkState"];
-            DataManager* dataManager = [DataManager defaultInstance];
-            DBWaiterInfor *witerInfo = [[DataManager defaultInstance] getWaiterInfor];
-            witerInfo.attendanceState = @"0";
-            //存储数据
-            [dataManager saveContext];
             [self performSegueWithIdentifier:@"showLogin" sender:nil];
         }
         else
@@ -291,15 +289,14 @@
     {
         if ([datas[0] isEqualToString:@"0"])
         {
-            // 状态设置成功
-            if (_direction == NO) {
+            // 设置工作状态为待命
+            if ([self.waiterinfo.workStatus isEqualToString:@"2"])
+            {
                 _timer.paused = NO;
-                _direction = YES;
                 [_statusButton setTitle:@"暂停" forState:UIControlStateNormal];
                 //将工作状态保存起来
                 [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
                 NSDate *date = [NSDate date];
-                
                 //如果第一次运行，将当前日期存入
                 if (![SPUserDefaultsManger getValue:kStart]) {
                     [SPUserDefaultsManger setValue:date forKey:kStart];
@@ -308,7 +305,6 @@
             else
             {
                 _timer.paused = YES;
-                _direction = NO;
                 [_statusButton setTitle:@"开始" forState:UIControlStateNormal];
                 //将工作状态保存起来
                 [SPUserDefaultsManger setBool:_timer.paused forKey:KIsWorkState];
@@ -729,14 +725,15 @@
 // 工作状态切换按钮
 - (IBAction)workingStatus:(UIButton *)sender
 {
-    if (_direction == NO) {
+    if ([self.waiterinfo.workStatus isEqualToString:@"2"])
+    {
         // 修改当前状态为上班
-        [self NETWORK_reloadWorkStatus:@"1"];
+        [self NETWORK_reloadWorkStatus:@"0"];
     }
     else
     {
         // 修改当前状态为下班
-        [self NETWORK_reloadWorkStatus:@"0"];
+        [self NETWORK_reloadWorkStatus:@"2"];
     }
 }
 
@@ -1017,11 +1014,11 @@
     _second = 0;
     [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     self.countdownLabel.font = [UIFont fontWithName:@"Verdana" size:34];
-    //从沙盒获取工作状态
-    if ([SPUserDefaultsManger getBool:KIsWorkState] ==0)
+    
+    //如果服务员状态为2---待命 则开启定时器
+    if ([self.waiterinfo.workStatus isEqualToString:@"2"])
     {
         _timer.paused = NO;
-        _direction = YES;
         [self.statusButton setTitle:@"暂停" forState:UIControlStateNormal];
         NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kStart];
         if (date) {
@@ -1030,7 +1027,6 @@
     }
     else
     {
-        _direction = NO;
         [self.statusButton setTitle:@"开始" forState:UIControlStateNormal];
         NSDate * date = (NSDate *)[SPUserDefaultsManger getValue:kPause];
         self.strTime = [NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:kPause]];
