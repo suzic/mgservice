@@ -23,14 +23,16 @@
 @property (weak, nonatomic) IBOutlet UILabel *downWorkTimeLabel;// 下班时间
 @property (weak, nonatomic) IBOutlet UILabel *workHoursLabel;   // 工作时长
 
-@property (weak, nonatomic) IBOutlet UIView *buttonView;
-@property (weak, nonatomic) IBOutlet UIButton *completeButton;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;        //下面两个按钮的容器View
+@property (weak, nonatomic) IBOutlet UIButton *completeButton;  //已完成按钮
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;    //未完成按钮
 @property (assign, nonatomic) BOOL isStatusButton;
 
-@property (strong, nonatomic) NSMutableArray * openedInSectionArr;//任务统计
-@property (strong, nonatomic) NSMutableArray * cancelArr;
-@property (strong, nonatomic) NSMutableArray * taskInfo;//通过任务编号，查询任务信息的数组
+@property (strong, nonatomic) NSMutableArray * openedInSectionArr;  //已完成任务统计的数组
+@property (strong, nonatomic) NSMutableArray * cancelArr;           //已取消任务统计的数组
+
+@property (nonatomic,assign) NSInteger selectPageNumber;            // 请求订单页数
+@property (strong, nonatomic) NSMutableArray * taskInfo;            //通过任务编号，查询任务信息的数组
 
 // tableview展开、收缩相关
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -63,7 +65,7 @@
     self.buttonView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.buttonView.layer.shadowOpacity = 0.2;
     
-    self.isStatusButton = 0;
+    self.isStatusButton = 0;//已完成按钮的状态
     
     self.expandSectionIndex = NSNotFound;
     
@@ -71,9 +73,8 @@
     self.cancelArr = [[NSMutableArray alloc]init];
     self.taskInfo = [[NSMutableArray alloc]init];
     
-    //任务统计
-    [self NETWORK_requestTaskStatistical:@"0"];
-
+    //tableview添加刷新、加载
+    [self tableRefreshCreate];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,6 +83,9 @@
     NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
     NSLog(@"%@",dateTime);
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
+    self.selectPageNumber = 1;
+    //任务统计
+    [self NETWORK_requestTaskStatistical:@"0"];
     
     NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
     [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
@@ -90,10 +94,45 @@
 //    [self.tableView reloadData];
 }
 
+#pragma mark - 上拉加载下拉刷新
+// 在tableview上添加控件
+- (void)tableRefreshCreate
+{
+    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self loadMoreData];
+    }];
+    self.tableView.mj_footer = footer;
+//    MJRefreshNormalHeader * header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        [self reloadCurrentData];
+//    }];
+//    self.tableView.mj_header = header;
+}
+
+// 上拉加载
+- (void)loadMoreData
+{
+    self.selectPageNumber++;
+    [self.tableView.mj_footer beginRefreshing];
+    //如果切换至已完成，就请求已完成的数据
+    if (self.isStatusButton == 0)
+        [self NETWORK_requestTaskStatistical:@"0"];
+    else
+        [self NETWORK_requestTaskStatistical:@"1"];
+}
+
+// 下拉刷新
+//- (void)reloadCurrentData
+//{
+//    self.selectPageNumber = 1;
+//    [self.tableView.mj_header beginRefreshing];
+//    [self NETWORK_requestTaskStatistical:@"0"];
+//}
+
 #pragma mark - tableView delegate & dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    //如果切换至已完成，就使用openedInSectionArr数组
     if (self.isStatusButton == 0) {
         return _openedInSectionArr.count;
     }
@@ -106,11 +145,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // 判断section的展开收起状态
-//    DBStatisticalList * statistical = self.openedInSectionArr[section];
-//    if ([statistical.selectedState isEqualToString:@"1"])
-//    {
-//        return self.taskInfo.count;
-//    }
     if (self.isStatusButton == 0) {
         DBStatisticalList * statistical = self.openedInSectionArr[section];
         if ([statistical.selectedState isEqualToString:@"1"])
@@ -125,20 +159,20 @@
             return self.taskInfo.count;
         }
     }
-    
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SubCell * cell = [tableView dequeueReusableCellWithIdentifier:@"subCell"];
+    //DBStatisticalInfoList是存放统计详情信息的数据库
+    //DBStatisticalList是存放统计列表的数据库
     DBStatisticalInfoList * taskList = self.taskInfo[indexPath.row];
     DBStatisticalList * statistical = self.openedInSectionArr[indexPath.section];
-    NSLog(@"%@",taskList.createTime);
     cell.issuedTimeLabel.text = [NSString stringWithFormat:@"下单时间 %@",taskList.createTime];    //任务下单时间
     cell.acceptTimeLabel.text = [NSString stringWithFormat:@"接单时间 %@",taskList.acceptTime];     //任务领取时间
     
-    //如果切换的是“已完成”订单，“完成时间” 的label显示   否则隐藏
+    //如果切换的是“已完成”订单，显示“完成时间” 否则显示“取消时间”
     if (self.isStatusButton == 0)
         cell.completeTimeLabel.text = [NSString stringWithFormat:@"完成时间 %@",taskList.finishTime];  //任务完成时间
     else
@@ -195,6 +229,7 @@
     cell.taskCode.text = statistical.taskCode;
     cell.starView.rating = [statistical.score floatValue];
     
+    //点击统计列表时的点击事件
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSelectedStateHeader:)];
     NSArray *gestures = [NSArray arrayWithArray:cell.contentView.gestureRecognizers];
     for (UIGestureRecognizer *gs in gestures)
@@ -236,7 +271,8 @@
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId": waiterInfo.waiterId,
                                      @"taskStatus":status,
-                                     @"pageCount":@50,
+                                     @"pageNo":[NSString stringWithFormat:@"%ld",self.selectPageNumber],
+                                     @"pageCount":@10,
                                      }];
     self.requestTaskStatistical = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                     webURL:@URL_TASKSTATISTICAL
@@ -247,6 +283,16 @@
 // 任务统计
 - (void)RESULT_requestTaskStatistical:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
+    //结束上拉或下拉的动作
+    [self.tableView.mj_header endRefreshing];
+    if (datas.count <= 0 || datas == nil)
+    {
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }
+    else
+    {
+        [self.tableView.mj_footer endRefreshing];
+    }
     if (succeed)
     {
         if (datas.count > 0) {
@@ -280,7 +326,7 @@
     }
 }
 
-//通过任务编号，获得任务状态
+//通过任务编号，获得任务信息
 - (void)NETWORK_TaskStatus:(NSString *)taskCode
 {
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
@@ -301,7 +347,6 @@
             {
                 [self.taskInfo addObject:task];
             }
-            [self.tableView reloadData];
         }
     }
     else
@@ -391,9 +436,6 @@
     if (self.expandSectionIndex != NSNotFound)
         [indexSet addIndex:self.expandSectionIndex];
     
-    
-    
-    
     DBStatisticalList * statistical;
     if (self.isStatusButton == 0)
     {
@@ -445,7 +487,6 @@
                 [self.taskInfo addObject:statisticalInfo];
             }
         }
-        
     }
     else
     {
@@ -482,6 +523,7 @@
     self.completeButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];
     self.cancelButton.backgroundColor = [UIColor whiteColor];
     self.isStatusButton = 0;
+    self.selectPageNumber = 1;//每次点击“已完成”按钮的时候，请求第一页数据
     [self NETWORK_requestTaskStatistical:@"0"];
     [self.tableView reloadData];
 }
@@ -492,6 +534,7 @@
     self.completeButton.backgroundColor = [UIColor whiteColor];
     self.cancelButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];//恶心绿
     self.isStatusButton = 1;
+    self.selectPageNumber = 1;//每次点击“已取消”按钮的时候，请求第一页数据
     [self NETWORK_requestTaskStatistical:@"1"];
     [self.tableView reloadData];
 }

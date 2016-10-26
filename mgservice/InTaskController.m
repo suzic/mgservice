@@ -178,7 +178,7 @@
                                                                   withByUser:YES];
 }
 
-//如果用户取消任务，服务员端则删除已接任务，并且返回到主页面
+//获取任务状态，如果taskStatus=9，证明管家端取消了任务  taskStatus=0，证明任务未完成
 - (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed) {

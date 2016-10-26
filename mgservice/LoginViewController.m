@@ -342,7 +342,7 @@
     [self.macHud startWMProgress];
     NSString *urlStr = @"http://10.11.88.104/cgi-bin/mac.sh";
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:2];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         NSString* macStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
 

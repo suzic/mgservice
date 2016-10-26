@@ -72,28 +72,27 @@
             [self NETWORK_requestTask];
         }
     }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
-    if (array.count <= 0 || array == nil)
-    {
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
+//    NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+//    if (array.count <= 0 || array == nil)
+//    {
         self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
-//        self.navigationItem.rightBarButtonItem = nil;
-    }
-    else
-    {
-        for (DBTaskList * task in array) {
-            if ([task.category isEqualToString:@"4"])
-            {
-                self.navigationItem.rightBarButtonItem = self.presentButton;
-            }
-            else
-            {
-                self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
-//                self.navigationItem.rightBarButtonItem = nil;
-            }
-            break;
-        }
-    }
+//    }
+//    else
+//    {
+//        for (DBTaskList * task in array) {
+//            if ([task.category isEqualToString:@"4"])
+//            {
+//                self.navigationItem.rightBarButtonItem = self.presentButton;
+//            }
+//            else
+//            {
+//                self.navigationItem.rightBarButtonItem = self.presentButton;//暂时强制显示按钮
+////                self.navigationItem.rightBarButtonItem = nil;
+//            }
+//            break;
+//        }
+//    }
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     self.waiterName.text = waiterInfo.name;
     self.waiterID.text = waiterInfo.workNum;
@@ -381,18 +380,6 @@
         }
         else
         {
-            //有任务跳转到地图页面
-//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-//            NSArray * array = [[DataManager defaultInstance]arrayFromCoreData:@"DBStatisticalInfoList" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
-//            if(array.count > 0)
-//            {
-//                for (DBStatisticalInfoList * waiterTask in array) {
-//                    if([waiterTask.category isEqualToString:@"0"] && [waiterTask.taskStatus isEqualToString:@"0"])
-//                    {
-//                        [self performSegueWithIdentifier:@"goTask" sender:nil];
-//                    }
-//                }
-//            }
             //通过任务编号，获得任务信息
             NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
             if (![strCode isEqualToString:@""])
