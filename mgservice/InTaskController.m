@@ -34,8 +34,7 @@
 {
     [super viewDidLoad];
     [[RequestNetWork defaultManager]registerDelegate:self];
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
     self.chatHistoryViewBottom.constant = 60 - self.view.frame.size.height;
     self.chatHistoryView.backgroundColor = [UIColor clearColor];
@@ -386,7 +385,8 @@
         [self.conversation markConversationAsRead];
         self.showMessageLabel = YES;
         self.messageLabel.hidden = YES;
-        self.navigationItem.rightBarButtonItem = self.showTalk ? nil : self.mapViewController.showMap;
+        //这里的rightBarButton是“收起”按钮，现在暂时改为“刷新”按钮，因此注释掉，将来改回来的时候，将注释代码解开即可。
+//        self.navigationItem.rightBarButtonItem = self.showTalk ? nil : self.mapViewController.showMap;
         return;
     }
 }

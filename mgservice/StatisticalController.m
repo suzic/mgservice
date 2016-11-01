@@ -347,6 +347,7 @@
             {
                 [self.taskInfo addObject:task];
             }
+            [self.tableView reloadData];
         }
     }
     else

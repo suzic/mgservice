@@ -142,8 +142,8 @@ typedef NS_ENUM(NSInteger, parkingState) {
     self.waiterPoint = CGPointMake(0, 0);
     self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
+//    self.navigationItem.rightBarButtonItem = nil;//暂时将“收起”按钮改为“刷新”按钮，需要永远显示此按钮，因此注释掉。将来改回“收起”按钮的时候，只需将此行代码的注释解开即可
     self.inTaskTop.constant = self.view.frame.size.height - 124;
     self.inTaskBottom.constant = 64 - self.view.frame.size.height;
     
@@ -1676,18 +1676,24 @@ typedef NS_ENUM(NSInteger, parkingState) {
 
 - (IBAction)showMapButton:(id)sender
 {
-    [self showMsgView:NO];
-    [self.intaskController.conversationView.messageInputView resignFirstResponder];
-    self.intaskController.showTalk = NO;
-    [self.intaskController deallocInstantMessageing];
-    [self.intaskController.conversation markConversationAsRead];
-    self.intaskController.showMessageLabel = YES;
-    self.intaskController.messageLabel.hidden = YES;
+    //点击刷新按钮后，即根据任务号，查询任务信息。
+    [self.intaskController NETWORK_TaskStatus];
+    /*
+     这里的代码是点击“收起”后的操作，现在暂时将“收起”改为“刷新”按钮，因此注释，以后改回来的时候解开注释即可。
+     [self showMsgView:NO];
+     [self.intaskController.conversationView.messageInputView resignFirstResponder];
+     self.intaskController.showTalk = NO;
+     [self.intaskController deallocInstantMessageing];
+     [self.intaskController.conversation markConversationAsRead];
+     self.intaskController.showMessageLabel = YES;
+     self.intaskController.messageLabel.hidden = YES;
+    */
 }
 
 - (void)showMsgView:(BOOL)show
 {
-    self.navigationItem.rightBarButtonItem = show ? self.intaskController.showMap : nil;
+    //这里的rightBarButton是“收起”按钮，现在暂时改为“刷新”按钮，因此注释掉，将来改回来的时候，将注释代码解开即可。
+//    self.navigationItem.rightBarButtonItem = show ? self.intaskController.showMap : nil;
     CGRect showHistoryRect = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     CGRect hideHistoryRect = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, self.view.frame.size.height - 64);
     [UIView animateWithDuration:0.25f animations:^{
