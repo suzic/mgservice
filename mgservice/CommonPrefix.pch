@@ -96,6 +96,9 @@
 // 服务员查询历史任务统计信息
 #define URL_TASKSTATISTICAL                   "/hotelservice/checkin/service/waiter_task_static"
 
+// 服务员获取正在进行中的任务
+#define URL_TASKACTIVATE                     "/hotelservice/checkin/service/waiter_task_activate"
+
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>

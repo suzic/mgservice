@@ -49,6 +49,7 @@
 @property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
 @property (nonatomic, strong) NSURLSessionTask * reloadIMTask;//登录IM请求
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//通过任务编号 获取任务信息
+@property (nonatomic, strong) NSURLSessionTask * taskActivate;//服务员获取正在进行中的任务
 @property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
@@ -386,6 +387,9 @@
             {
                 [self NETWORK_TaskStatus:strCode];
             }
+            
+            //服务员获取正在进行中的任务
+//            [self NETWORK_TaskActivate];
         }
     }
     else
@@ -616,6 +620,31 @@
         NSLog(@"请求失败");
     }
 }
+
+//服务员获取正在进行中的任务
+- (void)NETWORK_TaskActivate
+{
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    if ([waiterInfo.attendanceState isEqualToString:@"0"]|| waiterInfo.attendanceState == nil)
+        return;
+    NSMutableDictionary * params = [NSMutableDictionary dictionaryWithDictionary:@{@"waiterId":waiterInfo.waiterId}];
+    self.taskActivate = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL webURL:@URL_TASKACTIVATE params:params withByUser:YES];
+}
+
+- (void)RESULT_taskActivate:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed)
+    {
+        if (datas.count > 0) {
+            NSLog(@"%ld",datas.count);
+        }
+    }
+    else
+    {
+        NSLog(@"%@",msg);
+    }
+}
+
 #pragma mark - RequestNetWorkDelegate 代理方法
 
 - (void)startRequest:(NSURLSessionTask *)task
@@ -669,11 +698,14 @@
     {
         [self RESULT_reloadIM:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-    if (task == self.reloadTaskStatus)
+    else if (task == self.reloadTaskStatus)
     {
         [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-    
+    else if (task == self.taskActivate)
+    {
+        [self RESULT_taskActivate:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -707,6 +739,10 @@
     else if (task == self.reloadIMTask)
     {
         [self RESULT_reloadIM:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
+    else if (task == self.taskActivate)
+    {
+        [self RESULT_taskActivate:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
 }
 

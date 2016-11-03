@@ -88,6 +88,10 @@
     {
         datas = [self parseTaskStatistical:dict];
     }
+    else if ([ident isEqualToString:@URL_TASKACTIVATE])
+    {
+        datas = [self parseTaskActivate:dict];
+    }
     //存储数据
     [dataManager saveContext];
     return datas;
@@ -424,6 +428,15 @@
         statistical.score =  list[@"score"];
         [array addObject:statistical];
     }
+    return array;
+}
+
+#pragma mark - 服务员获取正在执行中的任务
+- (NSMutableArray *)parseTaskActivate:(id)dict
+{
+    NSMutableArray * array = [NSMutableArray array];
+    NSDictionary * dic = (NSDictionary *)dict;
+    NSLog(@"%@",dict);
     return array;
 }
 
