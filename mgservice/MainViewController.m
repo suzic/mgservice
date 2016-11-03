@@ -768,6 +768,8 @@
 // 抢单
 - (IBAction)pickSingleButtonAction:(id)sender
 {
+    [self performSegueWithIdentifier:@"goTask" sender:nil];
+/*
     DBTaskList * taskList = (DBTaskList *)self.taskArray[self.selectedIndex - 2];
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"抢单" message:@"确认要抢该订单？" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -781,6 +783,7 @@
     [self presentViewController:alert animated:YES completion:^{
         [[RequestNetWork defaultManager]registerDelegate:self];
     }];
+ */
 }
 
 - (IBAction)obtainTask:(id)sender

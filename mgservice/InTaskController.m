@@ -8,7 +8,7 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
-#import "NgrmapViewController.h"
+#import "MapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 

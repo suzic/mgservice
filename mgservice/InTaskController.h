@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NgrmapViewController.h"
+#import "MapViewController.h"
 #import "GradingView.h"
+
 @interface InTaskController : UIViewController
-@property (weak, nonatomic) NgrmapViewController *mapViewController;
+@property (weak, nonatomic) MapViewController *mapViewController;
 
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
