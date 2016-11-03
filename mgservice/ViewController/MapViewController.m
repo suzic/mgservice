@@ -29,6 +29,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.inTaskView.backgroundColor = [UIColor whiteColor];
+    self.inTaskView.alpha = 0.7;
     self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
