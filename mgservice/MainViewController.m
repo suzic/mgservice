@@ -141,6 +141,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushMessType:) name:@"pushMessType" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenYES) name:@"listButtonHiddenYES" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentButtonHiddenNO) name:@"listButtonHiddenNO" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelTask) name:@"cancelTask" object:nil];
 }
 - (DBWaiterInfor *)waiterinfo
 {
@@ -382,14 +383,14 @@
         else
         {
             //通过任务编号，获得任务信息
-            NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
-            if (![strCode isEqualToString:@""])
-            {
-                [self NETWORK_TaskStatus:strCode];
-            }
+//            NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+//            if (![strCode isEqualToString:@""])
+//            {
+//                [self NETWORK_TaskStatus:strCode];
+//            }
             
             //服务员获取正在进行中的任务
-//            [self NETWORK_TaskActivate];
+            [self NETWORK_TaskActivate];
         }
     }
     else
@@ -452,8 +453,7 @@
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId": waiterInfo.waiterId,
                                      @"pageNo":[NSString stringWithFormat:@"%ld",(long)self.selectPageNumber],
-                                     @"pageCount":@"10",
-                                     @"taskStatus":@"2"}];
+                                     @"pageCount":@"10"}];
     self.requestTaskTask = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                     webURL:@URI_WAITER_GETSERVICELIST
                                                                     params:params
@@ -635,8 +635,24 @@
 {
     if (succeed)
     {
-        if (datas.count > 0) {
-            NSLog(@"%ld",datas.count);
+        DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+        if ([waiterInfo.status isEqualToString:@"0"])
+        {
+            //有未完成的任务
+            [self performSegueWithIdentifier:@"goTask" sender:nil];
+        }
+        if ([waiterInfo.status isEqualToString:@"9"])
+        {
+            //任务已经被客人取消
+            //登出IM
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [SPUserDefaultsManger deleteforKey:@"messageCount"];
+            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+            
+            NSString * task = [NSString stringWithFormat:@"呼叫任务被取消"];
+            NSString * content = @"客人取消了呼叫服务";
+            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+            [gradingView showGradingView:YES];
         }
     }
     else
@@ -801,6 +817,10 @@
 //    self.navigationItem.rightBarButtonItem = nil;
 }
 
+- (void)cancelTask
+{
+    [self NETWORK_TaskActivate];
+}
 // 抢单
 - (IBAction)pickSingleButtonAction:(id)sender
 {

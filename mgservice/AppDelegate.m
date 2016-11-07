@@ -92,7 +92,8 @@
     //如果messType类型等于5，证明管家端取消了任务
     if ([userInfo[@"messType"] isEqualToString:@"5"])
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"backHomePage" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelTask" object:nil userInfo:nil];
     }
     else
     {

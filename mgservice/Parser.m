@@ -436,7 +436,9 @@
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    NSLog(@"%@",dict);
+    DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
+    waiterInfo.status = dic[@"status"];
+    NSLog(@"%@",waiterInfo.status);
     return array;
 }
 

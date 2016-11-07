@@ -56,7 +56,7 @@
     [self theTimer];
     
     //接收通知,管家取消到场任务时执行此通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
     
     //来新消息
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:NotiNewMessage object:nil];
@@ -377,7 +377,6 @@
         self.messageLabel.hidden = YES;
         [SPUserDefaultsManger deleteforKey:@"messageCount"];
     }else{
-        NSLog(@"无动作");
         self.arrowUpAndDownImage.image = [UIImage imageNamed:@"up"];
         [self.conversationView.messageInputView resignFirstResponder];
         self.showTalk = NO;
@@ -406,10 +405,10 @@
 
 #pragma mark-通知方法
 //收到取消任务的通知后，删除已接任务
-- (void)backHomePage:(NSNotification*)notification
-{
-    [self NETWORK_TaskStatus];
-}
+//- (void)backHomePage:(NSNotification*)notification
+//{
+//    [self NETWORK_TaskStatus];
+//}
 
 //显示未读消息角标
 - (void)newMessage:(NSNotification *)noti

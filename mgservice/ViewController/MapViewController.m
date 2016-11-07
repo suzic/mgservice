@@ -29,8 +29,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.inTaskView.backgroundColor = [UIColor whiteColor];
-    self.inTaskView.alpha = 0.7;
+//    self.inTaskView.backgroundColor = [UIColor whiteColor];
+//    self.inTaskView.alpha = 0.7;
     self.inTaskTop.constant = kScreenHeight - 64;
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
@@ -51,6 +51,13 @@
     [self.alertController addAction:action];
     
     [self addFengMap];
+    
+    //定位按钮
+    UIButton * positioningButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [positioningButton setBackgroundImage:[UIImage imageNamed:@"location_icon_nomarl"] forState:UIControlStateNormal];
+    positioningButton.frame = CGRectMake(10, kScreenHeight-74-35, 35, 35);
+    [positioningButton addTarget:self action:@selector(positioningButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mangroveMapView addSubview:positioningButton];
 }
 
 - (void)addFengMap
@@ -83,7 +90,6 @@
     }
 }
 
-
 - (void)showMsgView:(BOOL)show
 {
     //这里的rightBarButton是“收起”按钮，现在暂时改为“刷新”按钮，因此注释掉，将来改回来的时候，将注释代码解开即可。
@@ -110,6 +116,8 @@
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+#pragma mark - 按钮
 - (IBAction)showMapButton:(id)sender
 {
     //点击刷新按钮后，即根据任务号，查询任务信息。
@@ -124,6 +132,12 @@
      self.intaskController.showMessageLabel = YES;
      self.intaskController.messageLabel.hidden = YES;
      */
+}
+
+// 定位按钮
+- (void)positioningButtonAction:(UIButton *)btn
+{
+    NSLog(@"定位");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

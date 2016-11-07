@@ -33,5 +33,6 @@
 @dynamic hasCallList;
 @dynamic dutyLevel;
 @dynamic waiterId;
+@dynamic status;
 
 @end
