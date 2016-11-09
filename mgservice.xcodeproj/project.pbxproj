@@ -117,6 +117,8 @@
 		9C78A64A1CBF990B00932D0C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A6491CBF990B00932D0C /* ImageIO.framework */; };
 		9C78A64C1CBF991100932D0C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A64B1CBF991100932D0C /* AudioToolbox.framework */; };
 		9C78A64E1CBF991D00932D0C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C78A64D1CBF991D00932D0C /* AssetsLibrary.framework */; };
+		9C81D4A21DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C81D49F1DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m */; };
+		9C81D4A31DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C81D4A11DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m */; };
 		9C83100B1D87FD3F009D7BA5 /* StatisticalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C83100A1D87FD3F009D7BA5 /* StatisticalController.m */; };
 		9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB8DFB91CD0A675007CFFB9 /* Defaut_Enu.m */; };
 		9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBB007A1CA537E900AA5C03 /* NSString+Addtions.m */; };
@@ -577,6 +579,10 @@
 		9C78A6491CBF990B00932D0C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		9C78A64B1CBF991100932D0C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9C78A64D1CBF991D00932D0C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		9C81D49E1DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBTaskStatisticalList+CoreDataClass.h"; sourceTree = "<group>"; };
+		9C81D49F1DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBTaskStatisticalList+CoreDataClass.m"; sourceTree = "<group>"; };
+		9C81D4A01DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBTaskStatisticalList+CoreDataProperties.h"; sourceTree = "<group>"; };
+		9C81D4A11DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBTaskStatisticalList+CoreDataProperties.m"; sourceTree = "<group>"; };
 		9C8310091D87FD3F009D7BA5 /* StatisticalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticalController.h; sourceTree = "<group>"; };
 		9C83100A1D87FD3F009D7BA5 /* StatisticalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticalController.m; sourceTree = "<group>"; };
 		9CB8DFB81CD0A675007CFFB9 /* Defaut_Enu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defaut_Enu.h; sourceTree = "<group>"; };
@@ -1972,6 +1978,10 @@
 				9CCA34C21DB9B5F40083826B /* DBStatisticalInfoList+CoreDataClass.m */,
 				9CCA34C31DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.h */,
 				9CCA34C41DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m */,
+				9C81D49E1DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.h */,
+				9C81D49F1DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m */,
+				9C81D4A01DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.h */,
+				9C81D4A11DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m */,
 				FC19227E1CA0DBC100A941AE /* mgservice.xcdatamodeld */,
 			);
 			name = Objects;
@@ -2452,6 +2462,7 @@
 				9C78A6021CBF98B800932D0C /* SPCallingCardBubbleViewModel.m in Sources */,
 				D0CC732F1C59C0DD00314355 /* LoginViewController.m in Sources */,
 				FCCA15131CA5043C00F5A502 /* MJRefreshFooter.m in Sources */,
+				9C81D4A31DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m in Sources */,
 				9C36904B1D066E6100FE8936 /* LPPageViewController.m in Sources */,
 				9C78A6381CBF98B800932D0C /* SPUtil.m in Sources */,
 				FCCA14E71CA503F700F5A502 /* MJRefreshConst.m in Sources */,
@@ -2481,6 +2492,7 @@
 				9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */,
 				D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */,
 				9CDAFAB21D90E1D500711BAB /* SubCell.m in Sources */,
+				9C81D4A21DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m in Sources */,
 				9C78A6091CBF98B800932D0C /* SPInputViewPluginTransparent.m in Sources */,
 				9CBB007B1CA537E900AA5C03 /* NSString+Addtions.m in Sources */,
 				9C78A60F1CBF98B800932D0C /* SPMessageInputViewBarContentView.m in Sources */,

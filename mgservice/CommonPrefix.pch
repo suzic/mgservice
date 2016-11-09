@@ -99,6 +99,9 @@
 // 服务员获取正在进行中的任务
 #define URL_TASKACTIVATE                     "/hotelservice/checkin/service/waiter_task_activate"
 
+// 服务员根据条件查询任务列表
+#define URL_TASKLIST                         "/hotelservice/checkin/service/get_task_array"
+
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -115,6 +118,7 @@
 #import "DataManager.h"
 #import "DBStatisticalList+CoreDataClass.h"
 #import "DBStatisticalInfoList+CoreDataClass.h"
+#import "DBTaskStatisticalList+CoreDataProperties.h"
 #import "RequestNetWork.h"
 #import "DBWaiterPresentList.h"
 #import "DataManager+User.h"

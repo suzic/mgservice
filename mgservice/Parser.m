@@ -84,9 +84,13 @@
     {
         datas = [self parseWaiterTaskStatus:dict];
     }
-    else if ([ident isEqualToString:@URL_TASKSTATISTICAL]) //服务员任务统计
+//    else if ([ident isEqualToString:@URL_TASKSTATISTICAL]) //服务员任务统计
+//    {
+//        datas = [self parseTaskStatistical:dict];
+//    }
+    else if ([ident isEqualToString:@URL_TASKLIST])
     {
-        datas = [self parseTaskStatistical:dict];
+        datas = [self parseTaskList:dict];
     }
     else if ([ident isEqualToString:@URL_TASKACTIVATE])
     {
@@ -287,7 +291,7 @@
     NSDictionary * dic = (NSDictionary *)dict;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", dic[@"taskInfo"][@"taskCode"]];
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
-    NSArray *result1 = [[DataManager defaultInstance] arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+//    NSArray *result1 = [[DataManager defaultInstance] arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 || result == nil)
     {
         return nil;
@@ -301,11 +305,11 @@
             waiterTask.accepTime = dic[@"progreeInfo"][@"acceptTime"];
             [array addObject:waiterTask];
         }
-        for (DBStatisticalInfoList * statisticalInfo in result1)
-        {
-            statisticalInfo.finishTime = dic[@"progreeInfo"][@"finishTime"];
-            [array addObject:statisticalInfo];
-        }
+//        for (DBStatisticalInfoList * statisticalInfo in result1)
+//        {
+//            statisticalInfo.finishTime = dic[@"progreeInfo"][@"finishTime"];
+//            [array addObject:statisticalInfo];
+//        }
     }
     return array;
 }
@@ -414,19 +418,44 @@
     return array;
 }
 
-#pragma mark - 任务统计
-- (NSMutableArray *)parseTaskStatistical:(id)dict
+//#pragma mark - 任务统计
+//- (NSMutableArray *)parseTaskStatistical:(id)dict
+//{
+//    NSMutableArray * array = [NSMutableArray array];
+//    NSDictionary * dic = (NSDictionary *)dict;
+//    for (NSDictionary * list in dic[@"list"]) {
+//        DBStatisticalList * statistical = (DBStatisticalList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBStatisticalList"];
+//        statistical.messageInfo = list[@"messageInfo"];
+//        statistical.taskCode = list[@"taskCode"];
+//        statistical.selectedState = @"0";
+//        statistical.category = list[@"category"];
+//        statistical.score =  list[@"score"];
+//        [array addObject:statistical];
+//    }
+//    return array;
+//}
+
+#pragma mark - 根据条件查询任务列表
+- (NSMutableArray *)parseTaskList:(id)dict
 {
     NSMutableArray * array = [NSMutableArray array];
     NSDictionary * dic = (NSDictionary *)dict;
-    for (NSDictionary * list in dic[@"list"]) {
-        DBStatisticalList * statistical = (DBStatisticalList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBStatisticalList"];
-        statistical.messageInfo = list[@"messageInfo"];
-        statistical.taskCode = list[@"taskCode"];
-        statistical.selectedState = @"0";
-        statistical.category = list[@"category"];
-        statistical.score =  list[@"score"];
-        [array addObject:statistical];
+    for (NSDictionary * list in dic[@"list"])
+    {
+        DBTaskStatisticalList * taskStatisticalList = (DBTaskStatisticalList *)[[DataManager defaultInstance] insertIntoCoreData:@"DBTaskStatisticalList"];
+        taskStatisticalList.taskCode = list[@"taskCode"];
+        taskStatisticalList.locationDesc = list[@"locationDesc"];
+        taskStatisticalList.locationArea = list[@"locationArea"];
+        taskStatisticalList.timeLimit = list[@"timeLimit"];//邀请完成时间
+        taskStatisticalList.category = list[@"category"];
+        taskStatisticalList.messageInfo = list[@"messageInfo"];
+        taskStatisticalList.selectedState = @"0";
+        taskStatisticalList.finishTime = list[@"finishTime"];
+        taskStatisticalList.acceptTime = list[@"acceptTime"];
+        taskStatisticalList.cancelTime = list[@"cancelTime"];
+        taskStatisticalList.score = list[@"score"];
+        taskStatisticalList.createTime = list[@"createTime"];
+        [array addObject:taskStatisticalList];
     }
     return array;
 }

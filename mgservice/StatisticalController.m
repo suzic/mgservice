@@ -85,7 +85,7 @@
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
     self.selectPageNumber = 1;
     //任务统计
-    [self NETWORK_requestTaskStatistical:@"0"];
+    [self NETWORK_requestTaskStatistical:@"1"];
     
     NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
     [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
@@ -115,9 +115,9 @@
     [self.tableView.mj_footer beginRefreshing];
     //如果切换至已完成，就请求已完成的数据
     if (self.isStatusButton == 0)
-        [self NETWORK_requestTaskStatistical:@"0"];
-    else
         [self NETWORK_requestTaskStatistical:@"1"];
+    else
+        [self NETWORK_requestTaskStatistical:@"9"];
 }
 
 // 下拉刷新
@@ -125,7 +125,7 @@
 //{
 //    self.selectPageNumber = 1;
 //    [self.tableView.mj_header beginRefreshing];
-//    [self NETWORK_requestTaskStatistical:@"0"];
+//    [self NETWORK_requestTaskStatistical:@"1"];
 //}
 
 #pragma mark - tableView delegate & dataSource
@@ -146,14 +146,14 @@
 {
     // 判断section的展开收起状态
     if (self.isStatusButton == 0) {
-        DBStatisticalList * statistical = self.openedInSectionArr[section];
+        DBTaskStatisticalList * statistical = self.openedInSectionArr[section];
         if ([statistical.selectedState isEqualToString:@"1"])
         {
             return self.taskInfo.count;
         }
     }
     if (self.isStatusButton == 1) {
-        DBStatisticalList * statistical = self.cancelArr[section];
+        DBTaskStatisticalList * statistical = self.cancelArr[section];
         if ([statistical.selectedState isEqualToString:@"1"])
         {
             return self.taskInfo.count;
@@ -165,10 +165,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SubCell * cell = [tableView dequeueReusableCellWithIdentifier:@"subCell"];
-    //DBStatisticalInfoList是存放统计详情信息的数据库
-    //DBStatisticalList是存放统计列表的数据库
-    DBStatisticalInfoList * taskList = self.taskInfo[indexPath.row];
-    DBStatisticalList * statistical = self.openedInSectionArr[indexPath.section];
+    DBTaskStatisticalList * taskList = self.taskInfo[indexPath.row];
     cell.issuedTimeLabel.text = [NSString stringWithFormat:@"下单时间 %@",taskList.createTime];    //任务下单时间
     cell.acceptTimeLabel.text = [NSString stringWithFormat:@"接单时间 %@",taskList.acceptTime];     //任务领取时间
     
@@ -179,16 +176,16 @@
         cell.completeTimeLabel.text = [NSString stringWithFormat:@"取消时间 %@",taskList.cancelTime];
     
     //如果是呼叫任务
-    if ([statistical.category isEqualToString:@"0"])
+    if ([taskList.category isEqualToString:@"0"])
     {
-        cell.taskTypeLabel.text = [NSString stringWithFormat:@"服务内容 %@",taskList.messageInfo];
+        cell.taskTypeLabel.text = [NSString stringWithFormat:@"服务内容 %@",@"呼叫服务"];
         [cell.taskTypeButton setTitle:@"进入查看聊天记录" forState:UIControlStateNormal];
         cell.taskTypeButton.tag = 0000;
         cell.taskTypeLabel.textColor = [UIColor blackColor];
     }
     
     //如果是送餐任务
-    if ([statistical.category isEqualToString:@"1"])
+    if ([taskList.category isEqualToString:@"1"])
     {
         cell.taskTypeLabel.text = [NSString stringWithFormat:@"要求时间 %@",taskList.timeLimit];
         [cell.taskTypeButton setTitle:@"进入查看菜单" forState:UIControlStateNormal];
@@ -201,7 +198,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     HeaderCell * cell = [tableView dequeueReusableCellWithIdentifier:@"headerCell"];
-    DBStatisticalList * statistical;
+    DBTaskStatisticalList * statistical;
     
     //如果切换的是“已完成”
     if (self.isStatusButton == 0)
@@ -261,21 +258,23 @@
     /*
      输入参数：
      waiterId       服务员编号     string类型        必填项
-     taskStatus     任务状态       string类型        0代表已完成   1代表已取消   必填项
-     startDate      任务开始时间    DateTime类型      非必填项
-     endDate        任务结束时间    DateTime类型      非必填项
+     status     任务状态       string类型        0代表未完成   1代表已完成     9代表已取消 必填项
+     startDate      任务开始时间    DateTime类型      必填项
+     endDate        任务结束时间    DateTime类型      必填项
      pageNo         当前页码       int类型 非必填项    默认第一页
      pageCount      每页显示数量    int类型 非必填项    默认10条
      */
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId": waiterInfo.waiterId,
-                                     @"taskStatus":status,
+                                     @"status":status,
+                                     @"startDate":@"2016-10-01 00:00:00",
+                                     @"endDate":@"2017-10-01 23:59:59",
                                      @"pageNo":[NSString stringWithFormat:@"%ld",self.selectPageNumber],
                                      @"pageCount":@10,
                                      }];
     self.requestTaskStatistical = [[RequestNetWork defaultManager]POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                    webURL:@URL_TASKSTATISTICAL
+                                                                    webURL:@URL_TASKLIST
                                                                     params:params
                                                                 withByUser:YES];
 }
@@ -296,7 +295,7 @@
     if (succeed)
     {
         if (datas.count > 0) {
-            for (DBStatisticalList * task in datas)
+            for (DBTaskStatisticalList * task in datas)
             {
                 if (self.isStatusButton == 0)
                 {
@@ -327,37 +326,37 @@
 }
 
 //通过任务编号，获得任务信息
-- (void)NETWORK_TaskStatus:(NSString *)taskCode
-{
-    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"taskCode":taskCode}];//任务编号
-    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                      webURL:@URI_WAITER_TASkSTATUS
-                                                                      params:params
-                                                                  withByUser:YES];
-}
+//- (void)NETWORK_TaskStatus:(NSString *)taskCode
+//{
+//    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+//                                   @{@"taskCode":taskCode}];//任务编号
+//    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+//                                                                      webURL:@URI_WAITER_TASkSTATUS
+//                                                                      params:params
+//                                                                  withByUser:YES];
+//}
 
 //通过任务编号，获取任务信息
-- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
-{
-    if (succeed)
-    {
-        if (datas.count > 0) {
-            for (DBStatisticalInfoList * task in datas)
-            {
-                [self.taskInfo addObject:task];
-            }
-            [self.tableView reloadData];
-        }
-    }
-    else
-    {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有网络" preferredStyle:1];
-        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:action];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
+//- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+//{
+//    if (succeed)
+//    {
+//        if (datas.count > 0) {
+//            for (DBTaskStatisticalList * task in datas)
+//            {
+//                [self.taskInfo addObject:task];
+//            }
+//            [self.tableView reloadData];
+//        }
+//    }
+//    else
+//    {
+//        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有网络" preferredStyle:1];
+//        UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+//        [alert addAction:action];
+//        [self presentViewController:alert animated:YES completion:nil];
+//    }
+//}
 
 #pragma mark - RequestNetWorkDelegate 代理方法
 
@@ -388,10 +387,10 @@
     {
         [self RESULT_requestTaskStatistical:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-    if (task == self.reloadTaskStatus)
-    {
-        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
-    }
+//    if (task == self.reloadTaskStatus)
+//    {
+//        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
+//    }
 }
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
@@ -402,10 +401,10 @@
     {
         [self RESULT_requestTaskStatistical:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
-    if (task == self.reloadTaskStatus)
-    {
-        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
-    }
+//    if (task == self.reloadTaskStatus)
+//    {
+//        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
+//    }
 }
 
 - (void)dealloc
@@ -437,7 +436,7 @@
     if (self.expandSectionIndex != NSNotFound)
         [indexSet addIndex:self.expandSectionIndex];
     
-    DBStatisticalList * statistical;
+    DBTaskStatisticalList * statistical;
     if (self.isStatusButton == 0)
     {
         statistical = self.openedInSectionArr[tapSection];
@@ -449,45 +448,20 @@
     //如果当前行是未选中状态
     if ([statistical.selectedState isEqualToString:@"0"]) {
         //取消所有选中状态
-        for (DBStatisticalList * stat in self.openedInSectionArr)
+        for (DBTaskStatisticalList * stat in self.openedInSectionArr)
         {
             stat.selectedState = @"0";
         }
-        for (DBStatisticalList * stat in self.cancelArr)
+        for (DBTaskStatisticalList * stat in self.cancelArr)
         {
             stat.selectedState = @"0";
         }
         //把这一行 变成选中状态
         statistical.selectedState = @"1";
         
-        //如果缓存没有任务信息，就请求任务信息接口
         [self.taskInfo removeAllObjects];
-
-        DBStatisticalInfoList * statisticalInfo = (DBStatisticalInfoList *)[[DataManager defaultInstance] findWaiterRushByTaskCode:statistical.taskCode];
-        NSLog(@"%@",statisticalInfo.finishTime);
-        if (self.isStatusButton == 0)
-        {
-            if ([statisticalInfo.finishTime isEqualToString:@""] || statisticalInfo.finishTime == nil)
-            {
-                [self NETWORK_TaskStatus:statistical.taskCode];
-            }
-            else
-            {
-                [self.taskInfo addObject:statisticalInfo];
-            }
-        }
-        if (self.isStatusButton == 1)
-        {
-            NSLog(@"%@",statisticalInfo.cancelTime);
-            if ([statisticalInfo.cancelTime isEqualToString:@""] || statisticalInfo.cancelTime == nil)
-            {
-                [self NETWORK_TaskStatus:statistical.taskCode];
-            }
-            else
-            {
-                [self.taskInfo addObject:statisticalInfo];
-            }
-        }
+        DBTaskStatisticalList * statisticalInfo = (DBTaskStatisticalList *)[[DataManager defaultInstance] findWaiterRushByTaskCode:statistical.taskCode];
+        [self.taskInfo addObject:statisticalInfo];
     }
     else
     {
@@ -525,7 +499,7 @@
     self.cancelButton.backgroundColor = [UIColor whiteColor];
     self.isStatusButton = 0;
     self.selectPageNumber = 1;//每次点击“已完成”按钮的时候，请求第一页数据
-    [self NETWORK_requestTaskStatistical:@"0"];
+    [self NETWORK_requestTaskStatistical:@"1"];
     [self.tableView reloadData];
 }
 - (IBAction)cancelButtonAction:(UIButton *)sender
@@ -536,7 +510,7 @@
     self.cancelButton.backgroundColor = [UIColor colorWithRed:81.0/256 green:150.0/256 blue:109.0/256 alpha:1];//恶心绿
     self.isStatusButton = 1;
     self.selectPageNumber = 1;//每次点击“已取消”按钮的时候，请求第一页数据
-    [self NETWORK_requestTaskStatistical:@"1"];
+    [self NETWORK_requestTaskStatistical:@"9"];
     [self.tableView reloadData];
 }
 

@@ -15,7 +15,7 @@
 {
     DBTaskList *taskList = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"taskCode = %@", taskCode];
-    NSArray *result = [self arrayFromCoreData:@"DBStatisticalInfoList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
+    NSArray *result = [self arrayFromCoreData:@"DBTaskStatisticalList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil];
     if (result.count <= 0 ||result == nil)
     {
 //        taskList = (DBTaskList *)[self insertIntoCoreData:@"DBTaskList"];
