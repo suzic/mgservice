@@ -641,19 +641,6 @@
             //有未完成的任务
             [self performSegueWithIdentifier:@"goTask" sender:nil];
         }
-        if ([waiterInfo.status isEqualToString:@"9"])
-        {
-            //任务已经被客人取消
-            //登出IM
-            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-            [SPUserDefaultsManger deleteforKey:@"messageCount"];
-            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-            
-            NSString * task = [NSString stringWithFormat:@"呼叫任务被取消"];
-            NSString * content = @"客人取消了呼叫服务";
-            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
-            [gradingView showGradingView:YES];
-        }
     }
     else
     {
@@ -819,7 +806,17 @@
 
 - (void)cancelTask
 {
-    [self NETWORK_TaskActivate];
+//    [self NETWORK_TaskActivate];
+    //任务已经被客人取消
+    //登出IM
+    [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+    [SPUserDefaultsManger deleteforKey:@"messageCount"];
+    [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+    
+    NSString * task = [NSString stringWithFormat:@"呼叫任务被取消"];
+    NSString * content = @"客人取消了呼叫服务";
+    GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+    [gradingView showGradingView:YES];
 }
 // 抢单
 - (IBAction)pickSingleButtonAction:(id)sender
@@ -880,6 +877,7 @@
     _selectedIndex = selectedIndex;
     [updateIndexes addObject:[NSIndexPath indexPathForRow:_selectedIndex inSection:0]];
     [self.taskTable reloadRowsAtIndexPaths:updateIndexes withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.taskTable reloadData];
 }
 
 - (IBAction)canningAction:(id)sender

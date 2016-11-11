@@ -313,6 +313,11 @@
             [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelArrCount] forState:UIControlStateNormal];
             [self.tableView reloadData];
         }
+        else
+        {
+            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",0] forState:UIControlStateNormal];
+            [self.tableView reloadData];
+        }
     }
     else
     {

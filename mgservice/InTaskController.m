@@ -62,7 +62,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:NotiNewMessage object:nil];
 
     //查询任务状态
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     
     //回到主页
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
@@ -130,12 +130,8 @@
 - (void)RESULT_reloadWorkStatusTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed) {
-        if (datas.count > 0) {
-//            DBMessage * message = self.waiterTaskList.hasMessage;
-//            [[DataManager defaultInstance] deleteFromCoreData:message];
-//            [[DataManager defaultInstance] deleteFromCoreData:self.waiterTaskList];
-//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
-//            DBTaskList * waiterTask = [[[DataManager defaultInstance]arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil]lastObject];
+        if (datas.count > 0)
+        {
             self.waiterTaskList.taskStatus = @"1";
             [[DataManager defaultInstance] saveContext];
             [self.conversation removeAllLocalMessages];
@@ -163,44 +159,44 @@
 }
 
 //通过任务编号，获得任务信息
-- (void)NETWORK_TaskStatus
-{
-    NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
-    NSLog(@"%@",strCode);
-    if (strCode == nil)
-        return;
-    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-                                   @{@"taskCode":strCode}];//任务编号
-    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-                                                                      webURL:@URI_WAITER_TASkSTATUS
-                                                                      params:params
-                                                                  withByUser:YES];
-}
-
-//获取任务状态，如果taskStatus=9，证明管家端取消了任务  taskStatus=0，证明任务未完成
-- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
-{
-    if (succeed) {
-        DBStatisticalInfoList * infoList = datas[0];
-        NSLog(@"%@",infoList.taskStatus);
-        if ([infoList.taskStatus isEqualToString:@"0"])
-        {
-            return;
-        }
-        if ([infoList.taskStatus isEqualToString:@"9"])
-        {
-                //登出IM
-            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-            [SPUserDefaultsManger deleteforKey:@"messageCount"];
-            
-            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",self.waiterTaskList.taskCode];
-            NSString * content = @"客人取消了呼叫服务";
-            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
-            [gradingView showGradingView:YES];
-        }
-    }
-}
+//- (void)NETWORK_TaskStatus
+//{
+//    NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+//    NSLog(@"%@",strCode);
+//    if (strCode == nil)
+//        return;
+//    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+//                                   @{@"taskCode":strCode}];//任务编号
+//    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+//                                                                      webURL:@URI_WAITER_TASkSTATUS
+//                                                                      params:params
+//                                                                  withByUser:YES];
+//}
+//
+////获取任务状态，如果taskStatus=9，证明管家端取消了任务  taskStatus=0，证明任务未完成
+//- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+//{
+//    if (succeed) {
+//        DBStatisticalInfoList * infoList = datas[0];
+//        NSLog(@"%@",infoList.taskStatus);
+//        if ([infoList.taskStatus isEqualToString:@"0"])
+//        {
+//            return;
+//        }
+//        if ([infoList.taskStatus isEqualToString:@"9"])
+//        {
+//                //登出IM
+//            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+//            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+//            [SPUserDefaultsManger deleteforKey:@"messageCount"];
+//            
+//            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",self.waiterTaskList.taskCode];
+//            NSString * content = @"客人取消了呼叫服务";
+//            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+//            [gradingView showGradingView:YES];
+//        }
+//    }
+//}
 
 #pragma mark - RequestNetWorkDelegate 代理方法
 - (void)startRequest:(NSURLSessionTask *)task
@@ -231,10 +227,10 @@
     {
         [self RESULT_reloadWorkStatusTask:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-    if (task == self.reloadTaskStatus)
-    {
-        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
-    }
+//    if (task == self.reloadTaskStatus)
+//    {
+//        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
+//    }
     
 }
 
@@ -247,9 +243,9 @@
     {
         [self RESULT_reloadWorkStatusTask:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
-    if (task == self.reloadTaskStatus) {
-        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
-    }
+//    if (task == self.reloadTaskStatus) {
+//        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
+//    }
 }
 
 
