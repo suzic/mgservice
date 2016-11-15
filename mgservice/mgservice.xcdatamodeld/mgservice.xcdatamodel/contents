@@ -92,6 +92,7 @@
         <attribute name="nay" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="taskCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="waiterId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workStatus" optional="YES" attributeType="String" syncable="YES"/>
@@ -114,8 +115,8 @@
         <element name="DBStatisticalInfoList" positionX="-4473" positionY="-1134" width="128" height="180"/>
         <element name="DBStatisticalList" positionX="-4473" positionY="-1134" width="128" height="225"/>
         <element name="DBTaskList" positionX="-4464" positionY="-1287" width="128" height="405"/>
-        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="360"/>
-        <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
         <element name="DBTaskStatisticalList" positionX="-4482" positionY="-1143" width="128" height="270"/>
+        <element name="DBWaiterInfor" positionX="-4680" positionY="-1197" width="128" height="375"/>
+        <element name="DBWaiterPresentList" positionX="-4257" positionY="-1287" width="128" height="195"/>
     </elements>
 </model>

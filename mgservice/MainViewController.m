@@ -70,6 +70,7 @@
     if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
         if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
             self.selectPageNumber = 1;
+            [self NETWORK_TaskActivate];
             [self NETWORK_requestTask];
         }
     }

@@ -467,7 +467,9 @@
     NSDictionary * dic = (NSDictionary *)dict;
     DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
     waiterInfo.status = dic[@"status"];
+    waiterInfo.taskCode = dic[@"taskInfo"][@"taskCode"];
     NSLog(@"%@",waiterInfo.status);
+    
     return array;
 }
 

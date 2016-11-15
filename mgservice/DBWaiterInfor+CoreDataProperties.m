@@ -34,5 +34,6 @@
 @dynamic dutyLevel;
 @dynamic waiterId;
 @dynamic status;
+@dynamic taskCode;
 
 @end

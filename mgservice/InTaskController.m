@@ -67,7 +67,7 @@
     //回到主页
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
     
-    [self NETWORK_TaskStatus];
+//    [self NETWORK_TaskStatus];
     
     NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
     if (messageCount != nil) {
@@ -120,7 +120,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId":waiterInfo.waiterId,
-                                     @"taskCode":self.waiterTaskList.taskCode}];//任务编号
+                                     @"taskCode":self.waiterTaskList.taskCode == nil ? waiterInfo.taskCode : self.waiterTaskList.taskCode}];//任务编号
     self.reloadWorkStatusTask = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
                                                                           webURL:@URI_WAITER_FINISHTASK
                                                                           params:params
@@ -130,22 +130,20 @@
 - (void)RESULT_reloadWorkStatusTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
     if (succeed) {
-        if (datas.count > 0)
-        {
-            self.waiterTaskList.taskStatus = @"1";
-            [[DataManager defaultInstance] saveContext];
-            [self.conversation removeAllLocalMessages];
-            [self deallocInstantMessageing];
-            [self.conversation markConversationAsRead];
-            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-            //登出IM
-            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-            [SPUserDefaultsManger deleteforKey:@"messageCount"];
-            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）已完成",self.waiterTaskList.taskCode];
-            NSString * content = @"服务员点击了完成任务";
-            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
-            [gradingView showGradingView:YES];
-        }
+        DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+        self.waiterTaskList.taskStatus = @"1";
+        [[DataManager defaultInstance] saveContext];
+        [self.conversation removeAllLocalMessages];
+        [self deallocInstantMessageing];
+        [self.conversation markConversationAsRead];
+        [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+        //登出IM
+        [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+        [SPUserDefaultsManger deleteforKey:@"messageCount"];
+        NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）已完成",self.waiterTaskList.taskCode == nil ? waiterInfo.taskCode : self.waiterTaskList.taskCode];
+        NSString * content = @"服务员点击了完成任务";
+        GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+        [gradingView showGradingView:YES];
     }
     else
     {
@@ -159,44 +157,44 @@
 }
 
 //通过任务编号，获得任务信息
-//- (void)NETWORK_TaskStatus
-//{
-//    NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
-//    NSLog(@"%@",strCode);
-//    if (strCode == nil)
-//        return;
-//    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
-//                                   @{@"taskCode":strCode}];//任务编号
-//    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
-//                                                                      webURL:@URI_WAITER_TASkSTATUS
-//                                                                      params:params
-//                                                                  withByUser:YES];
-//}
+- (void)NETWORK_TaskStatus
+{
+    NSString * strCode = (NSString *)[SPUserDefaultsManger getValue:@"taskCode"];
+    NSLog(@"%@",strCode);
+    if (strCode == nil)
+        return;
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"taskCode":strCode}];//任务编号
+    self.reloadTaskStatus = [[RequestNetWork defaultManager] POSTWithTopHead:@REQUEST_HEAD_NORMAL
+                                                                      webURL:@URI_WAITER_TASkSTATUS
+                                                                      params:params
+                                                                  withByUser:YES];
+}
 //
 ////获取任务状态，如果taskStatus=9，证明管家端取消了任务  taskStatus=0，证明任务未完成
-//- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
-//{
-//    if (succeed) {
-//        DBStatisticalInfoList * infoList = datas[0];
-//        NSLog(@"%@",infoList.taskStatus);
-//        if ([infoList.taskStatus isEqualToString:@"0"])
-//        {
-//            return;
-//        }
-//        if ([infoList.taskStatus isEqualToString:@"9"])
-//        {
-//                //登出IM
-//            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
-//            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
-//            [SPUserDefaultsManger deleteforKey:@"messageCount"];
-//            
-//            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",self.waiterTaskList.taskCode];
-//            NSString * content = @"客人取消了呼叫服务";
-//            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
-//            [gradingView showGradingView:YES];
-//        }
-//    }
-//}
+- (void)RESULT_taskStatus:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
+{
+    if (succeed) {
+        DBStatisticalInfoList * infoList = datas[0];
+        NSLog(@"%@",infoList.taskStatus);
+        if ([infoList.taskStatus isEqualToString:@"0"])
+        {
+            return;
+        }
+        if ([infoList.taskStatus isEqualToString:@"9"])
+        {
+                //登出IM
+            [SPUserDefaultsManger setValue:@"" forKey:@"taskCode"];
+            [[SPKitExample sharedInstance] callThisBeforeISVAccountLogout];
+            [SPUserDefaultsManger deleteforKey:@"messageCount"];
+            
+            NSString * task = [NSString stringWithFormat:@"呼叫任务（%@）被取消",self.waiterTaskList.taskCode];
+            NSString * content = @"客人取消了呼叫服务";
+            GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
+            [gradingView showGradingView:YES];
+        }
+    }
+}
 
 #pragma mark - RequestNetWorkDelegate 代理方法
 - (void)startRequest:(NSURLSessionTask *)task
@@ -421,10 +419,10 @@
 }
 
 //查询任务状态
-- (void)taskStatus:(NSNotificationCenter*)taskStatus
-{
-    [self NETWORK_TaskStatus];
-}
+//- (void)taskStatus:(NSNotificationCenter*)taskStatus
+//{
+//    [self NETWORK_TaskStatus];
+//}
 
 //回到主页
 - (void)backMainViewController:(NSNotificationCenter *)noti
