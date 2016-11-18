@@ -88,11 +88,11 @@
 //    {
 //        datas = [self parseTaskStatistical:dict];
 //    }
-    else if ([ident isEqualToString:@URL_TASKLIST])
+    else if ([ident isEqualToString:@URL_TASKLIST]) //根据条件查询任务列表
     {
         datas = [self parseTaskList:dict];
     }
-    else if ([ident isEqualToString:@URL_TASKACTIVATE])
+    else if ([ident isEqualToString:@URL_TASKACTIVATE]) //获取正在进行中的任务
     {
         datas = [self parseTaskActivate:dict];
     }
@@ -387,7 +387,7 @@
         presentList.count = list[@"count"];
         presentList.drName = list[@"drName"];
         presentList.menuName = list[@"menuName"];
-        presentList.sellPrice = list[@"sellPrice"];
+        presentList.sellPrice = list[@"sellPrice"];//单价
         presentList.orderNo = dic[@"list"][0][@"orderNo"];
         presentList.menuOrderMoney = dic[@"list"][0][@"menuOrderMoney"];//菜单总价（未计服务费的）
         presentList.targetTelephone = dic[@"list"][0][@"targetInfo"][@"targetTelephone"];
@@ -448,6 +448,7 @@
         taskStatisticalList.locationArea = list[@"locationArea"];
         taskStatisticalList.timeLimit = list[@"timeLimit"];//邀请完成时间
         taskStatisticalList.category = list[@"category"];
+        taskStatisticalList.drOrderNo = list[@"drOrderNo"];
         taskStatisticalList.messageInfo = list[@"messageInfo"];
         taskStatisticalList.selectedState = @"0";
         taskStatisticalList.finishTime = list[@"finishTime"];
@@ -468,6 +469,7 @@
     DBWaiterInfor * waiterInfo = (DBWaiterInfor *)[[DataManager defaultInstance]getWaiterInfor];
     waiterInfo.status = dic[@"status"];
     waiterInfo.taskCode = dic[@"taskInfo"][@"taskCode"];
+    [SPUserDefaultsManger setValue:waiterInfo.taskCode forKey:@"taskCode"];
     NSLog(@"%@",waiterInfo.status);
     
     return array;

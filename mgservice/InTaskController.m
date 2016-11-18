@@ -129,7 +129,8 @@
 
 - (void)RESULT_reloadWorkStatusTask:(BOOL)succeed withResponseCode:(NSString *)code withMessage:(NSString *)msg withDatas:(NSMutableArray *)datas
 {
-    if (succeed) {
+    if (succeed)
+    {
         DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
         self.waiterTaskList.taskStatus = @"1";
         [[DataManager defaultInstance] saveContext];
@@ -147,9 +148,9 @@
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"完成任务失败！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"完成任务失败，请重试" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
+
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
@@ -180,6 +181,7 @@
         if ([infoList.taskStatus isEqualToString:@"0"])
         {
             return;
+            
         }
         if ([infoList.taskStatus isEqualToString:@"9"])
         {
@@ -225,10 +227,10 @@
     {
         [self RESULT_reloadWorkStatusTask:YES withResponseCode:code withMessage:msg withDatas:datas];
     }
-//    if (task == self.reloadTaskStatus)
-//    {
-//        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
-//    }
+    if (task == self.reloadTaskStatus)
+    {
+        [self RESULT_taskStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
+    }
     
 }
 
@@ -241,9 +243,9 @@
     {
         [self RESULT_reloadWorkStatusTask:NO withResponseCode:code withMessage:msg withDatas:nil];
     }
-//    if (task == self.reloadTaskStatus) {
-//        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
-//    }
+    if (task == self.reloadTaskStatus) {
+        [self RESULT_taskStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
+    }
 }
 
 

@@ -34,7 +34,7 @@
     if (delegate) {
         for (id<RequestNetWorkDelegate> delegatenet in self.delegateArray) {
             if (delegatenet == delegate) {
-                self.delegete = delegate;
+//                self.delegete = delegate;
                 return;
             }
         }
@@ -108,7 +108,7 @@
     if (responseCode == NULL)
     {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:responseMsg];
             }
         }
@@ -129,7 +129,7 @@
         ||[msgs[0] isEqualToString:@"ES0003"]
         ||[msgs[0] isEqualToString:@"ES0001"]) {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:msgs[1]];
             }
         }
@@ -143,7 +143,7 @@
             || [msgs[1]isEqualToString:@"数据空"]
             || range.length > 0) {
             for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
+                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
                     [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:msgs[1]];
                 }
             }
@@ -151,7 +151,7 @@
         }
     }else {
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)] && delegate == self.delegete) {
+            if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFailed:responseCode:withMessage:)]) {
                 [delegate pushResponseResultsFailed:task responseCode:responseCode withMessage:unicodeStr];
             }
         }
@@ -165,7 +165,7 @@
             // 不需要返回数据的请求
             if (array.count < 1){
                 for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                    if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)] && delegate == self.delegete) {
+                    if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)]) {
                         [delegate pushResponseResultsFinished:task responseCode:responseCode withMessage:@"" andData:nil];
                     }
                 }
@@ -173,7 +173,7 @@
             }
             // 有返回数据的请求
             for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)] && delegate == self.delegete) {
+                if (delegate && [delegate respondsToSelector:@selector(pushResponseResultsFinished:responseCode:withMessage:andData:)]) {
                     [delegate pushResponseResultsFinished:task responseCode:responseCode withMessage:@"" andData:array];
                 }
             }

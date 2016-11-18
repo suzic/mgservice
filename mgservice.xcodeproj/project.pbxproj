@@ -20,10 +20,6 @@
 		9C3686401D1245B80009FD39 /* ScanningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C36863F1D1245B80009FD39 /* ScanningView.m */; };
 		9C3686431D12A2A50009FD39 /* GuestInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3686421D12A2A50009FD39 /* GuestInfoController.m */; };
 		9C3686461D12AEC60009FD39 /* GuestInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3686451D12AEC60009FD39 /* GuestInfoCell.m */; };
-		9C36904B1D066E6100FE8936 /* LPPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690471D066E6100FE8936 /* LPPageViewController.m */; };
-		9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690491D066E6100FE8936 /* LPPageViewMenu.m */; };
-		9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */; };
-		9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3690581D067A2A00FE8936 /* PageViewController.m */; };
 		9C3AC1531DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */; };
 		9C3AC1541DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3AC1521DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.m */; };
 		9C43FD441D9BA77D001E217F /* GradingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C43FD431D9BA77D001E217F /* GradingView.m */; };
@@ -31,6 +27,9 @@
 		9C4982581D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C4982571D13E5B90088FCBB /* GuestInfoScanningBeforeCell.m */; };
 		9C49825B1D13E5D20088FCBB /* SelectInfoBeforeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */; };
 		9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */; };
+		9C6C0B6B1DDD95C000000E07 /* MenuDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6C0B6A1DDD95C000000E07 /* MenuDetailsViewController.m */; };
+		9C6C0B6E1DDD960600000E07 /* MenuDetailsSectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6C0B6D1DDD960600000E07 /* MenuDetailsSectionCell.m */; };
+		9C6C0B711DDD961B00000E07 /* MenuDetailsItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6C0B701DDD961B00000E07 /* MenuDetailsItemCell.m */; };
 		9C6EB2F91D952707007DEE00 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F61D952707007DEE00 /* CalendarViewController.m */; };
 		9C6EB2FA1D952707007DEE00 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EB2F81D952707007DEE00 /* NSDate+Formatter.m */; };
 		9C71F8211D98D3B800EF1C3A /* StarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C71F81E1D98D3B800EF1C3A /* StarView.m */; };
@@ -448,13 +447,6 @@
 		9C3686421D12A2A50009FD39 /* GuestInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestInfoController.m; sourceTree = "<group>"; };
 		9C3686441D12AEC60009FD39 /* GuestInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestInfoCell.h; sourceTree = "<group>"; };
 		9C3686451D12AEC60009FD39 /* GuestInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestInfoCell.m; sourceTree = "<group>"; };
-		9C3690461D066E6100FE8936 /* LPPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageViewController.h; sourceTree = "<group>"; };
-		9C3690471D066E6100FE8936 /* LPPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageViewController.m; sourceTree = "<group>"; };
-		9C3690481D066E6100FE8936 /* LPPageViewMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageViewMenu.h; sourceTree = "<group>"; };
-		9C3690491D066E6100FE8936 /* LPPageViewMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageViewMenu.m; sourceTree = "<group>"; };
-		9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPPageViewMenu.xib; sourceTree = "<group>"; };
-		9C3690571D067A2A00FE8936 /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageViewController.h; path = mgservice/PageViewController.h; sourceTree = SOURCE_ROOT; };
-		9C3690581D067A2A00FE8936 /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageViewController.m; path = mgservice/PageViewController.m; sourceTree = SOURCE_ROOT; };
 		9C3AC14F1DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalList+CoreDataClass.h"; sourceTree = "<group>"; };
 		9C3AC1501DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBStatisticalList+CoreDataClass.m"; sourceTree = "<group>"; };
 		9C3AC1511DB70C070015F6D6 /* DBStatisticalList+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBStatisticalList+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -469,6 +461,12 @@
 		9C49825A1D13E5D20088FCBB /* SelectInfoBeforeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectInfoBeforeCell.m; sourceTree = "<group>"; };
 		9C64A9B61CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		9C64A9B81CA382C6001DE397 /* UMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		9C6C0B691DDD95C000000E07 /* MenuDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuDetailsViewController.h; sourceTree = "<group>"; };
+		9C6C0B6A1DDD95C000000E07 /* MenuDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuDetailsViewController.m; sourceTree = "<group>"; };
+		9C6C0B6C1DDD960600000E07 /* MenuDetailsSectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuDetailsSectionCell.h; sourceTree = "<group>"; };
+		9C6C0B6D1DDD960600000E07 /* MenuDetailsSectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuDetailsSectionCell.m; sourceTree = "<group>"; };
+		9C6C0B6F1DDD961B00000E07 /* MenuDetailsItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuDetailsItemCell.h; sourceTree = "<group>"; };
+		9C6C0B701DDD961B00000E07 /* MenuDetailsItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuDetailsItemCell.m; sourceTree = "<group>"; };
 		9C6EB2F51D952707007DEE00 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		9C6EB2F61D952707007DEE00 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		9C6EB2F71D952707007DEE00 /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
@@ -1126,16 +1124,17 @@
 			path = ZHScanView;
 			sourceTree = "<group>";
 		};
-		9C3690451D066E6100FE8936 /* Page */ = {
+		9C6C0B681DDD955A00000E07 /* MenuDetails */ = {
 			isa = PBXGroup;
 			children = (
-				9C3690461D066E6100FE8936 /* LPPageViewController.h */,
-				9C3690471D066E6100FE8936 /* LPPageViewController.m */,
-				9C3690481D066E6100FE8936 /* LPPageViewMenu.h */,
-				9C3690491D066E6100FE8936 /* LPPageViewMenu.m */,
-				9C36904A1D066E6100FE8936 /* LPPageViewMenu.xib */,
+				9C6C0B691DDD95C000000E07 /* MenuDetailsViewController.h */,
+				9C6C0B6A1DDD95C000000E07 /* MenuDetailsViewController.m */,
+				9C6C0B6F1DDD961B00000E07 /* MenuDetailsItemCell.h */,
+				9C6C0B701DDD961B00000E07 /* MenuDetailsItemCell.m */,
+				9C6C0B6C1DDD960600000E07 /* MenuDetailsSectionCell.h */,
+				9C6C0B6D1DDD960600000E07 /* MenuDetailsSectionCell.m */,
 			);
-			path = Page;
+			name = MenuDetails;
 			sourceTree = "<group>";
 		};
 		9C6EB2F41D952696007DEE00 /* DateCalender */ = {
@@ -1744,9 +1743,6 @@
 		D06C01311C5B138700D242B1 /* MenuTask */ = {
 			isa = PBXGroup;
 			children = (
-				9C3690451D066E6100FE8936 /* Page */,
-				9C3690571D067A2A00FE8936 /* PageViewController.h */,
-				9C3690581D067A2A00FE8936 /* PageViewController.m */,
 				FCCA151B1CA524B700F5A502 /* MenuOrderController.h */,
 				FCCA151C1CA524B700F5A502 /* MenuOrderController.m */,
 				D06C01281C5B136500D242B1 /* MenuItemCell.h */,
@@ -1825,6 +1821,7 @@
 				D0CC733C1C59C1BE00314355 /* Login */,
 				D06C01321C5B197A00D242B1 /* CallTask */,
 				D06C01311C5B138700D242B1 /* MenuTask */,
+				9C6C0B681DDD955A00000E07 /* MenuDetails */,
 				D06C01331C5B198800D242B1 /* FinishTask */,
 				9C8310051D87FC9E009D7BA5 /* statisticalTask */,
 				9C6EB2F41D952696007DEE00 /* DateCalender */,
@@ -2273,7 +2270,6 @@
 				A83A36A71DCB258D001B1C57 /* weilaiyishu.fmi in Resources */,
 				A83A35EC1DCB258D001B1C57 /* 0.fmi in Resources */,
 				9C36863C1D12447B0009FD39 /* scan_1@3x.png in Resources */,
-				9C36904D1D066E6100FE8936 /* LPPageViewMenu.xib in Resources */,
 				A83A365A1DCB258D001B1C57 /* babudou.fmi in Resources */,
 				A83A364C1DCB258D001B1C57 /* 170004.fmi in Resources */,
 				FCCA14E61CA503F700F5A502 /* MJRefresh.bundle in Resources */,
@@ -2416,6 +2412,7 @@
 				F89B761F1C7706A700757096 /* LCProgressHUD.m in Sources */,
 				A89C982E1CDAE0F40031A7A4 /* UIButton+Bootstrap.m in Sources */,
 				9C3AC1531DB70C070015F6D6 /* DBStatisticalList+CoreDataClass.m in Sources */,
+				9C6C0B6B1DDD95C000000E07 /* MenuDetailsViewController.m in Sources */,
 				9C3686401D1245B80009FD39 /* ScanningView.m in Sources */,
 				9C789EB91CBF679300932D0C /* AFURLSessionManager.m in Sources */,
 				9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */,
@@ -2425,7 +2422,6 @@
 				9CB8DFBA1CD0A675007CFFB9 /* Defaut_Enu.m in Sources */,
 				9C78A6031CBF98B800932D0C /* SPInputViewPluginCallingCard.m in Sources */,
 				FC4822151CAA0D220070504E /* DBWaiterPresentList+CoreDataProperties.m in Sources */,
-				9C3690591D067A2A00FE8936 /* PageViewController.m in Sources */,
 				9C789EB51CBF679300932D0C /* AFNetworkReachabilityManager.m in Sources */,
 				9CCA34C61DB9B5F40083826B /* DBStatisticalInfoList+CoreDataProperties.m in Sources */,
 				D0CC73141C59B8E000314355 /* AppDelegate.m in Sources */,
@@ -2456,14 +2452,15 @@
 				9C78A6371CBF98B800932D0C /* SPKitExample.m in Sources */,
 				FCCA151D1CA524B700F5A502 /* MenuOrderController.m in Sources */,
 				FCCA14F11CA5041A00F5A502 /* MJRefreshGifHeader.m in Sources */,
+				9C6C0B6E1DDD960600000E07 /* MenuDetailsSectionCell.m in Sources */,
 				FC1922801CA0DBC100A941AE /* mgservice.xcdatamodeld in Sources */,
+				9C6C0B711DDD961B00000E07 /* MenuDetailsItemCell.m in Sources */,
 				F89B76121C77024800757096 /* NSDictionary+AllKeytoLowerCase.m in Sources */,
 				FCCA14FB1CA5042900F5A502 /* MJRefreshAutoNormalFooter.m in Sources */,
 				9C78A6021CBF98B800932D0C /* SPCallingCardBubbleViewModel.m in Sources */,
 				D0CC732F1C59C0DD00314355 /* LoginViewController.m in Sources */,
 				FCCA15131CA5043C00F5A502 /* MJRefreshFooter.m in Sources */,
 				9C81D4A31DD3041000626DA9 /* DBTaskStatisticalList+CoreDataProperties.m in Sources */,
-				9C36904B1D066E6100FE8936 /* LPPageViewController.m in Sources */,
 				9C78A6381CBF98B800932D0C /* SPUtil.m in Sources */,
 				FCCA14E71CA503F700F5A502 /* MJRefreshConst.m in Sources */,
 				D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */,
@@ -2489,7 +2486,6 @@
 				F89B76191C77057900757096 /* DataManager.m in Sources */,
 				FCCA15121CA5043C00F5A502 /* MJRefreshComponent.m in Sources */,
 				9C3686461D12AEC60009FD39 /* GuestInfoCell.m in Sources */,
-				9C36904C1D066E6100FE8936 /* LPPageViewMenu.m in Sources */,
 				D06C012A1C5B136500D242B1 /* MenuItemCell.m in Sources */,
 				9CDAFAB21D90E1D500711BAB /* SubCell.m in Sources */,
 				9C81D4A21DD3041000626DA9 /* DBTaskStatisticalList+CoreDataClass.m in Sources */,

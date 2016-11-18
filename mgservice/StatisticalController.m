@@ -9,9 +9,9 @@
 #import "StatisticalController.h"
 #import "HeaderCell.h"
 #import "SubCell.h"
-#import "PageViewController.h"
 #import "InTaskController.h"
 #import "GradingView.h"
+#import "MenuDetailsViewController.h"
 @interface StatisticalController ()<UITableViewDelegate,UITableViewDataSource,RequestNetWorkDelegate>
 {
 //    NSMutableArray * openedInSectionArr;
@@ -49,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[RequestNetWork defaultManager]registerDelegate:self];
     //工作相关控件View
     self.workTimeView.layer.cornerRadius = 6.0f;
     self.workTimeView.layer.borderColor = [UIColor grayColor].CGColor;
@@ -80,12 +79,22 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[RequestNetWork defaultManager]registerDelegate:self];
+
     NSString * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
     NSLog(@"%@",dateTime);
     self.dateTimeLabel.text = dateTime.length == 0 ? @"请选择日期" : dateTime;
+    
     self.selectPageNumber = 1;
-    //任务统计
-    [self NETWORK_requestTaskStatistical:@"1"];
+    //清空数组，为了点了日期返回页面后，不重复添加数据
+    [self.openedInSectionArr removeAllObjects];
+    [self.cancelArr removeAllObjects];
+    
+    if (self.isStatusButton == 0)
+        [self NETWORK_requestTaskStatistical:@"1"];
+    else
+        [self NETWORK_requestTaskStatistical:@"9"];
+    
     
     NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
     [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
@@ -174,23 +183,23 @@
         cell.completeTimeLabel.text = [NSString stringWithFormat:@"完成时间 %@",taskList.finishTime];  //任务完成时间
     else
         cell.completeTimeLabel.text = [NSString stringWithFormat:@"取消时间 %@",taskList.cancelTime];
-    
+    NSLog(@"%@",taskList.category);
     //如果是呼叫任务
     if ([taskList.category isEqualToString:@"0"])
     {
         cell.taskTypeLabel.text = [NSString stringWithFormat:@"服务内容 %@",@"呼叫服务"];
         [cell.taskTypeButton setTitle:@"进入查看聊天记录" forState:UIControlStateNormal];
-        cell.taskTypeButton.tag = 0000;
+        cell.taskTypeButton.tag = indexPath.section+1000;
         cell.taskTypeLabel.textColor = [UIColor blackColor];
     }
     
     //如果是送餐任务
-    if ([taskList.category isEqualToString:@"1"])
+    if ([taskList.category isEqualToString:@"4"])
     {
-        cell.taskTypeLabel.text = [NSString stringWithFormat:@"要求时间 %@",taskList.timeLimit];
+        cell.taskTypeLabel.text = [NSString stringWithFormat:@"服务内容 %@",@"送餐服务"];
         [cell.taskTypeButton setTitle:@"进入查看菜单" forState:UIControlStateNormal];
-        cell.taskTypeLabel.textColor = [UIColor redColor];
-        cell.taskTypeButton.tag = 1111;
+//        cell.taskTypeLabel.textColor = [UIColor redColor];
+        cell.taskTypeButton.tag = indexPath.section+10000;
     }
     return cell;
 }
@@ -218,13 +227,20 @@
     
     //如果statistical.category = 0 就是呼叫任务
     if ([statistical.category isEqualToString:@"0"])
+    {
         cell.taskNameLabel.text = @"呼叫任务";
+        cell.starView.rating = [statistical.score floatValue];
+    }
     //如果statistical.category = 1 就是送餐任务
     if ([statistical.category isEqualToString:@"4"])
+    {
         cell.taskNameLabel.text = @"送餐任务";
+        cell.starView.hidden = YES;
+    }
+
     
     cell.taskCode.text = statistical.taskCode;
-    cell.starView.rating = [statistical.score floatValue];
+    
     
     //点击统计列表时的点击事件
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapSelectedStateHeader:)];
@@ -265,11 +281,14 @@
      pageCount      每页显示数量    int类型 非必填项    默认10条
      */
     DBWaiterInfor * waiterInfo = [[DataManager defaultInstance]getWaiterInfor];
+    NSDate * dateTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateTime"];
+    NSString * startDate = [NSString stringWithFormat:@"%@ %@",dateTime,@"00:00:00"];
+    NSString * endDate = [NSString stringWithFormat:@"%@ %@",dateTime,@"23:59:59"];
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId": waiterInfo.waiterId,
                                      @"status":status,
-                                     @"startDate":@"2016-10-01 00:00:00",
-                                     @"endDate":@"2017-10-01 23:59:59",
+                                     @"startDate":startDate,
+                                     @"endDate":endDate,
                                      @"pageNo":[NSString stringWithFormat:@"%ld",self.selectPageNumber],
                                      @"pageCount":@10,
                                      }];
@@ -323,7 +342,7 @@
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"任务统计数据请求失败" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self.tableView reloadData];
+//            [self.tableView reloadData];
         }];
         [alert addAction:action];
         [self presentViewController:alert animated:YES completion:nil];
@@ -412,16 +431,6 @@
 //    }
 }
 
-- (void)dealloc
-{
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
-    [[RequestNetWork defaultManager]cancleAllRequest];
-    [[RequestNetWork defaultManager]removeDelegate:self];
-}
 #pragma mark - 点击事件
 
 // header的点击事件，展开、收起的功能
@@ -481,7 +490,7 @@
 // 进入任务页面按钮点击事件
 - (IBAction)pushTaskPageButtonAction:(UIButton *)sender
 {
-    if (sender.tag == 0000)
+    if (sender.tag <10000)
     {
         UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"进入聊天页面的功能暂未开发" preferredStyle:1];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
@@ -489,13 +498,31 @@
         [self presentViewController:alert animated:YES completion:nil];
         
     }
-    if (sender.tag == 1111) {
-        // 跳转到任务列表
-        PageViewController * pageVC = [[PageViewController alloc]init];
-        [self.navigationController pushViewController:pageVC animated:YES];
+    if (sender.tag >= 10000) {
+         //跳转到菜单列表
+        NSString * menuCode ;
+        if (self.isStatusButton == 0)
+        {
+            menuCode = [self.openedInSectionArr[sender.tag-10000] drOrderNo];
+        }
+        else
+        {
+            menuCode = [self.cancelArr[sender.tag-10000] drOrderNo];
+        }
+        [self whenSkipUse];
+        [self performSegueWithIdentifier:@"pushMenuDetails" sender:menuCode];
     }
-    
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pushMenuDetails"])
+    {
+        MenuDetailsViewController * send = segue.destinationViewController;
+        send.menuCode = sender;
+    }
+}
+
 - (IBAction)completeButtonAction:(UIButton *)sender
 {
     self.expandSectionIndex = NSNotFound;
@@ -519,4 +546,25 @@
     [self.tableView reloadData];
 }
 
+- (void)whenSkipUse
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
+}
+
+- (void)dealloc
+{
+    if(self.hud)
+    {
+        [self.hud stopWMProgress];
+        [self.hud removeFromSuperview];
+    }
+    [[RequestNetWork defaultManager]cancleAllRequest];
+    [[RequestNetWork defaultManager]removeDelegate:self];
+}
 @end

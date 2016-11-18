@@ -9,7 +9,6 @@
 #import "MainViewController.h"
 #import "TaskCell.h"
 #import "LCProgressHUD.h"
-#import "PageViewController.h"
 #import "MenuOrderController.h"
 #import "AppDelegate.h"
 #import "ScanningView.h"
@@ -70,7 +69,6 @@
     if ([[NSString stringWithFormat:@"%@",[SPUserDefaultsManger getValue:KIsAllowRefresh]] isEqualToString:@"1"]) {
         if ([[[[DataManager defaultInstance]getWaiterInfor] attendanceState]isEqualToString:@"1"]) {
             self.selectPageNumber = 1;
-            [self NETWORK_TaskActivate];
             [self NETWORK_requestTask];
         }
     }
@@ -111,6 +109,10 @@
         self.acceptButton.hidden = NO;
         self.scanning.hidden = YES;
         self.InforView.hidden = YES;
+    }
+    if (![self.waiterCurrentArea.text isEqualToString:@"送餐部"] || [self.waiterCurrentArea.text isEqualToString:@"前台"])
+    {
+        [self NETWORK_TaskActivate];
     }
 }
 
@@ -391,7 +393,10 @@
 //            }
             
             //服务员获取正在进行中的任务
-            [self NETWORK_TaskActivate];
+            if (![self.waiterCurrentArea.text isEqualToString:@"送餐部"] || [self.waiterCurrentArea.text isEqualToString:@"前台"])
+            {
+                [self NETWORK_TaskActivate];
+            }
         }
     }
     else
@@ -566,7 +571,7 @@
     }
 }
 
-// 请求菜单列表
+// 请求菜单详情
 - (void)NETWORK_menuDetailList:(NSString *)drOrderNo
 {
     self.foodPresentList = drOrderNo;
@@ -582,9 +587,9 @@
     if (succeed)
     {
         [self whenSkipUse];
-//        [self performSegueWithIdentifier:@"goMenu" sender:nil];
-        PageViewController * pageVC = [[PageViewController alloc]init];
-        [self.navigationController pushViewController:pageVC animated:YES];
+        [self performSegueWithIdentifier:@"goMenu" sender:nil];
+//        PageViewController * pageVC = [[PageViewController alloc]init];
+//        [self.navigationController pushViewController:pageVC animated:YES];
     }
     else
     {
@@ -858,8 +863,9 @@
 //        [[RequestNetWork defaultManager]registerDelegate:self];
 //    }];
     // 跳转到任务列表
-    PageViewController * pageVC = [[PageViewController alloc]init];
-    [self.navigationController pushViewController:pageVC animated:YES];
+//    PageViewController * pageVC = [[PageViewController alloc]init];
+//    [self.navigationController pushViewController:pageVC animated:YES];
+    [self performSegueWithIdentifier:@"goMenu" sender:nil];
 }
 
 - (NSMutableArray *)taskArray
