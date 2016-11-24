@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FrameViewController.h"
 
 @interface MainViewController : UIViewController
 
@@ -17,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *scanning;
 @property (assign, nonatomic) BOOL showInfor;
 @property (weak, nonatomic) IBOutlet UIView *InforView;
-
+@property (strong, nonatomic) FrameViewController *frameController;
 - (IBAction)canningAction:(id)sender;
 
 @end
