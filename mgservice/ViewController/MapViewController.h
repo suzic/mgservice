@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class InTaskController;
+#import "FrameViewController.h"
 
 @interface MapViewController : UIViewController
 
-@property (retain, nonatomic) InTaskController *intaskController;
-
-- (void)showMsgView:(BOOL)show;
+@property (retain, nonatomic) FrameViewController *frameViewcontroller;
 
 @end

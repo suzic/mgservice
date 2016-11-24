@@ -8,7 +8,6 @@
 
 #import "InTaskController.h"
 #import "MainViewController.h"
-#import "MapViewController.h"
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 
@@ -325,7 +324,7 @@
     self.second ++;
     if (self.second > 18000) {
         self.timeLable.textColor = [UIColor redColor];
-        self.mapViewController.title = @"当前执行中任务(已超时)";
+        //self.mapViewController.title = @"当前执行中任务(已超时)";
     }
     self.timeLable.text = [self calculate:self.second];
 }
@@ -357,7 +356,7 @@
     if (_showTalk == showTalk)
         return;
     _showTalk = showTalk;
-    [self.mapViewController showMsgView:_showTalk];
+    [self.frameController showMsgView:_showTalk];
 }
 
 //这是聊天记录视图下的大按钮的点击事件
@@ -433,6 +432,6 @@
 }
 - (void)dealloc
 {
-    self.mapViewController = nil;
+    //self.mapViewController = nil;
 }
 @end

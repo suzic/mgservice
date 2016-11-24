@@ -14,14 +14,15 @@
 #import "ScanningView.h"
 #import "GuestInfoController.h"
 #import "StatisticalController.h"
-#import "InTaskController.h"
+#import "GradingView.h"
+#import "MapViewController.h"
 
 #define ALERT_OFFWORK   1000
 #define ALERT_INTOTASK  1001
 
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
+@property (strong, nonatomic) MapViewController *mapView;
 @property (strong, nonatomic) AppDelegate * win;
-@property (strong, nonatomic) InTaskController * inTask;
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
 @property (strong, nonatomic) IBOutlet UIView *topView;
@@ -1014,7 +1015,9 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"goTask"]) //"goTask"是SEGUE连线的标识
-    { 
+    {
+        self.mapView = (MapViewController *)[segue destinationViewController];
+        self.mapView.frameViewcontroller = self.frameController;
 //        id theSegue = segue.destinationViewController;
 //        [theSegue setValue:sender forKey:@"getStrDate"];
     }else if ([segue.identifier isEqualToString:@"showInfor"])

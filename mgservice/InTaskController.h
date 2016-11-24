@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapViewController.h"
+#import "FrameViewController.h"
 #import "GradingView.h"
 
 @interface InTaskController : UIViewController
-@property (weak, nonatomic) MapViewController *mapViewController;
 
 @property (nonatomic,strong)NSString * getStrDate;
 @property (assign, nonatomic) BOOL showMessageLabel;
@@ -22,7 +21,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpAndDownImage;
 @property (nonatomic,strong) DBTaskList * waiterTaskList;
-
+@property (nonatomic, strong) FrameViewController *frameController;
 - (void)deallocInstantMessageing;
 
 //完成任务

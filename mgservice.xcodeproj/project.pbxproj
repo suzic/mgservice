@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		401063CF1DE594F400E4B3EC /* WXOpenIMSDKFMWK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 401063CE1DE594F400E4B3EC /* WXOpenIMSDKFMWK.framework */; };
+		401D724A1DE5CE54009985C5 /* FrameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 401D72491DE5CE54009985C5 /* FrameViewController.m */; };
 		4B87BD0B1CC753EF001324E5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */; };
 		4B87BD0D1CC753F7001324E5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */; };
 		4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */; };
@@ -364,7 +366,6 @@
 		A83A36D71DCB25F2001B1C57 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A83A36D61DCB25F2001B1C57 /* OpenGLES.framework */; };
 		A83A36D91DCB25FB001B1C57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A83A36D81DCB25FB001B1C57 /* CoreGraphics.framework */; };
 		A87E48DB1DADE31800C98D97 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A87E48DA1DADE31800C98D97 /* UserNotifications.framework */; };
-		A89C964E1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A89C964D1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework */; };
 		A89C982E1CDAE0F40031A7A4 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = A89C982C1CDAE0F40031A7A4 /* UIButton+Bootstrap.m */; };
 		D06C01241C5B0A9300D242B1 /* FinishedController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01231C5B0A9300D242B1 /* FinishedController.m */; };
 		D06C01271C5B0CB300D242B1 /* FinishTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D06C01261C5B0CB300D242B1 /* FinishTaskCell.m */; };
@@ -429,6 +430,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		401063CE1DE594F400E4B3EC /* WXOpenIMSDKFMWK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOpenIMSDKFMWK.framework; sourceTree = "<group>"; };
+		401D72481DE5CE54009985C5 /* FrameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameViewController.h; sourceTree = "<group>"; };
+		401D72491DE5CE54009985C5 /* FrameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameViewController.m; sourceTree = "<group>"; };
 		4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -927,7 +931,6 @@
 		A83A36D81DCB25FB001B1C57 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A87E48D91DADE2B000C98D97 /* mgservice.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = mgservice.entitlements; sourceTree = "<group>"; };
 		A87E48DA1DADE31800C98D97 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		A89C964D1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOpenIMSDKFMWK.framework; sourceTree = "<group>"; };
 		A89C982B1CDAE0F40031A7A4 /* UIButton+Bootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+Bootstrap.h"; path = "Category/UIButton+Bootstrap.h"; sourceTree = "<group>"; };
 		A89C982C1CDAE0F40031A7A4 /* UIButton+Bootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Bootstrap.m"; path = "Category/UIButton+Bootstrap.m"; sourceTree = "<group>"; };
 		D06C01221C5B0A9300D242B1 /* FinishedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedController.h; sourceTree = "<group>"; };
@@ -1055,6 +1058,7 @@
 				4B87BD111CC75426001324E5 /* libc++.tbd in Frameworks */,
 				4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */,
 				9C78A6441CBF98F600932D0C /* libz.tbd in Frameworks */,
+				401063CF1DE594F400E4B3EC /* WXOpenIMSDKFMWK.framework in Frameworks */,
 				9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				F89B76641C7717E300757096 /* libz.1.2.5.tbd in Frameworks */,
 				A83A36D31DCB25CD001B1C57 /* libxml2.tbd in Frameworks */,
@@ -1070,7 +1074,6 @@
 				9C78A64C1CBF991100932D0C /* AudioToolbox.framework in Frameworks */,
 				9C78A64A1CBF990B00932D0C /* ImageIO.framework in Frameworks */,
 				9C78A6481CBF990600932D0C /* MobileCoreServices.framework in Frameworks */,
-				A89C964E1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework in Frameworks */,
 				9C78A6421CBF98F000932D0C /* CoreData.framework in Frameworks */,
 				9C78A6401CBF98EC00932D0C /* CoreTelephony.framework in Frameworks */,
 				9C78A63C1CBF98E000932D0C /* SystemConfiguration.framework in Frameworks */,
@@ -1171,10 +1174,10 @@
 		9C78A59A1CBF98AA00932D0C /* WXFrameworks */ = {
 			isa = PBXGroup;
 			children = (
+				401063CE1DE594F400E4B3EC /* WXOpenIMSDKFMWK.framework */,
 				9C78A59B1CBF98AA00932D0C /* SecurityGuardSDK.framework */,
 				9C78A59C1CBF98AA00932D0C /* UMOpenIMSDKFMWK.framework */,
 				9C78A59D1CBF98AA00932D0C /* UTDID.framework */,
-				A89C964D1CDAD9950031A7A4 /* WXOpenIMSDKFMWK.framework */,
 				9C78A59E1CBF98AA00932D0C /* UTMini.framework */,
 				9C78A5A01CBF98AA00932D0C /* WXOpenIMSDKResource.bundle */,
 				9C78A5A11CBF98AA00932D0C /* WXOUIModule.framework */,
@@ -1818,6 +1821,8 @@
 				D0CC73201C59B8E000314355 /* LaunchScreen.storyboard */,
 				D0CC73121C59B8E000314355 /* AppDelegate.h */,
 				D0CC73131C59B8E000314355 /* AppDelegate.m */,
+				401D72481DE5CE54009985C5 /* FrameViewController.h */,
+				401D72491DE5CE54009985C5 /* FrameViewController.m */,
 				D0CC733C1C59C1BE00314355 /* Login */,
 				D06C01321C5B197A00D242B1 /* CallTask */,
 				D06C01311C5B138700D242B1 /* MenuTask */,
@@ -2416,6 +2421,7 @@
 				9C3686401D1245B80009FD39 /* ScanningView.m in Sources */,
 				9C789EB91CBF679300932D0C /* AFURLSessionManager.m in Sources */,
 				9C789EB61CBF679300932D0C /* AFSecurityPolicy.m in Sources */,
+				401D724A1DE5CE54009985C5 /* FrameViewController.m in Sources */,
 				F89B75D81C76E23700757096 /* SPUserDefaultsManger.m in Sources */,
 				FC1922841CA10BDE00A941AE /* RequestNetWork.m in Sources */,
 				D0CC73451C5A02DA00314355 /* InTaskController.m in Sources */,
