@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSURLSessionTask * reloadWorkStatusTask;//完成任务
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//任务状态
 
-@property (nonatomic, strong) CADisplayLink * timer;
+
 @property (assign,nonatomic) NSInteger second;//时间
 @property (nonatomic,strong) LCProgressHUD * hud;
 
@@ -37,7 +37,7 @@
     self.chatHistoryViewTop.constant = self.view.frame.size.height - 124;
     self.chatHistoryViewBottom.constant = 60 - self.view.frame.size.height;
     self.chatHistoryView.backgroundColor = [UIColor clearColor];
-    self.showTalk = NO;
+//    self.showTalk = NO;
 
     self.messageLabel.layer.borderColor = [UIColor redColor].CGColor;
     self.messageLabel.layer.masksToBounds = YES;
@@ -49,10 +49,10 @@
 //    [self endTask];
     
     //即时通讯登录
-    [self instantMessaging];
+//    [self instantMessaging];
     
     //计时器
-    [self theTimer];
+//    [self theTimer];
     
     //接收通知,管家取消到场任务时执行此通知
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backHomePage:) name:@"backHomePage" object:nil];
@@ -68,6 +68,21 @@
     
 //    [self NETWORK_TaskStatus];
     
+//    NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
+//    if (messageCount != nil) {
+//        self.messageLabel.text = messageCount;
+//        self.messageLabel.hidden = NO;
+//    }
+}
+
+- (void)taskViewFun
+{
+    self.showTalk = NO;
+    //即时通讯登录
+    [self instantMessaging];
+    
+    //计时器
+    [self theTimer];
     NSString * messageCount = (NSString *)[SPUserDefaultsManger getValue:@"messageCount"];
     if (messageCount != nil) {
         self.messageLabel.text = messageCount;
@@ -134,7 +149,6 @@
         DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
         self.waiterTaskList.taskStatus = @"1";
         self.waiterTaskList.waiterStatus = @"0";
-        [[DataManager defaultInstance] saveContext];
         [self.conversation removeAllLocalMessages];
         [self deallocInstantMessageing];
         [self.conversation markConversationAsRead];
@@ -147,12 +161,14 @@
         GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
         [gradingView showGradingView:YES];
         
+        [self.timer invalidate];
         self.frameController.inTaskView.hidden = YES;
         self.waiterTaskList = nil;
+        [[DataManager defaultInstance] saveContext];
     }
     else
     {
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"完成任务失败，请重试" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 
         }];
@@ -198,6 +214,11 @@
             NSString * content = @"客人取消了呼叫服务";
             GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
             [gradingView showGradingView:YES];
+            self.waiterTaskList.waiterStatus = @"0";
+            [[DataManager defaultInstance] saveContext];
+            self.frameController.inTaskView.hidden = YES;
+            self.waiterTaskList = nil;
+            [self.timer invalidate];
         }
     }
 }
@@ -318,6 +339,7 @@
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    NSLog(@"%@",self.waiterTaskList.timeLimit);
     NSDate* date = [formatter dateFromString:self.waiterTaskList.timeLimit];
     self.second = labs((NSInteger)[date timeIntervalSinceNow] *60);
     self.timeLable.font = [UIFont fontWithName:@"Verdana" size:34];

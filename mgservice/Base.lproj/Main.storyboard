@@ -1077,11 +1077,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBy-9L-ypM">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBy-9L-ypM">
                                 <rect key="frame" x="10" y="74" width="355" height="160"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年10月30日" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVN-yd-drC">
-                                        <rect key="frame" x="0.0" y="5" width="355" height="40"/>
+                                        <rect key="frame" x="0.0" y="60" width="355" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="mg1-Eb-ptB"/>
                                         </constraints>
@@ -1089,7 +1089,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上班时间 08:29:12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNp-Xi-16H">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="上班时间 08:29:12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNp-Xi-16H">
                                         <rect key="frame" x="0.0" y="50" width="355" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="M8h-ZE-rto"/>
@@ -1098,7 +1098,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下班时间 尚未下班" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhU-az-ibJ">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="下班时间 尚未下班" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhU-az-ibJ">
                                         <rect key="frame" x="0.0" y="85" width="355" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="MWm-Wj-ZRR"/>
@@ -1107,7 +1107,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="工作时长 07:12:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgD-C6-mOg">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="工作时长 07:12:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgD-C6-mOg">
                                         <rect key="frame" x="0.0" y="120" width="355" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="A0s-Ki-SEa"/>
@@ -1126,10 +1126,10 @@
                                     <constraint firstItem="iNp-Xi-16H" firstAttribute="width" secondItem="BBy-9L-ypM" secondAttribute="width" id="FbQ-av-Gk1"/>
                                     <constraint firstItem="kgD-C6-mOg" firstAttribute="width" secondItem="BBy-9L-ypM" secondAttribute="width" id="IdT-q6-SKz"/>
                                     <constraint firstItem="iNp-Xi-16H" firstAttribute="top" secondItem="ZVN-yd-drC" secondAttribute="bottom" constant="5" id="Ro7-gM-nyc"/>
+                                    <constraint firstItem="ZVN-yd-drC" firstAttribute="centerY" secondItem="BBy-9L-ypM" secondAttribute="centerY" id="So2-fk-eWS"/>
                                     <constraint firstItem="iNp-Xi-16H" firstAttribute="centerX" secondItem="BBy-9L-ypM" secondAttribute="centerX" id="TJP-oa-Pop"/>
                                     <constraint firstItem="ZVN-yd-drC" firstAttribute="width" secondItem="BBy-9L-ypM" secondAttribute="width" id="V3D-Fl-eAB"/>
                                     <constraint firstAttribute="height" constant="160" id="c4B-cS-R5u"/>
-                                    <constraint firstItem="ZVN-yd-drC" firstAttribute="top" secondItem="BBy-9L-ypM" secondAttribute="top" constant="5" id="hkO-DP-LC9"/>
                                     <constraint firstItem="mhU-az-ibJ" firstAttribute="width" secondItem="BBy-9L-ypM" secondAttribute="width" id="jaa-2y-fCx"/>
                                     <constraint firstItem="ZVN-yd-drC" firstAttribute="centerX" secondItem="BBy-9L-ypM" secondAttribute="centerX" id="qB9-MM-KVg"/>
                                 </constraints>
@@ -1141,7 +1141,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="187.5" height="44"/>
                                         <color key="backgroundColor" red="0.34052485370000002" green="0.58823529409999997" blue="0.38335671580000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="已完成（23）">
+                                        <state key="normal" title="已完成">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1152,7 +1152,7 @@
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="已取消（14）">
+                                        <state key="normal" title="已取消">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>

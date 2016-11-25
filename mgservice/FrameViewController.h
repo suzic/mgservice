@@ -13,5 +13,6 @@
 - (void)showMsgView:(BOOL)show;
 - (void)FinishCurrentTaskAction;
 - (void)reloadCurrentTask;
+- (void)callInTask;
 @property (weak, nonatomic) IBOutlet UIView *inTaskView;
 @end

@@ -71,6 +71,12 @@
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+- (void)callInTask
+{
+    [self.inTaskController taskViewFun];
+}
+
 - (void)reloadCurrentTask
 {
     //点击刷新按钮后，即根据任务号，查询任务信息。

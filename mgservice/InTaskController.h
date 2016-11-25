@@ -18,10 +18,11 @@
 @property (assign, nonatomic) BOOL showTalk;  //显示聊天页面
 @property (nonatomic,strong) YWP2PConversation * conversation;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (nonatomic, strong) CADisplayLink * timer;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showMap;//显示地图按钮
 @property (weak, nonatomic) IBOutlet UIImageView *arrowUpAndDownImage;
 @property (nonatomic,strong) DBTaskList * waiterTaskList;
-@property (nonatomic, strong) FrameViewController *frameController;
+@property (nonatomic, weak) FrameViewController *frameController;
 - (void)deallocInstantMessageing;
 
 //完成任务
@@ -29,4 +30,6 @@
 
 //
 - (void)NETWORK_TaskStatus;
+
+- (void)taskViewFun;
 @end

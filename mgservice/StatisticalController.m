@@ -96,10 +96,10 @@
         [self NETWORK_requestTaskStatistical:@"9"];
     
     
-    NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
-    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
-    NSInteger cancelCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"cancelArrCount"];
-    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelCount] forState:UIControlStateNormal];
+//    NSInteger openedInSectionArrCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"openedInSectionArrCount"];
+//    [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
+//    NSInteger cancelCount = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"cancelArrCount"];
+//    [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelCount] forState:UIControlStateNormal];
 //    [self.tableView reloadData];
 }
 
@@ -326,10 +326,10 @@
                     [[NSUserDefaults standardUserDefaults] setInteger:self.cancelArr.count forKey:@"cancelArrCount"];
                 }
             }
-            NSInteger openedInSectionArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"openedInSectionArrCount"];
-            NSInteger cancelArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"cancelArrCount"];
-            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
-            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelArrCount] forState:UIControlStateNormal];
+//            NSInteger openedInSectionArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"openedInSectionArrCount"];
+//            NSInteger cancelArrCount = [[NSUserDefaults standardUserDefaults]integerForKey:@"cancelArrCount"];
+//            [self.completeButton setTitle:[NSString stringWithFormat:@"已完成（%ld）",openedInSectionArrCount] forState:UIControlStateNormal];
+//            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%ld）",cancelArrCount] forState:UIControlStateNormal];
             [self.tableView reloadData];
         }
         else

@@ -14,6 +14,7 @@
 #import "ScanningView.h"
 #import "GuestInfoController.h"
 #import "StatisticalController.h"
+#import "InTaskController.h"
 #import "GradingView.h"
 #import "MapViewController.h"
 
@@ -22,6 +23,7 @@
 
 @interface MainViewController () <UIAlertViewDelegate, UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate,RequestNetWorkDelegate>
 @property (strong, nonatomic) MapViewController *mapView;
+@property (strong, nonatomic) InTaskController * intaskController;
 @property (strong, nonatomic) AppDelegate * win;
 @property (strong, nonatomic) IBOutlet UIButton *acceptButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusButton;
@@ -824,6 +826,7 @@
     NSString * content = @"客人取消了呼叫服务";
     GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
     [gradingView showGradingView:YES];
+    [self.intaskController.timer invalidate];
 }
 // 抢单
 - (IBAction)pickSingleButtonAction:(id)sender
@@ -1018,6 +1021,7 @@
     {
         self.mapView = (MapViewController *)[segue destinationViewController];
         self.mapView.frameViewcontroller = self.frameController;
+        [self.mapView.frameViewcontroller callInTask];
 //        id theSegue = segue.destinationViewController;
 //        [theSegue setValue:sender forKey:@"getStrDate"];
     }else if ([segue.identifier isEqualToString:@"showInfor"])
