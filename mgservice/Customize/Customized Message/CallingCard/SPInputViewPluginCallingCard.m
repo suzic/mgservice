@@ -9,10 +9,12 @@
 #import "SPInputViewPluginCallingCard.h"
 #if __has_include("SPContactListController.h")
 #import "SPContactListController.h"
+#define HAS_CONTACTLIST 1
 #endif
 #import "SPUtil.h"
+#import "SPKitExample.h"
 
-#if __has_include("SPContactListController.h")
+#if HAS_CONTACTLIST
 @interface SPInputViewPluginCallingCard ()<SPContactListControllerDelegate>
 #else
 @interface SPInputViewPluginCallingCard ()
@@ -40,7 +42,7 @@
     }
     
     NSDictionary *contentDictionary = @{
-                                        @"customizeMessageType":@"CallingCard",
+                                        kSPCustomizeMessageType:@"CallingCard",
                                         @"personId": aPersonId
                                         };
     NSData *data = [NSJSONSerialization dataWithJSONObject:contentDictionary
@@ -64,7 +66,7 @@
                                                        }
                                                    }];
 }
-#if __has_include("SPContactListController.h")
+#if HAS_CONTACTLIST
 #pragma mark - SPContactListControllerDelegate
 - (void)contactListController:(SPContactListController *)controller didSelectPersonIDs:(NSArray *)personIDs {
     if ([personIDs.firstObject isKindOfClass:[NSString class]]) {
@@ -100,7 +102,7 @@
 // 插件被选中运行
 - (void)pluginDidClicked
 {
-#if __has_include("SPContactListController.h")
+#if HAS_CONTACTLIST
     YWConversationViewController *conversationController = [self conversationViewController];
     SPContactListController *contactListController = [[SPContactListController alloc] initWithNibName:@"SPContactListController" bundle:nil];
     contactListController.mode= SPContactListModeSingleSelection;

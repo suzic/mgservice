@@ -84,7 +84,7 @@
             __weak typeof(self) weakSelf = self;
             
             NSDictionary *contentDictionary = @{
-                                                @"customizeMessageType":@"yuehoujifen",
+                                                kSPCustomizeMessageType:@"yuehoujifen",
                                                 @"text":text
                                                 };
             NSData *data = [NSJSONSerialization dataWithJSONObject:contentDictionary

@@ -77,6 +77,7 @@
 
 - (void)taskViewFun
 {
+    self.chatHistoryView.hidden = NO;
     self.showTalk = NO;
     //即时通讯登录
     [self instantMessaging];
@@ -165,6 +166,7 @@
         self.frameController.inTaskView.hidden = YES;
         self.waiterTaskList = nil;
         [[DataManager defaultInstance] saveContext];
+        self.chatHistoryView.hidden = YES;
     }
     else
     {
@@ -219,6 +221,7 @@
             self.frameController.inTaskView.hidden = YES;
             self.waiterTaskList = nil;
             [self.timer invalidate];
+            self.chatHistoryView.hidden = YES;
         }
     }
 }
@@ -352,6 +355,10 @@
     if (self.second > 18000) {
         self.timeLable.textColor = [UIColor redColor];
         //self.mapViewController.title = @"当前执行中任务(已超时)";
+    }
+    else
+    {
+        self.timeLable.textColor = [UIColor blackColor];
     }
     self.timeLable.text = [self calculate:self.second];
 }

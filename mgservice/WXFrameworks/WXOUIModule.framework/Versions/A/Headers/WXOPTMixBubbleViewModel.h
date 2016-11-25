@@ -20,4 +20,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSArray *cellItems;
 @property (nonatomic, strong) PTMixHead *headItem;
 @property (nonatomic, assign) PTMixType mixType;
+
+typedef void (^PTMActionProcessBlock) (NSString *action);
+@property (nonatomic, copy) PTMActionProcessBlock actionProcessBlock;
+- (void)setActionProcessBlock:(PTMActionProcessBlock)actionProcessBlock;
 @end

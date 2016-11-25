@@ -84,6 +84,11 @@
  */
 - (void)messageInputView:(UIView<IYWMessageInputView> *)inputView heightOfKeyboardDidChange:(CGFloat)height;
 
+/**
+ *  是否发送文本消息，如果返回NO，则不会发送
+ */
+- (BOOL)messageInputView:(UIView<IYWMessageInputView> *)inputView shouldSendText:(NSString *)text;
+
 @end
 
 #endif /* IYWMessageInputView_h */

@@ -62,7 +62,7 @@
 
     /// 构建一个自定义消息
     NSDictionary *contentDictionary = @{
-                                        @"customizeMessageType":@"Greeting",
+                                        kSPCustomizeMessageType:@"Greeting",
                                         };
     NSData *data = [NSJSONSerialization dataWithJSONObject:contentDictionary
                                                    options:0

@@ -32,19 +32,20 @@
 #import <WXOUIModule/YWInputViewPluginPhotoPicker.h>
 #import <WXOUIModule/YWInputViewPluginTakePhoto.h>
 
-
-/// 功能页面
-#import <WXOUIModule/YWPhotoBrowserViewController.h>
-#import <WXOUIModule/YWWebViewController.h>
-
 /// 气泡
 #import <WXOUIModule/YWBaseBubbleChatView.h>
 #import <WXOUIModule/YWBaseBubbleViewModel.h>
 
 
-/// 其他功能
+/// 功能页面
+#import <WXOUIModule/YWPhotoBrowserViewController.h>
+#import <WXOUIModule/YWWebViewController.h>
 #import <WXOUIModule/YWRecordKit.h>
 #import <WXOUIModule/YWImageBrowserHelper.h>
+#import <WXOUIModule/YWPhotoPickerHelper.h>
+
+
+/// 其他功能
 #import <WXOUIModule/YWMoreActionItem.h>
 #import <WXOUIModule/YWActionDefaults.h>
 
@@ -56,6 +57,4 @@
 #import <WXOUIModule/YWContactListControllerForGroupMode.h>
 #import <WXOUIModule/YWContactListControllerForAlphabetic.h>
 #import <WXOUIModule/YWContactListControllerForSearch.h>
-
-
 

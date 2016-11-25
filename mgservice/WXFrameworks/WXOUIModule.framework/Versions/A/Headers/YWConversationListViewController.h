@@ -123,6 +123,14 @@ FOUNDATION_EXTERN const CGFloat YWConversationListCellDefaultHeight;
  */
 @property (nonatomic, copy) void (^configureCellBlock) (UITableViewCell *cell, UITableView *tableView, NSIndexPath *indexPath, YWConversation *conversation);
 
+/**
+ *  设置cell头像点击回调
+ */
+typedef void (^YWConversationListAvatarPressedBlock)(YWConversation *aConversation, YWConversationListViewController *aController);
+
+@property (nonatomic, copy) YWConversationListAvatarPressedBlock avatarPressedBlock;
+- (void)setAvatarPressedBlock:(YWConversationListAvatarPressedBlock)avatarPressedBlock;
+
 @end
 
 @interface YWConversationListViewController (YWSearchSupport)

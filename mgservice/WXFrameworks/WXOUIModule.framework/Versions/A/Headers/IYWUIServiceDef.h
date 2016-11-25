@@ -171,6 +171,11 @@ typedef void(^YWUnreadCountChangedBlock)(NSInteger aCount);
  */
 typedef void(^YWOnNewMessageBlock)(NSString *aSenderId, NSString *aContent, NSInteger aType, NSDate *aTime);
 
+/**
+ *  是否可以发送内容为content的文本消息
+ */
+typedef BOOL(^YWShouldSendTextBlock)(NSString *content);
+
 
 
 /**
@@ -251,52 +256,59 @@ typedef void(^YWViewControllerWillDeallocBlock) (void);
 #pragma mark - deprecated
 /**
  *  当IM需要显示profile时，会调用这个block
+ *  deprecated
  *  @param aPerson person对象
  *  @param aProgressBlock 获取到部分profile信息时，可以立即先调用这个block，通知IM，以便更快的显示这部分先获取到的信息。
  *  @param aCompletionBlock 获取profile完成后，调用这个block通知IM
  */
-typedef void(^YWFetchProfileBlockV2)(YWPerson *aPerson, YWFetchProfileProgressBlock aProgressBlock, YWFetchProfileCompletionBlock aCompletionBlock) __attribute__((deprecated("请使用YWFetchProfileForPersonBlock")));
+typedef void(^YWFetchProfileBlockV2)(YWPerson *aPerson, YWFetchProfileProgressBlock aProgressBlock, YWFetchProfileCompletionBlock aCompletionBlock);
 
 /**
  *  当IM需要显示profile时，会调用这个block
+ *  deprecated
  *  @note 推荐使用 YWFetchProfileBlockV2 .
  *  @param aPerson person对象
  *  @param aCompletionBlock 获取profile完成后，调用这个block通知IM
  */
-typedef void(^YWFetchProfileBlock)(YWPerson *aPerson, YWFetchProfileCompletionBlock aCompletionBlock) __attribute__((deprecated("请使用YWFetchProfileForPersonBlock")));
+typedef void(^YWFetchProfileBlock)(YWPerson *aPerson, YWFetchProfileCompletionBlock aCompletionBlock);
 
 /**
  *  群成员备注使用如下定义
  */
 
 /**
- *   当person在不同的群中需要有不同的显示名称时，使用这个block
+ *  当person在不同的群中需要有不同的显示名称时，使用这个block
+ *  deprecated
  */
-typedef void(^YWPersonProfileWithTribeCompletionBlock)(BOOL aIsSuccess, YWPerson *aPerson, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage) __attribute__((deprecated("请使用YWProfileCompletionBlock")));
+typedef void(^YWPersonProfileWithTribeCompletionBlock)(BOOL aIsSuccess, YWPerson *aPerson, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage);
 
 /**
  *  当person在不同的群中需要有不同的显示名称时，使用这个block
+ *  deprecated
  */
-typedef void(^YWPersonProfileWithTribeProgressBlock)(YWPerson *aPerson, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage) __attribute__((deprecated("请使用YWProfileProgressBlock")));
+typedef void(^YWPersonProfileWithTribeProgressBlock)(YWPerson *aPerson, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage);
 
 /**
- *   当person在不同的群中需要有不同的显示名称时，请使用这个block
- *   @param tribe, 需要显示person profile的群，当不在群中显示时，tribe为nil，即为YWFetchProfileBlockV2的功能
+ *  当person在不同的群中需要有不同的显示名称时，请使用这个block
+ *  deprecated
+ *  @param tribe, 需要显示person profile的群，当不在群中显示时，tribe为nil，即为YWFetchProfileBlockV2的功能
  */
-typedef void(^YWFetchPersonProfileWithTribeBlock) (YWPerson *aPerson, YWTribe *aTribe, YWPersonProfileWithTribeProgressBlock aProgressBlock, YWPersonProfileWithTribeCompletionBlock aCompletionBlock) __attribute__((deprecated("请使用YWFetchProfileForPersonBlock")));
+typedef void(^YWFetchPersonProfileWithTribeBlock) (YWPerson *aPerson, YWTribe *aTribe, YWPersonProfileWithTribeProgressBlock aProgressBlock, YWPersonProfileWithTribeCompletionBlock aCompletionBlock);
 
 /**
  *  群聊，成功获取Profile后，通过这个回调，通知旺信
+ *  deprecated
  *  @param tribe 群聊对象
  *  @param aDisplayName 显示名称
  *  @param aAvatarImage 头像
  */
-typedef void(^YWFetchTribeProfileCompletionBlock)(BOOL aIsSuccess, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage) __attribute__((deprecated("请使用YWProfileCompletionBlock")));
+typedef void(^YWFetchTribeProfileCompletionBlock)(BOOL aIsSuccess, YWTribe *tribe, NSString *aDisplayName, UIImage *aAvatarImage);
 
 /**
  *  群聊，当IM需要显示profile时，会调用这个block
+ *  deprecated
  *  @param aPerson 单聊对象
  *  @param aCompletionBlock 获取profile完成后，调用这个block通知IM
  */
-typedef void(^YWFetchTribeProfileBlock)(YWTribe *tribe, YWFetchTribeProfileCompletionBlock aCompletionBlock) __attribute__((deprecated("请使用YWFetchProfileForTribeBlock")));
+typedef void(^YWFetchTribeProfileBlock)(YWTribe *tribe, YWFetchTribeProfileCompletionBlock aCompletionBlock);
 

@@ -24,6 +24,14 @@ typedef NS_ENUM(NSUInteger, YWInputViewPluginType) {
     YWInputViewPluginTypeTakePhoto,         // 拍照
     YWInputViewPluginTypePickImage,         // 选择照片
     YWInputViewPluginTypeLocation,          // 地理位置
+    YWInputViewPluginTypeShortVideo,        // 短视频
+    YWInputViewPluginTypeMorePanel,         // 显示更多面板
+};
+
+typedef NS_ENUM(NSUInteger, YWInputViewPluginPosition) {
+    YWInputViewPluginPositionMorePanel,     // 位于点击输入框下方的可展开区域
+    YWInputViewPluginPositionLeft,          // 位于输入框的左侧，用于前置插件
+    YWInputViewPluginPositionRight,         // 位于输入框的右侧，用于前置插件
 };
 
 @protocol YWInputViewPluginDelegate;
@@ -39,20 +47,25 @@ typedef NS_ENUM(NSUInteger, YWInputViewPluginType) {
 
 @optional
 
+// 插件位置，默认为YWInputViewPluginPositionMorePanel
+@property (nonatomic, assign) YWInputViewPluginPosition pluginPosition;
+
 // 是否在面板关闭时popPluginContentView，默认是YES
 - (BOOL)shouldPopPluginContentViewWhenMorePanelClose;
 
-// 是否显示在前置而板（输入文本框右边），只在加载时判断一次，默认是NO
-- (BOOL)isPrepositionPlugin;
+// 是否显示在前置面板（输入文本框右边），只在加载时判断一次，默认是NO
+- (BOOL)isPrepositionPlugin __attribute__((deprecated("请使用pluginPosition")));
 
-// 前置插件按钮普通状态的图标
+// 前置插件按钮普通状态的图标，仅在pluginPosition不为 YWInputViewPluginPositionMorePanel 时有效
 - (UIImage *)prepositionPluginNormalIcon;
 
-// 前置插件按钮按下时的图标（若未设置以normal展示）
+// 前置插件按钮按下时的图标（若未设置以normal展示），仅在pluginPosition不为 YWInputViewPluginPositionMorePanel 时有效
 - (UIImage *)prepositionPluginPressedIcon;
 
-// 前置插件选中时的图标
+// 前置插件选中时的图标，仅在pluginPosition不为 YWInputViewPluginPositionMorePanel 时有效
 - (UIImage *)prepositionPluginSelectedIcon;
+
+- (BOOL)shouldShowRedPoint;
 
 // 前置插件是否打开更多面板，默认为NO
 - (BOOL)shouldOpenMorePanel;

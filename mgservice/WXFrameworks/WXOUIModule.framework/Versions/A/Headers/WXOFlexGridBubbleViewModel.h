@@ -11,4 +11,8 @@
 
 @interface WXOFlexGridBubbleViewModel : YWBaseBubbleViewModel
 @property (nonatomic, strong) FGBodyParser *parser;
+
+typedef void (^FGBActionProcessBlock) (NSString *action);
+@property (nonatomic, copy) FGBActionProcessBlock actionProcessBlock;
+- (void)setActionProcessBlock:(FGBActionProcessBlock)actionProcessBlock;
 @end

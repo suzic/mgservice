@@ -12,10 +12,11 @@
 
 #import "IYWUIServiceDef.h"
 
-@class YWPerson, YWTribe, YWConversation;
+@class YWPerson, YWTribe, YWConversation, YWFeedbackConversation;
 
 @class YWConversationListViewController, YWConversationViewController;
 
+@class YWFeedbackViewController;
 
 #pragma mark - 常量及类型定义
 
@@ -111,13 +112,14 @@
 /**
  *  设置会话列表和聊天界面头像ImageView的contentMode
  */
-- (void)setAvatarImageViewContentMode:(UIViewContentMode)mode;
+@property (nonatomic, assign) UIViewContentMode avatarImageViewContentMode;
 
- /**
-  *  设置会话列表和聊天界面头像ImageView的圆角弧度
-  *  注意，请在需要圆角矩形时设置，会话列表和聊天界面头像默认圆形。
-  */
-- (void)setAvatarImageViewCornerRadius:(CGFloat)cornerRadius;
+/**
+ *  设置会话列表和聊天界面头像ImageView的圆角弧度
+ *  注意，请在需要圆角矩形时设置，会话列表和聊天界面头像默认圆形。
+ *  默认值为 -1.0 ，表示使用圆形
+ */
+@property (nonatomic, assign) CGFloat avatarImageViewCornerRadius;
 
 #pragma mark - 能力获取
 /**

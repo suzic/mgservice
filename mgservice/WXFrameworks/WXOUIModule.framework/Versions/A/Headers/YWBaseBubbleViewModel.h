@@ -15,6 +15,12 @@
     NSUInteger _layout;
     NSData *_backgroundImage;
     NSData *_highLightBGImage;
+    
+    UIImage *_normalBackgroundImage;
+    UIImage *_highLightBackgroundImage;
+    
+    UIEdgeInsets _contentEdgeInsets;
+    BOOL _overlayContent;
 }
 
 /// 期望展示的气泡样式
@@ -28,9 +34,6 @@
 
 /// ViewModel对应的bubbleView
 @property (nonatomic, weak) YWBaseBubbleChatView *bubbleView;
-
-/// ViewModel对应的imkit，用来响应点击事件
-@property (nonatomic, weak) YWIMKit *imkit;
 
 /// 缓存复用前调用该函数
 - (void)prepareForReuse;
@@ -57,11 +60,23 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) WXOBubbleLayout layout;
 
 /// 自定义气泡背景
-@property (nonatomic, strong) NSData *backgroundImage;
+@property (nonatomic, strong) UIImage *normalBackgroundImage;
 
 /// 自定义高亮气泡背景
-@property (nonatomic, strong) NSData *highLightBGImage;
+@property (nonatomic, strong) UIImage *highLightBackgroundImage;
+
+/// 气泡背景覆盖内容之上作为遮罩使用
+@property (nonatomic, assign) BOOL overlayContent;
+
+/// 气泡内容边距(与背景外框间距)
+@property (nonatomic, assign) UIEdgeInsets contentEdgeInsets;
 
 @end
 
+@interface YWBaseBubbleViewModel(Deprecated)
+/// 自定义气泡背景
+@property (nonatomic, strong) NSData *backgroundImage __attribute__((deprecated("请使用normalBackgroundImage")));
 
+/// 自定义高亮气泡背景
+@property (nonatomic, strong) NSData *highLightBGImage __attribute__((deprecated("请使用highLightBackgroundImage")));
+@end

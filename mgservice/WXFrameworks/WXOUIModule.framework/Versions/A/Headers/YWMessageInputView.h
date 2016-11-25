@@ -24,6 +24,8 @@ FOUNDATION_EXTERN NSString *const YWMorePanelHeightWillChangeNotificationKeyHeig
 FOUNDATION_EXTERN NSString *const YWMorePanelHeightWillChangeNotificationKeyAnimationOption;
 /// 时长
 FOUNDATION_EXTERN NSString *const YWMorePanelHeightWillChangeNotificationKeyDuration;
+/// 菜单、键盘模式切换
+FOUNDATION_EXTERN NSString *const YWInputViewSwitchMenuWillChangeNotification;
 
 @interface YWMessageInputView : UIView
 <IYWMessageInputView,
@@ -47,6 +49,11 @@ YWInputViewPluginDelegate>
  *  输入栏顶部分割线是否隐藏，默认隐藏
  */
 @property (nonatomic, assign, getter=isTopSeparatorHidden) BOOL topSeparatorHidden;
+
+/**
+ *  输入框文字限制
+ */
+@property (nonatomic, assign) NSUInteger wordLimit;
 
 /**
  *  控制“更多”面板的高度

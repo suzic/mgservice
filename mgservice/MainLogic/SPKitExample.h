@@ -18,6 +18,9 @@
 FOUNDATION_EXTERN NSString *const kSPCustomConversationIdForPortal;
 FOUNDATION_EXTERN NSString *const kSPCustomConversationIdForFAQ;
 
+/// 定义用于自定义消息内部类型的key
+#define kSPCustomizeMessageType @"customizeMessageType"
+
 
 @class YWIMKit;
 
@@ -91,6 +94,10 @@ FOUNDATION_EXTERN NSString *const kSPCustomConversationIdForFAQ;
  */
 - (BOOL)exampleInit;
 
+/**
+ *  设置证书名的示例代码
+ */
+- (void)exampleSetCertName;
 
 /**
  *  登录的示例代码
@@ -287,12 +294,33 @@ FOUNDATION_EXTERN NSString *const kSPCustomConversationIdForFAQ;
  */
 - (YWPerson *)exampleFetchEServicePersonWithPersonId:(NSString *)aPersonId groupId:(NSString *)aGroupId;
 
-@end
 
+#pragma mrk - Feedback
+
+/**
+ *  监听反馈新消息
+ */
+- (void)exampleListenFeedbackNewMessage;
+
+/**
+ *  获取反馈未读数，用于在反馈入口或其他位置标注红点引导用户查看反馈消息
+ */
+- (void)exampleGetFeedbackUnreadCount:(BOOL)isAnonLogin inViewController:(UIViewController *)viewController;
+
+/**
+ *  获取反馈并打开反馈页面
+ */
+- (void)exampleOpenFeedbackViewController:(BOOL)isAnonLogin
+                       fromViewController:(UIViewController *)aViewController;
+
+@end
 
 #pragma mark - 其他
 
 @interface SPKitExample ()
+
+// 用于监听群系统消息变更
+@property (nonatomic, strong) YWTribeSystemConversation *tribeSystemConversation;
 
 @property (nonatomic, readonly) id<UIApplicationDelegate> appDelegate;
 

@@ -74,8 +74,8 @@ typedef NS_ENUM(NSInteger, SPMessageNotificationType) {
 @end
 
 
-
-
+/// 需要替换成你自己的客服主账号
+#define kSPEServicePersonId @"openim官方客服"
 
 
 
@@ -91,53 +91,7 @@ typedef NS_ENUM(NSInteger, SPMessageNotificationType) {
 
 @interface SPUtil ()
 
-- (void)_getPersonDisplayName:(NSString *__autoreleasing *)aName avatar:(UIImage *__autoreleasing *)aAvatar ofPerson:(YWPerson *)aPerson;
-
 - (UIImage *)avatarForTribe:(YWTribe *)tribe;
 
 @end
-
-#define kSPProfileKeyPersonId   @"personId"
-#define kSPProfileKeyNick       @"nick"
-#define kSPProfileKeyAvatar     @"avatar"
-
-/// 客服帐号
-#define kSPEServicePersonProfiles \
-@[\
-@{kSPProfileKeyPersonId:@"openim官方客服", kSPProfileKeyNick:@"OpenIM官方客服", kSPProfileKeyAvatar:@"demo_customer_120"},\
-]
-
-#define kSPEServicePersonIds \
-[kSPEServicePersonProfiles valueForKeyPath:kSPProfileKeyPersonId]
-
-/// 官方小二
-#define kSPWorkerPersonProfiles \
-@[ \
-@{kSPProfileKeyPersonId:@"百川开发者大会小秘书", kSPProfileKeyNick:@"百川开发者大会小秘书", kSPProfileKeyAvatar:@"demo_baichuan_120"},\
-@{kSPProfileKeyPersonId:@"云大旺", kSPProfileKeyNick:@"云大旺", kSPProfileKeyAvatar:@"demo_yunwang_120"},\
-@{kSPProfileKeyPersonId:@"云二旺", kSPProfileKeyNick:@"云二旺", kSPProfileKeyAvatar:@"demo_yunwang_120"},\
-@{kSPProfileKeyPersonId:@"云三旺", kSPProfileKeyNick:@"云三旺", kSPProfileKeyAvatar:@"demo_yunwang_120"},\
-@{kSPProfileKeyPersonId:@"云四旺", kSPProfileKeyNick:@"云四旺", kSPProfileKeyAvatar:@"demo_yunwang_120"},\
-@{kSPProfileKeyPersonId:@"云小旺", kSPProfileKeyNick:@"云小旺", kSPProfileKeyAvatar:@"demo_yunwang_120"},\
-]
-
-#define kSPWorkerPersonIds \
-[kSPWorkerPersonProfiles valueForKeyPath:kSPProfileKeyPersonId]
-
-/// 官方试用
-#define kSPTryPersonProfiles \
-@[ \
-@{kSPProfileKeyPersonId:@"uid1"},\
-@{kSPProfileKeyPersonId:@"uid2"},\
-@{kSPProfileKeyPersonId:@"uid3"},\
-@{kSPProfileKeyPersonId:@"uid4"},\
-@{kSPProfileKeyPersonId:@"uid5"},\
-@{kSPProfileKeyPersonId:@"uid6"},\
-@{kSPProfileKeyPersonId:@"uid7"},\
-@{kSPProfileKeyPersonId:@"uid8"},\
-@{kSPProfileKeyPersonId:@"uid9"},\
-@{kSPProfileKeyPersonId:@"uid10"},\
-]
-#define kSPTryPersonIds \
-[kSPTryPersonProfiles valueForKeyPath:kSPProfileKeyPersonId]
 

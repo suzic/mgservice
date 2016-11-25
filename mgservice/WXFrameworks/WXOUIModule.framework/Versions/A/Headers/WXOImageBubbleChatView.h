@@ -8,11 +8,12 @@
 
 #import "YWBaseBubbleChatView.h"
 
-@interface WXOImageBubbleChatView : YWBaseBubbleChatView<YWBaseBubbleChatViewInf>
+@class WXOCircularProgressView;
 
+@interface WXOImageBubbleChatView : YWBaseBubbleChatView<YWBaseBubbleChatViewInf>
+@property (nonatomic, strong, readonly) WXOCircularProgressView *progressView;
 - (void)setProgressViewHidden:(BOOL)aHidden;
 - (void)setProgress:(CGFloat)aProgress;
-
 
 @property (nonatomic, strong) UIImageView *msgImageView;
 @property (nonatomic, assign) BOOL showMask;

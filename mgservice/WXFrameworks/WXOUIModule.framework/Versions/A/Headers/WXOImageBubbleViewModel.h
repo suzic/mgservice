@@ -10,9 +10,11 @@
 #import "YWBaseBubbleViewModel.h"
 
 @interface WXOImageBubbleViewModel : YWBaseBubbleViewModel
-//@property (nonatomic, strong) UIImage *thumbnailImage;
+
 @property (nonatomic, strong) id thumbnailObject;
 @property (nonatomic, assign) CGSize thumbnailImageSize;
+
+- (BOOL)isOriginalImageTypeGif;
 
 typedef void (^WXOImageBubbleAsk2PreviewBlock) (UIView *aFromView);
 @property (nonatomic,   copy) WXOImageBubbleAsk2PreviewBlock ask2PreviewBlock;

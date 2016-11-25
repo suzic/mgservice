@@ -100,6 +100,8 @@ YWViewControllerEventProtocol>
  */
 - (void)sendTextMessage:(NSString *)text;
 
+@property (nonatomic, copy) YWShouldSendTextBlock shouldSendTextBlock;
+
 /*
  * 图片发送 包含图片上传交互
  *
@@ -116,6 +118,21 @@ YWViewControllerEventProtocol>
 - (void)sendImageMessage:(UIImage *)image shouldAskUserToConfirm:(BOOL)shouldConfirm;
 
 - (void)sendImageMessageData:(NSData *)ImageData;
+
+/**
+ *  视频发送 包含视频上传交互
+ *
+ *  @param videoUrl                     待发送视频，可为本地file://地址，也为http地址
+ *  @param size                         视频字节数
+ *  @param frontImage                   封面图片
+ *  @param frontImageUrl                封面图片，可为本地file://地址，也为http地址
+ *  @param width                        视频宽度
+ *  @param height                       视频高度
+ *  @param duration                     视频时长
+ */
+- (void)sendVideoMessage:(NSURL *)videoUrl videoSize:(NSUInteger)size frontImage:(UIImage *)frontImage width:(NSUInteger)width height:(NSUInteger)height duration:(NSUInteger)duration;
+
+- (void)sendVideoMessage:(NSURL *)videoUrl videoSize:(NSUInteger)size frontImageUrl:(NSURL *)frontImageUrl width:(NSUInteger)width height:(NSUInteger)height duration:(NSUInteger)duration;
 
 
 /// 语音发送
@@ -169,6 +186,11 @@ YWViewControllerEventProtocol>
 @property (nonatomic, assign) BOOL disableTitleAutoConfig;
 
 /**
+ *  顶部导航栏标题不显示在线状态
+ */
+@property (nonatomic, assign) BOOL disableTitleOnlineDisplay;
+
+/**
  *  是否禁用文字的双击放大功能，默认为NO
  */
 @property (nonatomic, assign) BOOL disableTextShowInFullScreen;
@@ -177,6 +199,11 @@ YWViewControllerEventProtocol>
  *  禁用群聊中显示发送者的昵称
  */
 @property (nonatomic, assign) BOOL disablePersonTribeNick;
+
+/**
+ *  禁用聊天窗口中显示接收方消息已读未读标记，默认为NO
+ */
+@property (nonatomic, assign) BOOL disableReceiverReadFlag;
 
 @end
 

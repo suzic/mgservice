@@ -15,6 +15,22 @@
 FOUNDATION_EXTERN NSString *const YWImageBrowserHelperActionKeyMessageId;
 FOUNDATION_EXTERN NSString *const YWImageBrowserHelperActionKeyConversationId;
 
+/// 图片加载完成的通知
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperNotificationImageLoad;
+/// 携带NSError对象，如果有
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperNotificationImageLoadKeyError;
+/// 携带messageId，如果有
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperNotificationImageLoadKeyMessageId;
+/// 携带conversationId，如果有
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperNotificationImageLoadKeyConversationId;
+/// 携带url字符串，如果有
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperNotificationImageLoadKeyUrlString;
+
+/// 以下键值用于控制更多参数
+/// 不需要保存按钮，默认为@(YES)
+FOUNDATION_EXTERN NSString *const YWImageBrowserHelperParamKeyEnableSave;
+
+
 @interface YWImageBrowserHelper : NSObject
 
 /**
@@ -63,5 +79,21 @@ FOUNDATION_EXTERN NSString *const YWImageBrowserHelperActionKeyConversationId;
           additionalActions:(NSArray *)aAdditionalActions
                   withIMKit:(YWIMKit *)aIMKit;
 
+/**
+ *  用来预览一批图片链接
+ */
++ (void)previewImagesWithUrlsArray:(NSArray *)aUrlsArray
+                      currentIndex:(NSUInteger)aCurrentIndex
+            inNavigationController:(UINavigationController *)aNavigationController
+                          fromView:(UIView *)aFromView
+                 additionalActions:(NSArray *)aAdditionalActions
+                         withIMKit:(YWIMKit *)aIMKit
+                       extraParams:(NSDictionary *)aExtraParams;
+
+
+/**
+ *  用于外部控制关闭大图预览页面
+ */
++ (void)dismissLastController;
 
 @end

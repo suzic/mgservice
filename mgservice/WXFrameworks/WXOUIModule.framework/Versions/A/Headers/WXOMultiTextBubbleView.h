@@ -9,5 +9,4 @@
 #import "YWBaseBubbleChatView.h"
 
 @interface WXOMultiTextBubbleView : YWBaseBubbleChatView
-
 @end

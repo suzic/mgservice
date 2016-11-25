@@ -13,4 +13,8 @@
 
 // @[BoxMsgLabelNode, ...]
 @property (nonatomic, strong) NSArray *labelNodes;
+
+typedef void (^MTActionProcessBlock) (NSString *action);
+@property (nonatomic, copy) MTActionProcessBlock actionProcessBlock;
+- (void)setActionProcessBlock:(MTActionProcessBlock)actionProcessBlock;
 @end

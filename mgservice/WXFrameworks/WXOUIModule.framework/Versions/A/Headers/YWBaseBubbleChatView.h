@@ -63,8 +63,9 @@ typedef enum _BubbleStyle{
 - (void)setHighLight:(BOOL)highLight;
 
 // 背景视图
-@property (nonatomic, strong) UIImageView*  imageViewBk;
-@property (nonatomic, assign) UIEdgeInsets edgeInsets4BK;
+@property (nonatomic, strong) UIImageView* imageViewBG;
+@property (nonatomic, assign) UIEdgeInsets edgeInsets4BG;
+@property (nonatomic, assign) BOOL overlayContent;
 
 /// 对应的ViewModel
 @property (nonatomic, strong) YWBaseBubbleViewModel *viewModel;
@@ -89,6 +90,9 @@ typedef void (^BBVAsk4LayoutBlock) (YWBaseBubbleChatView *bubbleView);
 /// 设置居中气泡的最小边距
 + (void)setCenterBubbleMinMarginX:(CGFloat)aMinMarginX;
 + (CGFloat)centerBubbleMinMarginX;
+
+/// 强制隐藏未读label。如果需要隐藏，子类中返回@(YES)
+- (NSNumber *)forceHideUnreadLabel;
 
 @end
 
