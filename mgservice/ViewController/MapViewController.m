@@ -29,7 +29,8 @@
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
 
-        
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
+
 //    self.alertController = [UIAlertController alertControllerWithTitle:@"消息通知" message:@"您的距离客人距离十米，请完成当前任务吧 ！" preferredStyle:UIAlertControllerStyleAlert];
 //    __weak typeof (self) weakSelf = self;
 //    UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -111,7 +112,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//回到主页
+- (void)backMainViewController:(NSNotificationCenter *)noti
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 /*
 #pragma mark - Navigation
 

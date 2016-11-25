@@ -64,7 +64,7 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     
     //回到主页
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backMainViewController:) name:@"backMainViewController" object:nil];
     
 //    [self NETWORK_TaskStatus];
     
@@ -117,6 +117,7 @@
 {
     [self whenSkipUse];
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+    NSLog(@"%@-----%@",waiterInfo.taskCode,self.waiterTaskList.taskCode);
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:
                                    @{@"waiterId":waiterInfo.waiterId,
                                      @"taskCode":self.waiterTaskList.taskCode == nil ? waiterInfo.taskCode : self.waiterTaskList.taskCode}];//任务编号
@@ -132,6 +133,7 @@
     {
         DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
         self.waiterTaskList.taskStatus = @"1";
+        self.waiterTaskList.waiterStatus = @"0";
         [[DataManager defaultInstance] saveContext];
         [self.conversation removeAllLocalMessages];
         [self deallocInstantMessageing];
@@ -144,6 +146,9 @@
         NSString * content = @"服务员点击了完成任务";
         GradingView * gradingView = [[GradingView alloc]initWithTaskType:content contentText:task color:[UIColor grayColor]];
         [gradingView showGradingView:YES];
+        
+        self.frameController.inTaskView.hidden = YES;
+        self.waiterTaskList = nil;
     }
     else
     {
@@ -425,11 +430,11 @@
 //    [self NETWORK_TaskStatus];
 //}
 
-//回到主页
-- (void)backMainViewController:(NSNotificationCenter *)noti
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
+////回到主页
+//- (void)backMainViewController:(NSNotificationCenter *)noti
+//{
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 - (void)dealloc
 {
     //self.mapViewController = nil;

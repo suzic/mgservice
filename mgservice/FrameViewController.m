@@ -13,7 +13,7 @@
 @interface FrameViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *homeView;
-@property (weak, nonatomic) IBOutlet UIView *inTaskView;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskViewTopConstraints;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inTaskBottomConstraint;
 
