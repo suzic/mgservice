@@ -1539,7 +1539,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
     if ( isAnonLogin ) {
         service = YWAnonFeedbackService;
     } else {
-        service = YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
+        YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
     }
     
     // 设置App自定义扩展反馈数据

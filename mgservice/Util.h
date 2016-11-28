@@ -92,5 +92,7 @@
  * @abstract 获取当前网络状态
  */
 + (int)getCurrentNetworkStatus;
++(NSString *)getTimeNow;
+
 
 @end

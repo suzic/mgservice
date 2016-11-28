@@ -277,7 +277,7 @@ static NSString* macadd;
 {
     
     BOOL isExistenceNetwork = YES;
-    Reachability *reach = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    FMKReachability *reach = [FMKReachability reachabilityWithHostName:@"www.apple.com"];
     switch ([reach currentReachabilityStatus]) {
         case NotReachable:
             isExistenceNetwork = NO;
@@ -433,7 +433,7 @@ static NSString* macadd;
 + (int)getCurrentNetworkStatus
 {
     int netWorkStatus = 0;
-    Reachability *reach = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    FMKReachability *reach = [FMKReachability reachabilityWithHostName:@"www.apple.com"];
     switch ([reach currentReachabilityStatus]) {
         case NotReachable:
             netWorkStatus = 0;
