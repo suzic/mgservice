@@ -98,9 +98,12 @@
     _chooseFloorScrlooView.delegate = self;
     [self.view addSubview:_chooseFloorScrlooView];
 }
-- (void)didUpdatePosition:(FMKMapCoord)mapCoord
+- (void)didUpdatePosition:(FMKMapCoord)mapCoord success:(BOOL)success
 {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    if (success == NO)
+        return;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
         [_locationMarker locateWithGeoCoord:mapCoord.coord];
         if (mapCoord.mapID == kOutdoorMapID) {
             [self.navigationController popViewControllerAnimated:YES];

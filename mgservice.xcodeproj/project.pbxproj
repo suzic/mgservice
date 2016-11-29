@@ -251,6 +251,7 @@
 		401D724A1DE5CE54009985C5 /* FrameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 401D72491DE5CE54009985C5 /* FrameViewController.m */; };
 		405D14CE1DEA832200947E9F /* ChooseFloorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 405D14CD1DEA832200947E9F /* ChooseFloorScrollView.m */; };
 		405D14D11DEA861200947E9F /* FengMap.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 405D14D01DEA861200947E9F /* FengMap.xcassets */; };
+		40774D0A1DED1C3C00B4859B /* libFMMapKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40774D091DED1C3C00B4859B /* libFMMapKit.a */; };
 		4B87BD0B1CC753EF001324E5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */; };
 		4B87BD0D1CC753F7001324E5 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */; };
 		4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */; };
@@ -648,6 +649,97 @@
 		405D14CD1DEA832200947E9F /* ChooseFloorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseFloorScrollView.m; sourceTree = "<group>"; };
 		405D14CF1DEA84D200947E9F /* Const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Const.h; sourceTree = "<group>"; };
 		405D14D01DEA861200947E9F /* FengMap.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = FengMap.xcassets; sourceTree = "<group>"; };
+		40774CAF1DED1C3C00B4859B /* DevicePositionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevicePositionInfo.h; sourceTree = "<group>"; };
+		40774CB01DED1C3C00B4859B /* FMActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMActivity.h; sourceTree = "<group>"; };
+		40774CB11DED1C3C00B4859B /* FMActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMActivityManager.h; sourceTree = "<group>"; };
+		40774CB21DED1C3C00B4859B /* FMBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMBaseModel.h; sourceTree = "<group>"; };
+		40774CB31DED1C3C00B4859B /* FMDHCPNetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDHCPNetService.h; sourceTree = "<group>"; };
+		40774CB41DED1C3C00B4859B /* FMKAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKAnimator.h; sourceTree = "<group>"; };
+		40774CB51DED1C3C00B4859B /* FMKAnimatorEnableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKAnimatorEnableController.h; sourceTree = "<group>"; };
+		40774CB61DED1C3C00B4859B /* FMKAnimatorPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKAnimatorPool.h; sourceTree = "<group>"; };
+		40774CB71DED1C3C00B4859B /* FMKBounceInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKBounceInterpolator.h; sourceTree = "<group>"; };
+		40774CB81DED1C3C00B4859B /* FMKBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKBubbleView.h; sourceTree = "<group>"; };
+		40774CB91DED1C3C00B4859B /* FMKCubicInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKCubicInterpolator.h; sourceTree = "<group>"; };
+		40774CBA1DED1C3C00B4859B /* FMKDataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKDataDownloader.h; sourceTree = "<group>"; };
+		40774CBB1DED1C3C00B4859B /* FMKEnableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKEnableController.h; sourceTree = "<group>"; };
+		40774CBC1DED1C3C00B4859B /* FMKExtentLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKExtentLayer.h; sourceTree = "<group>"; };
+		40774CBD1DED1C3C00B4859B /* FMKExternalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKExternalModel.h; sourceTree = "<group>"; };
+		40774CBE1DED1C3C00B4859B /* FMKExternalModelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKExternalModelLayer.h; sourceTree = "<group>"; };
+		40774CBF1DED1C3C00B4859B /* FMKFacility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKFacility.h; sourceTree = "<group>"; };
+		40774CC01DED1C3C00B4859B /* FMKFacilityLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKFacilityLayer.h; sourceTree = "<group>"; };
+		40774CC11DED1C3C00B4859B /* FMKGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGeometry.h; sourceTree = "<group>"; };
+		40774CC21DED1C3C00B4859B /* FMKGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGPS.h; sourceTree = "<group>"; };
+		40774CC31DED1C3C00B4859B /* FMKGroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGroundLayer.h; sourceTree = "<group>"; };
+		40774CC41DED1C3C00B4859B /* FMKGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGroup.h; sourceTree = "<group>"; };
+		40774CC51DED1C3C00B4859B /* FMKGroupAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGroupAnimator.h; sourceTree = "<group>"; };
+		40774CC61DED1C3C00B4859B /* FMKGroupBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGroupBorder.h; sourceTree = "<group>"; };
+		40774CC71DED1C3C00B4859B /* FMKGroupInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKGroupInfo.h; sourceTree = "<group>"; };
+		40774CC81DED1C3C00B4859B /* FMKHeatBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKHeatBorder.h; sourceTree = "<group>"; };
+		40774CC91DED1C3C00B4859B /* FMKHeatColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKHeatColor.h; sourceTree = "<group>"; };
+		40774CCA1DED1C3C00B4859B /* FMKHeatFactor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKHeatFactor.h; sourceTree = "<group>"; };
+		40774CCB1DED1C3C00B4859B /* FMKHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKHeatMap.h; sourceTree = "<group>"; };
+		40774CCC1DED1C3C00B4859B /* FMKHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKHttpRequest.h; sourceTree = "<group>"; };
+		40774CCD1DED1C3C00B4859B /* FMKImageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKImageLayer.h; sourceTree = "<group>"; };
+		40774CCE1DED1C3C00B4859B /* FMKImageMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKImageMarker.h; sourceTree = "<group>"; };
+		40774CCF1DED1C3C00B4859B /* FMKInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKInterpolator.h; sourceTree = "<group>"; };
+		40774CD01DED1C3C00B4859B /* FMKKalman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKKalman.h; sourceTree = "<group>"; };
+		40774CD11DED1C3C00B4859B /* FMKLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLabel.h; sourceTree = "<group>"; };
+		40774CD21DED1C3C00B4859B /* FMKLabelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLabelLayer.h; sourceTree = "<group>"; };
+		40774CD31DED1C3C00B4859B /* FMKLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLayer.h; sourceTree = "<group>"; };
+		40774CD41DED1C3C00B4859B /* FMKLayerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLayerAnimator.h; sourceTree = "<group>"; };
+		40774CD51DED1C3C00B4859B /* FMKLayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLayerDelegate.h; sourceTree = "<group>"; };
+		40774CD61DED1C3C00B4859B /* FMKLinearInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLinearInterpolator.h; sourceTree = "<group>"; };
+		40774CD71DED1C3C00B4859B /* FMKLineLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLineLayer.h; sourceTree = "<group>"; };
+		40774CD81DED1C3C00B4859B /* FMKLineMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLineMarker.h; sourceTree = "<group>"; };
+		40774CD91DED1C3C00B4859B /* FMKLocationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLocationLayer.h; sourceTree = "<group>"; };
+		40774CDA1DED1C3C00B4859B /* FMKLocationMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLocationMarker.h; sourceTree = "<group>"; };
+		40774CDB1DED1C3C00B4859B /* FMKLocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLocationService.h; sourceTree = "<group>"; };
+		40774CDC1DED1C3C00B4859B /* FMKLocationServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKLocationServiceManager.h; sourceTree = "<group>"; };
+		40774CDD1DED1C3C00B4859B /* FMKMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMap.h; sourceTree = "<group>"; };
+		40774CDE1DED1C3C00B4859B /* FMKMapDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMapDataManager.h; sourceTree = "<group>"; };
+		40774CDF1DED1C3C00B4859B /* FMKMapGestureEnableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMapGestureEnableController.h; sourceTree = "<group>"; };
+		40774CE01DED1C3C00B4859B /* FMKMapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMapInfo.h; sourceTree = "<group>"; };
+		40774CE11DED1C3C00B4859B /* FMKMapSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMapSDK.h; sourceTree = "<group>"; };
+		40774CE21DED1C3C00B4859B /* FMKMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKMapView.h; sourceTree = "<group>"; };
+		40774CE31DED1C3C00B4859B /* FMKModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKModel.h; sourceTree = "<group>"; };
+		40774CE41DED1C3C00B4859B /* FMKModelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKModelLayer.h; sourceTree = "<group>"; };
+		40774CE51DED1C3C00B4859B /* FMKNaviAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNaviAnalyser.h; sourceTree = "<group>"; };
+		40774CE61DED1C3C00B4859B /* FMKNaviContraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNaviContraint.h; sourceTree = "<group>"; };
+		40774CE71DED1C3C00B4859B /* FMKNaviResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNaviResult.h; sourceTree = "<group>"; };
+		40774CE81DED1C3C00B4859B /* FMKNaviStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNaviStruct.h; sourceTree = "<group>"; };
+		40774CE91DED1C3C00B4859B /* FMKNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNode.h; sourceTree = "<group>"; };
+		40774CEA1DED1C3C00B4859B /* FMKNodeAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNodeAnimator.h; sourceTree = "<group>"; };
+		40774CEB1DED1C3C00B4859B /* FMKNodeAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKNodeAssociation.h; sourceTree = "<group>"; };
+		40774CEC1DED1C3C00B4859B /* FMKPathAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKPathAnimator.h; sourceTree = "<group>"; };
+		40774CED1DED1C3C00B4859B /* FMKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKReachability.h; sourceTree = "<group>"; };
+		40774CEE1DED1C3C00B4859B /* FMKSceneAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSceneAnimator.h; sourceTree = "<group>"; };
+		40774CEF1DED1C3C00B4859B /* FMKSceneAnimatorGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSceneAnimatorGroup.h; sourceTree = "<group>"; };
+		40774CF01DED1C3C00B4859B /* FMKSearchAnalyser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSearchAnalyser.h; sourceTree = "<group>"; };
+		40774CF11DED1C3C00B4859B /* FMKSearchObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSearchObj.h; sourceTree = "<group>"; };
+		40774CF21DED1C3C00B4859B /* FMKSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSegment.h; sourceTree = "<group>"; };
+		40774CF31DED1C3C00B4859B /* FMKSineInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKSineInterpolator.h; sourceTree = "<group>"; };
+		40774CF41DED1C3C00B4859B /* FMKTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKTextLayer.h; sourceTree = "<group>"; };
+		40774CF51DED1C3C00B4859B /* FMKTextMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKTextMarker.h; sourceTree = "<group>"; };
+		40774CF61DED1C3C00B4859B /* FMKThemeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKThemeDataManager.h; sourceTree = "<group>"; };
+		40774CF71DED1C3C00B4859B /* FMKTransformCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMKTransformCoord.h; sourceTree = "<group>"; };
+		40774CF81DED1C3C00B4859B /* FMLocationBuilderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMLocationBuilderInfo.h; sourceTree = "<group>"; };
+		40774CF91DED1C3C00B4859B /* FMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMLocationManager.h; sourceTree = "<group>"; };
+		40774CFA1DED1C3C00B4859B /* FMManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMManager.h; sourceTree = "<group>"; };
+		40774CFB1DED1C3C00B4859B /* FMMangroveHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMangroveHeader.h; sourceTree = "<group>"; };
+		40774CFC1DED1C3C00B4859B /* FMMangroveMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMangroveMapView.h; sourceTree = "<group>"; };
+		40774CFD1DED1C3C00B4859B /* FMMangroveNetTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMangroveNetTool.h; sourceTree = "<group>"; };
+		40774CFE1DED1C3C00B4859B /* FMMapKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMapKit.h; sourceTree = "<group>"; };
+		40774CFF1DED1C3C00B4859B /* FMNaviAnalyserTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMNaviAnalyserTool.h; sourceTree = "<group>"; };
+		40774D001DED1C3C00B4859B /* FMParserJsonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMParserJsonData.h; sourceTree = "<group>"; };
+		40774D011DED1C3C00B4859B /* FMRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRoute.h; sourceTree = "<group>"; };
+		40774D021DED1C3C00B4859B /* FMRouteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRouteManager.h; sourceTree = "<group>"; };
+		40774D031DED1C3C00B4859B /* FMRouteResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRouteResult.h; sourceTree = "<group>"; };
+		40774D041DED1C3C00B4859B /* FMZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMZone.h; sourceTree = "<group>"; };
+		40774D051DED1C3C00B4859B /* FMZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMZoneManager.h; sourceTree = "<group>"; };
+		40774D061DED1C3C00B4859B /* MapInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapInfo.h; sourceTree = "<group>"; };
+		40774D071DED1C3C00B4859B /* MapInfos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapInfos.h; sourceTree = "<group>"; };
+		40774D081DED1C3C00B4859B /* UIImage+AddText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AddText.h"; sourceTree = "<group>"; };
+		40774D091DED1C3C00B4859B /* libFMMapKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMMapKit.a; sourceTree = "<group>"; };
 		4B87BD0A1CC753EF001324E5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		4B87BD0C1CC753F7001324E5 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -913,6 +1005,7 @@
 				9C64A9B71CA382B8001DE397 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				F89B76641C7717E300757096 /* libz.1.2.5.tbd in Frameworks */,
 				A83A36D31DCB25CD001B1C57 /* libxml2.tbd in Frameworks */,
+				40774D0A1DED1C3C00B4859B /* libFMMapKit.a in Frameworks */,
 				4015A17E1DE9A6B400A68114 /* SGMain.framework in Frameworks */,
 				4015A17D1DE9A6B400A68114 /* SecurityGuardSDK.framework in Frameworks */,
 				A83A36D91DCB25FB001B1C57 /* CoreGraphics.framework in Frameworks */,
@@ -1206,6 +1299,121 @@
 		4015A26F1DE9AA0200A68114 /* FMMapKit */ = {
 			isa = PBXGroup;
 			children = (
+				40774CAC1DED1C3C00B4859B /* Debug-iphoneos */,
+			);
+			path = FMMapKit;
+			sourceTree = "<group>";
+		};
+		40774CAC1DED1C3C00B4859B /* Debug-iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				40774CAD1DED1C3C00B4859B /* include */,
+				40774D091DED1C3C00B4859B /* libFMMapKit.a */,
+			);
+			path = "Debug-iphoneos";
+			sourceTree = "<group>";
+		};
+		40774CAD1DED1C3C00B4859B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				40774CAE1DED1C3C00B4859B /* FMMapKit */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		40774CAE1DED1C3C00B4859B /* FMMapKit */ = {
+			isa = PBXGroup;
+			children = (
+				40774CAF1DED1C3C00B4859B /* DevicePositionInfo.h */,
+				40774CB01DED1C3C00B4859B /* FMActivity.h */,
+				40774CB11DED1C3C00B4859B /* FMActivityManager.h */,
+				40774CB21DED1C3C00B4859B /* FMBaseModel.h */,
+				40774CB31DED1C3C00B4859B /* FMDHCPNetService.h */,
+				40774CB41DED1C3C00B4859B /* FMKAnimator.h */,
+				40774CB51DED1C3C00B4859B /* FMKAnimatorEnableController.h */,
+				40774CB61DED1C3C00B4859B /* FMKAnimatorPool.h */,
+				40774CB71DED1C3C00B4859B /* FMKBounceInterpolator.h */,
+				40774CB81DED1C3C00B4859B /* FMKBubbleView.h */,
+				40774CB91DED1C3C00B4859B /* FMKCubicInterpolator.h */,
+				40774CBA1DED1C3C00B4859B /* FMKDataDownloader.h */,
+				40774CBB1DED1C3C00B4859B /* FMKEnableController.h */,
+				40774CBC1DED1C3C00B4859B /* FMKExtentLayer.h */,
+				40774CBD1DED1C3C00B4859B /* FMKExternalModel.h */,
+				40774CBE1DED1C3C00B4859B /* FMKExternalModelLayer.h */,
+				40774CBF1DED1C3C00B4859B /* FMKFacility.h */,
+				40774CC01DED1C3C00B4859B /* FMKFacilityLayer.h */,
+				40774CC11DED1C3C00B4859B /* FMKGeometry.h */,
+				40774CC21DED1C3C00B4859B /* FMKGPS.h */,
+				40774CC31DED1C3C00B4859B /* FMKGroundLayer.h */,
+				40774CC41DED1C3C00B4859B /* FMKGroup.h */,
+				40774CC51DED1C3C00B4859B /* FMKGroupAnimator.h */,
+				40774CC61DED1C3C00B4859B /* FMKGroupBorder.h */,
+				40774CC71DED1C3C00B4859B /* FMKGroupInfo.h */,
+				40774CC81DED1C3C00B4859B /* FMKHeatBorder.h */,
+				40774CC91DED1C3C00B4859B /* FMKHeatColor.h */,
+				40774CCA1DED1C3C00B4859B /* FMKHeatFactor.h */,
+				40774CCB1DED1C3C00B4859B /* FMKHeatMap.h */,
+				40774CCC1DED1C3C00B4859B /* FMKHttpRequest.h */,
+				40774CCD1DED1C3C00B4859B /* FMKImageLayer.h */,
+				40774CCE1DED1C3C00B4859B /* FMKImageMarker.h */,
+				40774CCF1DED1C3C00B4859B /* FMKInterpolator.h */,
+				40774CD01DED1C3C00B4859B /* FMKKalman.h */,
+				40774CD11DED1C3C00B4859B /* FMKLabel.h */,
+				40774CD21DED1C3C00B4859B /* FMKLabelLayer.h */,
+				40774CD31DED1C3C00B4859B /* FMKLayer.h */,
+				40774CD41DED1C3C00B4859B /* FMKLayerAnimator.h */,
+				40774CD51DED1C3C00B4859B /* FMKLayerDelegate.h */,
+				40774CD61DED1C3C00B4859B /* FMKLinearInterpolator.h */,
+				40774CD71DED1C3C00B4859B /* FMKLineLayer.h */,
+				40774CD81DED1C3C00B4859B /* FMKLineMarker.h */,
+				40774CD91DED1C3C00B4859B /* FMKLocationLayer.h */,
+				40774CDA1DED1C3C00B4859B /* FMKLocationMarker.h */,
+				40774CDB1DED1C3C00B4859B /* FMKLocationService.h */,
+				40774CDC1DED1C3C00B4859B /* FMKLocationServiceManager.h */,
+				40774CDD1DED1C3C00B4859B /* FMKMap.h */,
+				40774CDE1DED1C3C00B4859B /* FMKMapDataManager.h */,
+				40774CDF1DED1C3C00B4859B /* FMKMapGestureEnableController.h */,
+				40774CE01DED1C3C00B4859B /* FMKMapInfo.h */,
+				40774CE11DED1C3C00B4859B /* FMKMapSDK.h */,
+				40774CE21DED1C3C00B4859B /* FMKMapView.h */,
+				40774CE31DED1C3C00B4859B /* FMKModel.h */,
+				40774CE41DED1C3C00B4859B /* FMKModelLayer.h */,
+				40774CE51DED1C3C00B4859B /* FMKNaviAnalyser.h */,
+				40774CE61DED1C3C00B4859B /* FMKNaviContraint.h */,
+				40774CE71DED1C3C00B4859B /* FMKNaviResult.h */,
+				40774CE81DED1C3C00B4859B /* FMKNaviStruct.h */,
+				40774CE91DED1C3C00B4859B /* FMKNode.h */,
+				40774CEA1DED1C3C00B4859B /* FMKNodeAnimator.h */,
+				40774CEB1DED1C3C00B4859B /* FMKNodeAssociation.h */,
+				40774CEC1DED1C3C00B4859B /* FMKPathAnimator.h */,
+				40774CED1DED1C3C00B4859B /* FMKReachability.h */,
+				40774CEE1DED1C3C00B4859B /* FMKSceneAnimator.h */,
+				40774CEF1DED1C3C00B4859B /* FMKSceneAnimatorGroup.h */,
+				40774CF01DED1C3C00B4859B /* FMKSearchAnalyser.h */,
+				40774CF11DED1C3C00B4859B /* FMKSearchObj.h */,
+				40774CF21DED1C3C00B4859B /* FMKSegment.h */,
+				40774CF31DED1C3C00B4859B /* FMKSineInterpolator.h */,
+				40774CF41DED1C3C00B4859B /* FMKTextLayer.h */,
+				40774CF51DED1C3C00B4859B /* FMKTextMarker.h */,
+				40774CF61DED1C3C00B4859B /* FMKThemeDataManager.h */,
+				40774CF71DED1C3C00B4859B /* FMKTransformCoord.h */,
+				40774CF81DED1C3C00B4859B /* FMLocationBuilderInfo.h */,
+				40774CF91DED1C3C00B4859B /* FMLocationManager.h */,
+				40774CFA1DED1C3C00B4859B /* FMManager.h */,
+				40774CFB1DED1C3C00B4859B /* FMMangroveHeader.h */,
+				40774CFC1DED1C3C00B4859B /* FMMangroveMapView.h */,
+				40774CFD1DED1C3C00B4859B /* FMMangroveNetTool.h */,
+				40774CFE1DED1C3C00B4859B /* FMMapKit.h */,
+				40774CFF1DED1C3C00B4859B /* FMNaviAnalyserTool.h */,
+				40774D001DED1C3C00B4859B /* FMParserJsonData.h */,
+				40774D011DED1C3C00B4859B /* FMRoute.h */,
+				40774D021DED1C3C00B4859B /* FMRouteManager.h */,
+				40774D031DED1C3C00B4859B /* FMRouteResult.h */,
+				40774D041DED1C3C00B4859B /* FMZone.h */,
+				40774D051DED1C3C00B4859B /* FMZoneManager.h */,
+				40774D061DED1C3C00B4859B /* MapInfo.h */,
+				40774D071DED1C3C00B4859B /* MapInfos.h */,
+				40774D081DED1C3C00B4859B /* UIImage+AddText.h */,
 			);
 			path = FMMapKit;
 			sourceTree = "<group>";

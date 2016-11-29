@@ -162,15 +162,18 @@
 }
 #pragma mark - FMKLocationServiceManagerDelagate
 
-- (void)didUpdatePosition:(FMKMapCoord)mapCoord
+- (void)didUpdatePosition:(FMKMapCoord)mapCoord success:(BOOL)success
 {
+    if (success == NO)
+        return;
+    
     _currentMapCoord = mapCoord;
     NSLog(@"当前的线程:%@",[NSThread currentThread]);
     NSLog(@"地图切换的逻辑");
     if (mapCoord.mapID != 79980)
     {
         // 这里需要回到主线程 因为要操作UI
-        dispatch_sync(dispatch_get_main_queue(), ^()
+        dispatch_async(dispatch_get_main_queue(), ^()
         {
             if (self.alertController == nil)
             {
