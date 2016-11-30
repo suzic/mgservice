@@ -257,6 +257,7 @@
 		4B87BD0F1CC7541C001324E5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD0E1CC7541C001324E5 /* libsqlite3.tbd */; };
 		4B87BD111CC75426001324E5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B87BD101CC75426001324E5 /* libc++.tbd */; };
 		4BA20C321CD0FB6B000CD987 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA20C301CD0FB6B000CD987 /* MainViewController.m */; };
+		9C07AE721DEEC74000818A78 /* libFMMapKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C07AE711DEEC74000818A78 /* libFMMapKit.a */; };
 		9C1BD3BC1DE8335100855E53 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C1BD3B41DE8335100855E53 /* profile.json */; };
 		9C1BD3BD1DE8335100855E53 /* demo_discussion@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C1BD3B61DE8335100855E53 /* demo_discussion@2x.png */; };
 		9C1BD3BE1DE8335100855E53 /* pub_title_ico_back_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C1BD3B71DE8335100855E53 /* pub_title_ico_back_white@2x.png */; };
@@ -746,6 +747,7 @@
 		4B87BD101CC75426001324E5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		4BA20C301CD0FB6B000CD987 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4BA20C311CD0FB6B000CD987 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9C07AE711DEEC74000818A78 /* libFMMapKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFMMapKit.a; sourceTree = "<group>"; };
 		9C1BD3B41DE8335100855E53 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
 		9C1BD3B61DE8335100855E53 /* demo_discussion@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "demo_discussion@2x.png"; sourceTree = "<group>"; };
 		9C1BD3B71DE8335100855E53 /* pub_title_ico_back_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pub_title_ico_back_white@2x.png"; sourceTree = "<group>"; };
@@ -1021,6 +1023,7 @@
 				4015A1821DE9A6B400A68114 /* WXOUIModule.framework in Frameworks */,
 				9C78A64C1CBF991100932D0C /* AudioToolbox.framework in Frameworks */,
 				9C78A64A1CBF990B00932D0C /* ImageIO.framework in Frameworks */,
+				9C07AE721DEEC74000818A78 /* libFMMapKit.a in Frameworks */,
 				9C78A6481CBF990600932D0C /* MobileCoreServices.framework in Frameworks */,
 				9C78A6421CBF98F000932D0C /* CoreData.framework in Frameworks */,
 				9C78A6401CBF98EC00932D0C /* CoreTelephony.framework in Frameworks */,
@@ -1324,6 +1327,7 @@
 		40182BB01DEEC07D00C78505 /* FMMapKit */ = {
 			isa = PBXGroup;
 			children = (
+				9C07AE711DEEC74000818A78 /* libFMMapKit.a */,
 				40182BB11DEEC07D00C78505 /* DevicePositionInfo.h */,
 				40182BB21DEEC07D00C78505 /* FMActivity.h */,
 				40182BB31DEEC07D00C78505 /* FMActivityManager.h */,
@@ -2495,8 +2499,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Debug-iphoneos",
 					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Release-iphoneos",
+					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Release-iphoneos/include/FMMapKit",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.waiter;
@@ -2533,8 +2537,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Debug-iphoneos",
 					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Release-iphoneos",
+					"$(PROJECT_DIR)/mgservice/ViewController/FMMapKit/Release-iphoneos/include/FMMapKit",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.waiter;
