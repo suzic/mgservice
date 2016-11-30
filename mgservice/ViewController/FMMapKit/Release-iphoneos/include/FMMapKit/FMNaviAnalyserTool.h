@@ -24,7 +24,7 @@ typedef void(^ReturnNaviResultBlock)(NSArray * naviResult, NSString * mapID);
 @property (nonatomic, strong) NSMutableArray * mapIDs;//路径规划经过的地图ID
 
 /**
- 路径规划结果
+ 路径规划总长度 当路径规划失败时，长度为两点间直线距离
  */
 @property (nonatomic, readonly) float naviLength;
 
