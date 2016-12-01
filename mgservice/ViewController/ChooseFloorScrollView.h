@@ -23,5 +23,6 @@
 - (void)updateScrollViewContentOffsetWithPgae:(NSInteger)page;
 
 - (void)updateScrollViewContentOffsetByIndex:(NSInteger)index;
+- (void)createScrollView:(NSArray *)gids;
 
 @end

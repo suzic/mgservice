@@ -22,6 +22,12 @@
 @property (assign, nonatomic) FMKMapCoord currentMapCoord;
 @property (strong, nonatomic) FMKLocationMarker * locationMarker;
 @property (strong, nonatomic) FMLocationBuilderInfo *userBuilderInfo;
+@property (strong, nonatomic) FMLocationBuilderInfo *myselfInfo;
+
+@property (nonatomic, copy) NSString * cancelMapID;//取消切换的地图ID
+@property (nonatomic, assign) BOOL showChangeMap;
+@property (nonatomic, assign) BOOL resultDistance;
+
 
 @end
 
@@ -67,6 +73,7 @@
     [super viewWillAppear:animated];
     [self.frameViewcontroller hiddenMainView:YES];
     [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
+    [[FMLocationManager shareLocationManager] setMapView:nil];
     [FMLocationManager shareLocationManager].delegate = self;
     [[FMLocationManager shareLocationManager] setMapView:self.mangroveMapView];
 }
@@ -132,6 +139,9 @@
     _mapPath = [[NSBundle mainBundle] pathForResource:@"79980" ofType:@"fmap"];
     _mangroveMapView = [[FMMangroveMapView alloc] initWithFrame:self.view.bounds path:_mapPath delegate:self];
     [self.view addSubview:_mangroveMapView];
+    [_mangroveMapView zoomWithScale:2.6];
+    [_mangroveMapView rotateWithAngle:45.0];
+    [_mangroveMapView setInclineAngle:60.0];
     FMKExternalModelLayer * modelLayer = [self.mangroveMapView.map getExternalModelLayerWithGroupID:@"1"];
     modelLayer.delegate = self;
 }
@@ -158,57 +168,98 @@
     self.userBuilderInfo.loc_mac = waiterTaskList.userDiviceld;
     self.userBuilderInfo.loc_desc = @"客人位置";
     self.userBuilderInfo.loc_icon = @"fengmap.png";
-    [self.mangroveMapView addLocOnMap:self.userBuilderInfo];
+    
+    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+
+    self.myselfInfo = [[FMLocationBuilderInfo alloc] init];
+    self.myselfInfo.loc_mac = @"78:9F:70:F2:4A:3F";
+    self.myselfInfo.loc_desc = @"我的位置";
+    self.myselfInfo.loc_icon = @"fengmap.png";
+    
+    [[FMLocationManager shareLocationManager] addLocOnMap:self.myselfInfo];
+    [[FMLocationManager shareLocationManager] addLocOnMap:self.userBuilderInfo];
+    [[FMLocationManager shareLocationManager] testDistanceWithLocation1:self.myselfInfo location2:self.userBuilderInfo distance:10];
 }
+
+- (void)removeLocation
+{
+    [[FMLocationManager shareLocationManager] removeLocOnMap:self.myselfInfo];
+    [[FMLocationManager shareLocationManager] removeLocOnMap:self.userBuilderInfo];
+}
+
 #pragma mark - FMKLocationServiceManagerDelagate
 
 - (void)didUpdatePosition:(FMKMapCoord)mapCoord success:(BOOL)success
 {
+    self.locationMarker.hidden = [FMLocationManager shareLocationManager].isCallingService;
+    self.currentMapCoord = mapCoord;
+    
+    if ([FMLocationManager shareLocationManager].isCallingService == YES) return;
+    
     if (success == NO)
         return;
     
     _currentMapCoord = mapCoord;
     NSLog(@"当前的线程:%@",[NSThread currentThread]);
     NSLog(@"地图切换的逻辑");
-    if (mapCoord.mapID != 79980)
+    
+    //跳转或更新地图
+    [self switchToIndoorOrUpdateLocationMarkerByMapCoord:mapCoord];
+}
+- (void)switchToIndoorOrUpdateLocationMarkerByMapCoord:(FMKMapCoord)mapCoord
+{
+    if (mapCoord.mapID != kOutdoorMapID && mapCoord.mapID != _cancelMapID.intValue)
     {
-        // 这里需要回到主线程 因为要操作UI
-        dispatch_async(dispatch_get_main_queue(), ^()
-        {
-            if (self.alertController == nil)
-            {
-                self.alertController = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                                           {
-                                               FMIndoorMapVC * VC = [[FMIndoorMapVC alloc] initWithMapID:[NSString stringWithFormat:@"%d",mapCoord.mapID]];
-                                               VC.isNeedWifi = YES;
-                                               VC.groupID = [NSString stringWithFormat:@"%d",mapCoord.coord.storey];
-                                               [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
-                                               [self.navigationController pushViewController:VC animated:YES];
-                                               self.alertController = nil;
-                                               NSLog(@"toIndoor2");
-                                           }];
-    
-                UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action)
-                                           {
-                                           }];
-    
-                [self.alertController addAction:action1];
-                [self.alertController addAction:action2];
-                [self presentViewController:self.alertController animated:YES completion:nil];
+        NSArray * indoorMapIDs = @[@"70144",@"70145",@"70146",@"70147",@"70148",@"79982",@"79981"];
+        BOOL indoorMapIsExist = NO;
+        for (NSString * indoorMapID in indoorMapIDs) {
+            if (indoorMapID.intValue == mapCoord.mapID) {
+                indoorMapIsExist = YES;
+                break;
             }
-        });
-
-        
+        }
+        if (indoorMapIsExist)
+        {
+            self.currentMapCoord = mapCoord;
+            self.showChangeMap = YES;
+        }
     }
     else
     {
-        @synchronized (_locationMarker) {
-            [_locationMarker locateWithGeoCoord:mapCoord.coord];
+        _locationMarker.hidden = NO;
+        [_locationMarker locateWithGeoCoord:mapCoord.coord];
+    }
+    
+}
+- (void)setShowChangeMap:(BOOL)showChangeMap
+{
+    if (_showChangeMap != showChangeMap)
+    {
+        _showChangeMap = showChangeMap;
+        if (_showChangeMap == YES)
+        {
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                       {
+                                           FMIndoorMapVC * indoorMapVC = [[FMIndoorMapVC alloc] initWithMapID:@(self.currentMapCoord.mapID).stringValue];
+                                           indoorMapVC.groupID = @(self.currentMapCoord.coord.storey).stringValue;
+                                           [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
+                                           
+                                           [self.navigationController pushViewController:indoorMapVC animated:YES];
+                                       }];
+            
+            UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                _cancelMapID = @(self.currentMapCoord.mapID).stringValue;
+            }];
+            
+            [alertView addAction:action1];
+            [alertView addAction:action2];
+            [self presentViewController:alertView animated:YES completion:nil];
+            
         }
     }
 }
-
 - (void)didUpdateHeading:(double)heading
 {
     if (_locationMarker) {
@@ -221,24 +272,35 @@
 - (void)testDistanceWithResult:(BOOL)result distance:(double)distance
 {
     NSLog(@"+++++++++++++++++++++++++++++++++++++++++++++++++");
-    if (result == YES)
-    {
-        [self.mangroveMapView stopTestDistance];
-        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-        }] ;
-        [alertView addAction:sureAcion];
-        //        [self.mainController presentViewController:alertView animated:YES completion:^{
-        //
-        //        }];
-    }
+    self.resultDistance = result;
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
-    
+    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && mapCoord.mapID != kOutdoorMapID)
+    {
+        _locationMarker.hidden = YES;
+        self.currentMapCoord = mapCoord;
+        self.showChangeMap = YES;
+    }
 }
-
+- (void)setResultDistance:(BOOL)resultDistance
+{
+    if (_resultDistance != resultDistance)
+    {
+        _resultDistance = resultDistance;
+        if (_resultDistance == YES)
+        {
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }] ;
+            [alertView addAction:sureAcion];
+            [self presentViewController:alertView animated:YES completion:^{
+                
+            }];
+        }
+    }
+}
 /*
 #pragma mark - Navigation
 

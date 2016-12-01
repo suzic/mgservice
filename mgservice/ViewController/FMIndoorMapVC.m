@@ -16,6 +16,9 @@
 @property (nonatomic, strong) FMKLocationMarker *locationMarker;
 @property (nonatomic, strong) ChooseFloorScrollView *chooseFloorScrlooView;
 @property (nonatomic, strong) NSString *displayGroupID;
+@property (nonatomic, copy) NSString * cancelMapID;//取消切换的地图ID
+@property (nonatomic, assign) FMKMapCoord currentMapCoord;
+@property (nonatomic, assign) BOOL showChangeMap;
 
 @end
 
@@ -42,13 +45,13 @@
     [super viewWillAppear:animated];
     [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
     [FMLocationManager shareLocationManager].delegate = self;
+    [[FMLocationManager shareLocationManager] setMapView:nil];
     [[FMLocationManager shareLocationManager] setMapView:self.mapView];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
-
 }
 
 - (void)createMapView
@@ -68,16 +71,9 @@
         self.groupID = @"1";
     }
     _mapView.displayGids = @[self.groupID];
-//    _displayGroupID = self.groupID;
-//    [self resetModelLayerDelegate];
     [self.view addSubview:_mapView];
-    [_mapView zoomWithScale:2.6];
-    [_mapView rotateWithAngle:45.0];
-    [_mapView setInclineAngle:60.0];
+    [self resetMapPara];
     _mapView.showCompass = YES;
-    
-    
-//    _isFirstLocate = YES;
     _mapView.showCompass = YES;
 }
 //添加定位标注物
@@ -100,17 +96,99 @@
 }
 - (void)didUpdatePosition:(FMKMapCoord)mapCoord success:(BOOL)success
 {
+    self.locationMarker.hidden = [FMLocationManager shareLocationManager].isCallingService;
+    self.currentMapCoord = mapCoord;
+    if ([FMLocationManager shareLocationManager].isCallingService == YES) return;
     if (success == NO)
         return;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_locationMarker locateWithGeoCoord:mapCoord.coord];
-        if (mapCoord.mapID == kOutdoorMapID) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }  
-    });
+    if (mapCoord.mapID == kOutdoorMapID)
+    {
+        [self popToOtherMapByMapCoord:mapCoord];
+    }
+    else if (mapCoord.mapID != self.mapID.integerValue)
+    {
+        if ([self testIndoorMapIsxistByMapCoord:mapCoord]) {
+            [self popToOtherMapByMapCoord:mapCoord];
+        }
+    }
+}
+//判断室内地图是否存在
+- (BOOL)testIndoorMapIsxistByMapCoord:(FMKMapCoord)mapCoord
+{
+    NSArray * indoorMapIDs = @[@"70144",@"70145",@"70146",@"70147",@"70148",@"79982",@"79981"];
+    BOOL indootMapIsExist = NO;
+    for (NSString * indoorMapID in indoorMapIDs) {
+        if (indoorMapID.intValue == mapCoord.mapID) {
+            indootMapIsExist = YES;
+            break;
+        }
+    }
+    return indootMapIsExist;
+}
+//弹框提示切换到其他地图
+- (void)popToOtherMapByMapCoord:(FMKMapCoord)mapCoord
+{
+    if (mapCoord.mapID != _cancelMapID.intValue)
+    {
+        self.currentMapCoord = mapCoord;
+        self.showChangeMap = YES;
+    }
+}
+
+- (void)setShowChangeMap:(BOOL)showChangeMap
+{
+    if (_showChangeMap != showChangeMap)
+    {
+        _showChangeMap = showChangeMap;
+        if (_showChangeMap == YES)
+        {
+            UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                                       {
+                                           if (self.currentMapCoord.mapID == kOutdoorMapID) {
+                                               [self.navigationController popViewControllerAnimated:YES];
+                                           }
+                                           else
+                                           {
+                                               [self switchToOtherIndoorByMapCoord:self.currentMapCoord];
+                                               [_locationMarker locateWithGeoCoord:self.currentMapCoord.coord];
+                                           }
+                                           self.showChangeMap = NO;
+                                       }];
+            UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                _cancelMapID = @(self.currentMapCoord.mapID).stringValue;
+            }];
+            [alertVC addAction:action1];
+            [alertVC addAction:action2];
+            [self presentViewController:alertVC animated:YES completion:nil];
+        }
+    }
+}
+//室内切室内
+- (void)switchToOtherIndoorByMapCoord:(FMKMapCoord)mapCoord
+{
+    [self.mapView.map.locateLayer removeLocateMark:_locationMarker];
+    self.mapID = @(mapCoord.mapID).stringValue;
+    _mapPath = [[NSBundle mainBundle] pathForResource:self.mapID ofType:@"fmap"];
+    [self.mapView transformMapWithDataPath:_mapPath];
+    [self resetMapPara];
+    self.displayGroupID = @(mapCoord.coord.storey).stringValue;
+    [_chooseFloorScrlooView createScrollView:self.mapView.map.names];
+    _locationMarker = [[FMKLocationMarker alloc] initWithPointerImageName:@"pointer.png" DomeImageName:@"dome.png"];
+    [self.mapView.map.locateLayer addLocationMarker:_locationMarker];
+}
+//设置地图显示的初始值
+- (void)resetMapPara
+{
+    [[FMLocationManager shareLocationManager] setMapView:nil];
+    [_mapView zoomWithScale:2.6];
+    [_mapView rotateWithAngle:45.0];
+    [_mapView setInclineAngle:60.0];
+    _mapView.showCompass = YES;
     
-    
+    [_mapView setThemeWithLocalPath:[[NSBundle mainBundle] pathForResource:@"2002.theme" ofType:nil]];
+    [[FMLocationManager shareLocationManager] setMapView:_mapView];
 }
 - (void)buttonClick:(NSInteger)page
 {
@@ -140,14 +218,19 @@
             
         }] ;
         [alertView addAction:sureAcion];
-        //        [self.mainController presentViewController:alertView animated:YES completion:^{
-        //
-        //        }];
+        [self presentViewController:alertView animated:YES completion:^{
+        
+                }];
     }
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
-    
+    NSLog(@"_________________%d____________________%d",mapCoord.mapID, [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID);
+    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && self.currentMapCoord.mapID != mapCoord.mapID)
+    {
+        self.showChangeMap = YES;
+        self.currentMapCoord = mapCoord;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
