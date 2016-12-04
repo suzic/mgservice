@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString * groupID;//要显示的楼层ID
 @property (nonatomic, copy) NSString * mapName;
 
-@property (nonatomic, assign) BOOL isNeedWifi;//判断是否需要打开WIFI
+@property (nonatomic, assign) BOOL isNeedLocate;
 
 - (instancetype)initWithMapID:(NSString *)mapID ;
 

@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString * cancelMapID;//取消切换的地图ID
 @property (nonatomic, assign) FMKMapCoord currentMapCoord;
 @property (nonatomic, assign) BOOL showChangeMap;
+@property (nonatomic, assign) BOOL isDistance;
 
 @end
 
@@ -35,6 +36,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.isDistance = NO;
     [self createMapView];
     [self addLocationMarker];//定位图标
     [self createChooseScrollView];
@@ -56,7 +58,7 @@
 
 - (void)createMapView
 {
-    
+    if (!_mapView){
 #if DEBUG_ONLINE
     CGRect rect = CGRectMake(0, kNaviHeight+kFloorButtonHeight-8, kScreenWidth, kScreenHeight-kNaviHeight-kFloorButtonHeight+3);
     _mapView = [[FMMangroveMapView alloc] initWithFrame:rect ID:_mapID delegate:self];
@@ -75,6 +77,7 @@
     [self resetMapPara];
     _mapView.showCompass = YES;
     _mapView.showCompass = YES;
+    }
 }
 //添加定位标注物
 - (void)addLocationMarker
@@ -209,27 +212,35 @@
 
 - (void)testDistanceWithResult:(BOOL)result distance:(double)distance
 {
-    NSLog(@"+++++++++++++++++++++++++++++++++++++++++++++++++");
-    if (result == YES)
-    {
-        [self.mapView stopTestDistance];
-        UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-        }] ;
-        [alertView addAction:sureAcion];
-        [self presentViewController:alertView animated:YES completion:^{
-        
-                }];
-    }
+    NSLog(@"__________________________________");
+    self.isDistance = result;
+   
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
     NSLog(@"_________________%d____________________%d",mapCoord.mapID, [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID);
-    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && self.currentMapCoord.mapID != mapCoord.mapID)
+    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != mapCoord.mapID)
     {
         self.showChangeMap = YES;
         self.currentMapCoord = mapCoord;
+    }
+}
+- (void)setIsDistance:(BOOL)isDistance
+{
+    if (_isDistance != isDistance)
+    {
+        _isDistance = isDistance;
+        if (_isDistance == YES)
+        {
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }] ;
+            [alertView addAction:sureAcion];
+            [self presentViewController:alertView animated:YES completion:^{
+                
+            }];
+        }
     }
 }
 - (void)didReceiveMemoryWarning {

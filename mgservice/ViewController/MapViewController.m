@@ -66,7 +66,7 @@
     [positioningButton setBackgroundImage:[UIImage imageNamed:@"location_icon_nomarl"] forState:UIControlStateNormal];
     positioningButton.frame = CGRectMake(10, kScreenHeight-74-35, 35, 35);
     [positioningButton addTarget:self action:@selector(positioningButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.mangroveMapView addSubview:positioningButton];
+    [self.view addSubview:positioningButton];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -116,11 +116,52 @@
 }
 
 // 定位按钮
-- (void)positioningButtonAction:(UIButton *)btn
+- (void)positioningButtonAction:(UIButton *)button
 {
-    NSLog(@"定位");
+    button.highlighted = YES;
+    button.selected = YES;
+    
+    FMKMapCoord currentMapCoord = [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord;
+    if (currentMapCoord.mapID == kOutdoorMapID) {
+        [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
+    }
+    else
+    {
+        FMKMapCoord mapCoord;
+        if ([FMLocationManager shareLocationManager].isCallingService == YES)
+        {
+            mapCoord = currentMapCoord;
+        }
+        NSDictionary * dic = @{@"mapid":@(mapCoord.mapID).stringValue, @"groupID":@(mapCoord.coord.storey).stringValue,@"isNeedLocate":@(![FMLocationManager shareLocationManager].isCallingService)};
+        [self enterIndoorByIndoorInfo:dic];
+    }
+    
+    button.selected = NO;
 }
-
+- (void)enterIndoorByIndoorInfo:(NSDictionary * )dic
+{
+    NSString * mapID = dic[@"mapid"];
+    NSString * groupID = dic[@"groupID"];
+    BOOL isNeedLocate = dic[@"isNeedLocate"];
+    
+    FMIndoorMapVC * VC = [[FMIndoorMapVC alloc] initWithMapID:mapID];
+    VC.isNeedLocate = isNeedLocate;
+    VC.groupID = groupID;
+    
+    NSArray * indoorMapIDs = @[@"70144",@"70145",@"70146",@"70147",@"70148",@"79982",@"79981"];
+    BOOL indoorMapIsExist = NO;
+    for (NSString * indoorMapID in indoorMapIDs) {
+        if (indoorMapID.intValue == mapID.intValue) {
+            indoorMapIsExist = YES;
+            break;
+        }
+    }
+    if (indoorMapIsExist)
+    {
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -167,7 +208,7 @@
     self.userBuilderInfo = [[FMLocationBuilderInfo alloc] init];
     self.userBuilderInfo.loc_mac = waiterTaskList.userDiviceld;
     self.userBuilderInfo.loc_desc = @"客人位置";
-    self.userBuilderInfo.loc_icon = @"fengmap.png";
+    self.userBuilderInfo.loc_icon = @"pointer.png";
     
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
 
@@ -179,12 +220,14 @@
     [[FMLocationManager shareLocationManager] addLocOnMap:self.myselfInfo];
     [[FMLocationManager shareLocationManager] addLocOnMap:self.userBuilderInfo];
     [[FMLocationManager shareLocationManager] testDistanceWithLocation1:self.myselfInfo location2:self.userBuilderInfo distance:10];
+    [FMLocationManager shareLocationManager].delegate = self;
 }
 
 - (void)removeLocation
 {
     [[FMLocationManager shareLocationManager] removeLocOnMap:self.myselfInfo];
     [[FMLocationManager shareLocationManager] removeLocOnMap:self.userBuilderInfo];
+    [FMLocationManager shareLocationManager].delegate = nil;
 }
 
 #pragma mark - FMKLocationServiceManagerDelagate

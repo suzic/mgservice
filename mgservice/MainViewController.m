@@ -848,10 +848,6 @@
 
 - (IBAction)obtainTask:(id)sender
 {
-    [self performSegueWithIdentifier:@"goTask" sender:nil];
-
-    
-#pragma 临时调试跳转
 //    if (self.taskArray.count <= 0 ||self.taskArray == nil) {
 //        return;
 //    }
@@ -868,7 +864,7 @@
 //    [self presentViewController:alert animated:YES completion:^{
 //        [[RequestNetWork defaultManager]registerDelegate:self];
 //    }];
-    // 跳转到任务列表
+//    //跳转到任务列表
 //    PageViewController * pageVC = [[PageViewController alloc]init];
 //    [self.navigationController pushViewController:pageVC animated:YES];
     [self performSegueWithIdentifier:@"goMenu" sender:nil];
