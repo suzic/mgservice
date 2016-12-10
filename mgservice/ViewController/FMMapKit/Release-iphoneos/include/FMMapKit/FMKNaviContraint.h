@@ -30,17 +30,17 @@
 						 groupID:(NSString *)groupID;
 
 /**
- *  路径约束点计算  path
+ *  导航约束点计算  path
  *
  *  @param lastMapPoint    上一个地图坐标
  *  @param currentMapPoint 当前地图坐标
  *
- *  @return 路径约束结果
+ *  @return 导航约束结果
  */
 - (FMKNaviContraintResult)naviContraintByLastPoint:(FMKMapPoint)lastMapPoint currentMapPoint:(FMKMapPoint)currentMapPoint;
 
 /**
- *  导航路径约束计算方法
+ *  路径约束计算方法
  *
  *  @param lastMapPoint    上一个点
  *  @param currentMapPoint 当前点
@@ -59,7 +59,15 @@
  */
 - (float)getTwoPointAngleByLastMapPoint:(FMKMapPoint)lastMapPoint andCurrentMapPoint:(FMKMapPoint)currentMapPoint;
 
-- (FMKNaviContraintPara)pathContraintWithRoadInfo:(FMKMapPoint)lastMapPoint currentMapPoint:(FMKMapPoint)currentMapPoint groupID:(NSString *)groupID;
+
+/**
+ 路径约束 带有路径信息
+
+ @param lastMapPoint 上一次i定位点
+ @param geoCoord 当前定位点
+ @return 路径约束结果参数
+ */
+- (FMKNaviContraintPara)pathContraintWithRoadInfo:(FMKMapPoint)lastMapPoint currentGeoCoord:(FMKGeoCoord)geoCoord;
 
 //- (FMKNaviConstraintRoadResult)naviConstraintWithRoadInfo:(FMKMapPoint)lastMapPoint currentMapPoint:(FMKMapPoint)currentMapPoint;
 

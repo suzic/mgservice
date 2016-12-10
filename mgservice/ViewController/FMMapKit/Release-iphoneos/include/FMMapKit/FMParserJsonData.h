@@ -11,4 +11,6 @@
 + (NSBundle *)getFMBundel;
 + (NSArray *)parserActs;
 + (NSArray *)parserIndoorMapInfos;
++ (NSArray *)parseGPSIgnoreData;
++ (NSArray *)parseWifiIgnoreData;
 @end

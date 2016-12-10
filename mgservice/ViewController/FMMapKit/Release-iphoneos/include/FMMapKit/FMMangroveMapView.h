@@ -10,15 +10,9 @@
 
 @class FMActivity,FMRoute,FMZone,FMLocationBuilderInfo;
 
-@protocol FMMangroveMapViewDelegate <NSObject>
-
-- (void)testDistanceWithResult:(BOOL)result distance:(double)distance;
-
-@end
 
 @interface FMMangroveMapView : FMKMapView
 
-@property (nonatomic, weak) id<FMMangroveMapViewDelegate>mangroveMapDelegate;
 
 /**
  *  高亮poi

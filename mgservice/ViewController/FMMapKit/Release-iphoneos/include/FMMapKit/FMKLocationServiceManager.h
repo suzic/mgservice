@@ -31,7 +31,7 @@
 
  @param time 时间差
  */
-- (void)wifiInfoTime:(NSTimeInterval)time wifiStatus:(BOOL)wifiStatus GPSHorizontalAccuracy:(float)GPSHorizontalAccuracy;
+- (void)wifiInfoTime:(NSTimeInterval)time wifiStatus:(BOOL)wifiStatus GPSHorizontalAccuracy:(float)GPSHorizontalAccuracy wifiMaxRssi:(int)MaxRssi uMapID:(int)uMapID;
 
 @end
 
@@ -57,11 +57,11 @@
  */
 - (void)startLocateWithMacAddress:(NSString *)macAddress mapPath:(NSString *)mapPath;
 
-- (void)setIndoorMapDataPath:(NSString *)indoorMapPath;
-
 /**
  停止定位服务
  */
 - (void)stopLocationService;
+///重新开始定位服务
+- (void)restartLocationService;
 
 @end

@@ -38,6 +38,9 @@
 @property (nonatomic,assign)BOOL IsReset;
 @property (nonatomic,assign)BOOL IsStill2Move;
 @property (nonatomic,assign)BOOL Success;
+@property (nonatomic,assign)NSNumber * MaxRssi;//wifi信号强度
+@property (nonatomic,assign)NSNumber * MaxRssiAP_MapID;//地图ID
+@property (nonatomic,copy)NSString * MaxRssiAPMac;//MAC地址
 @property (nonatomic,assign)CGPoint position;
 @property (nonatomic,assign)FMKMapPoint uCoord;
 @property (nonatomic,assign)FMKMapCoord mapCoord;//转化后的地图坐标

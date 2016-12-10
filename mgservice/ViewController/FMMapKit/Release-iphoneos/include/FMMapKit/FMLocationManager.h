@@ -16,6 +16,14 @@
 
 @protocol FMLocationManagerDelegate <NSObject>
 
+
+
+/**
+ 判断两点距离是否小于设定值
+
+ @param result 结果 小于返回YES
+ @param distance 实际距离
+ */
 - (void)testDistanceWithResult:(BOOL)result distance:(double)distance;
 
 
@@ -25,7 +33,7 @@
  @param mapCoord 地图坐标
  @param macAddress MAC地址
  */
-- (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress;
+- (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString *)macAddress;
 
 @end
 

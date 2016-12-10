@@ -18,10 +18,13 @@ typedef void(^ReturnNaviResultBlock)(NSArray * naviResult, NSString * mapID);
 //key:value mapID:NSArray
 @property (nonatomic, strong) NSDictionary * naviResult;//路径规划结果
 @property (nonatomic, assign) BOOL hasStartNavi;
+@property (nonatomic, assign) BOOL planNavi;//计划开启导航
 @property (nonatomic, assign) FMKMapCoord startMapCoord;//路径规划起点
 @property (nonatomic, assign) FMKMapCoord endMapCoord;//路径规划终点
 
 @property (nonatomic, strong) NSMutableArray * mapIDs;//路径规划经过的地图ID
+
+@property (nonatomic, copy) NSString * endName;//终点模型的名称 在搜索时用到
 
 /**
  路径规划总长度 当路径规划失败时，长度为两点间直线距离

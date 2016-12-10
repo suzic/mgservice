@@ -50,4 +50,7 @@
 //重新开启位置请求
 - (void)restartRequestPositionStream;
 
+//停止上传位置
+- (void)stopUploadPosition;
+
 @end

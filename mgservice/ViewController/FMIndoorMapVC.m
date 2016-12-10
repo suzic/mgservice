@@ -144,7 +144,7 @@
     if (_showChangeMap != showChangeMap)
     {
         _showChangeMap = showChangeMap;
-        if (_showChangeMap == YES)
+        if (_showChangeMap == YES && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
         {
             UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
@@ -157,7 +157,7 @@
                                                [self switchToOtherIndoorByMapCoord:self.currentMapCoord];
                                                [_locationMarker locateWithGeoCoord:self.currentMapCoord.coord];
                                            }
-                                           self.showChangeMap = NO;
+                                           _showChangeMap = NO;
                                        }];
             UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 _cancelMapID = @(self.currentMapCoord.mapID).stringValue;
@@ -219,7 +219,7 @@
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
     NSLog(@"_________________%d____________________%d",mapCoord.mapID, [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID);
-    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != mapCoord.mapID)
+    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
     {
         self.showChangeMap = YES;
         self.currentMapCoord = mapCoord;

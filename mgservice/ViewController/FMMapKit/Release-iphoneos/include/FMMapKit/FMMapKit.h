@@ -65,7 +65,6 @@
 #import "FMKBounceInterpolator.h"
 
 #import "FMKKalman.h"
-#import "FMKGPS.h"
 #import "FMKNaviContraint.h"
 #import "FMKTransformCoord.h"
 

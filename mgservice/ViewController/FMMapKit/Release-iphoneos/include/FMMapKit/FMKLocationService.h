@@ -39,7 +39,7 @@
 
 
 
-- (void)wifiInfoTime:(NSTimeInterval)time wifiStatus:(BOOL)wifiStatus GPSHorizontalAccuracy:(float)GPSHorizontalAccuracy;
+- (void)wifiInfoTime:(NSTimeInterval)time wifiStatus:(BOOL)wifiStatus GPSHorizontalAccuracy:(float)GPSHorizontalAccuracy wifiMaxRssi:(int)MaxRssi uMapID:(int)uMapID;
 
 @end
 
@@ -48,8 +48,8 @@
 @property (nonatomic, weak)id<FMKLocationServiceDelegate>delegate;
 @property (nonatomic, assign) BOOL isGPSLocating;
 @property (nonatomic, assign) BOOL isWIFILocating;
-@property (nonatomic, assign) FMKMapCoord startMapCoord;
-@property (nonatomic, assign) FMKMapCoord endMapCoord;
+//@property (nonatomic, assign) FMKMapCoord startMapCoord;
+//@property (nonatomic, assign) FMKMapCoord endMapCoord;
 @property (nonatomic, assign) BOOL isLocating;
 
 @property (nonatomic, assign) BOOL isIndoor;

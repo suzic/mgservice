@@ -8,11 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *	获取当前地图SDK的版本号
+ *	return  返回当前SDK的版本号
+ */
+
+UIKIT_STATIC_INLINE NSString * FMKGetMapSDKVersion()
+{
+	return @"1.0.1";
+}
+
 @interface FMKMapSDK : NSObject
 
 //启用SDK,配置本地文件
 + (instancetype)shareSDK;
-
 
 /**
  *  使用SDK需要先验证apiKey
