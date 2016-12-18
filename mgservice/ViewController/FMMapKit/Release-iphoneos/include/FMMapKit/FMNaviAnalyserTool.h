@@ -44,14 +44,6 @@ typedef void(^ReturnNaviResultBlock)(NSArray * naviResult, NSString * mapID);
 - (BOOL)naviAnalyseByStartMapCoord:(FMKMapCoord)startMapCoord
 					   endMapCoord:(FMKMapCoord)endCoord;
 
-//- (BOOL)sameMapNaviAnalyseByMapPath:(NSString *)mapPath
-//							  mapID:(NSString *)mapID;
-//
-//- (BOOL)outdoorAndIndoorNaviAnalyseByOutdoorMapPath:(NSString *)outdoorMapPath
-//									  indoorMapPath:(NSString *)indoorMapPath
-//										 startMapID:(NSString *)startMapID
-//										   endMapID:(NSString *)endMapID;
-
 /**
  *  根据定位点坐标返回剩余路程
  *

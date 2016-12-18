@@ -106,6 +106,7 @@ typedef NS_ENUM(NSInteger, FMKMapCoordZType){
  */
 @property (nonatomic,weak) id<FMKMapViewDelegate> mapDelegate;
 
+@property (nonatomic, readonly) FMKMapPoint mapViewCenter;
 
 /**
  * 切换新地图，通过ID切换
@@ -136,7 +137,6 @@ typedef NS_ENUM(NSInteger, FMKMapCoordZType){
  @brief 是否显示指北针
  */
 @property (nonatomic,assign) BOOL showCompass;
-
 /**
  *  楼层id的数组
  */
@@ -262,6 +262,8 @@ typedef NS_ENUM(NSInteger, FMKMapCoordZType){
  *  @param angle 倾角  单位：度
  */
 - (void)setInclineAngle:(float)angle;
+
+- (void)move:(FMKMapPoint)mapPoint;
 
 /**
  * 旋转

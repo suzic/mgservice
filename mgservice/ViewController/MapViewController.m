@@ -213,7 +213,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
 
     self.myselfInfo = [[FMLocationBuilderInfo alloc] init];
-    self.myselfInfo.loc_mac = @"78:9F:70:F2:4A:3F";
+    self.myselfInfo.loc_mac = waiterInfo.deviceId;
     self.myselfInfo.loc_desc = @"我的位置";
     self.myselfInfo.loc_icon = @"fengmap.png";
     

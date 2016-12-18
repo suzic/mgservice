@@ -56,7 +56,7 @@
  */
 @property (nonatomic, readonly) BOOL isCallingService;
 /**
- 设置地图视图
+ 设置地图视图(危险 慎用)
 
  @param mapView 当前显示的地图视图
  */

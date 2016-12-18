@@ -51,4 +51,7 @@
  */
 - (void)flyingWithVelocityX:(float)velocityX VelocityY:(float)velocityY startTime:(NSDate*)startTime endTime:(NSDate *)endTime;
 
+//移动到屏幕中央动画 mapPoint
+- (void)moveToViewCenterAnimationFromMapPoint:(FMKMapPoint)mapPoint;
+
 @end

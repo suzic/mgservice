@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMKMapView.h"
+
+@class FMKMapView;
 
 #import "FMKInterpolator.h"
 #import "FMKLinearInterpolator.h"
@@ -31,7 +32,8 @@ typedef NS_OPTIONS(NSInteger, ANIMATE_TYPE)
 	ANIMATE_ZOOM     =  0x01<<2,  //缩放
 	ANIMATE_INCLINE  =  0x01<<3,  //场景倾斜
 	ANIMATE_FLYING   =  0x01<<4,  //场景移动动画效果
-	ANIMATE_SPRING   =  0x01<<5   //节点的动画效果
+	ANIMATE_SPRING   =  0x01<<5,  //节点的动画效果
+	ANIMATE_TO_CENTER = 0x01<<5
 };
 /**
  *  动画状态
