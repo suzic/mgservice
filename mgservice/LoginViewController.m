@@ -354,8 +354,8 @@
     AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [appDelegate.window addSubview:self.macHud];
     [self.macHud startWMProgress];
-    
-    DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
+
+    DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
     
     __block NSString *macAddress;
     __block LoginViewController *weakSelf = self;
@@ -367,11 +367,9 @@
         if (macAddr == nil || [macAddr isEqualToString:@""])
         {
             macAddress = nil;
-            self.inhotel = NO;
-            [self.macHud stopWMProgress];
-            [self.macHud removeFromSuperview];
+            weakSelf.inhotel = NO;
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
-            /*
+            
             NSString * strMac = [[NSUserDefaults standardUserDefaults] objectForKey:@"mac"];
             if ([strMac isEqualToString:@""] || strMac == nil)
             {
@@ -382,13 +380,13 @@
             }
             else
             {
-                waiterInfor.deviceId = [[NSUserDefaults standardUserDefaults] objectForKey:@"mac"];
+                waiterInfor.deviceId = strMac;
             }
-             */
+            
         }else
         {
             macAddress = macAddr;
-            self.inhotel = NO;
+            weakSelf.inhotel = NO;
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macAddress);
         }
         
@@ -397,9 +395,9 @@
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     [self.macHud stopWMProgress];
     [self.macHud removeFromSuperview];
-    waiterInfo.deviceId = macAddress;
-    NSLog(@"%@",waiterInfo.deviceId);
-    self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfo.deviceId];
+//    waiterInfor.deviceId = macAddress;
+    NSLog(@"%@",waiterInfor.deviceId);
+    self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];
     [self.tableView reloadData];
     [[DataManager defaultInstance] saveContext];
 }

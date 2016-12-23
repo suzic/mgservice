@@ -56,7 +56,6 @@
 //    [self.alertController addAction:cancelAction];
 //    [self.alertController addAction:action];
     
-    [self addFengMap];
     
     [self getMacAndStartLocationService];
     
@@ -68,6 +67,14 @@
     [positioningButton addTarget:self action:@selector(positioningButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:positioningButton];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self addFengMap];
+
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
