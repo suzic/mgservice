@@ -15,7 +15,7 @@
 
 UIKIT_STATIC_INLINE NSString * FMKGetMapSDKVersion()
 {
-	return @"1.1.5";
+	return @"1.1.6";
 }
 
 @interface FMKMapSDK : NSObject
