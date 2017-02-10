@@ -204,6 +204,11 @@
         dispatch_semaphore_signal(semaphore);
     }];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    if (macAddress != nil && ![macAddress isEqualToString:@""])
+    {
+        [[DataManager defaultInstance] getWaiterInfor].deviceId = macAddress;
+    }
+    
     [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
     [[FMKLocationServiceManager shareLocationServiceManager] startLocateWithMacAddress:macAddress mapPath:_mapPath];
 }
