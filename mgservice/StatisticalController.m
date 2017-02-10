@@ -334,7 +334,7 @@
         }
         else
         {
-            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",0] forState:UIControlStateNormal];
+//            [self.cancelButton setTitle:[NSString stringWithFormat:@"已取消（%d）",0] forState:UIControlStateNormal];
             [self.tableView reloadData];
         }
     }

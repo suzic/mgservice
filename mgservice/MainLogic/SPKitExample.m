@@ -364,7 +364,7 @@ UIAlertViewDelegate>
         if (aError.code == 0 || [[self.ywIMKit.IMCore getLoginService] isCurrentLogined]) {
             /// 登录成功
 #ifdef DEBUG
-            [[SPUtil sharedInstance] showNotificationInViewController:self.rootWindow.rootViewController title:@"登录成功" subtitle:nil type:SPMessageNotificationTypeSuccess];
+//            [[SPUtil sharedInstance] showNotificationInViewController:self.rootWindow.rootViewController title:@"登录成功" subtitle:nil type:SPMessageNotificationTypeSuccess];
 #endif
             
             
@@ -1323,7 +1323,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
         }
         else {
             /// 您可以打开该用户的profile页面
-            [[SPUtil sharedInstance] showNotificationInViewController:aParentController title:@"打开profile" subtitle:aPerson.description type:SPMessageNotificationTypeMessage];
+//            [[SPUtil sharedInstance] showNotificationInViewController:aParentController title:@"打开profile" subtitle:aPerson.description type:SPMessageNotificationTypeMessage];
         }
     }];
 }
