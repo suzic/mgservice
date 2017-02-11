@@ -176,13 +176,13 @@ UIAlertViewDelegate>
         [self exampleHandleAPNSPush];
         
         // 在IMSDK收到反馈消息通知时，IMSDK会自动调用此回调
-        [self exampleListenFeedbackNewMessage];
+//        [self exampleListenFeedbackNewMessage];
         
         // 自定义全局导航栏
-        [self exampleCustomGlobleNavigationBar];
+//        [self exampleCustomGlobleNavigationBar];
 
         // 自定义头像样式
-        [self exampleSetAvatarStyle];
+//        [self exampleSetAvatarStyle];
 
         /// 监听消息生命周期回调
         [self exampleListenMyMessageLife];
@@ -424,22 +424,22 @@ UIAlertViewDelegate>
         if (aStatus == YWIMConnectionStatusForceLogout || aStatus == YWIMConnectionStatusMannualLogout || aStatus == YWIMConnectionStatusAutoConnectFailed) {
             /// 手动登出、被踢、自动连接失败，都退出到登录页面
             if (aStatus != YWIMConnectionStatusMannualLogout) {
-                [YWIndicator showTopToastTitle:@"云旺" content:@"退出登录" userInfo:nil withTimeToDisplay:2 andClickBlock:nil];
+//                [YWIndicator showTopToastTitle:@"云旺" content:@"退出登录" userInfo:nil withTimeToDisplay:2 andClickBlock:nil];
             }
 
-#warning TODO: NEED TO HIDE IM PAGES WITH YOUR OWN METHOD
-            
-#if __has_include("SPLoginController.h")
-            UIViewController *loginViewController = [[SPLoginController alloc] initWithNibName:@"SPLoginController" bundle:nil];
-            loginViewController.view.frame = weakSelf.rootWindow.bounds;
-            [UIView transitionWithView:weakSelf.rootWindow
-                              duration:0.25
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{
-                                weakSelf.rootWindow.rootViewController = loginViewController;
-                            }
-                            completion:nil];
-#endif
+//#warning TODO: NEED TO HIDE IM PAGES WITH YOUR OWN METHOD
+//
+//#if __has_include("SPLoginController.h")
+//            UIViewController *loginViewController = [[SPLoginController alloc] initWithNibName:@"SPLoginController" bundle:nil];
+//            loginViewController.view.frame = weakSelf.rootWindow.bounds;
+//            [UIView transitionWithView:weakSelf.rootWindow
+//                              duration:0.25
+//                               options:UIViewAnimationOptionTransitionCrossDissolve
+//                            animations:^{
+//                                weakSelf.rootWindow.rootViewController = loginViewController;
+//                            }
+//                            completion:nil];
+//#endif
 
         }
         else if (aStatus == YWIMConnectionStatusConnected) {
@@ -601,12 +601,12 @@ UIAlertViewDelegate>
 
     if (!conversationViewController) {
         /// 如果是这两种基础conversation，重新fetch一个新的，防止原对象中还有一些状态未结束。
-        if ([aConversation isKindOfClass:[YWP2PConversation class]]) {
-            aConversation = [YWP2PConversation fetchConversationByPerson:[(YWP2PConversation *)aConversation person] creatIfNotExist:YES baseContext:self.ywIMKit.IMCore];
-            /// 如果需要，可以在这里设置其他一些需要修改的属性
-        } else if ([aConversation isKindOfClass:[YWTribeConversation class]]) {
-            aConversation = [YWTribeConversation fetchConversationByTribe:[(YWTribeConversation *)aConversation tribe] createIfNotExist:YES baseContext:self.ywIMKit.IMCore];
-        }
+//        if ([aConversation isKindOfClass:[YWP2PConversation class]]) {
+//            aConversation = [YWP2PConversation fetchConversationByPerson:[(YWP2PConversation *)aConversation person] creatIfNotExist:YES baseContext:self.ywIMKit.IMCore];
+//            /// 如果需要，可以在这里设置其他一些需要修改的属性
+//        } else if ([aConversation isKindOfClass:[YWTribeConversation class]]) {
+//            aConversation = [YWTribeConversation fetchConversationByTribe:[(YWTribeConversation *)aConversation tribe] createIfNotExist:YES baseContext:self.ywIMKit.IMCore];
+//        }
         conversationViewController = [self exampleMakeConversationViewControllerWithConversation:aConversation];
     }
 
@@ -615,8 +615,8 @@ UIAlertViewDelegate>
         viewControllers = @[conversationNavigationController.viewControllers.firstObject];
     }
     else {
-        NSLog(@"conversationNavigationController.viewControllers.firstObject:%@", conversationNavigationController.viewControllers.firstObject);
-        NSLog(@"conversationViewController:%@", conversationViewController);
+//        NSLog(@"conversationNavigationController.viewControllers.firstObject:%@", conversationNavigationController.viewControllers.firstObject);
+//        NSLog(@"conversationViewController:%@", conversationViewController);
         viewControllers = @[conversationNavigationController.viewControllers.firstObject, conversationViewController];
     }
 
@@ -654,35 +654,35 @@ UIAlertViewDelegate>
  */
 - (YWConversationViewController *)exampleMakeConversationViewControllerWithConversation:(YWConversation *)conversation {
     YWConversationViewController *conversationController = nil;
-#if HAS_TRIBECONVERSATION
-    /// Demo中使用了继承方式，实现群聊聊天页面。
-    if ([conversation isKindOfClass:[YWTribeConversation class]]) {
-        conversationController = [SPTribeConversationViewController makeControllerWithIMKit:self.ywIMKit
-                                                                               conversation:conversation];
-        
-        [self.ywIMKit addDefaultInputViewPluginsToMessagesListController:conversationController];
-        
-    }
-    else
-#endif
-#if HAS_FEEDBACK
-        #warning 如果集成使用反馈服务，点击会话列表需要拦截反馈会话并反馈会话
-        if ([conversation isKindOfClass:[YWFeedbackConversation class]]) {
-            YWFeedbackConversation *feedbackConversation = (YWFeedbackConversation *)conversation;
-            conversationController = [self.ywIMKit makeFeedbackViewControllerWithConversation:feedbackConversation];
-            
-            // 如果不需要显示顶部联系方式输入可以打开下面注释
-            //[conversationController setHidesBottomBarWhenPushed:YES];
-
-            conversationController.hidesBottomBarWhenPushed = YES;
-            return conversationController;
-        }
-        else
-#endif
-    {
+//#if HAS_TRIBECONVERSATION
+//    /// Demo中使用了继承方式，实现群聊聊天页面。
+//    if ([conversation isKindOfClass:[YWTribeConversation class]]) {
+//        conversationController = [SPTribeConversationViewController makeControllerWithIMKit:self.ywIMKit
+//                                                                               conversation:conversation];
+//        
+//        [self.ywIMKit addDefaultInputViewPluginsToMessagesListController:conversationController];
+//        
+//    }
+//    else
+//#endif
+//#if HAS_FEEDBACK
+//        #warning 如果集成使用反馈服务，点击会话列表需要拦截反馈会话并反馈会话
+//        if ([conversation isKindOfClass:[YWFeedbackConversation class]]) {
+//            YWFeedbackConversation *feedbackConversation = (YWFeedbackConversation *)conversation;
+//            conversationController = [self.ywIMKit makeFeedbackViewControllerWithConversation:feedbackConversation];
+//            
+//            // 如果不需要显示顶部联系方式输入可以打开下面注释
+//            //[conversationController setHidesBottomBarWhenPushed:YES];
+//
+//            conversationController.hidesBottomBarWhenPushed = YES;
+//            return conversationController;
+//        }
+//        else
+//#endif
+//    {
         conversationController = [YWConversationViewController makeControllerWithIMKit:self.ywIMKit conversation:conversation];
         [self.ywIMKit addDefaultInputViewPluginsToMessagesListController:conversationController];
-    }
+//    }
 #if  HAS_CONTACTPROFILE
     if ([conversation isKindOfClass:[YWP2PConversation class]]) {
         __weak typeof(self) weakSelf = self;
@@ -694,16 +694,16 @@ UIAlertViewDelegate>
     }
 #endif
     
-#warning 添加小视频插件，只有链接了官方Demo中的YWExtensionForShortVideoFMWK.framework、ALBBMediaService.framework、TBAVSDK.framework和VSVideoCore.framework才会出现,并且将YWExtensionForShortVideoFMWK.framework中YWShortVideo.bundle添加到工程中. 小视频存储要使用百川多媒体（顽兔）服务，请到百川云旺官网，并阅读短视频开通流程，完成短视频业务的多媒体空间绑定
-#if __has_include(<YWExtensionForShortVideoFMWK/IYWExtensionForShortVideoService.h>)
-        if ([conversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
-            __weak typeof(conversationController) weakController = conversationController;
-            YWInputViewPlugin *shortVideoPlugin = [SPExtensionServiceFromProtocol(IYWExtensionForShortVideoService) getShortVideoPluginWithPickerOverBlock:^(id<YWInputViewPluginProtocol> plugin, NSURL *fileUrl, UIImage *frontImage, NSUInteger width, NSUInteger height, NSUInteger duration) {
-                [weakController sendVideoMessage:fileUrl videoSize:0 frontImage:frontImage width:width height:height duration:duration];
-            }];
-            [(YWMessageInputView *)conversationController.messageInputView addPlugin:shortVideoPlugin];
-        }
-#endif
+//#warning 添加小视频插件，只有链接了官方Demo中的YWExtensionForShortVideoFMWK.framework、ALBBMediaService.framework、TBAVSDK.framework和VSVideoCore.framework才会出现,并且将YWExtensionForShortVideoFMWK.framework中YWShortVideo.bundle添加到工程中. 小视频存储要使用百川多媒体（顽兔）服务，请到百川云旺官网，并阅读短视频开通流程，完成短视频业务的多媒体空间绑定
+//#if __has_include(<YWExtensionForShortVideoFMWK/IYWExtensionForShortVideoService.h>)
+//        if ([conversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
+//            __weak typeof(conversationController) weakController = conversationController;
+//            YWInputViewPlugin *shortVideoPlugin = [SPExtensionServiceFromProtocol(IYWExtensionForShortVideoService) getShortVideoPluginWithPickerOverBlock:^(id<YWInputViewPluginProtocol> plugin, NSURL *fileUrl, UIImage *frontImage, NSUInteger width, NSUInteger height, NSUInteger duration) {
+//                [weakController sendVideoMessage:fileUrl videoSize:0 frontImage:frontImage width:width height:height duration:duration];
+//            }];
+//            [(YWMessageInputView *)conversationController.messageInputView addPlugin:shortVideoPlugin];
+//        }
+//#endif
     
 #warning IF YOU NEED CUSTOMER SERVICE USER TRACK, REMOVE THE COMMENT '//' AND CHANGE THE ywcsTrackTitle OR ywcsUrl PROPERTIES
     /// 如果需要客服跟踪用户操作轨迹的功能，你可以取消以下行的注释，引入YWExtensionForCustomerServiceFMWK.framework，并并且修改相应的属性
@@ -742,67 +742,67 @@ UIAlertViewDelegate>
 /**
  *  自定义全局导航栏
  */
-- (void)exampleCustomGlobleNavigationBar
-{
-#warning TODO: JUST RETURN IF NO NEED TO CHANGE Global Navigation Bar
-    // 自定义导航栏背景
-    if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
-    {
-        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
-        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-        
-        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-        
-        [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
-    }
-    else
-    {
-        UIImage *originImage = [UIImage imageNamed:@"pub_title_bg"];
-        UIImage *backgroundImage = [originImage resizableImageWithCapInsets:UIEdgeInsetsMake(44, 7, 4, 7)];
-        [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-        
-        
-        [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor],
-                                                               UITextAttributeTextShadowColor: [UIColor clearColor],
-                                                               UITextAttributeFont: [UIFont boldSystemFontOfSize:18.0]}];
-        
-        NSDictionary *barButtonTittleAttributes = @{UITextAttributeTextColor: [UIColor whiteColor],
-                                                    UITextAttributeTextShadowColor: [UIColor clearColor],
-                                                    UITextAttributeFont: [UIFont systemFontOfSize:16.0f]};
-        
-        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:barButtonTittleAttributes
-                                                                                                forState:UIControlStateNormal];
-        
-        UIImage *backItemImage = [[UIImage imageNamed:@"pub_title_ico_back_white"] resizableImageWithCapInsets:UIEdgeInsetsMake(33, 24, 0, 24)
-                                                                                                  resizingMode:UIImageResizingModeStretch];
-        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:backItemImage
-                                                                                                      forState:UIControlStateNormal
-                                                                                                    barMetrics:UIBarMetricsDefault];
-        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[UIImage new]
-                                                                                            forState:UIControlStateNormal
-                                                                                          barMetrics:UIBarMetricsDefault];
-        
-        [[UITabBar appearance] setBackgroundImage:backgroundImage];
-        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-    }
-    
-    
-    // 自定义导航栏及导航按钮，可参考下面的文章
-    // http://www.appcoda.com/customize-navigation-status-bar-ios-7/
-}
+//- (void)exampleCustomGlobleNavigationBar
+//{
+//#warning TODO: JUST RETURN IF NO NEED TO CHANGE Global Navigation Bar
+//    // 自定义导航栏背景
+//    if ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] == NSOrderedDescending )
+//    {
+//        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
+//        [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//        
+//        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+//        
+//        [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0 green:1.f*0xb4/0xff blue:1.f alpha:1.f]];
+//    }
+//    else
+//    {
+//        UIImage *originImage = [UIImage imageNamed:@"pub_title_bg"];
+//        UIImage *backgroundImage = [originImage resizableImageWithCapInsets:UIEdgeInsetsMake(44, 7, 4, 7)];
+//        [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+//        
+//        
+//        [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor: [UIColor whiteColor],
+//                                                               UITextAttributeTextShadowColor: [UIColor clearColor],
+//                                                               UITextAttributeFont: [UIFont boldSystemFontOfSize:18.0]}];
+//        
+//        NSDictionary *barButtonTittleAttributes = @{UITextAttributeTextColor: [UIColor whiteColor],
+//                                                    UITextAttributeTextShadowColor: [UIColor clearColor],
+//                                                    UITextAttributeFont: [UIFont systemFontOfSize:16.0f]};
+//        
+//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:barButtonTittleAttributes
+//                                                                                                forState:UIControlStateNormal];
+//        
+//        UIImage *backItemImage = [[UIImage imageNamed:@"pub_title_ico_back_white"] resizableImageWithCapInsets:UIEdgeInsetsMake(33, 24, 0, 24)
+//                                                                                                  resizingMode:UIImageResizingModeStretch];
+//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackButtonBackgroundImage:backItemImage
+//                                                                                                      forState:UIControlStateNormal
+//                                                                                                    barMetrics:UIBarMetricsDefault];
+//        [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setBackgroundImage:[UIImage new]
+//                                                                                            forState:UIControlStateNormal
+//                                                                                          barMetrics:UIBarMetricsDefault];
+//        
+//        [[UITabBar appearance] setBackgroundImage:backgroundImage];
+//        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+//    }
+//    
+//    
+//    // 自定义导航栏及导航按钮，可参考下面的文章
+//    // http://www.appcoda.com/customize-navigation-status-bar-ios-7/
+//}
 
 /**
  *  自定义皮肤
  */
 - (void)exampleCustomUISkin
 {
-    // 使用自定义UI资源和配置
-    YWIMKit *imkit = self.ywIMKit;
-    
-    NSString *bundleName = @"CustomizedUIResources.bundle";
-    NSString *bundlePath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:bundleName];
-    NSBundle *customizedUIResourcesBundle = [NSBundle bundleWithPath:bundlePath];
-    [imkit setCustomizedUIResources:customizedUIResourcesBundle];
+//    // 使用自定义UI资源和配置
+//    YWIMKit *imkit = self.ywIMKit;
+//    
+//    NSString *bundleName = @"CustomizedUIResources.bundle";
+//    NSString *bundlePath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:bundleName];
+//    NSBundle *customizedUIResourcesBundle = [NSBundle bundleWithPath:bundlePath];
+//    [imkit setCustomizedUIResources:customizedUIResourcesBundle];
 }
 
 - (void)exampleEnableTribeAtMessage
@@ -826,23 +826,23 @@ UIAlertViewDelegate>
 #warning TODO: CHANGE TO YOUR ACTUAL Input View Plugin
     /// 添加插件
     if ([aConversationController.messageInputView isKindOfClass:[YWMessageInputView class]]) {
-        YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
-
-        /// 创建自定义插件
-        SPInputViewPluginGreeting *plugin = [[SPInputViewPluginGreeting alloc] init];
-        [messageInputView addPlugin:plugin];
-
-        SPInputViewPluginCallingCard *pluginCallingCard = [[SPInputViewPluginCallingCard alloc] init];
-        [messageInputView addPlugin:pluginCallingCard];
-        
-        if ([aConversationController.conversation isKindOfClass:[YWP2PConversation class]]) {
-            /// 透传消息目前仅支持单聊会话
-            /// 此功能仅作为示例代码
-            /**
-            SPInputViewPluginTransparent *pluginTransparent = [[SPInputViewPluginTransparent alloc] init];
-            [messageInputView addPlugin:pluginTransparent];
-             */
-        }
+//        YWMessageInputView *messageInputView = (YWMessageInputView *)aConversationController.messageInputView;
+//
+//        /// 创建自定义插件
+//        SPInputViewPluginGreeting *plugin = [[SPInputViewPluginGreeting alloc] init];
+//        [messageInputView addPlugin:plugin];
+//
+//        SPInputViewPluginCallingCard *pluginCallingCard = [[SPInputViewPluginCallingCard alloc] init];
+//        [messageInputView addPlugin:pluginCallingCard];
+//        
+//        if ([aConversationController.conversation isKindOfClass:[YWP2PConversation class]]) {
+//            /// 透传消息目前仅支持单聊会话
+//            /// 此功能仅作为示例代码
+//            /**
+//            SPInputViewPluginTransparent *pluginTransparent = [[SPInputViewPluginTransparent alloc] init];
+//            [messageInputView addPlugin:pluginTransparent];
+//             */
+//        }
         
     }
 }
@@ -861,14 +861,14 @@ UIAlertViewDelegate>
     [aConversationController setHook4BubbleViewModel:^YWBaseBubbleViewModel *(id<IYWMessage> message) {
         if ([[message messageBody] isKindOfClass:[YWMessageBodyCustomize class]]) {
             
-#if HAS_PRIVATEIMAGE
-            {
-                YWBaseBubbleViewModel *vm = [[SPLogicBizPrivateImage sharedInstance] handleShowMessage:message];
-                if (vm) {
-                    return vm;
-                }
-            }
-#endif
+//#if HAS_PRIVATEIMAGE
+//            {
+//                YWBaseBubbleViewModel *vm = [[SPLogicBizPrivateImage sharedInstance] handleShowMessage:message];
+//                if (vm) {
+//                    return vm;
+//                }
+//            }
+//#endif
 
             
             YWMessageBodyCustomize *customizeMessageBody = (YWMessageBodyCustomize *)[message messageBody];
@@ -962,18 +962,18 @@ UIAlertViewDelegate>
  */
 - (void)exampleAddOrUpdateCustomConversation
 {
-#warning TODO: JUST RETURN IF NO NEED TO ADD Custom Conversation OR CHANGE TO YOUR ACTUAL METHOD TO ADD Custom Conversation
-    NSInteger random = arc4random()%100;
-    static NSArray *contentArray = nil;
-    if (contentArray == nil) {
-        contentArray = @[@"欢迎使用OpenIM", @"新的开始", @"完美的APP", @"请点击我"];
-    }
-    YWCustomConversation *conversation = [YWCustomConversation fetchConversationByConversationId:kSPCustomConversationIdForPortal creatIfNotExist:YES baseContext:[SPKitExample sharedInstance].ywIMKit.IMCore];
-    /// 每一次点击都随机的展示未读数和最后消息
-    [conversation modifyUnreadCount:@(random) latestContent:contentArray[random%4] latestTime:[NSDate date]];
-    
-    /// 将这个会话置顶
-    [self exampleMarkConversationOnTop:conversation onTop:YES];
+//#warning TODO: JUST RETURN IF NO NEED TO ADD Custom Conversation OR CHANGE TO YOUR ACTUAL METHOD TO ADD Custom Conversation
+//    NSInteger random = arc4random()%100;
+//    static NSArray *contentArray = nil;
+//    if (contentArray == nil) {
+//        contentArray = @[@"欢迎使用OpenIM", @"新的开始", @"完美的APP", @"请点击我"];
+//    }
+//    YWCustomConversation *conversation = [YWCustomConversation fetchConversationByConversationId:kSPCustomConversationIdForPortal creatIfNotExist:YES baseContext:[SPKitExample sharedInstance].ywIMKit.IMCore];
+//    /// 每一次点击都随机的展示未读数和最后消息
+//    [conversation modifyUnreadCount:@(random) latestContent:contentArray[random%4] latestTime:[NSDate date]];
+//    
+//    /// 将这个会话置顶
+//    [self exampleMarkConversationOnTop:conversation onTop:YES];
 }
 
 /**
@@ -984,7 +984,7 @@ UIAlertViewDelegate>
     NSError *error = nil;
     [aConversation markConversationOnTop:aOnTop getError:&error];
     if (error) {
-        [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"自定义消息置顶失败" subtitle:nil type:SPMessageNotificationTypeError];
+//        [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"自定义消息置顶失败" subtitle:nil type:SPMessageNotificationTypeError];
     }
 }
 
@@ -1132,7 +1132,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
         strError = error.localizedDescription;
     }
     
-    [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"图片保存结果" subtitle:strError type:SPMessageNotificationTypeMessage];
+//    [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"图片保存结果" subtitle:strError type:SPMessageNotificationTypeMessage];
 }
 
 
@@ -1267,7 +1267,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
 {
     // 当IMSDK需要弹出提示时，会调用此回调，你需要修改成你App中显示提示的样式
     [self.ywIMKit setShowNotificationBlock:^(UIViewController *aViewController, NSString *aTitle, NSString *aSubtitle, YWMessageNotificationType aType) {
-        [[SPUtil sharedInstance] showNotificationInViewController:aViewController title:aTitle subtitle:aSubtitle type:(SPMessageNotificationType)aType];
+//        [[SPUtil sharedInstance] showNotificationInViewController:aViewController title:aTitle subtitle:aSubtitle type:(SPMessageNotificationType)aType];
     }];
 }
 
@@ -1313,19 +1313,19 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
  */
 - (void)exampleListenOnClickAvatar
 {
-#warning TODO: JUST RETURN IF NO NEED TO PROCESS Avatar Click Event OR CHANGE TO YOUR ACTUAL METHOD
-    __weak __typeof(self) weakSelf = self;
-    [self.ywIMKit setOpenProfileBlock:^(YWPerson *aPerson, UIViewController *aParentController) {
-        BOOL isMe = [aPerson isEqualToPerson:[[weakSelf.ywIMKit.IMCore getLoginService] currentLoginedUser]];
-        
-        if (isMe == NO && [aParentController isKindOfClass:[YWConversationViewController class]] && [((YWConversationViewController *)aParentController).conversation isKindOfClass:[YWTribeConversation class]]) {
-            [weakSelf exampleOpenConversationViewControllerWithPerson:aPerson fromNavigationController:aParentController.navigationController];
-        }
-        else {
+//#warning TODO: JUST RETURN IF NO NEED TO PROCESS Avatar Click Event OR CHANGE TO YOUR ACTUAL METHOD
+//    __weak __typeof(self) weakSelf = self;
+//    [self.ywIMKit setOpenProfileBlock:^(YWPerson *aPerson, UIViewController *aParentController) {
+//        BOOL isMe = [aPerson isEqualToPerson:[[weakSelf.ywIMKit.IMCore getLoginService] currentLoginedUser]];
+//        
+//        if (isMe == NO && [aParentController isKindOfClass:[YWConversationViewController class]] && [((YWConversationViewController *)aParentController).conversation isKindOfClass:[YWTribeConversation class]]) {
+//            [weakSelf exampleOpenConversationViewControllerWithPerson:aPerson fromNavigationController:aParentController.navigationController];
+//        }
+//        else {
             /// 您可以打开该用户的profile页面
 //            [[SPUtil sharedInstance] showNotificationInViewController:aParentController title:@"打开profile" subtitle:aPerson.description type:SPMessageNotificationTypeMessage];
-        }
-    }];
+//        }
+//    }];
 }
 
 
@@ -1382,24 +1382,24 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
     [self.ywIMKit setPreviewImageMessageBlockV3:^(id<IYWMessage> aMessage, YWConversation *aOfConversation, NSDictionary *aFromUserInfo) {
         /// 增加更多按钮，例如转发
         YWMoreActionItem *transferItem = [[YWMoreActionItem alloc] initWithActionName:@"转发" actionBlock:^(NSDictionary *aUserInfo) {
-            /// 获取会话及消息相关信息
-            NSString *convId = aUserInfo[YWImageBrowserHelperActionKeyConversationId];
-            NSString *msgId = aUserInfo[YWImageBrowserHelperActionKeyMessageId];
-            
-            YWConversation *conv = [[weakSelf.ywIMKit.IMCore getConversationService] fetchConversationByConversationId:convId];
-            if (conv) {
-                id<IYWMessage> msg = [conv fetchMessageWithMessageId:msgId];
-                if (msg) {
-                    YWPerson *person = [[YWPerson alloc] initWithPersonId:@"jiakuipro003"];
-                    YWP2PConversation *targetConv = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    [targetConv asyncForwardMessage:msg progress:NULL completion:^(NSError *error, NSString *messageID) {
-                        NSLog(@"转发结果：%@", error.code == 0 ? @"成功" : @"失败");
-                        [[SPUtil sharedInstance] asyncGetProfileWithPerson:person progress:nil completion:^(BOOL aIsSuccess, YWPerson *aPerson, NSString *aDisplayName, UIImage *aAvatarImage) {
-                            [[SPUtil sharedInstance] showNotificationInViewController:nil title:[NSString stringWithFormat:@"已经成功转发给:%@", aDisplayName] subtitle:nil type:SPMessageNotificationTypeMessage];
-                        }];
-                    }];
-                }
-            }
+//            /// 获取会话及消息相关信息
+//            NSString *convId = aUserInfo[YWImageBrowserHelperActionKeyConversationId];
+//            NSString *msgId = aUserInfo[YWImageBrowserHelperActionKeyMessageId];
+//            
+//            YWConversation *conv = [[weakSelf.ywIMKit.IMCore getConversationService] fetchConversationByConversationId:convId];
+//            if (conv) {
+//                id<IYWMessage> msg = [conv fetchMessageWithMessageId:msgId];
+//                if (msg) {
+//                    YWPerson *person = [[YWPerson alloc] initWithPersonId:@"jiakuipro003"];
+//                    YWP2PConversation *targetConv = [YWP2PConversation fetchConversationByPerson:person creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    [targetConv asyncForwardMessage:msg progress:NULL completion:^(NSError *error, NSString *messageID) {
+//                        NSLog(@"转发结果：%@", error.code == 0 ? @"成功" : @"失败");
+//                        [[SPUtil sharedInstance] asyncGetProfileWithPerson:person progress:nil completion:^(BOOL aIsSuccess, YWPerson *aPerson, NSString *aDisplayName, UIImage *aAvatarImage) {
+//                            [[SPUtil sharedInstance] showNotificationInViewController:nil title:[NSString stringWithFormat:@"已经成功转发给:%@", aDisplayName] subtitle:nil type:SPMessageNotificationTypeMessage];
+//                        }];
+//                    }];
+//                }
+//            }
         }];
         
         /// 打开IMSDK提供的预览大图界面
@@ -1416,7 +1416,7 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
  */
 - (void)exampleHandleAPNSPush
 {
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     
     [[[YWAPI sharedInstance] getGlobalPushService] addHandlePushBlockV4:^(NSDictionary *aResult, BOOL *aShouldStop) {
         BOOL isLaunching = [aResult[YWPushHandleResultKeyIsLaunching] boolValue];
@@ -1437,36 +1437,36 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
             /// 用户划开Push导致app启动
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.3f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                if ([self exampleIsPreLogined]) {
-                    /// 说明已经预登录成功
-                    YWConversation *conversation = nil;
-                    if (conversationClass == [YWP2PConversation class]) {
-                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    } else if (conversationClass == [YWTribeConversation class]) {
-                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    }
-                    if (conversation) {
-                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
-                    }
-                }
+//                if ([self exampleIsPreLogined]) {
+//                    /// 说明已经预登录成功
+//                    YWConversation *conversation = nil;
+//                    if (conversationClass == [YWP2PConversation class]) {
+//                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    } else if (conversationClass == [YWTribeConversation class]) {
+//                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    }
+//                    if (conversation) {
+//                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
+//                    }
+//                }
             });
             
         } else {
             /// app已经启动时处理Push
             
             if (state != UIApplicationStateActive) {
-                if ([self exampleIsPreLogined]) {
-                    /// 说明已经预登录成功
-                    YWConversation *conversation = nil;
-                    if (conversationClass == [YWP2PConversation class]) {
-                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    } else if (conversationClass == [YWTribeConversation class]) {
-                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
-                    }
-                    if (conversation) {
-                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
-                    }
-                }
+//                if ([self exampleIsPreLogined]) {
+//                    /// 说明已经预登录成功
+//                    YWConversation *conversation = nil;
+//                    if (conversationClass == [YWP2PConversation class]) {
+//                        conversation = [YWP2PConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    } else if (conversationClass == [YWTribeConversation class]) {
+//                        conversation = [YWTribeConversation fetchConversationByConversationId:conversationId creatIfNotExist:YES baseContext:weakSelf.ywIMKit.IMCore];
+//                    }
+//                    if (conversation) {
+//                        [weakSelf exampleOpenConversationViewControllerWithConversation:conversation fromNavigationController:[weakSelf conversationNavigationController]];
+//                    }
+//                }
             } else {
                 /// 应用处于前台
                 /// 建议不做处理，等待IM连接建立后，收取离线消息。
@@ -1488,106 +1488,106 @@ const CGFloat kSPCustomConversationCellContentMargin =10;
     return person;
 }
 
-#pragma mrk - Feedback
-- (void)exampleListenFeedbackNewMessage
-{
-    __weak typeof(self) weakSelf = self;
-    
-    /// 这里演示的是匿名账号消息监听，云旺账号参考exampleListenNewMessage
-    [YWAnonFeedbackService setOnNewMessageBlock:^(BOOL aIsLaunching, UIApplicationState aState) {
-        if ( aIsLaunching || aState != UIApplicationStateActive ) {
-            [YWAnonFeedbackService makeFeedbackConversationWithCompletionBlock:^(YWFeedbackConversation *conversation, NSError *error) {
-                [weakSelf exampleOpenFeedbackViewController:YES fromViewController:[weakSelf conversationNavigationController]];
-            }];
-        } else {
-            /// 播放声音或者跳转打开反馈页面等方式提醒用户有新的反馈消息
-        }
-    }];
-}
+//#pragma mrk - Feedback
+//- (void)exampleListenFeedbackNewMessage
+//{
+//    __weak typeof(self) weakSelf = self;
+//    
+//    /// 这里演示的是匿名账号消息监听，云旺账号参考exampleListenNewMessage
+//    [YWAnonFeedbackService setOnNewMessageBlock:^(BOOL aIsLaunching, UIApplicationState aState) {
+//        if ( aIsLaunching || aState != UIApplicationStateActive ) {
+//            [YWAnonFeedbackService makeFeedbackConversationWithCompletionBlock:^(YWFeedbackConversation *conversation, NSError *error) {
+//                [weakSelf exampleOpenFeedbackViewController:YES fromViewController:[weakSelf conversationNavigationController]];
+//            }];
+//        } else {
+//            /// 播放声音或者跳转打开反馈页面等方式提醒用户有新的反馈消息
+//        }
+//    }];
+//}
+//
+//- (void)exampleGetFeedbackUnreadCount:(BOOL)isAnonLogin inViewController:(UIViewController *)viewController;
+//{
+//    /// 使用云旺(OpenIM)账号，登陆后需要主动调用获取未读数。
+//    
+//    id<IYWFeedbackService> service = nil;
+//    
+//    if ( isAnonLogin ) {
+//        service = YWAnonFeedbackService;
+//    } else {
+//        service = YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
+//    }
+//    
+//    [service getUnreadCountWithCompletionBlock:^(NSNumber *unreadCount, NSError *error) {
+//        if ( [unreadCount intValue] > 0 ) {
+//            [[SPUtil sharedInstance] showNotificationInViewController:viewController title:@"未读反馈消息"
+//                                                             subtitle:[NSString stringWithFormat:@"未读数：%@", unreadCount]
+//                                                                 type:SPMessageNotificationTypeSuccess];
+//        }
+//    }];
+//}
 
-- (void)exampleGetFeedbackUnreadCount:(BOOL)isAnonLogin inViewController:(UIViewController *)viewController;
-{
-    /// 使用云旺(OpenIM)账号，登陆后需要主动调用获取未读数。
-    
-    id<IYWFeedbackService> service = nil;
-    
-    if ( isAnonLogin ) {
-        service = YWAnonFeedbackService;
-    } else {
-        service = YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
-    }
-    
-    [service getUnreadCountWithCompletionBlock:^(NSNumber *unreadCount, NSError *error) {
-        if ( [unreadCount intValue] > 0 ) {
-            [[SPUtil sharedInstance] showNotificationInViewController:viewController title:@"未读反馈消息"
-                                                             subtitle:[NSString stringWithFormat:@"未读数：%@", unreadCount]
-                                                                 type:SPMessageNotificationTypeSuccess];
-        }
-    }];
-}
+//- (void)exampleOpenFeedbackViewController:(BOOL)isAnonLogin
+//                       fromViewController:(UIViewController *)aViewController
+//{
+//    UINavigationController *rootNavigation = [self conversationNavigationController];
+//    UIViewController *topVC = [[rootNavigation childViewControllers] lastObject];
+//    if ( [topVC isKindOfClass:[YWFeedbackViewController class]] ) return;
+//    
+//    __weak typeof(self) weakSelf = self;
+//    id<IYWFeedbackService> service = nil;
+//    
+//    if ( isAnonLogin ) {
+//        service = YWAnonFeedbackService;
+//    } else {
+//        YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
+//    }
+//    
+//    // 设置App自定义扩展反馈数据
+//    [service setExtInfo:@{@"loginTime":[[NSDate date] description],
+//                          @"visitPath":@"登陆->关于->反馈",
+//                          @"应用自定义扩展信息":@"开发者可以根据需要设置不同的自定义信息，方便在反馈系统中查看"}];
+//    
+//    [service makeFeedbackConversationWithCompletionBlock:^(YWFeedbackConversation *conversation, NSError *error) {
+//        if ( conversation != nil ) {
+//            YWFeedbackViewController *feedback = [weakSelf.ywIMKit makeFeedbackViewControllerWithConversation:conversation];
+//
+//            if ( [aViewController isKindOfClass:[UINavigationController class]] ) {
+//                UINavigationController *nav = (UINavigationController *)aViewController;
+//                [nav setNavigationBarHidden:NO animated:YES];
+//                [nav pushViewController:feedback animated:YES];
+//            } else {
+//                if ( aViewController.navigationController ) {
+//                    [aViewController.navigationController setNavigationBarHidden:NO animated:NO];
+//                    [aViewController.navigationController pushViewController:feedback animated:YES];
+//                } else {
+//                    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:feedback];
+//                    
+////                    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain andBlock:^{
+////                        [aViewController dismissViewControllerAnimated:YES completion:nil];
+////                    }];
+//                    
+////                    feedback.navigationItem.rightBarButtonItem = rightBarButtonItem;
+//                    
+//                    [aViewController presentViewController:navigationController animated:YES completion:nil];
+//                }
+//            }
+//        } else {
+//            [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"反馈页面打开出错"
+//                                                             subtitle:[NSString stringWithFormat:@"%@", error]
+//                                                                 type:SPMessageNotificationTypeError];
+//        }
+//    }];
+//}
 
-- (void)exampleOpenFeedbackViewController:(BOOL)isAnonLogin
-                       fromViewController:(UIViewController *)aViewController
-{
-    UINavigationController *rootNavigation = [self conversationNavigationController];
-    UIViewController *topVC = [[rootNavigation childViewControllers] lastObject];
-    if ( [topVC isKindOfClass:[YWFeedbackViewController class]] ) return;
-    
-    __weak typeof(self) weakSelf = self;
-    id<IYWFeedbackService> service = nil;
-    
-    if ( isAnonLogin ) {
-        service = YWAnonFeedbackService;
-    } else {
-        YWFeedbackServiceForIMCore(self.ywIMKit.IMCore);
-    }
-    
-    // 设置App自定义扩展反馈数据
-    [service setExtInfo:@{@"loginTime":[[NSDate date] description],
-                          @"visitPath":@"登陆->关于->反馈",
-                          @"应用自定义扩展信息":@"开发者可以根据需要设置不同的自定义信息，方便在反馈系统中查看"}];
-    
-    [service makeFeedbackConversationWithCompletionBlock:^(YWFeedbackConversation *conversation, NSError *error) {
-        if ( conversation != nil ) {
-            YWFeedbackViewController *feedback = [weakSelf.ywIMKit makeFeedbackViewControllerWithConversation:conversation];
-
-            if ( [aViewController isKindOfClass:[UINavigationController class]] ) {
-                UINavigationController *nav = (UINavigationController *)aViewController;
-                [nav setNavigationBarHidden:NO animated:YES];
-                [nav pushViewController:feedback animated:YES];
-            } else {
-                if ( aViewController.navigationController ) {
-                    [aViewController.navigationController setNavigationBarHidden:NO animated:NO];
-                    [aViewController.navigationController pushViewController:feedback animated:YES];
-                } else {
-                    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:feedback];
-                    
-//                    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain andBlock:^{
-//                        [aViewController dismissViewControllerAnimated:YES completion:nil];
-//                    }];
-                    
-//                    feedback.navigationItem.rightBarButtonItem = rightBarButtonItem;
-                    
-                    [aViewController presentViewController:navigationController animated:YES completion:nil];
-                }
-            }
-        } else {
-            [[SPUtil sharedInstance] showNotificationInViewController:nil title:@"反馈页面打开出错"
-                                                             subtitle:[NSString stringWithFormat:@"%@", error]
-                                                                 type:SPMessageNotificationTypeError];
-        }
-    }];
-}
-
-#pragma mark - 可删代码，这里用来演示一些非主流程的功能，您可以删除
-#if HAS_CONTACTPROFILE
-- (void)opeConversationVC:(YWConversationViewController *)ConversationViewController withConversation:(YWConversation *)conversation
-{
-    if ([conversation isKindOfClass:[YWP2PConversation class]]) {
-        SPContactProfileController *contactprofileController = [[SPContactProfileController alloc] initWithContact:((YWP2PConversation *)conversation).person IMKit:self.ywIMKit];
-        
-    }
-}
-#endif
+//#pragma mark - 可删代码，这里用来演示一些非主流程的功能，您可以删除
+//#if HAS_CONTACTPROFILE
+//- (void)opeConversationVC:(YWConversationViewController *)ConversationViewController withConversation:(YWConversation *)conversation
+//{
+//    if ([conversation isKindOfClass:[YWP2PConversation class]]) {
+//        SPContactProfileController *contactprofileController = [[SPContactProfileController alloc] initWithContact:((YWP2PConversation *)conversation).person IMKit:self.ywIMKit];
+//        
+//    }
+//}
+//#endif
 
 @end

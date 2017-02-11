@@ -177,6 +177,7 @@
 //回到主页
 - (void)backMainViewController:(NSNotificationCenter *)noti
 {
+    [self.frameViewcontroller hiddenMainView:NO];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

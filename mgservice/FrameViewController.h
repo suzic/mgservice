@@ -14,5 +14,6 @@
 - (void)FinishCurrentTaskAction;
 - (void)reloadCurrentTask;
 - (void)callInTask;
+- (void)backtoMainView;
 @property (weak, nonatomic) IBOutlet UIView *inTaskView;
 @end

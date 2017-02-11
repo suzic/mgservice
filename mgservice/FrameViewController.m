@@ -93,6 +93,11 @@
      */
 
 }
+- (void)backtoMainView
+{
+    self.inTaskView.hidden = YES;
+    [self.mainController.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - Navigation
 

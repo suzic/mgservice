@@ -395,7 +395,7 @@
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     [self.macHud stopWMProgress];
     [self.macHud removeFromSuperview];
-//    waiterInfor.deviceId = macAddress;
+    waiterInfor.deviceId = macAddress;
     NSLog(@"%@",waiterInfor.deviceId);
     self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];
     [self.tableView reloadData];
