@@ -11,7 +11,6 @@
 
 @interface InTaskController ()<RequestNetWorkDelegate>
 
-
 @property (strong, nonatomic) IBOutlet UIView *chatHistoryView;//聊天记录View
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *chatHistoryViewTop;//聊天记录视图上
@@ -59,6 +58,12 @@
     //来新消息
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newMessage:) name:NotiNewMessage object:nil];
 
+    //接收通知，在室内地图完成任务
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTaskAction:) name:@"reloadTask" object:nil];
+    
+    //接收通知，在室内地图刷新任务
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTaskAction:) name:@"refreshTaskAction" object:nil];
+    
     //查询任务状态
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
     
@@ -428,6 +433,18 @@
     }else{
         self.messageLabel.hidden = self.conversation.conversationUnreadMessagesCount.integerValue > 0 ? NO : YES;
     }
+}
+
+//室内地图，完成任务
+- (void)reloadTaskAction:(NSNotification *)noti
+{
+    [self NETWORK_reloadWorkStatusTask];
+}
+
+//室内地图，完成任务
+- (void)refreshTaskAction:(NSNotification *)noti
+{
+    [self NETWORK_TaskStatus];
 }
 
 //查询任务状态

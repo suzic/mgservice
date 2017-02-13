@@ -40,7 +40,13 @@
     self.isDistance = NO;
     [self addLocationMarker];//定位图标
     [self createChooseScrollView];
-
+    //室内地图的左上角完成按钮
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(reloadTask:)];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
+    
+    //室内地图右上角的刷新按钮
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(refreshTask:)];
+    self.navigationItem.rightBarButtonItem = rightBarItem;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -249,6 +255,18 @@
             }];
         }
     }
+}
+
+#pragma mark - 点击事件
+- (void)reloadTask:(UIButton *)btn
+{
+    //通知inTask页面 完成任务
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTask" object:nil];
+}
+- (void)refreshTask:(UIButton *)btn
+{
+    //通知inTask页面，刷新任务
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTask" object:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

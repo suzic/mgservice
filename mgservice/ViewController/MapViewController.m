@@ -184,7 +184,7 @@
 - (void)backMainViewController:(NSNotificationCenter *)noti
 {
     [self.frameViewcontroller hiddenMainView:NO];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - FMMap

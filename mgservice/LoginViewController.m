@@ -342,6 +342,7 @@
         {
             macAddress = nil;
             weakSelf.inhotel = NO;
+            
             [[NSUserDefaults standardUserDefaults]setObject:@"outnet" forKey:@"netType"];
             
             NSString * strMac = [[NSUserDefaults standardUserDefaults] objectForKey:@"mac"];
@@ -350,11 +351,13 @@
                 NSInteger x = arc4random() % 1000000000;
                 NSString * mac = [NSString stringWithFormat:@"-:%ld:-",(long)x];
                 waiterInfor.deviceId = mac;
+                macAddress = mac;
                 [[NSUserDefaults standardUserDefaults] setValue:mac forKey:@"mac"];
             }
             else
             {
                 waiterInfor.deviceId = strMac;
+                macAddress = strMac;
             }
             
         }else
@@ -363,14 +366,15 @@
             weakSelf.inhotel = NO;
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macAddress);
         }
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"%@",waiterInfor.deviceId);
+            waiterInfor.deviceId = macAddress;
+            weakSelf.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];
+            [weakSelf.tableView reloadData];
+            [[DataManager defaultInstance] saveContext];
+    });
     }];
     
-    waiterInfor.deviceId = macAddress;
-    NSLog(@"%@",waiterInfor.deviceId);
-    self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];
-    [self.tableView reloadData];
-    [[DataManager defaultInstance] saveContext];
 }
 
 @end

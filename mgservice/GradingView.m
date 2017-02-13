@@ -50,7 +50,7 @@
     bgView.center = self.center;
     bgView.bounds = CGRectMake(0, 0, kScreenWidth - 5, kScreenHeight/2);
     bgView.backgroundColor = [UIColor blackColor];
-    bgView.alpha = 0.9;
+    bgView.alpha = 1;
     bgView.tag = 10001;
     [self addSubview:bgView];
     

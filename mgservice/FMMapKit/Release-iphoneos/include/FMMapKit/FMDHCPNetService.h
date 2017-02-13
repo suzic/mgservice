@@ -16,4 +16,5 @@
 
 - (NSString *)localMacAddressCache;
 
+- (NSString *)getMacAddress;
 @end
