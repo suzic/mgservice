@@ -199,6 +199,9 @@
     [_mangroveMapView setInclineAngle:60.0];
     FMKExternalModelLayer * modelLayer = [self.mangroveMapView.map getExternalModelLayerWithGroupID:@"1"];
     modelLayer.delegate = self;
+    [[FMLocationManager shareLocationManager] setMapView:nil];
+    [[FMLocationManager shareLocationManager] setMapView:_mangroveMapView];
+    
 }
 
 //获取MAC地址并且开启定位服务
@@ -221,21 +224,24 @@
 }
 - (void)addUserLocationMark
 {
+    [FMNaviAnalyserTool shareNaviAnalyserTool].returnNaviResult = ^(NSArray * result, NSString * mapID)
+    {
+    };
     //拿到coredata里的数据
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"waiterStatus = 1"];
     DBTaskList *waiterTaskList = (DBTaskList *)[[[DataManager defaultInstance] arrayFromCoreData:@"DBTaskList" predicate:predicate limit:NSIntegerMax offset:0 orderBy:nil] lastObject];
     self.userBuilderInfo = [[FMLocationBuilderInfo alloc] init];
     self.userBuilderInfo.loc_mac = waiterTaskList.userDiviceld;
     self.userBuilderInfo.loc_desc = @"客人位置";
-    self.userBuilderInfo.loc_icon = @"pointer.png";
+    self.userBuilderInfo.loc_icon = @"clien_icon.png";
     
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
 
     self.myselfInfo = [[FMLocationBuilderInfo alloc] init];
     self.myselfInfo.loc_mac = waiterInfo.deviceId;
     self.myselfInfo.loc_desc = @"我的位置";
-    self.myselfInfo.loc_icon = @"fengmap.png";
-    
+    self.myselfInfo.loc_icon = @"waiter.png";
+    _locationMarker.hidden = YES;
     [FMLocationManager shareLocationManager].delegate = self;
     [[FMLocationManager shareLocationManager] addLocOnMap:self.myselfInfo];
     [[FMLocationManager shareLocationManager] addLocOnMap:self.userBuilderInfo];
@@ -357,7 +363,7 @@
         _resultDistance = resultDistance;
         if (_resultDistance == YES)
         {
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 
             }] ;

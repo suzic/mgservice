@@ -14,4 +14,6 @@
 + (NSArray *)parseGPSIgnoreData;
 + (NSArray *)parseWifiIgnoreData;
 + (NSArray *)parseLocationBorder;//解析定位边界数据
++ (NSArray *)parseMapInfos;//解析定位地图信息
+
 @end

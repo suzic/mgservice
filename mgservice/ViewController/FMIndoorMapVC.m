@@ -237,6 +237,7 @@
         self.showChangeMap = YES;
         self.currentMapCoord = mapCoord;
     }
+    _locationMarker.hidden = YES;
 }
 - (void)setIsDistance:(BOOL)isDistance
 {
@@ -245,7 +246,7 @@
         _isDistance = isDistance;
         if (_isDistance == YES)
         {
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:@"我只是测试一下" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"距离小于十米" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sureAcion = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 
             }] ;
@@ -261,12 +262,19 @@
 - (void)reloadTask:(UIButton *)btn
 {
     //通知inTask页面 完成任务
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTask" object:nil];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:nil message:@"任务已完成" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTask" object:nil];
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)refreshTask:(UIButton *)btn
 {
     //通知inTask页面，刷新任务
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTask" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskItemAction" object:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

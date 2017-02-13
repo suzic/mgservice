@@ -62,7 +62,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTaskAction:) name:@"reloadTask" object:nil];
     
     //接收通知，在室内地图刷新任务
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTaskAction:) name:@"refreshTaskAction" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTaskAction:) name:@"refreshTaskItemAction" object:nil];
     
     //查询任务状态
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskStatus:) name:PushTaskStatus object:nil];
@@ -441,7 +441,7 @@
     [self NETWORK_reloadWorkStatusTask];
 }
 
-//室内地图，完成任务
+//室内地图，刷新任务
 - (void)refreshTaskAction:(NSNotification *)noti
 {
     [self NETWORK_TaskStatus];
