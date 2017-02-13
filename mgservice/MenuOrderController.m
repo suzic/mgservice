@@ -633,11 +633,7 @@
 
 - (void)whenSkipUse
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+    
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 

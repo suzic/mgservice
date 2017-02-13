@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "RequestNetWork.h"
-#import "LCProgressHUD.h"
+#import "MBProgressHUD.h"
 
 @interface BaseNetWorkViewController : UIViewController <RequestNetWorkDelegate>
 
-@property (nonatomic,strong) LCProgressHUD * hud;  //加载框
+@property (nonatomic,strong) MBProgressHUD * hud;  //加载框
 
 @end

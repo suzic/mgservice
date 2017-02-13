@@ -106,7 +106,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreData/CoreData.h>
-#import "LCProgressHUD.h"
 #import "AppDelegate.h"
 #import "Util.h"
 #import "MySingleton.h"

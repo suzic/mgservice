@@ -23,7 +23,6 @@
 
 
 @property (assign,nonatomic) NSInteger second;//时间
-@property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
 
@@ -230,28 +229,12 @@
 #pragma mark - RequestNetWorkDelegate 代理方法
 - (void)startRequest:(NSURLSessionTask *)task
 {
-    if (!self.hud)
-    {
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    else
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.hud];
-    [self.hud startWMProgress];
+   
 }
 
 //成功回调
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
         [self RESULT_reloadWorkStatusTask:YES withResponseCode:code withMessage:msg withDatas:datas];
@@ -266,8 +249,6 @@
 //失败回调
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
         [self RESULT_reloadWorkStatusTask:NO withResponseCode:code withMessage:msg withDatas:nil];
@@ -281,11 +262,6 @@
 
 - (void)whenSkipUse
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 

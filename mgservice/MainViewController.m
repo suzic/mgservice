@@ -8,7 +8,6 @@
 
 #import "MainViewController.h"
 #import "TaskCell.h"
-#import "LCProgressHUD.h"
 #import "MenuOrderController.h"
 #import "AppDelegate.h"
 #import "ScanningView.h"
@@ -52,7 +51,6 @@
 @property (nonatomic, strong) NSURLSessionTask * reloadIMTask;//登录IM请求
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;//通过任务编号 获取任务信息
 @property (nonatomic, strong) NSURLSessionTask * taskActivate;//服务员获取正在进行中的任务
-@property (nonatomic,strong) LCProgressHUD * hud;
 
 @property (nonatomic,strong) NSString * taskCode;
 @property (nonatomic, strong) DBWaiterInfor *waiterinfo;
@@ -267,10 +265,6 @@
             [[RequestNetWork defaultManager]registerDelegate:self];
         }];
         [alert addAction:action];
-        if(self.hud){
-            [self.hud stopWMProgress];
-            [self.hud removeFromSuperview];
-        }
         [[RequestNetWork defaultManager]cancleAllRequest];
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -352,11 +346,7 @@
     DBWaiterInfor *waiterInfo = [[DataManager defaultInstance] getWaiterInfor];
     if ([waiterInfo.attendanceState isEqualToString:@"0"] || waiterInfo.attendanceState == nil)
     {
-        if(self.hud)
-        {
-            [self.hud stopWMProgress];
-            [self.hud removeFromSuperview];
-        }
+       
         [[RequestNetWork defaultManager]cancleAllRequest];
         [self performSegueWithIdentifier:@"showLogin" sender:nil];
         return;
@@ -380,10 +370,7 @@
         DBWaiterInfor * waiter = (DBWaiterInfor *)datas[0];
         if ([waiter.attendanceState isEqualToString:@"0"])
         {
-            if(self.hud){
-                [self.hud stopWMProgress];
-                [self.hud removeFromSuperview];
-            }
+            
             [[RequestNetWork defaultManager]cancleAllRequest];
             [self performSegueWithIdentifier:@"showLogin" sender:nil];
         }
@@ -405,10 +392,7 @@
     }
     else
     {
-        if(self.hud){
-            [self.hud stopWMProgress];
-            [self.hud removeFromSuperview];
-        }
+        
         [[RequestNetWork defaultManager]cancleAllRequest];
         [self performSegueWithIdentifier:@"showLogin" sender:nil];
     }
@@ -662,27 +646,11 @@
 
 - (void)startRequest:(NSURLSessionTask *)task
 {
-    if (!self.hud)
-    {
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    else
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.hud];
-    [self.hud startWMProgress];
+    
 }
 
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
         [self RESULT_reloadWorkStatus:YES withResponseCode:code withMessage:msg withDatas:datas];
@@ -723,8 +691,6 @@
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.reloadWorkStatusTask)
     {
         [self RESULT_reloadWorkStatus:NO withResponseCode:code withMessage:msg withDatas:nil];
@@ -1005,11 +971,7 @@
 
 - (void)whenSkipUse
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+    
     [[RequestNetWork defaultManager]cancleAllRequest];
 }
 
@@ -1032,11 +994,7 @@
 
 - (void)dealloc
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+  
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }

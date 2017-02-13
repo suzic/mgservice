@@ -7,11 +7,12 @@
 //
 
 #import "RequestNetWork.h"
+#import "MBProgressHUD.h"
 
 @interface RequestNetWork ()
 
 @property (nonatomic,strong) NSMutableArray * delegateArray;
-
+@property (nonatomic, strong) MBProgressHUD *hud;
 @end
 
 @implementation RequestNetWork
@@ -81,8 +82,10 @@
         [YWNetWork setHeaders:header];
         // 代理方法请求开始
         for (id<RequestNetWorkDelegate> delegate in self.delegateArray) {
-            if (delegate && [delegate respondsToSelector:@selector(startRequest:)] && delegate == self.delegete) {
+            if (delegate && [delegate respondsToSelector:@selector(startRequest:)] && delegate == self.delegete)
+            {
                 [delegate startRequest:nil];
+                [self startHUD];
             }
         }
         //__weak __typeof(self) weakSelf = self;
@@ -104,6 +107,7 @@
     NSString *responseCode = [header objectForKey:@"mymhotel-status"];
     NSString *responseMsg = [header objectForKey:@"mymhotel-message"];
     
+    [self removeHUD];
     // 无响应：网络连接失败
     if (responseCode == NULL)
     {
@@ -182,5 +186,25 @@
         }
     }
 }
-
+- (void)startHUD
+{
+    if (!self.hud)
+    {
+        self.hud = [[MBProgressHUD alloc] initWithWindow:[AppDelegate sharedDelegate].window];
+        [[AppDelegate sharedDelegate].window addSubview:self.hud];
+        self.hud.labelText = @"正在加载";
+        [self.hud hide:NO];
+        [self.hud show:YES];
+    }
+}
+- (void)removeHUD
+{
+    
+    if (self.hud)
+    {
+        [self.hud hide:YES];
+        [self.hud removeFromSuperview];
+        self.hud = nil;
+    }
+}
 @end

@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 #import "MainViewController.h"
+#import "MBProgressHUD.h"
+
 @interface LoginViewController ()<RequestNetWorkDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
@@ -25,10 +27,6 @@
 @property (nonatomic,strong) NSURLSessionTask * requestLoginTask;
 
 @property (nonatomic,strong) NSURLSessionTask * waiterInfoTask;
-
-@property (nonatomic,strong) LCProgressHUD * hud;
-
-@property (nonatomic,strong) LCProgressHUD * macHud;
 
 @property (nonatomic,strong) MainViewController * mainVC;
 
@@ -57,11 +55,7 @@
 
 - (void)dealloc
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+   
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
@@ -261,27 +255,11 @@
 
 - (void)startRequest:(NSURLSessionTask *)task
 {
-    if (!self.hud)
-    {
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    else
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:_hud];
-    [_hud startWMProgress];
+    
 }
 
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
 
     if (task == self.accessServerTimeTask)
     {
@@ -303,8 +281,6 @@
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.accessServerTimeTask)
     {
         [self RESULT_accessServerTime:NO withResponseCode:code withMessage:msg withDatas:nil];
@@ -349,20 +325,18 @@
 //现场获取mac地址
 - (void)NETWORK_getMAC
 {
-    self.macHud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                           andStyle:titleStyle andTitle:@"正在加载...."];
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.macHud];
-    [self.macHud startWMProgress];
-
     DBWaiterInfor *waiterInfor = [[DataManager defaultInstance] getWaiterInfor];
-    
+    MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
+    HUD.labelText = @"正在加载";
+    [HUD show:YES];
     __block NSString *macAddress;
     __block LoginViewController *weakSelf = self;
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     [[FMDHCPNetService shareDHCPNetService] localMacAddress:^(NSString *macAddr)
     {
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideAllHUDsForView:[AppDelegate sharedDelegate].window animated:YES];
+        });
         // 未获取到mac地址
         if (macAddr == nil || [macAddr isEqualToString:@""])
         {
@@ -374,7 +348,7 @@
             if ([strMac isEqualToString:@""] || strMac == nil)
             {
                 NSInteger x = arc4random() % 1000000000;
-                NSString * mac = [NSString stringWithFormat:@"-:%ld:-",x];
+                NSString * mac = [NSString stringWithFormat:@"-:%ld:-",(long)x];
                 waiterInfor.deviceId = mac;
                 [[NSUserDefaults standardUserDefaults] setValue:mac forKey:@"mac"];
             }
@@ -390,11 +364,8 @@
             NSLog(@"<<<<<<<<<<<<<<<<<<<<获取Mac地址成功>>>>>>>>>>>>>>>>>>:%@",macAddress);
         }
         
-        dispatch_semaphore_signal(semaphore);
     }];
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    [self.macHud stopWMProgress];
-    [self.macHud removeFromSuperview];
+    
     waiterInfor.deviceId = macAddress;
     NSLog(@"%@",waiterInfor.deviceId);
     self.localMacAddress.text = [NSString stringWithFormat:@"mac地址：%@",waiterInfor.deviceId];

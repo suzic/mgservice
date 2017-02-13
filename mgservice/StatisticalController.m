@@ -41,7 +41,6 @@
 // 网络请求
 @property (nonatomic, strong) NSURLSessionTask * requestTaskStatistical;// 任务统计
 @property (nonatomic, strong) NSURLSessionTask * reloadTaskStatus;      // 通过任务编号，获取任务信息
-@property (nonatomic,strong) LCProgressHUD * hud;
 @end
 
 @implementation StatisticalController
@@ -386,27 +385,11 @@
 
 - (void)startRequest:(NSURLSessionTask *)task
 {
-    if (!self.hud)
-    {
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    else
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.hud];
-    [self.hud startWMProgress];
+    
 }
 
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.requestTaskStatistical)
     {
         [self RESULT_requestTaskStatistical:YES withResponseCode:code withMessage:msg withDatas:datas];
@@ -419,8 +402,6 @@
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.requestTaskStatistical)
     {
         [self RESULT_requestTaskStatistical:NO withResponseCode:code withMessage:msg withDatas:nil];
@@ -548,22 +529,13 @@
 
 - (void)whenSkipUse
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
 - (void)dealloc
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+    
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }

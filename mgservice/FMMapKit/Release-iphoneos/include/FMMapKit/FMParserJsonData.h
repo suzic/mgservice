@@ -13,5 +13,4 @@
 + (NSArray *)parserIndoorMapInfos;
 + (NSArray *)parseGPSIgnoreData;
 + (NSArray *)parseWifiIgnoreData;
-+ (NSArray *)parseLocationBorder;//解析定位边界数据
 @end

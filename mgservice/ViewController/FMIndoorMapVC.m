@@ -8,6 +8,7 @@
 
 #import "FMIndoorMapVC.h"
 #import "ChooseFloorScrollView.h"
+#import "MBProgressHUD.h"
 
 @interface FMIndoorMapVC ()<FMKMapViewDelegate,FMKLocationServiceManagerDelegate,ChooseFloorScrollViewDelegate,FMKLayerDelegate,FMLocationManagerDelegate>
 
@@ -37,7 +38,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.isDistance = NO;
-    [self createMapView];
     [self addLocationMarker];//定位图标
     [self createChooseScrollView];
 
@@ -55,7 +55,11 @@
     [super viewWillDisappear:animated];
     [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
 }
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self createMapView];
+}
 - (void)createMapView
 {
     if (!_mapView){
@@ -207,7 +211,10 @@
     FMKModelLayer * modelLayer = [self.mapView.map getModelLayerWithGroupID:_displayGroupID];
     modelLayer.delegate = self;
 }
-
+- (void)mapViewDidFinishLoadingMap:(FMKMapView *)mapView
+{
+    [MBProgressHUD hideAllHUDsForView:[AppDelegate sharedDelegate].window animated:YES];
+}
 #pragma mark - FMLocationManagerDelegate
 
 - (void)testDistanceWithResult:(BOOL)result distance:(double)distance

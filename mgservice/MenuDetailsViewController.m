@@ -14,7 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (retain, nonatomic) NSMutableArray *menuArray;
 @property (nonatomic, strong) NSURLSessionTask * menuDetailListTask;
-@property (nonatomic,strong) LCProgressHUD * hud;
 
 @end
 
@@ -149,8 +148,6 @@
 
 - (void)pushResponseResultsFinished:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg andData:(NSMutableArray *)datas
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.menuDetailListTask)
     {
         [self RESULT_menuDetailList:YES withResponseCode:code withMessage:msg withDatas:datas];
@@ -159,8 +156,6 @@
 
 - (void)pushResponseResultsFailed:(NSURLSessionTask *)task responseCode:(NSString *)code withMessage:(NSString *)msg
 {
-    [self.hud stopWMProgress];
-    [self.hud removeFromSuperview];
     if (task == self.menuDetailListTask)
     {
         [self RESULT_menuDetailList:NO withResponseCode:code withMessage:msg withDatas:nil];
@@ -169,41 +164,18 @@
 
 - (void)startRequest:(NSURLSessionTask *)task
 {
-    if (!self.hud)
-    {
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    else
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-        self.hud = [[LCProgressHUD alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)
-                                               andStyle:titleStyle andTitle:@"正在加载...."];
-    }
-    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate.window addSubview:self.hud];
-    [self.hud startWMProgress];
+    
 }
 
 - (void)whenSkipUse
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }
 
 - (void)dealloc
 {
-    if(self.hud)
-    {
-        [self.hud stopWMProgress];
-        [self.hud removeFromSuperview];
-    }
+   
     [[RequestNetWork defaultManager]cancleAllRequest];
     [[RequestNetWork defaultManager]removeDelegate:self];
 }

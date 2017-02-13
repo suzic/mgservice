@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "InTaskController.h"
 #import "FMIndoorMapVC.h"
+#import "MBProgressHUD.h"
 
 @interface MapViewController ()<FMKLocationServiceManagerDelegate,FMKMapViewDelegate,FMKLayerDelegate,FMLocationManagerDelegate>
 
@@ -66,6 +67,7 @@
     positioningButton.frame = CGRectMake(10, kScreenHeight-74-35, 35, 35);
     [positioningButton addTarget:self action:@selector(positioningButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:positioningButton];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -83,6 +85,10 @@
     [[FMLocationManager shareLocationManager] setMapView:nil];
     [FMLocationManager shareLocationManager].delegate = self;
     [[FMLocationManager shareLocationManager] setMapView:self.mangroveMapView];
+    MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
+    HUD.labelText = @"正在加载地图，请稍等";
+    [HUD show:YES];
+
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -230,10 +236,10 @@
     self.myselfInfo.loc_desc = @"我的位置";
     self.myselfInfo.loc_icon = @"fengmap.png";
     
+    [FMLocationManager shareLocationManager].delegate = self;
     [[FMLocationManager shareLocationManager] addLocOnMap:self.myselfInfo];
     [[FMLocationManager shareLocationManager] addLocOnMap:self.userBuilderInfo];
     [[FMLocationManager shareLocationManager] testDistanceWithLocation1:self.myselfInfo location2:self.userBuilderInfo distance:10];
-    [FMLocationManager shareLocationManager].delegate = self;
 }
 
 - (void)removeLocation
@@ -301,7 +307,9 @@
                                            FMIndoorMapVC * indoorMapVC = [[FMIndoorMapVC alloc] initWithMapID:@(self.currentMapCoord.mapID).stringValue];
                                            indoorMapVC.groupID = @(self.currentMapCoord.coord.storey).stringValue;
                                            [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
-                                           
+                                           MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
+                                           HUD.labelText = @"正在加载地图，请稍等";
+                                           [HUD show:YES];
                                            [self.navigationController pushViewController:indoorMapVC animated:YES];
                                        }];
             
@@ -322,7 +330,10 @@
         [_locationMarker updateRotate:heading];
     }
 }
-
+- (void)mapViewDidFinishLoadingMap:(FMKMapView *)mapView
+{
+    [MBProgressHUD hideAllHUDsForView:[AppDelegate sharedDelegate].window animated:YES];
+}
 #pragma mark - FMLocationManagerDelegate
 
 - (void)testDistanceWithResult:(BOOL)result distance:(double)distance
