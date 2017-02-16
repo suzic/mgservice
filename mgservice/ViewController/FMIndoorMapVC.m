@@ -21,9 +21,10 @@
 @property (nonatomic, assign) FMKMapCoord currentMapCoord;
 @property (nonatomic, assign) BOOL showChangeMap;
 @property (nonatomic, assign) BOOL isDistance;
-
+@property (nonatomic, assign) NSInteger countZero;
+@property (nonatomic, assign) NSInteger count;
 @end
-
+int const kCallingServiceCount = 5;
 @implementation FMIndoorMapVC
 
 - (instancetype)initWithMapID:(NSString *)mapID
@@ -37,6 +38,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self createMapView];
+
+    self.count = 0;
     self.isDistance = NO;
     [self addLocationMarker];//定位图标
     [self createChooseScrollView];
@@ -64,7 +68,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self createMapView];
 }
 - (void)createMapView
 {
@@ -156,7 +159,7 @@
         _showChangeMap = showChangeMap;
         if (_showChangeMap == YES && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
         {
-            UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController * alertVC = [UIAlertController alertControllerWithTitle:@"是否切换地图!!" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
                                        {
                                            if (self.currentMapCoord.mapID == kOutdoorMapID) {
@@ -231,6 +234,20 @@
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
+    if (self.countZero != mapCoord.mapID)
+    {
+        self.count = 0;
+        self.countZero = mapCoord.mapID;
+    }
+    else
+    {
+        if (self.count < kCallingServiceCount)
+        {
+            ++self.count;
+        }
+    }
+    if (self.count != kCallingServiceCount)
+        return;
     NSLog(@"_________________%d____________________%d",mapCoord.mapID, [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID);
     if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
     {

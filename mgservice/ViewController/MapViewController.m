@@ -306,16 +306,16 @@
         _showChangeMap = showChangeMap;
         if (_showChangeMap == YES)
         {
-            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"是否切换地图" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertView = [UIAlertController alertControllerWithTitle:@"是否切换地图!" message:nil preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
                                        {
                                            FMIndoorMapVC * indoorMapVC = [[FMIndoorMapVC alloc] initWithMapID:@(self.currentMapCoord.mapID).stringValue];
                                            indoorMapVC.groupID = @(self.currentMapCoord.coord.storey).stringValue;
                                            [FMKLocationServiceManager shareLocationServiceManager].delegate = nil;
-                                           MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
-                                           HUD.labelText = @"正在加载地图，请稍等";
-                                           [HUD show:YES];
+//                                           MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
+//                                           HUD.labelText = @"正在加载地图，请稍等";
+//                                           [HUD show:YES];
                                            [self.navigationController pushViewController:indoorMapVC animated:YES];
                                        }];
             
@@ -349,6 +349,8 @@
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
+    NSLog(@"macAddress=%@...deviceId=%@...mapCoordmapID=%d...kOutdoorMapID=%d",macAddress,[[DataManager defaultInstance] getWaiterInfor].deviceId,mapCoord.mapID,kOutdoorMapID);
+    
     if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && mapCoord.mapID != kOutdoorMapID)
     {
         _locationMarker.hidden = YES;
