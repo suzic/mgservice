@@ -316,6 +316,9 @@
 //                                           MBProgressHUD *HUD =[MBProgressHUD showHUDAddedTo:[AppDelegate sharedDelegate].window animated:YES];
 //                                           HUD.labelText = @"正在加载地图，请稍等";
 //                                           [HUD show:YES];
+                                           
+                                           [self testIndoorMapIsxistByMapCoord:self.currentMapCoord.mapID];
+                                           NSLog(@"%d",self.currentMapCoord.mapID);
                                            [self.navigationController pushViewController:indoorMapVC animated:YES];
                                        }];
             
@@ -375,6 +378,19 @@
             }];
         }
     }
+}
+//判断室内地图是否存在
+- (BOOL)testIndoorMapIsxistByMapCoord:(int)mapID
+{
+    NSArray * indoorMapIDs = @[@"70144",@"70145",@"70146",@"70147",@"70148",@"79982",@"79981"];
+    BOOL indootMapIsExist = NO;
+    for (NSString * indoorMapID in indoorMapIDs) {
+        if (indoorMapID.intValue == mapID) {
+            indootMapIsExist = YES;
+            break;
+        }
+    }
+    return indootMapIsExist;
 }
 /*
 #pragma mark - Navigation

@@ -47,7 +47,6 @@ int const kCallingServiceCount = 5;
     //室内地图的左上角完成按钮
     UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(reloadTask:)];
     self.navigationItem.leftBarButtonItem = leftBarItem;
-    
     //室内地图右上角的刷新按钮
     UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(refreshTask:)];
     self.navigationItem.rightBarButtonItem = rightBarItem;
@@ -71,7 +70,8 @@ int const kCallingServiceCount = 5;
 }
 - (void)createMapView
 {
-    if (!_mapView){
+    if (!_mapView)
+    {
 #if DEBUG_ONLINE
     CGRect rect = CGRectMake(0, kNaviHeight+kFloorButtonHeight-8, kScreenWidth, kScreenHeight-kNaviHeight-kFloorButtonHeight+3);
     _mapView = [[FMMangroveMapView alloc] initWithFrame:rect ID:_mapID delegate:self];
@@ -91,6 +91,7 @@ int const kCallingServiceCount = 5;
     _mapView.showCompass = YES;
     _mapView.showCompass = YES;
     }
+    self.displayGroupID = self.groupID;
 }
 //添加定位标注物
 - (void)addLocationMarker
@@ -181,6 +182,17 @@ int const kCallingServiceCount = 5;
         }
     }
 }
+- (void)setDisplayGroupID:(NSString *)displayGroupID
+{
+    [self resetModelLayerDelegate];
+    [self updateChooseScrollView];
+}
+- (void)updateChooseScrollView
+{
+    NSInteger index = [self.mapView.groupIDs indexOfObject:_displayGroupID];
+    [_chooseFloorScrlooView updateScrollViewContentOffsetByIndex:index];
+}
+
 //室内切室内
 - (void)switchToOtherIndoorByMapCoord:(FMKMapCoord)mapCoord
 {
