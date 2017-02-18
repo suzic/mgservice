@@ -23,6 +23,7 @@
 @property (nonatomic, assign) BOOL isDistance;
 @property (nonatomic, assign) NSInteger countZero;
 @property (nonatomic, assign) NSInteger count;
+@property (nonatomic, strong) UIButton *enableLocateBtn;
 @end
 int const kCallingServiceCount = 5;
 @implementation FMIndoorMapVC
@@ -38,12 +39,12 @@ int const kCallingServiceCount = 5;
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
     [self createMapView];
 
     self.count = 0;
     self.isDistance = NO;
     [self addLocationMarker];//定位图标
-    [self createChooseScrollView];
     //室内地图的左上角完成按钮
     UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(reloadTask:)];
     self.navigationItem.leftBarButtonItem = leftBarItem;
@@ -73,24 +74,29 @@ int const kCallingServiceCount = 5;
     if (!_mapView)
     {
 #if DEBUG_ONLINE
-    CGRect rect = CGRectMake(0, kNaviHeight+kFloorButtonHeight-8, kScreenWidth, kScreenHeight-kNaviHeight-kFloorButtonHeight+3);
-    _mapView = [[FMMangroveMapView alloc] initWithFrame:rect ID:_mapID delegate:self];
-    _mapPath = [[FMKMapDataManager shareInstance]getMapDataPathWithID:_mapID];
+        CGRect rect = CGRectMake(0, kNaviHeight+kFloorButtonHeight-8, kScreenWidth, kScreenHeight-kNaviHeight-kFloorButtonHeight+3);
+        _mapView = [[FMMangroveMapView alloc] initWithFrame:rect ID:_mapID delegate:self];
+        _mapPath = [[FMKMapDataManager shareInstance]getMapDataPathWithID:_mapID];
 #else
-    _mapPath = [[NSBundle mainBundle] pathForResource:self.mapID ofType:@"fmap"];
-    _mapView = [[FMMangroveMapView alloc] initWithFrame:self.view.bounds path:_mapPath delegate:self];
+        _mapPath = [[NSBundle mainBundle] pathForResource:self.mapID ofType:@"fmap"];
+        _mapView = [[FMMangroveMapView alloc] initWithFrame:self.view.bounds path:_mapPath delegate:self];
 #endif
-    [_mapView setThemeWithLocalPath:[[NSBundle mainBundle] pathForResource:@"2002.theme" ofType:nil]];
+        [_mapView setThemeWithLocalPath:[[NSBundle mainBundle] pathForResource:@"2002.theme" ofType:nil]];
+        
+        
+        if (!self.groupID)
+        {
+            self.groupID = @"1";
+        }
+        _mapView.displayGids = @[self.groupID];
+        [self.view addSubview:_mapView];
+        [self resetMapPara];
+        _mapView.showCompass = YES;
+        _mapView.showCompass = YES;
+        [self addlocateBtn];
+    }
     
-    if (!self.groupID) {
-        self.groupID = @"1";
-    }
-    _mapView.displayGids = @[self.groupID];
-    [self.view addSubview:_mapView];
-    [self resetMapPara];
-    _mapView.showCompass = YES;
-    _mapView.showCompass = YES;
-    }
+    [self createChooseScrollView];
     self.displayGroupID = self.groupID;
 }
 //添加定位标注物
@@ -103,7 +109,22 @@ int const kCallingServiceCount = 5;
     }
     
 }
-
+- (void)addlocateBtn
+{
+    _enableLocateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _enableLocateBtn.frame = CGRectMake(10, kScreenHeight-64- 50, 50, 50);
+    [_enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_nomarl"] forState:UIControlStateNormal];
+    [_enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_sele"] forState:UIControlStateSelected];
+    [_enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_sele"] forState:UIControlStateHighlighted];
+    [self.view addSubview:_enableLocateBtn];
+    [_enableLocateBtn addTarget:self action:@selector(inDoorMapView:) forControlEvents:UIControlEventTouchUpInside];
+}
+- (void)inDoorMapView:(UIButton *)button
+{
+    button.selected = NO;
+    [self enableLocationInOutdoor];
+    button.selected = YES;
+}
 //创建选择楼层滚动视图
 - (void)createChooseScrollView
 {
@@ -184,6 +205,7 @@ int const kCallingServiceCount = 5;
 }
 - (void)setDisplayGroupID:(NSString *)displayGroupID
 {
+    _displayGroupID = displayGroupID;
     [self resetModelLayerDelegate];
     [self updateChooseScrollView];
 }
@@ -205,6 +227,56 @@ int const kCallingServiceCount = 5;
     [_chooseFloorScrlooView createScrollView:self.mapView.map.names];
     _locationMarker = [[FMKLocationMarker alloc] initWithPointerImageName:@"pointer.png" DomeImageName:@"dome.png"];
     [self.mapView.map.locateLayer addLocationMarker:_locationMarker];
+}
+- (void)enableLocationInOutdoor
+{
+    FMKMapCoord currentMapCoord = [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord;
+    if (currentMapCoord.mapID == kOutdoorMapID)
+    {
+        [self popToOtherMapByMapCoord:currentMapCoord];
+    }
+    else if(currentMapCoord.mapID == self.mapID.intValue)
+    {
+        //定位室内且地图相同
+        [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
+        self.displayGroupID = @(currentMapCoord.coord.storey).stringValue;
+        
+        if (![self testDisplayGroupIsSameWithWillDisplayGroup:self.displayGroupID])
+        {
+            self.mapView.displayGids = @[self.displayGroupID];
+        }
+    }
+    else if(currentMapCoord.mapID != self.mapID.integerValue)
+    {
+        if ([self testIndoorMapIsxistByMapCoord:currentMapCoord] == YES)
+        {
+            self.mapID = @(currentMapCoord.mapID).stringValue;
+            self.displayGroupID = @(currentMapCoord.coord.storey).stringValue;
+            self.mapView.displayGids = @[self.displayGroupID];
+            [self switchMap];
+            [self resetMapPara];
+        }
+    }
+}
+- (void)switchMap
+{
+    [self.mapView.map.locateLayer removeLocateMark:_locationMarker];
+    _locationMarker = nil;
+    _mapPath = [[NSBundle mainBundle] pathForResource:self.mapID ofType:@"fmap"];
+    [_mapView transformMapWithDataPath:_mapPath];
+    [self addLocationMarker];
+    //设置主题
+    [_mapView setThemeWithLocalPath:[[NSBundle mainBundle] pathForResource:@"2002.theme" ofType:nil]];
+}
+//判断要设置的楼层ID和已经显示的楼层是否相同
+- (BOOL)testDisplayGroupIsSameWithWillDisplayGroup:(NSString *)groupID
+{
+    for (NSString * gid in self.mapView.displayGids) {
+        if ([gid isEqualToString:groupID]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 //设置地图显示的初始值
 - (void)resetMapPara
@@ -261,11 +333,39 @@ int const kCallingServiceCount = 5;
     if (self.count != kCallingServiceCount)
         return;
     NSLog(@"_________________%d____________________%d",mapCoord.mapID, [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID);
-    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
+    
+    NSLog(@"第一个楼层数：%@  第二个楼层数%@",@(mapCoord.coord.storey).stringValue,@(self.currentMapCoord.coord.storey).stringValue);
+    
+    //|| @(mapCoord.coord.storey).stringValue != @(self.currentMapCoord.coord.storey).stringValue
+    // 1.首选判断当前返回的mac地址是否是客人的
+    if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId)
     {
-        self.showChangeMap = YES;
         self.currentMapCoord = mapCoord;
+        // 2.mapid  不同的话直接切换地图
+//        if ([FMKLocationServiceManager shareLocationServiceManager].currentMapCoord.mapID != self.mapID.intValue)
+//        {
+//            self.showChangeMap = YES;
+//        }else
+//        {
+//            // 3.mapid 相同  groupid 不相同 ，直接切换楼层
+//            if (![@(mapCoord.coord.storey).stringValue isEqualToString:_displayGroupID])
+//            {
+//                [self switchToOtherIndoorByMapCoord:self.currentMapCoord];
+//            }
+//        }
+        [self enableLocationInOutdoor];
+        
+        
     }
+    
+//    //客人楼层改变时
+//    if (@(mapCoord.coord.storey).stringValue != @(self.currentMapCoord.coord.storey).stringValue)
+//    {
+//        [self switchToOtherIndoorByMapCoord:self.currentMapCoord];
+//
+////        self.showChangeMap = YES;
+////        self.currentMapCoord = mapCoord;
+//    }
     _locationMarker.hidden = YES;
 }
 - (void)setIsDistance:(BOOL)isDistance

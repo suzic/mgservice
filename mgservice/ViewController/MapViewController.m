@@ -28,9 +28,12 @@
 @property (nonatomic, copy) NSString * cancelMapID;//取消切换的地图ID
 @property (nonatomic, assign) BOOL showChangeMap;
 @property (nonatomic, assign) BOOL resultDistance;
+@property (nonatomic, assign) NSInteger countZero;
+@property (nonatomic, assign) NSInteger count;
 
 
 @end
+int const kCallingServiceCountTwo = 5;
 
 @implementation MapViewController
 
@@ -40,6 +43,8 @@
     // Do any additional setup after loading the view.
 //    self.inTaskView.backgroundColor = [UIColor whiteColor];
 //    self.inTaskView.alpha = 0.7;
+    self.count = 0;
+
     self.title = @"当前执行中任务";
     self.navigationItem.hidesBackButton = YES;//隐藏后退按钮
 
@@ -61,12 +66,6 @@
     [self getMacAndStartLocationService];
     
     [self addUserLocationMark];
-    //定位按钮
-    UIButton * positioningButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [positioningButton setBackgroundImage:[UIImage imageNamed:@"location_icon_nomarl"] forState:UIControlStateNormal];
-    positioningButton.frame = CGRectMake(10, kScreenHeight-74-35, 35, 35);
-    [positioningButton addTarget:self action:@selector(positioningButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:positioningButton];
 
 }
 
@@ -129,27 +128,23 @@
 }
 
 // 定位按钮
-- (void)positioningButtonAction:(UIButton *)button
+- (void)inDoorMapView:(UIButton *)button
 {
-    button.highlighted = YES;
-    button.selected = YES;
+    button.selected = NO;
     
-    FMKMapCoord currentMapCoord = [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord;
-    if (currentMapCoord.mapID == kOutdoorMapID) {
+//    FMKMapCoord currentMapCoord = [FMKLocationServiceManager shareLocationServiceManager].currentMapCoord;
+    if (self.currentMapCoord.mapID == kOutdoorMapID)
+    {
         [FMKLocationServiceManager shareLocationServiceManager].delegate = self;
     }
     else
     {
-        FMKMapCoord mapCoord;
-        if ([FMLocationManager shareLocationManager].isCallingService == YES)
-        {
-            mapCoord = currentMapCoord;
-        }
+        FMKMapCoord mapCoord = self.currentMapCoord;
         NSDictionary * dic = @{@"mapid":@(mapCoord.mapID).stringValue, @"groupID":@(mapCoord.coord.storey).stringValue,@"isNeedLocate":@(![FMLocationManager shareLocationManager].isCallingService)};
         [self enterIndoorByIndoorInfo:dic];
     }
     
-    button.selected = NO;
+    button.selected = YES;
 }
 - (void)enterIndoorByIndoorInfo:(NSDictionary * )dic
 {
@@ -201,6 +196,13 @@
     modelLayer.delegate = self;
     [[FMLocationManager shareLocationManager] setMapView:nil];
     [[FMLocationManager shareLocationManager] setMapView:_mangroveMapView];
+    UIButton *enableLocateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    enableLocateBtn.frame = CGRectMake(10, kScreenHeight-64- 50, 50, 50);
+    [enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_nomarl"] forState:UIControlStateNormal];
+    [enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_sele"] forState:UIControlStateSelected];
+    [enableLocateBtn setBackgroundImage:[UIImage imageNamed:@"location_icon_sele"] forState:UIControlStateHighlighted];
+    [self.view addSubview:enableLocateBtn];
+    [enableLocateBtn addTarget:self action:@selector(inDoorMapView:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -352,8 +354,22 @@
 }
 - (void)updateLocPosition:(FMKMapCoord)mapCoord macAddress:(NSString * )macAddress
 {
-    NSLog(@"macAddress=%@...deviceId=%@...mapCoordmapID=%d...kOutdoorMapID=%d",macAddress,[[DataManager defaultInstance] getWaiterInfor].deviceId,mapCoord.mapID,kOutdoorMapID);
+    if (self.countZero != mapCoord.mapID)
+    {
+        self.count = 0;
+        self.countZero = mapCoord.mapID;
+    }
+    else
+    {
+        if (self.count < kCallingServiceCountTwo)
+        {
+            ++self.count;
+        }
+    }
+    if (self.count != kCallingServiceCountTwo)
+        return;
     
+    NSLog(@"%d",mapCoord.mapID);
     if (macAddress != [[DataManager defaultInstance] getWaiterInfor].deviceId && mapCoord.mapID != kOutdoorMapID)
     {
         _locationMarker.hidden = YES;
