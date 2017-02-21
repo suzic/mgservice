@@ -10,21 +10,10 @@
 
 @class FMKTextMarker;
 
-typedef NS_ENUM(NSInteger, FMKTextCoverCalcMode)
-{
-	FMKTEXT_COVERCALC_NONE=0,
-	FMKTEXT_COVERCALC_NODEADDSEQUENCE
-};
-
 @interface FMKTextLayer : FMKLayer
 
 ///文本图层所在楼层ID
 @property (nonatomic,copy) NSString * groupID;
-
-/**
- 文本避让计算模式
- */
-@property (nonatomic, assign) FMKTextCoverCalcMode textCoverCalcMode;
 
 /**
  *  初始化文本图层(在同一楼层下可创建多个文本图层)

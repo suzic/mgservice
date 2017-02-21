@@ -10,14 +10,6 @@
 
 @class FMKImageMarker;
 
-
-typedef NS_ENUM(NSInteger, FMKImageCoverCalcMode)
-{
-	FMKIMAGE_COVERCALC_NONE=0,
-	FMKIMAGE_COVERCALC_NODEADDSEQUENCE
-};
-
-
 /**
  * 地图图片标注层节点，用于添加地图的图片标注
  * 同一楼层可添加多个图片层
@@ -36,12 +28,8 @@ typedef NS_ENUM(NSInteger, FMKImageCoverCalcMode)
 /**
  * 图层所在组的ID
  */
-@property (nonatomic, readonly)   NSString *groupID;
+@property (nonatomic,readonly)   NSString* groupID;
 
-/**
- 图片避让计算模式
- */
-@property (nonatomic, assign) FMKImageCoverCalcMode imageCoverCalcMode;
 
 /**
  *  添加图片标注物
