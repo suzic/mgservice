@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKitDefines.h>
 /**
  *	获取当前地图SDK的版本号
  *	return  返回当前SDK的版本号

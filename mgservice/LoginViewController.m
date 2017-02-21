@@ -246,7 +246,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0)
-        return self.inhotel == YES ? 2 : 3;
+        return self.inhotel == YES ? 2 : 2;//如果在酒店，就显示两行，否则显示三行 暂时都现实两行
     else
         return 1;
 }
