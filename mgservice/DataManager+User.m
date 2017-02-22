@@ -33,8 +33,10 @@
     if (result.count<= 0 || result == nil)
     {
         waiterInfo = (DBWaiterInfor *)[self insertIntoCoreData:@"DBWaiterInfor"];
+        NSInteger x = arc4random() % 1000000000;
+        NSString * str = [NSString stringWithFormat:@"-:%ld:-",(long)x];
+        waiterInfo.deviceToken = str;
         [[DataManager defaultInstance]saveContext];
-        return nil;
     }
     else
     {

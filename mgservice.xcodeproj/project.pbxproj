@@ -46,7 +46,6 @@
 		9C2BBEDE1E4D818C00A7FDB5 /* SGMain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2BBED41E4D818C00A7FDB5 /* SGMain.framework */; };
 		9C2BBEDF1E4D818C00A7FDB5 /* UTMini.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2BBED51E4D818C00A7FDB5 /* UTMini.framework */; };
 		9C2BBEE01E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2BBED61E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework */; };
-		9C2BBEE11E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework.zip in Resources */ = {isa = PBXBuildFile; fileRef = 9C2BBED71E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework.zip */; };
 		9C2BBEE21E4D818C00A7FDB5 /* WXOpenIMSDKResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9C2BBED81E4D818C00A7FDB5 /* WXOpenIMSDKResource.bundle */; };
 		9C2BBEE31E4D818C00A7FDB5 /* WXOUIModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2BBED91E4D818C00A7FDB5 /* WXOUIModule.framework */; };
 		9C2BBEE41E4D818C00A7FDB5 /* WXOUIModuleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9C2BBEDA1E4D818C00A7FDB5 /* WXOUIModuleResources.bundle */; };
@@ -445,7 +444,6 @@
 		9C2BBED41E4D818C00A7FDB5 /* SGMain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGMain.framework; sourceTree = "<group>"; };
 		9C2BBED51E4D818C00A7FDB5 /* UTMini.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTMini.framework; sourceTree = "<group>"; };
 		9C2BBED61E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOpenIMSDKFMWK.framework; sourceTree = "<group>"; };
-		9C2BBED71E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = WXOpenIMSDKFMWK.framework.zip; sourceTree = "<group>"; };
 		9C2BBED81E4D818C00A7FDB5 /* WXOpenIMSDKResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WXOpenIMSDKResource.bundle; sourceTree = "<group>"; };
 		9C2BBED91E4D818C00A7FDB5 /* WXOUIModule.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WXOUIModule.framework; sourceTree = "<group>"; };
 		9C2BBEDA1E4D818C00A7FDB5 /* WXOUIModuleResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WXOUIModuleResources.bundle; sourceTree = "<group>"; };
@@ -1020,7 +1018,6 @@
 				9C2BBED41E4D818C00A7FDB5 /* SGMain.framework */,
 				9C2BBED51E4D818C00A7FDB5 /* UTMini.framework */,
 				9C2BBED61E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework */,
-				9C2BBED71E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework.zip */,
 				9C2BBED81E4D818C00A7FDB5 /* WXOpenIMSDKResource.bundle */,
 				9C2BBED91E4D818C00A7FDB5 /* WXOUIModule.framework */,
 				9C2BBEDA1E4D818C00A7FDB5 /* WXOUIModuleResources.bundle */,
@@ -2005,7 +2002,6 @@
 				9CD347821E505D3F00BE510C /* 150013.fmi in Resources */,
 				D0CC73221C59B8E000314355 /* LaunchScreen.storyboard in Resources */,
 				9CD3477E1E505D3F00BE510C /* 150009.fmi in Resources */,
-				9C2BBEE11E4D818C00A7FDB5 /* WXOpenIMSDKFMWK.framework.zip in Resources */,
 				9CD3474A1E505D3F00BE510C /* 120010.fmi in Resources */,
 				9CD3473B1E505D3F00BE510C /* 110001.fmi in Resources */,
 				9CD347E11E505D3F00BE510C /* shatanshui.fmi in Resources */,
