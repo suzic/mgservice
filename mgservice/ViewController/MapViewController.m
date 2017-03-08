@@ -62,9 +62,6 @@ int const kCallingServiceCountTwo = 5;
 //    [self.alertController addAction:cancelAction];
 //    [self.alertController addAction:action];
     
-    
-    [self getMacAndStartLocationService];
-    
     [self addUserLocationMark];
 
 }
@@ -72,6 +69,10 @@ int const kCallingServiceCountTwo = 5;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    //此方法之前是放在viewDidLoad里的，但从首页跳转地图时非常卡，然后放在viewDidAppear后不卡了，暂时未发现其他问题，不知道去现场测试会不会有问题。
+    [self getMacAndStartLocationService];
+
     [self addFengMap];
 
 }
